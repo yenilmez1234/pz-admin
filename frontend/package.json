@@ -1,0 +1,47 @@
+{
+  "name": "pz-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:dev": "tsc && vite build --minify false --mode development",
+    "build": "tsc && vite build --mode production",
+    "check": "pnpm lint && pnpm format:check && tsc",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "oxlint --type-aware --deny-warnings src vite.config.ts",
+    "lint:fix": "oxlint --type-aware --deny-warnings --fix src vite.config.ts",
+    "preview": "vite preview",
+    "vehicles:generate": "node ./scripts/generate-vehicle-catalog.mjs",
+    "vehicles:scrape-b42": "node ./scripts/scrape-vehicles-b42.mjs",
+    "items:scrape": "node ./scripts/scrape-items.mjs",
+    "items:translate": "node ./scripts/generate-item-translations.mjs",
+    "skills:translate": "node ./scripts/generate-skill-translations.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@mantine/core": "^9.5.1",
+    "@mantine/form": "9.5.1",
+    "@mantine/hooks": "^9.5.1",
+    "@mantine/notifications": "9.5.1",
+    "@tabler/icons-react": "^3.46.0",
+    "@wailsio/runtime": "3.0.0-beta.5",
+    "i18next": "^26.3.6",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.11"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "cheerio": "^1.2.0",
+    "oxlint": "^1.78.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
+  }
+}

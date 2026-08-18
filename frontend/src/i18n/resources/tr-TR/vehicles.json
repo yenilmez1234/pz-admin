@@ -1,0 +1,99 @@
+{
+  "page": {
+    "build41": "Build 41",
+    "build42": "Build 42",
+    "buildLabel": "Oyun sürümü",
+    "loadErrorTitle": "Araçlar Yüklenemedi",
+    "title": "Araçlar"
+  },
+  "browser": {
+    "accessibleLabel": "Araç kataloğu",
+    "emptyCatalog": "Araç kataloğu henüz mevcut değil.",
+    "enginePower": "Güç",
+    "noSearchResults": "Aramanızla eşleşen araç bulunamadı.",
+    "resultCount_one": "{{count}} araç",
+    "resultCount_other": "{{count}} araç",
+    "searchLabel": "Araçları ara",
+    "searchPlaceholder": "Ad veya ID ile arayın…",
+    "seats": "Koltuk",
+    "totalStorage": "Depolama",
+    "topSpeed": "Maksimum hız",
+    "values": {
+      "enginePower": "{{value}} bg",
+      "seats_one": "{{count}} koltuk",
+      "seats_other": "{{count}} koltuk",
+      "storage_one": "{{count}} birim",
+      "storage_other": "{{count}} birim",
+      "topSpeed": "{{value}} km/sa"
+    }
+  },
+  "details": {
+    "back": "Araçlar",
+    "backLabel": "Araçlara dön",
+    "copied": "Kopyalandı",
+    "copyId": "Araç kimliğini (ID) kopyala",
+    "openVariant": "{{variant}} varyantını aç",
+    "sections": {
+      "body": "Gövde ve donanım",
+      "capacity": "Kapasite",
+      "performance": "Performans"
+    },
+    "values": {
+      "weight": "{{value}} kg"
+    },
+    "vehicleId": "Araç Kimliği (ID)",
+    "variants": "Varyantlar"
+  },
+  "filters": {
+    "advancedSection": "Gelişmiş",
+    "allVehicles": "Tüm araçlar",
+    "boolean": {
+      "any": "Tümü",
+      "no": "Hayır",
+      "yes": "Evet"
+    },
+    "clear": "Filtreleri temizle",
+    "collapse": "{{name}} alanını daralt",
+    "expand": "{{name}} alanını genişlet",
+    "noVehicles": "Araç bulunamadı",
+    "stats": {
+      "animalSize": "Hayvan kapasitesi",
+      "doors": "Kapılar",
+      "engineLoudness": "Motor sesi",
+      "enginePower": "Güç",
+      "engineQuality": "Motor kalitesi",
+      "gloveBox": "Torpido gözü kapasitesi",
+      "lightbar": "Tepe lambası",
+      "occupantProtection": "Yolcu koruması",
+      "offRoadEfficiency": "Arazi verimliliği",
+      "rollInfluence": "Devrilme etkisi",
+      "seats": "Koltuklar",
+      "suspensionStiffness": "Süspansiyon sertliği",
+      "topSpeed": "Maksimum hız",
+      "totalStorage": "Toplam depolama",
+      "trunkStorage": "Bagaj depolama",
+      "weight": "Ağırlık",
+      "wheels": "Tekerlekler"
+    },
+    "statsSection": "İstatistikler",
+    "title": "Filtreler",
+    "vehicleLabel": "Kategori, model veya varyant",
+    "vehicleSection": "Araç"
+  },
+  "sorting": {
+    "changeDirection": "Sıralama yönünü değiştir. Mevcut yön: {{direction}}",
+    "directions": {
+      "ascending": "Artan",
+      "descending": "Azalan"
+    },
+    "fields": {
+      "enginePower": "Güç",
+      "name": "Ad",
+      "seats": "Koltuk",
+      "topSpeed": "Maksimum hız",
+      "totalStorage": "Toplam depolama",
+      "weight": "Ağırlık"
+    },
+    "label": "Sırala"
+  }
+}

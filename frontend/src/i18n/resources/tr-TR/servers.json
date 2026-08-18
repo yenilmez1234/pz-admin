@@ -1,0 +1,80 @@
+{
+  "profiles": {
+    "title": "Kayıtlı Sunucular",
+    "addButton": "Sunucu Ekle",
+    "emptyTitle": "Kayıtlı sunucu yok",
+    "emptyDescription": "RCON ile bağlanmak için bir sunucu ekleyin.",
+    "loadingLabel": "Sunucular yükleniyor…",
+    "errors": {
+      "connectionCheckTitle": "Bağlantı Kontrol Edilemedi",
+      "connectTitle": "Bağlanılamadı",
+      "connectDetailsSuffix": "Sunucu bilgilerini kontrol edin.",
+      "dismissLabel": "Hatayı kapat",
+      "loadTitle": "Sunucular Yüklenemedi"
+    }
+  },
+  "card": {
+    "actionsLabel": "{{serverName}} için işlemler",
+    "build": "Build {{version}}",
+    "buildUnknown": "Bilinmeyen Build",
+    "connect": "Bağlan",
+    "delete": "Sil",
+    "edit": "Düzenle"
+  },
+  "form": {
+    "addSubmit": "Sunucu Ekle",
+    "addTitle": "Sunucu Ekle",
+    "build41": "Build 41",
+    "build42": "Build 42",
+    "buildLabel": "Oyun Sürümü (Build)",
+    "editSubmit": "Değişiklikleri Kaydet",
+    "editTitle": "Sunucuyu Düzenle",
+    "hostLabel": "Sunucu Adresi (Host)",
+    "nameLabel": "Sunucu Adı",
+    "passwordDescriptionCreate": "İşletim sisteminizin anahtarlığında güvenli bir şekilde saklanır.",
+    "passwordDescriptionEdit": "Kayıtlı şifreyi korumak için boş bırakın.",
+    "passwordLabel": "RCON Şifresi",
+    "portLabel": "RCON Portu",
+    "errors": {
+      "saveDetailsSuffix": "Bilgileri kontrol edin.",
+      "saveTitle": "Sunucu Kaydedilemedi"
+    },
+    "validation": {
+      "buildRequired": "Build 41 veya Build 42 seçin.",
+      "hostRequired": "Bir IP adresi veya ana bilgisayar adı girin.",
+      "nameRequired": "Bir sunucu adı girin.",
+      "passwordRequired": "RCON şifresini girin.",
+      "portRange": "1 ile 65535 arasında bir port girin."
+    }
+  },
+  "deleteDialog": {
+    "confirm": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
+    "errorTitle": "Sunucu Silinemedi",
+    "title": "Sunucuyu Sil"
+  },
+  "session": {
+    "connectionLostTitle": "Bağlantı Kesildi",
+    "connectionLostMessage": "Sunucu bağlantısı kapandı. Devam etmek için tekrar bağlanın.",
+    "loadingLabel": "Oturum yükleniyor…",
+    "unknownStateError": "Mevcut bağlantı durumu belirlenemiyor.",
+    "disconnect": "Bağlantıyı Kes",
+    "disconnectErrorTitle": "Bağlantı Kesilemedi",
+    "initializationErrorTitle": "Bağlantı Kontrol Edilemedi",
+    "serverNavigationLabel": "Sunucu sayfaları"
+  },
+  "workspace": {
+    "console": "Konsol",
+    "players": "Oyuncular"
+  },
+  "console": {
+    "commandLabel": "Sunucu komutu",
+    "commandPlaceholder": "Bir sunucu komutu girin",
+    "help": {
+      "cls": "Konsolda görüntülenen tüm çıktıyı temizler."
+    },
+    "noOutput": "Komut çıktı olmadan tamamlandı.",
+    "outputLabel": "Konsol çıktısı",
+    "usageHint": "Öneriler için Tab tuşunu, komut geçmişinde gezinmek için Yukarı ve Aşağı oklarını kullanın.",
+    "welcome": "Hoş geldiniz. Sunucu komutları için 'help', konsolu temizlemek için 'cls' yazın."
+  }
+}

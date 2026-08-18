@@ -1,0 +1,22 @@
+{
+  "page": {
+    "title": "Ayarlar"
+  },
+  "errors": {
+    "loadTitle": "Ayarlar Yüklenemedi",
+    "loadRetryInstruction": "Tekrar denemek için uygulamayı yeniden başlatın.",
+    "saveRetryInstruction": "Ayarı değiştirmeyi tekrar deneyin.",
+    "saveTitle": "Ayarlar Kaydedilemedi"
+  },
+  "appearance": {
+    "colorSchemeLabel": "Renk Düzeni",
+    "description": "Uygulamanın renklerini nasıl seçeceğini belirleyin.",
+    "dark": "Koyu",
+    "light": "Açık",
+    "system": "Sistem"
+  },
+  "language": {
+    "description": "Uygulama tarafından kullanılan dili seçin.",
+    "label": "Görüntüleme Dili"
+  }
+}

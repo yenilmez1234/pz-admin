@@ -1,0 +1,27 @@
+{
+  "page": {
+    "title": "Eşyalar",
+    "buildLabel": "Oyun sürümü",
+    "build41": "Build 41",
+    "build42": "Build 42",
+    "loadErrorTitle": "Eşyalar Yüklenemedi"
+  },
+  "browser": {
+    "searchLabel": "Eşyalarda ara",
+    "searchPlaceholder": "Ada veya kimliğe göre ara…",
+    "clearSearch": "Eşya aramasını temizle",
+    "resultCount_one": "{{count}} eşya",
+    "resultCount_other": "{{count}} eşya",
+    "noResults": "Eşleşen eşya bulunamadı",
+    "addItem": "{{name}} ekle"
+  },
+  "selection": {
+    "title": "Seçilen Eşyalar",
+    "clear": "Temizle",
+    "empty": "Bir liste oluşturmak için katalogdan eşya seçin.",
+    "customItemLabel": "Özel eşya kimliği",
+    "customItemPlaceholder": "Özel bir eşya kimliği girin…",
+    "addCustomItem": "Özel eşya ekle",
+    "quantityLabel": "{{name}} miktarı"
+  }
+}

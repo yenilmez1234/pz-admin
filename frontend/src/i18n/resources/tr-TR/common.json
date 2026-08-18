@@ -1,0 +1,20 @@
+{
+  "actions": {
+    "cancel": "İptal",
+    "delete": "Sil",
+    "remove": "Kaldır",
+    "retry": "Tekrar Dene"
+  },
+  "fields": {
+    "password": "Şifre",
+    "reason": "Sebep",
+    "username": "Kullanıcı Adı"
+  },
+  "placeholders": {
+    "optional": "İsteğe bağlı"
+  },
+  "validation": {
+    "passwordRequired": "Şifre zorunludur",
+    "usernameRequired": "Kullanıcı adı zorunludur"
+  }
+}

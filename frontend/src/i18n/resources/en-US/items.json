@@ -1,0 +1,27 @@
+{
+  "page": {
+    "title": "Items",
+    "buildLabel": "Game build",
+    "build41": "Build 41",
+    "build42": "Build 42",
+    "loadErrorTitle": "Unable to Load Items"
+  },
+  "browser": {
+    "searchLabel": "Search items",
+    "searchPlaceholder": "Search by name or ID…",
+    "clearSearch": "Clear item search",
+    "resultCount_one": "{{count}} item",
+    "resultCount_other": "{{count}} items",
+    "noResults": "No matching items",
+    "addItem": "Add {{name}}"
+  },
+  "selection": {
+    "title": "Selected Items",
+    "clear": "Clear",
+    "empty": "Select items from the catalog to build a list.",
+    "customItemLabel": "Custom item ID",
+    "customItemPlaceholder": "Enter a custom item ID…",
+    "addCustomItem": "Add custom item",
+    "quantityLabel": "Quantity of {{name}}"
+  }
+}

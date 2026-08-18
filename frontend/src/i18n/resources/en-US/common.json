@@ -1,0 +1,20 @@
+{
+  "actions": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "remove": "Remove",
+    "retry": "Try Again"
+  },
+  "fields": {
+    "password": "Password",
+    "reason": "Reason",
+    "username": "Username"
+  },
+  "placeholders": {
+    "optional": "Optional"
+  },
+  "validation": {
+    "passwordRequired": "Password is required",
+    "usernameRequired": "Username is required"
+  }
+}

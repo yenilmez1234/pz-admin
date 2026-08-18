@@ -1,0 +1,22 @@
+{
+  "page": {
+    "title": "Settings"
+  },
+  "errors": {
+    "loadTitle": "Unable to Load Settings",
+    "loadRetryInstruction": "Restart the application to try again.",
+    "saveRetryInstruction": "Try changing the setting again.",
+    "saveTitle": "Unable to Save Settings"
+  },
+  "appearance": {
+    "colorSchemeLabel": "Color Scheme",
+    "description": "Choose how the application selects its colors.",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
+  },
+  "language": {
+    "description": "Choose the language used by the application.",
+    "label": "Display Language"
+  }
+}

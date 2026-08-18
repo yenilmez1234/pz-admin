@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=pz-admin
+Exec=pz-admin
+Icon=pz-admin
+Categories=Development;
+Terminal=false
+Keywords=wails
+Version=1.0
+StartupNotify=false

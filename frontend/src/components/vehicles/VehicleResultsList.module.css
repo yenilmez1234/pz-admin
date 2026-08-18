@@ -1,0 +1,17 @@
+.row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: background-color 100ms ease;
+}
+
+@media (hover: hover) {
+  .row:hover {
+    background-color: var(--mantine-color-default-hover);
+  }
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: -2px;
+}

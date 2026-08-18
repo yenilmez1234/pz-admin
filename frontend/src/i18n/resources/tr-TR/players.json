@@ -1,0 +1,396 @@
+{
+  "table": {
+    "accessibleLabel": "Kayıtlı oyuncular",
+    "actionsColumnLabel": "İşlemler",
+    "accessLevelColumn": "Rol",
+    "addPlayerButton": "Oyuncu Ekle",
+    "empty": "Gösterilecek oyuncu yok.",
+    "missingPlayerLink": "Bir oyuncu eksik mi? Listeye çevrimdışı bir oyuncu ekleyin.",
+    "noSearchResults": "Aramanızla eşleşen oyuncu bulunamadı.",
+    "playerColumn": "Oyuncu",
+    "searchLabel": "Oyuncu ara",
+    "searchPlaceholder": "Oyuncu ara…",
+    "selectAllLabel": "Görünen tüm oyuncuları seç",
+    "selectPlayerLabel": "{{username}} kullanıcısını seç",
+    "statusColumn": "Durum"
+  },
+  "status": {
+    "neverSeen": "Hiç görülmedi",
+    "offline": "Çevrimdışı",
+    "online": "Çevrimiçi",
+    "unknown": "Bilinmiyor"
+  },
+  "accessLevels": {
+    "admin": "Admin",
+    "banned": "Banned",
+    "gm": "GM",
+    "moderator": "Moderator",
+    "none": "None",
+    "observer": "Observer",
+    "overseer": "Overseer",
+    "priority": "Priority",
+    "user": "User",
+    "unknown": "Bilinmiyor"
+  },
+  "actionsMenu": {
+    "moderation": "Moderasyon",
+    "accessibleLabel": "{{username}} için işlemleri aç",
+    "addItem": "Eşya Ekle",
+    "spawnVehicle": "Araç Oluştur",
+    "addXp": "XP Ekle",
+    "ban": "Yasakla",
+    "createHorde": "Sürü Oluştur",
+    "events": "Olaylar",
+    "disableGodMode": "Ölümsüzlük Modunu Kapat",
+    "disableInvisible": "Görünmezliği Kapat",
+    "disableNoClip": "Çarpışmasız Modu Kapat",
+    "enableGodMode": "Ölümsüzlük Modunu Aç",
+    "enableInvisible": "Görünmezliği Aç",
+    "enableNoClip": "Çarpışmasız Modu Aç",
+    "give": "Ver",
+    "godMode": "Ölümsüzlük Modu",
+    "godModeDisabledState": "kapalı",
+    "godModeEnabledState": "açık",
+    "godModeUnknownState": "bilinmiyor",
+    "invisible": "Görünmezlik",
+    "invisibleDisabledState": "kapalı",
+    "invisibleEnabledState": "açık",
+    "invisibleUnknownState": "bilinmiyor",
+    "kick": "At",
+    "lightningStrike": "Yıldırım Çarpması",
+    "noClip": "Çarpışmasız Mod",
+    "noClipDisabledState": "kapalı",
+    "noClipEnabledState": "açık",
+    "noClipUnknownState": "bilinmiyor",
+    "powers": "Güçler",
+    "protectedRoleExplanation": "Admin ve moderator rolleri yasaklanamaz veya atılamaz",
+    "removeFromWhitelist": "Beyaz Listeden Kaldır",
+    "removeVoiceBan": "Ses Yasağını Kaldır",
+    "setAccessLevel": "Rolü Ayarla",
+    "teleport": "Işınla",
+    "thunderStrike": "Gök Gürültüsü Çarpması",
+    "unban": "Yasağı Kaldır",
+    "voiceBan": "Ses Yasağı"
+  },
+  "bulkActions": {
+    "accessibleLabel": "Seçili oyuncu işlemleri",
+    "actionsButton": "İşlemler",
+    "clearSelectionLabel": "Oyuncu seçimini temizle",
+    "onlineOnlyExplanation": "Seçilen tüm oyuncular çevrimiçi olmalıdır",
+    "selectedCount_one": "{{count}} seçildi",
+    "selectedCount_other": "{{count}} seçildi"
+  },
+  "addServerUserDialog": {
+    "submit": "Beyaz Listeye Ekle",
+    "title": "Oyuncuyu Beyaz Listeye Ekle"
+  },
+  "addLocalPlayerDialog": {
+    "submit": "Oyuncu Ekle",
+    "title": "Yerel Oyuncu Ekle"
+  },
+  "banDialog": {
+    "banIpLabel": "Mevcut IP adresini de yasakla",
+    "description_one": "{{username}} sunucudan yasaklansın.",
+    "description_other": "{{count}} oyuncu sunucudan yasaklansın.",
+    "submit": "Yasakla",
+    "title_one": "Oyuncuyu Yasakla",
+    "title_other": "Oyuncuları Yasakla"
+  },
+  "kickDialog": {
+    "description_one": "{{username}} kullanıcısının sunucu bağlantısını kes.",
+    "description_other": "{{count}} oyuncunun sunucu bağlantısını kes.",
+    "submit": "At",
+    "title_one": "Oyuncuyu At",
+    "title_other": "Oyuncuları At"
+  },
+  "removeWhitelistDialog": {
+    "deleteLocalLabel": "Yerel oyuncu listesinden de kalıcı olarak sil",
+    "description_one": "{{username}} sunucu beyaz listesinden kaldırılsın mı?",
+    "description_other": "{{count}} oyuncu sunucu beyaz listesinden kaldırılsın mı?",
+    "title_one": "Beyaz Listeden Kaldır",
+    "title_other": "Oyuncuları Beyaz Listeden Kaldır"
+  },
+  "hordeDialog": {
+    "description_one": "{{username}} yakınına bir sürü oluştur.",
+    "description_other": "{{count}} oyuncunun her birinin yakınına bir sürü oluştur.",
+    "sizeLabel": "Sürü Büyüklüğü",
+    "submit": "Sürü Oluştur",
+    "title": "Sürü Oluştur",
+    "validation": {
+      "sizeRange": "Sıfırdan büyük bir tam sayı girin."
+    }
+  },
+  "lightningDialog": {
+    "description_one": "{{username}} üzerine yıldırım düşürülsün mü?",
+    "description_other": "{{count}} oyuncu üzerine yıldırım düşürülsün mü?",
+    "submit": "Yıldırım Düşür",
+    "title": "Yıldırım Çarpması"
+  },
+  "thunderDialog": {
+    "description_one": "{{username}} üzerinde gök gürültüsü tetiklensin mi?",
+    "description_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklensin mi?",
+    "submit": "Gök Gürültüsü Tetikle",
+    "title": "Gök Gürültüsü Çarpması"
+  },
+  "teleportDialog": {
+    "coordinatesMode": "Koordinatlar",
+    "description_one": "{{username}} kullanıcısının nereye ışınlanacağını seçin.",
+    "description_other": "{{count}} oyuncunun nereye ışınlanacağını seçin.",
+    "destinationPlayerLabel": "Hedef Oyuncu",
+    "noDestinationPlayers": "Başka çevrimiçi oyuncu bulunamadı",
+    "playerMode": "Oyuncu",
+    "selectPlayerPlaceholder": "Bir oyuncu seçin",
+    "submit": "Işınla",
+    "xCoordinateLabel": "X",
+    "yCoordinateLabel": "Y",
+    "zCoordinateLabel": "Z",
+    "title_one": "Oyuncuyu Işınla",
+    "title_other": "Oyuncuları Işınla",
+    "validation": {
+      "destinationRequired": "Bir hedef oyuncu seçin.",
+      "xRequired": "X değerini girin.",
+      "yRequired": "Y değerini girin.",
+      "zRequired": "Z değerini girin."
+    }
+  },
+  "spawnVehicleDialog": {
+    "back": "Geri Dön",
+    "description_one": "{{username}} yakınında oluşturulacak aracı seçin.",
+    "description_other": "{{count}} oyuncunun her birinin yakınında oluşturulacak aracı seçin.",
+    "loadErrorTitle": "Araçlar Yüklenemedi",
+    "root": "Araçlar",
+    "selectVariant": "{{variant}} varyantını seç",
+    "submit": "Araç Oluştur",
+    "title_one": "Araç Oluştur",
+    "title_other": "Araçlar Oluştur",
+    "variants": "Varyantlar"
+  },
+  "giveItemsDialog": {
+    "description_one": "{{username}} kullanıcısına verilecek eşyaları seçin.",
+    "description_other": "{{count}} oyuncunun her birine verilecek eşyaları seçin.",
+    "loadErrorTitle": "Eşyalar Yüklenemedi",
+    "submit": "Eşyaları Ver",
+    "title_one": "Eşya Ver",
+    "title_other": "Eşya Ver"
+  },
+  "addXpDialog": {
+    "clear": "Tümünü Temizle",
+    "customXp": "Özel XP",
+    "customXpAccessibleLabel": "{{skill}} için özel XP miktarı",
+    "customXpPlaceholder": "XP miktarı",
+    "description_one": "{{username}} kullanıcısına eklenecek yetenek XP'sini seçin.",
+    "description_other": "{{count}} oyuncunun her birine eklenecek yetenek XP'sini seçin.",
+    "emptySelection": "XP'sini yapılandırmak için bir yetenek seçin.",
+    "levelAccessibleLabel": "{{skill}}, seviye {{level}}: {{amount}} XP",
+    "levelShort": "Sv {{level}}",
+    "loadErrorTitle": "Yetenekler Yüklenemedi",
+    "maxAll": "Tümünü Maksimum Yap",
+    "removeSkill": "{{skill}} yeteneğini kaldır",
+    "selectedHeading_one": "{{count}} Yetenek Seçildi",
+    "selectedHeading_other": "{{count}} Yetenek Seçildi",
+    "skillTotal": "{{amount}} XP",
+    "skillsHeading": "Yetenekler",
+    "submit": "XP Ekle",
+    "title_one": "XP Ekle",
+    "title_other": "XP Ekle"
+  },
+  "accessLevelDialog": {
+    "description_one": "{{username}} için bir rol seçin.",
+    "description_other": "{{count}} oyuncu için bir rol seçin.",
+    "levelLabel": "Rol",
+    "submit": "Rolü Ayarla",
+    "title": "Rolü Ayarla",
+    "levels": {
+      "none": { "label": "None" },
+      "user": {
+        "label": "User"
+      },
+      "priority": {
+        "label": "Priority"
+      },
+      "observer": { "label": "Observer" },
+      "gm": { "label": "GM" },
+      "overseer": { "label": "Overseer" },
+      "moderator": { "label": "Moderator" },
+      "admin": { "label": "Admin" }
+    },
+    "validation": {
+      "levelRequired": "Bir rol seçin."
+    }
+  },
+  "loadError": {
+    "title": "Oyuncular Yüklenemedi"
+  },
+  "notifications": {
+    "addServerUser": {
+      "successTitle": "Oyuncu Eklendi",
+      "successMessage": "{{username}} sunucu beyaz listesine eklendi.",
+      "failureTitle": "Oyuncu Eklenemedi"
+    },
+    "addLocalPlayer": {
+      "successTitle": "Oyuncu Eklendi",
+      "successMessage": "{{username}} oyuncu listesine eklendi.",
+      "failureTitle": "Oyuncu Eklenemedi"
+    },
+    "godMode": {
+      "enable": {
+        "successTitle": "Ölümsüzlük Modu Açıldı",
+        "successMessage_one": "{{username}} için ölümsüzlük modu açıldı.",
+        "successMessage_other": "{{count}} oyuncu için ölümsüzlük modu açıldı.",
+        "failureTitle": "Ölümsüzlük Modu Açılamadı"
+      },
+      "disable": {
+        "successTitle": "Ölümsüzlük Modu Kapatıldı",
+        "successMessage_one": "{{username}} için ölümsüzlük modu kapatıldı.",
+        "successMessage_other": "{{count}} oyuncu için ölümsüzlük modu kapatıldı.",
+        "failureTitle": "Ölümsüzlük Modu Kapatılamadı"
+      },
+      "partialFailureTitle": "Ölümsüzlük Modu Kısmen Güncellendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+    },
+    "noClip": {
+      "enable": {
+        "successTitle": "Çarpışmasız Mod Açıldı",
+        "successMessage_one": "{{username}} için çarpışmasız mod açıldı.",
+        "successMessage_other": "{{count}} oyuncu için çarpışmasız mod açıldı.",
+        "failureTitle": "Çarpışmasız Mod Açılamadı"
+      },
+      "disable": {
+        "successTitle": "Çarpışmasız Mod Kapatıldı",
+        "successMessage_one": "{{username}} için çarpışmasız mod kapatıldı.",
+        "successMessage_other": "{{count}} oyuncu için çarpışmasız mod kapatıldı.",
+        "failureTitle": "Çarpışmasız Mod Kapatılamadı"
+      },
+      "partialFailureTitle": "Çarpışmasız Mod Kısmen Güncellendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+    },
+    "invisible": {
+      "enable": {
+        "successTitle": "Görünmezlik Açıldı",
+        "successMessage_one": "{{username}} için görünmezlik açıldı.",
+        "successMessage_other": "{{count}} oyuncu için görünmezlik açıldı.",
+        "failureTitle": "Görünmezlik Açılamadı"
+      },
+      "disable": {
+        "successTitle": "Görünmezlik Kapatıldı",
+        "successMessage_one": "{{username}} için görünmezlik kapatıldı.",
+        "successMessage_other": "{{count}} oyuncu için görünmezlik kapatıldı.",
+        "failureTitle": "Görünmezlik Kapatılamadı"
+      },
+      "partialFailureTitle": "Görünmezlik Kısmen Güncellendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+    },
+    "voiceBan": {
+      "apply": {
+        "successTitle": "Ses Yasağı Uygulandı",
+        "successMessage_one": "{{username}} için ses yasağı uygulandı.",
+        "successMessage_other": "{{count}} oyuncu için ses yasağı uygulandı.",
+        "failureTitle": "Oyuncuya Ses Yasağı Uygulanamadı"
+      },
+      "remove": {
+        "successTitle": "Ses Yasağı Kaldırıldı",
+        "successMessage_one": "{{username}} kullanıcısının ses yasağı kaldırıldı.",
+        "successMessage_other": "{{count}} oyuncunun ses yasağı kaldırıldı.",
+        "failureTitle": "Ses Yasağı Kaldırılamadı"
+      },
+      "partialFailureTitle": "Ses Yasakları Kısmen Güncellendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+    },
+    "accessLevel": {
+      "successTitle": "Rol Güncellendi",
+      "successMessage_one": "{{username}} kullanıcısının rolü güncellendi.",
+      "successMessage_other": "{{count}} oyuncunun rolü güncellendi.",
+      "failureTitle": "Rol Ayarlanamadı",
+      "partialFailureTitle": "Roller Kısmen Güncellendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+    },
+    "ban": {
+      "successTitle": "Oyuncu Yasaklandı",
+      "successMessage_one": "{{username}} yasaklandı.",
+      "successMessage_other": "{{count}} oyuncu yasaklandı.",
+      "failureTitle": "Oyuncu Yasaklanamadı",
+      "partialFailureTitle": "Oyuncular Kısmen Yasaklandı",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi yasaklanamadı: {{error}}"
+    },
+    "kick": {
+      "successTitle": "Oyuncu Atıldı",
+      "successMessage_one": "{{username}} oyundan atıldı.",
+      "successMessage_other": "{{count}} oyuncu oyundan atıldı.",
+      "failureTitle": "Oyuncu Atılamadı",
+      "partialFailureTitle": "Oyuncular Kısmen Atıldı",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi atılamadı: {{error}}"
+    },
+    "unban": {
+      "successTitle": "Oyuncunun Yasağı Kaldırıldı",
+      "successMessage_one": "{{username}} kullanıcısının yasağı kaldırıldı.",
+      "successMessage_other": "{{count}} oyuncunun yasağı kaldırıldı.",
+      "failureTitle": "Oyuncunun Yasağı Kaldırılamadı",
+      "partialFailureTitle": "Oyuncuların Yasakları Kısmen Kaldırıldı",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesinin yasağı kaldırılamadı: {{error}}"
+    },
+    "removeFromWhitelist": {
+      "successTitle": "Beyaz Listeden Kaldırıldı",
+      "successMessage_one": "{{username}} beyaz listeden kaldırıldı.",
+      "successMessage_other": "{{count}} oyuncu beyaz listeden kaldırıldı.",
+      "failureTitle": "Beyaz Listeden Kaldırılamadı",
+      "partialFailureTitle": "Oyuncular Kısmen Kaldırıldı",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi kaldırılamadı: {{error}}"
+    },
+    "teleport": {
+      "successTitle": "Oyuncu Işınlandı",
+      "successMessage_one": "{{username}} ışınlandı.",
+      "successMessage_other": "{{count}} oyuncu ışınlandı.",
+      "failureTitle": "Oyuncu Işınlanamadı",
+      "partialFailureTitle": "Oyuncular Kısmen Işınlandı",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi ışınlanamadı: {{error}}"
+    },
+    "createHorde": {
+      "successTitle": "Sürü Oluşturuldu",
+      "successMessage_one": "{{username}} yakınında bir sürü oluşturuldu.",
+      "successMessage_other": "{{count}} oyuncunun yakınında sürüler oluşturuldu.",
+      "failureTitle": "Sürü Oluşturulamadı",
+      "partialFailureTitle": "Sürüler Kısmen Oluşturuldu",
+      "partialFailureMessage": "{{totalCount}} sürüden {{failedCount}} tanesi oluşturulamadı: {{error}}"
+    },
+    "lightning": {
+      "successTitle": "Yıldırım Düşürüldü",
+      "successMessage_one": "{{username}} üzerine yıldırım düşürüldü.",
+      "successMessage_other": "{{count}} oyuncu üzerine yıldırım düşürüldü.",
+      "failureTitle": "Yıldırım Düşürülemedi",
+      "partialFailureTitle": "Yıldırım Kısmen Düşürüldü",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi üzerine yıldırım düşürülemedi: {{error}}"
+    },
+    "thunder": {
+      "successTitle": "Gök Gürültüsü Tetiklendi",
+      "successMessage_one": "{{username}} üzerinde gök gürültüsü tetiklendi.",
+      "successMessage_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklendi.",
+      "failureTitle": "Gök Gürültüsü Tetiklenemedi",
+      "partialFailureTitle": "Gök Gürültüsü Kısmen Tetiklendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi üzerinde gök gürültüsü tetiklenemedi: {{error}}"
+    },
+    "spawnVehicle": {
+      "successTitle": "Araç Oluşturuldu",
+      "successMessage_one": "{{username}} yakınında {{vehicle}} oluşturuldu.",
+      "successMessage_other": "{{count}} oyuncunun yakınında {{vehicle}} oluşturuldu.",
+      "failureTitle": "Araç Oluşturulamadı",
+      "partialFailureTitle": "Araç Kısmen Oluşturuldu",
+      "partialFailureMessage": "Araç {{totalCount}} oyuncudan {{failedCount}} tanesinin yakınında oluşturulamadı: {{error}}"
+    },
+    "giveItems": {
+      "successTitle": "Eşyalar Verildi",
+      "successMessage_one": "Eşyalar {{username}} kullanıcısına verildi.",
+      "successMessage_other": "Eşyalar {{count}} oyuncuya verildi.",
+      "failureTitle": "Eşyalar Verilemedi",
+      "partialFailureTitle": "Eşyalar Kısmen Verildi",
+      "partialFailureMessage": "Eşyalar {{totalCount}} oyuncudan {{failedCount}} tanesine verilemedi: {{error}}"
+    },
+    "addXp": {
+      "successTitle": "XP Eklendi",
+      "successMessage_one": "{{username}} kullanıcısına XP eklendi.",
+      "successMessage_other": "{{count}} oyuncuya XP eklendi.",
+      "failureTitle": "XP Eklenemedi",
+      "partialFailureTitle": "XP Kısmen Eklendi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesine XP eklenemedi: {{error}}"
+    }
+  }
+}
