@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { errorMessage } from "@/utils/errors";
+import type { GameBuild } from "@/features/game/types";
+import { errorMessage } from "@/shared/lib/errors";
 import { loadVehicleCatalog } from "./catalog";
-import type { GameBuild, VehicleCatalog } from "./types";
+import type { VehicleCatalog } from "./types";
 
 interface VehicleCatalogState {
   catalog: VehicleCatalog | null;

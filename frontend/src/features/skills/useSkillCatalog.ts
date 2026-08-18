@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { GameBuild } from "@/features/game/types";
-import { errorMessage } from "@/utils/errors";
+import { errorMessage } from "@/shared/lib/errors";
 import { loadSkillCatalog } from "./catalog";
 import type { SkillCatalog } from "./types";
 

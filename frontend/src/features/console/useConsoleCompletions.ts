@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import type { GameBuild } from "@/features/game/types";
 import { loadItemCatalog } from "@/features/items/catalog";
-import { isOnline } from "@/features/players/status";
+import { isOnline } from "@/features/players/lib/status";
 import { loadSkillCatalog } from "@/features/skills/catalog";
 import { loadVehicleCatalog } from "@/features/vehicles/catalog";
-import { useAppConfig } from "@/providers/AppConfigProvider";
-import { usePlayers } from "@/providers/PlayersProvider";
+import { useAppConfig } from "@/features/config/AppConfigProvider";
+import { usePlayers } from "@/features/players/PlayersProvider";
 import { consoleCatalog, localConsoleCommandNames } from "./catalog";
 import type { ConsoleCompletionSource, ConsoleCompletionValues } from "./types";
 

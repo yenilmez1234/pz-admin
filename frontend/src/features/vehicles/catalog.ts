@@ -1,6 +1,6 @@
 import { vehicleNumericStats } from "./stats";
+import type { GameBuild } from "@/features/game/types";
 import type {
-  GameBuild,
   VehicleCatalog,
   VehicleCatalogEntry,
   VehicleHierarchyCategory,

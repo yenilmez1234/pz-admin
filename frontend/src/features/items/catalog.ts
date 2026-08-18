@@ -1,7 +1,4 @@
-import {
-  loadItemTranslations,
-  translatedItemName,
-} from "@/i18n/itemTranslations";
+import { loadItemTranslations, translatedItemName } from "./translations";
 import type { GameBuild } from "@/features/game/types";
 import type {
   ItemCatalog,

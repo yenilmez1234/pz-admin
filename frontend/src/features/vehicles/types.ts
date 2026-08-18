@@ -1,5 +1,3 @@
-export type { GameBuild } from "@/features/game/types";
-
 import type { GameBuild } from "@/features/game/types";
 
 export interface VehicleStats {

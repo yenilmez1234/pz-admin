@@ -3,7 +3,7 @@ import {
   loadSkillTranslations,
   translatedSkillCategoryName,
   translatedSkillName,
-} from "@/i18n/skillTranslations";
+} from "./translations";
 import type {
   RawSkillCatalogData,
   SkillCatalog,
