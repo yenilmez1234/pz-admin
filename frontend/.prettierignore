@@ -1,6 +1,9 @@
 # Generated code and build output
 bindings/
 dist/
+public/items/
+public/skills/
+public/vehicles/
 src/data/items/
 src/data/vehicles/
 src/i18n/generated/
