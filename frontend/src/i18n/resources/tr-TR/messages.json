@@ -1,0 +1,28 @@
+{
+  "page": {
+    "title": "Mesaj Düzenleyici"
+  },
+  "editor": {
+    "label": "Mesaj",
+    "lineLabel": "Mesaj satırı {{line}}",
+    "placeholder": "Bir mesaj yazın…",
+    "changeLineColor": "{{line}}. satırın rengini değiştir",
+    "useDefaultColor": "Varsayılan Rengi Kullan",
+    "colorPicker": {
+      "hue": "Renk tonu",
+      "saturation": "Doygunluk"
+    }
+  },
+  "preview": {
+    "title": "Biçimlendirilmiş Mesaj",
+    "empty": "Biçimlendirilmiş mesaj burada görüntülenecek.",
+    "byteCount_one": "{{count}} bayt",
+    "byteCount_other": "{{count}} bayt",
+    "byteLimit": "{{count}} / {{max}} bayt"
+  },
+  "actions": {
+    "clear": "Temizle",
+    "copy": "Biçimlendirilmiş Mesajı Kopyala",
+    "copied": "Kopyalandı"
+  }
+}

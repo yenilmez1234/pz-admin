@@ -2,6 +2,7 @@
   "common": true,
   "console": true,
   "items": true,
+  "messages": true,
   "players": true,
   "servers": true,
   "session": true,

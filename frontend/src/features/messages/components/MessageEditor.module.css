@@ -1,0 +1,66 @@
+.root {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  gap: var(--mantine-spacing-xs);
+}
+
+.editor {
+  flex: 1;
+  min-width: 0;
+  min-height: 14rem;
+  margin: 0;
+  padding: 0.75rem 0;
+  overflow-y: auto;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  background: rgb(0 0 0 / 80%);
+  scrollbar-gutter: stable;
+}
+
+[data-mantine-color-scheme="dark"] .editor {
+  background: rgb(0 0 0 / 40%);
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.375rem;
+  min-height: 1.25rem;
+  padding: 0 0.5rem;
+}
+
+.line:focus-within {
+  background: rgb(255 255 255 / 3%);
+}
+
+.lineInput {
+  min-height: 1.25rem;
+  padding: 0;
+  font-family: Corbel, var(--mantine-font-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  letter-spacing: normal;
+  resize: none;
+  background: transparent;
+}
+
+.colorButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1.25rem;
+  line-height: 0;
+  border-radius: 0.3125rem;
+  transform: translateY(1px);
+  touch-action: manipulation;
+}
+
+.colorButton:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 2px;
+}

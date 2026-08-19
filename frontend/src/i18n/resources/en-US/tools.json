@@ -1,6 +1,7 @@
 {
   "navigation": {
     "accessibleLabel": "Tools pages",
+    "messages": "Message Editor",
     "items": "Items",
     "vehicles": "Vehicles"
   }

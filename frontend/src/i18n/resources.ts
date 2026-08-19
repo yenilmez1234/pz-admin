@@ -1,6 +1,7 @@
 import common from "./resources/en-US/common.json";
 import console from "./resources/en-US/console.json";
 import items from "./resources/en-US/items.json";
+import messages from "./resources/en-US/messages.json";
 import players from "./resources/en-US/players.json";
 import servers from "./resources/en-US/servers.json";
 import session from "./resources/en-US/session.json";
@@ -19,6 +20,7 @@ export const defaultResources = {
   common,
   console,
   items,
+  messages,
   players,
   servers,
   session,

@@ -1,0 +1,28 @@
+{
+  "page": {
+    "title": "Message Editor"
+  },
+  "editor": {
+    "label": "Message",
+    "lineLabel": "Message line {{line}}",
+    "placeholder": "Write a message…",
+    "changeLineColor": "Change the color of line {{line}}",
+    "useDefaultColor": "Use Default Color",
+    "colorPicker": {
+      "hue": "Hue",
+      "saturation": "Saturation"
+    }
+  },
+  "preview": {
+    "title": "Formatted Message",
+    "empty": "The formatted message will appear here.",
+    "byteCount_one": "{{count}} byte",
+    "byteCount_other": "{{count}} bytes",
+    "byteLimit": "{{count}} / {{max}} bytes"
+  },
+  "actions": {
+    "clear": "Clear",
+    "copy": "Copy Formatted Message",
+    "copied": "Copied"
+  }
+}
