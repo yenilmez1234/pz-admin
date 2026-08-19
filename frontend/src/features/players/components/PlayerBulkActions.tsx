@@ -17,6 +17,7 @@ import { isOnline } from "../lib/status";
 import { hasProtectedModerationRole } from "../lib/table";
 import { BulkPlayerModeMenuItems } from "./PlayerModeMenuItems";
 import {
+  PlayerAccountMenuItems,
   PlayerEventMenuItems,
   PlayerGiveMenuItems,
 } from "./PlayerActionGroupItems";
@@ -101,6 +102,7 @@ export function PlayerBulkActions({
               <Menu.Item onClick={() => actions.openAccessLevel(players)}>
                 {t("actions.labels.setAccessLevel")}
               </Menu.Item>
+              <PlayerAccountMenuItems players={players} />
               <Tooltip
                 disabled={!hasProtectedPlayer}
                 label={protectedRoleMessage}

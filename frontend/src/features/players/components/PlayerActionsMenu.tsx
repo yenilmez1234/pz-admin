@@ -7,6 +7,7 @@ import { isOnline } from "../lib/status";
 import { hasProtectedModerationRole } from "../lib/table";
 import { usePlayerActions } from "../actions/PlayerActionsProvider";
 import {
+  PlayerAccountMenuItems,
   PlayerEventMenuItems,
   PlayerGiveMenuItems,
 } from "./PlayerActionGroupItems";
@@ -65,6 +66,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
             <Menu.Item onClick={() => actions.openAccessLevel([player])}>
               {t("actions.labels.setAccessLevel")}
             </Menu.Item>
+            <PlayerAccountMenuItems players={[player]} />
             <Tooltip
               disabled={!moderationProtected || player.banned === true}
               label={protectedRoleMessage}

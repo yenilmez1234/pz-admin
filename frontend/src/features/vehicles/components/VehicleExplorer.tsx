@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Box,
   Grid,
   Group,
   Select,
@@ -119,13 +120,25 @@ export function VehicleExplorer({
             {t("browser.resultCount", { count: explorer.vehicles.length })}
           </Text>
 
-          <VehicleResultsList
-            loading={loading}
-            onVehicleSelect={onVehicleSelect}
-            updating={explorer.updating}
-            vehicles={explorer.vehicles}
-            catalogEmpty={!catalog || catalog.vehicles.length === 0}
-          />
+          <Box
+            aria-busy={explorer.updating}
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              height: 0,
+              minHeight: 0,
+              opacity: explorer.updating ? 0.55 : 1,
+              transition: "opacity 120ms ease",
+            }}
+          >
+            <VehicleResultsList
+              loading={loading}
+              onVehicleSelect={onVehicleSelect}
+              vehicles={explorer.vehicles}
+              catalogEmpty={!catalog || catalog.vehicles.length === 0}
+            />
+          </Box>
         </Stack>
       </Grid.Col>
     </Grid>

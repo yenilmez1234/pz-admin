@@ -53,6 +53,7 @@
       "removeFromWhitelist": "Beyaz Listeden Kaldır",
       "removeVoiceBan": "Ses Yasağını Kaldır",
       "setAccessLevel": "Rolü Ayarla",
+      "setPassword": "Parolayı Değiştir",
       "teleport": "Işınla",
       "thunderStrike": "Gök Gürültüsü Çarpması",
       "unban": "Yasağı Kaldır",
@@ -193,6 +194,13 @@
       "validation": {
         "levelRequired": "Bir rol seçin."
       }
+    },
+    "setPassword": {
+      "description_one": "{{username}} için yeni bir parola girin.",
+      "description_other": "{{count}} oyuncu için yeni bir parola girin.",
+      "submit": "Parolayı Değiştir",
+      "title_one": "Parolayı Değiştir",
+      "title_other": "Oyuncu Parolalarını Değiştir"
     }
   },
   "loadError": {
@@ -280,6 +288,14 @@
       "failureTitle": "Rol Ayarlanamadı",
       "partialFailureTitle": "Roller Kısmen Güncellendi",
       "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+    },
+    "setPassword": {
+      "successTitle": "Parola Değiştirildi",
+      "successMessage_one": "{{username}} kullanıcısının parolası değiştirildi.",
+      "successMessage_other": "{{count}} oyuncunun parolası değiştirildi.",
+      "failureTitle": "Parola Değiştirilemedi",
+      "partialFailureTitle": "Parolalar Kısmen Değiştirildi",
+      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesinin parolası değiştirilemedi: {{error}}"
     },
     "ban": {
       "successTitle": "Oyuncu Yasaklandı",

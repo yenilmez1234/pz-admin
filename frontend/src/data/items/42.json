@@ -6991,6 +6991,11 @@
           "name": "Plastic Bag (Gourmet)"
         },
         {
+          "id": "Base.SeedBag",
+          "images": ["/items/42/Base.SeedBag_0.png"],
+          "name": "Pouch"
+        },
+        {
           "id": "Base.GemBag",
           "images": ["/items/42/Base.GemBag_0.png"],
           "name": "Pouch"
@@ -7001,11 +7006,6 @@
             "/items/42/Base.DiceBag_0.png",
             "/items/42/Base.DiceBag_1.png"
           ],
-          "name": "Pouch"
-        },
-        {
-          "id": "Base.SeedBag",
-          "images": ["/items/42/Base.SeedBag_0.png"],
           "name": "Pouch"
         },
         {

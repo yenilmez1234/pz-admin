@@ -155,6 +155,16 @@ export function SetNoClip(playerIDs: string[], enabled: boolean): $CancellablePr
 }
 
 /**
+ * SetPassword changes the password of each player's server account. Passwords
+ * and the hashes returned by the server are never stored.
+ */
+export function SetPassword(playerIDs: string[], password: string): $CancellablePromise<$models.ActionResult> {
+    return $Call.ByID(1591163019, playerIDs, password).then(($result: any) => {
+        return $$createType0($result);
+    });
+}
+
+/**
  * SetVoiceBanned blocks or restores voice communication for each player.
  */
 export function SetVoiceBanned(playerIDs: string[], banned: boolean): $CancellablePromise<$models.ActionResult> {

@@ -42,6 +42,7 @@ export function VehicleFilters({ filters }: VehicleFiltersProps) {
       <Group justify="space-between" gap="xs" px="md" pt="md">
         <Text fw={600}>{t("filters.title")}</Text>
         <Button
+          color="gray"
           disabled={!filters.canClear}
           onClick={filters.clear}
           size="compact-xs"

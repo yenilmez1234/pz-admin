@@ -55,6 +55,7 @@ export interface VehicleHierarchyCategory {
 export interface VehicleCatalog {
   build: GameBuild;
   hierarchy: VehicleHierarchyCategory[];
+  language: string;
   lightbarAvailable: boolean;
   searchIndex: ReadonlyMap<string, string>;
   statRanges: Partial<Record<VehicleNumericStat, VehicleStatRange>>;

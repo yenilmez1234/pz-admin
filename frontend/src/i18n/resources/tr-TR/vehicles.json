@@ -11,6 +11,21 @@
     "selectVariant": "{{variant}} varyantını seç",
     "variants": "Varyantlar"
   },
+  "catalog": {
+    "categories": {
+      "Heavy-Duty": "Ağır Hizmet",
+      "Sports": "Spor",
+      "Standard": "Standart",
+      "Trailers": "Römorklar"
+    },
+    "models": {},
+    "variants": {
+      "Normal": "Normal",
+      "Taxi (green)": "Taksi (yeşil)",
+      "Taxi (yellow)": "Taksi (sarı)",
+      "Wood paneling": "Ahşap kaplama"
+    }
+  },
   "stats": {
     "animalSize": "Hayvan kapasitesi",
     "doors": "Kapılar",
@@ -22,7 +37,7 @@
     "occupantProtection": "Yolcu koruması",
     "offRoadEfficiency": "Arazi verimliliği",
     "rollInfluence": "Devrilme etkisi",
-    "seats": "Koltuklar",
+    "seats": "Koltuk",
     "suspensionStiffness": "Süspansiyon sertliği",
     "topSpeed": "Maksimum hız",
     "totalStorage": "Toplam depolama",
@@ -38,7 +53,12 @@
     "resultCount_other": "{{count}} araç",
     "searchLabel": "Araçları ara",
     "searchPlaceholder": "Ad veya ID ile arayın…",
-    "storage": "Depolama",
+    "statLabels": {
+      "enginePower": "Güç",
+      "seats": "Koltuk",
+      "topSpeed": "Maks. hız",
+      "totalStorage": "Depolama"
+    },
     "values": {
       "enginePower": "{{value}} bg",
       "seats_one": "{{count}} koltuk",
@@ -71,7 +91,7 @@
       "no": "Hayır",
       "yes": "Evet"
     },
-    "clear": "Filtreleri temizle",
+    "clear": "Temizle",
     "collapse": "{{name}} alanını daralt",
     "expand": "{{name}} alanını genişlet",
     "statsSection": "İstatistikler",

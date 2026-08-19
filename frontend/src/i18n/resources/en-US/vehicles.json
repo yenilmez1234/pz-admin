@@ -11,6 +11,21 @@
     "selectVariant": "Select {{variant}} variant",
     "variants": "Variants"
   },
+  "catalog": {
+    "categories": {
+      "Heavy-Duty": "Heavy-Duty",
+      "Sports": "Sports",
+      "Standard": "Standard",
+      "Trailers": "Trailers"
+    },
+    "models": {},
+    "variants": {
+      "Normal": "Normal",
+      "Taxi (green)": "Taxi (green)",
+      "Taxi (yellow)": "Taxi (yellow)",
+      "Wood paneling": "Wood paneling"
+    }
+  },
   "stats": {
     "animalSize": "Animal capacity",
     "doors": "Doors",
@@ -38,7 +53,12 @@
     "resultCount_other": "{{count}} vehicles",
     "searchLabel": "Search vehicles",
     "searchPlaceholder": "Search by name or ID…",
-    "storage": "Storage",
+    "statLabels": {
+      "enginePower": "Power",
+      "seats": "Seats",
+      "topSpeed": "Top speed",
+      "totalStorage": "Storage"
+    },
     "values": {
       "enginePower": "{{value}} hp",
       "seats_one": "{{count}} seat",
@@ -71,7 +91,7 @@
       "no": "No",
       "yes": "Yes"
     },
-    "clear": "Clear filters",
+    "clear": "Clear",
     "collapse": "Collapse {{name}}",
     "expand": "Expand {{name}}",
     "statsSection": "Stats",

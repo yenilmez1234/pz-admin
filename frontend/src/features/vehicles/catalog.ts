@@ -1,4 +1,6 @@
 import { vehicleNumericStats } from "./stats";
+import i18n from "@/i18n";
+import { canonicalLanguage, defaultLanguage } from "@/i18n/locales";
 import type { GameBuild } from "@/features/game/types";
 import type {
   VehicleCatalog,
@@ -28,58 +30,87 @@ const catalogLoaders = {
   "42": () => import("@/data/vehicles/42.json"),
 } satisfies Record<GameBuild, () => Promise<{ default: RawVehicleCatalog }>>;
 
-const catalogRequests = new Map<GameBuild, Promise<VehicleCatalog>>();
+const catalogRequests = new Map<string, Promise<VehicleCatalog>>();
+
+function normalVariantFirst(
+  left: { name: string },
+  right: { name: string },
+): number {
+  return Number(right.name === "Normal") - Number(left.name === "Normal");
+}
+
+function translatedName(translations: Record<string, string>, name: string) {
+  return translations[name] ?? name;
+}
 
 function prepareCatalog(
   catalog: RawVehicleCatalog,
   build: GameBuild,
+  language: string,
 ): VehicleCatalog {
+  const t = i18n.getFixedT(language, "vehicles");
+  const categoryNames: Record<string, string> = t("catalog.categories", {
+    returnObjects: true,
+  });
+  const modelNames: Record<string, string> = t("catalog.models", {
+    returnObjects: true,
+  });
+  const variantNames: Record<string, string> = t("catalog.variants", {
+    returnObjects: true,
+  });
   const vehicles: VehicleCatalogEntry[] = [];
   const hierarchy: VehicleHierarchyCategory[] = [];
   const vehicleIdsByHierarchyNode = new Map<string, string[]>();
+  const originalNamesByVehicleId = new Map<string, string[]>();
 
   for (const category of catalog.categories) {
+    const categoryName = translatedName(categoryNames, category.name);
     const preparedCategory: VehicleHierarchyCategory = {
       models: [],
-      name: category.name,
+      name: categoryName,
     };
 
     for (const model of category.children ?? []) {
+      const modelName = translatedName(modelNames, model.name);
       if (model.type === "type") {
         if (model.id) {
           vehicles.push({
             build,
-            category: category.name,
+            category: categoryName,
             id: model.id,
             image: model.image ?? null,
-            name: model.name,
+            name: modelName,
             stats: model.stats ?? {},
             variant: null,
           });
           preparedCategory.models.push({
-            name: model.name,
-            variants: [{ id: model.id, name: model.name }],
+            name: modelName,
+            variants: [{ id: model.id, name: modelName }],
           });
+          originalNamesByVehicleId.set(model.id, [model.name]);
         }
         continue;
       }
 
       const variants = [];
-      for (const variant of model.children ?? []) {
+      const rawVariants = [...(model.children ?? [])].sort(normalVariantFirst);
+      for (const variant of rawVariants) {
         if (variant.type !== "type" || !variant.id) continue;
+        const variantName = translatedName(variantNames, variant.name);
         vehicles.push({
           build,
-          category: category.name,
+          category: categoryName,
           id: variant.id,
           image: variant.image ?? null,
-          name: model.name,
+          name: modelName,
           stats: variant.stats ?? {},
-          variant: variant.name,
+          variant: variantName,
         });
-        variants.push({ id: variant.id, name: variant.name });
+        variants.push({ id: variant.id, name: variantName });
+        originalNamesByVehicleId.set(variant.id, [model.name, variant.name]);
       }
       if (variants.length > 0) {
-        preparedCategory.models.push({ name: model.name, variants });
+        preparedCategory.models.push({ name: modelName, variants });
       }
     }
 
@@ -105,7 +136,12 @@ function prepareCatalog(
   for (const vehicle of vehicles) {
     searchIndex.set(
       vehicle.id,
-      [vehicle.name, vehicle.variant, vehicle.id]
+      [
+        vehicle.name,
+        vehicle.variant,
+        ...(originalNamesByVehicleId.get(vehicle.id) ?? []),
+        vehicle.id,
+      ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase(),
@@ -146,6 +182,7 @@ function prepareCatalog(
   return {
     build,
     hierarchy,
+    language,
     lightbarAvailable: vehicles.some(
       (vehicle) => vehicle.stats.lightbar !== undefined,
     ),
@@ -158,16 +195,23 @@ function prepareCatalog(
   };
 }
 
-export function loadVehicleCatalog(build: GameBuild): Promise<VehicleCatalog> {
-  const existingRequest = catalogRequests.get(build);
+export function loadVehicleCatalog(
+  build: GameBuild,
+  language = defaultLanguage,
+): Promise<VehicleCatalog> {
+  const languageTag = canonicalLanguage(language);
+  const requestKey = `${build}:${languageTag}`;
+  const existingRequest = catalogRequests.get(requestKey);
   if (existingRequest) return existingRequest;
 
   const request = catalogLoaders[build]().then(({ default: catalog }) =>
-    prepareCatalog(catalog, build),
+    prepareCatalog(catalog, build, languageTag),
   );
-  catalogRequests.set(build, request);
+  catalogRequests.set(requestKey, request);
   void request.catch(() => {
-    if (catalogRequests.get(build) === request) catalogRequests.delete(build);
+    if (catalogRequests.get(requestKey) === request) {
+      catalogRequests.delete(requestKey);
+    }
   });
   return request;
 }

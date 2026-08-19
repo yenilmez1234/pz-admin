@@ -966,6 +966,28 @@ var definitions = []Definition{
 		},
 	},
 
+	// setPassword changes a user's password. The server returns the new password
+	// hash, which is never exposed by the typed wrapper.
+	//
+	// Usage: /setpassword "username" "newpassword"
+	// Example: /setpassword "rj" hunter2
+	{
+		Name:       "setpassword",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Feature:    feature.PlayerSetPassword,
+		Params: []Param{
+			{Name: "username", Type: TypeString, Required: true},
+			{Name: "password", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, _ map[string]string) (any, error) {
+			if strings.HasPrefix(strings.TrimSpace(raw), "Your new password is ") {
+				return struct{}{}, nil
+			}
+			return nil, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// teleportPlayer teleports a player to another player.
 	//
 	// Usage: /teleportplayer "player1" "player2"

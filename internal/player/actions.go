@@ -288,6 +288,17 @@ func (s *Service) SetAccessLevel(ctx context.Context, playerIDs []string, level 
 	})
 }
 
+// SetPassword changes the password of each player's server account. Passwords
+// and the hashes returned by the server are never stored.
+func (s *Service) SetPassword(ctx context.Context, playerIDs []string, password string) (ActionResult, error) {
+	if password == "" {
+		return ActionResult{}, errors.New("player: password is required")
+	}
+	return s.runPlayerAction(ctx, playerIDs, "set password", func(commands *command.Client, player Player) (*Observation, error) {
+		return nil, commands.SetPassword(ctx, player.Username, password)
+	})
+}
+
 // RemoveFromWhitelist removes each player's account from the whitelist. When
 // deleteLocal is true, successfully removed players are also deleted from the
 // local player history.

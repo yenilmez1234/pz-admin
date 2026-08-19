@@ -53,6 +53,7 @@
       "removeFromWhitelist": "Remove from Whitelist",
       "removeVoiceBan": "Remove Voice Ban",
       "setAccessLevel": "Set Role",
+      "setPassword": "Change Password",
       "teleport": "Teleport",
       "thunderStrike": "Thunder Strike",
       "unban": "Unban",
@@ -193,6 +194,13 @@
       "validation": {
         "levelRequired": "Select a role."
       }
+    },
+    "setPassword": {
+      "description_one": "Enter a new password for {{username}}.",
+      "description_other": "Enter a new password for {{count}} players.",
+      "submit": "Change Password",
+      "title_one": "Change Password",
+      "title_other": "Change Player Passwords"
     }
   },
   "loadError": {
@@ -280,6 +288,14 @@
       "failureTitle": "Unable to Set Role",
       "partialFailureTitle": "Roles Partially Updated",
       "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be updated: {{error}}"
+    },
+    "setPassword": {
+      "successTitle": "Password Changed",
+      "successMessage_one": "{{username}}'s password was changed.",
+      "successMessage_other": "Passwords were changed for {{count}} players.",
+      "failureTitle": "Unable to Change Password",
+      "partialFailureTitle": "Passwords Partially Changed",
+      "partialFailureMessage": "Passwords could not be changed for {{failedCount}} of {{totalCount}} players: {{error}}"
     },
     "ban": {
       "successTitle": "Player Banned",

@@ -19,6 +19,7 @@ import {
   SetGodMode,
   SetInvisible,
   SetNoClip,
+  SetPassword,
   SetVoiceBanned,
   Teleport,
   TeleportToCoordinates,
@@ -46,6 +47,7 @@ type ActionResultPath =
   | "notifications.noClip.disable"
   | "notifications.noClip.enable"
   | "notifications.removeFromWhitelist"
+  | "notifications.setPassword"
   | "notifications.spawnVehicle"
   | "notifications.teleport"
   | "notifications.thunder"
@@ -65,6 +67,7 @@ type PartialFailurePath =
   | "notifications.lightning"
   | "notifications.noClip"
   | "notifications.removeFromWhitelist"
+  | "notifications.setPassword"
   | "notifications.spawnVehicle"
   | "notifications.teleport"
   | "notifications.thunder"
@@ -209,6 +212,15 @@ export function setAccessLevel(targets: Player[], accessLevel: string) {
     execute: (playerIds) => SetAccessLevel(playerIds, accessLevel),
     partialFailurePath: "notifications.accessLevel",
     resultPath: "notifications.accessLevel",
+  });
+}
+
+export function setPassword(targets: Player[], password: string) {
+  return executeAction({
+    targets,
+    execute: (playerIds) => SetPassword(playerIds, password),
+    partialFailurePath: "notifications.setPassword",
+    resultPath: "notifications.setPassword",
   });
 }
 

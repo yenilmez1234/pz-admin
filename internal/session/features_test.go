@@ -35,6 +35,7 @@ func TestResolveFeatures(t *testing.T) {
 		feature.PlayerSetGodMode,
 		feature.PlayerSetInvisible,
 		feature.PlayerSetNoClip,
+		feature.PlayerSetPassword,
 		feature.PlayerTeleportToPlayer,
 	} {
 		if !withCommands.Has(expected) {
@@ -49,5 +50,8 @@ func TestResolveFeatures(t *testing.T) {
 	}
 	if build41.Has(feature.PlayerSetInvisible) {
 		t.Error("Build 41 features contain PlayerSetInvisible")
+	}
+	if build41.Has(feature.PlayerSetPassword) {
+		t.Error("Build 41 features contain PlayerSetPassword")
 	}
 }

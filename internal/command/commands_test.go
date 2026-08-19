@@ -118,6 +118,7 @@ func TestVersionedCommandResponses(t *testing.T) {
 		{"godmodeplayer", "42", map[string]string{"username": "Alice", "state": "true"}, "User Alice is now invincible."},
 		{"godmodeplayer", "42", map[string]string{"username": "Alice", "state": "false"}, "User Alice is no longer invincible."},
 		{"invisibleplayer", "42", map[string]string{"username": "Alice", "state": "true"}, "User Alice is now invisible."},
+		{"setpassword", "42", map[string]string{"username": "Alice", "password": "secret"}, "Your new password is $2a$12$O/BFHoDFPrfFaNPAACmWpuMCmHRg5rkwMMGiwJ/VXw4XEzM52qB8q"},
 		{"invisibleplayer", "42", map[string]string{"username": "Alice", "state": "false"}, "User Alice is no longer invisible."},
 		{"noclip", "42", map[string]string{"username": "Alice", "state": "true"}, "User Alice won't collide."},
 		{"noclip", "42", map[string]string{"username": "Alice", "state": "false"}, "User Alice will collide."},

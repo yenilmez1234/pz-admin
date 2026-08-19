@@ -20,6 +20,7 @@ import { KickPlayerModal } from "../components/dialogs/KickPlayerModal";
 import { LightningPlayerModal } from "../components/dialogs/LightningPlayerModal";
 import { RemoveFromWhitelistModal } from "../components/dialogs/RemoveFromWhitelistModal";
 import { SetAccessLevelModal } from "../components/dialogs/SetAccessLevelModal";
+import { SetPasswordModal } from "../components/dialogs/SetPasswordModal";
 import { SpawnVehicleModal } from "../components/dialogs/SpawnVehicleModal";
 import { TeleportPlayerModal } from "../components/dialogs/TeleportPlayerModal";
 import { ThunderPlayerModal } from "../components/dialogs/ThunderPlayerModal";
@@ -34,6 +35,7 @@ import {
   lightning,
   removeFromWhitelist,
   setAccessLevel,
+  setPassword,
   setVoiceBanned,
   spawnVehicle,
   teleportToCoordinates,
@@ -53,6 +55,7 @@ type DialogType =
   | "kick"
   | "lightning"
   | "removeFromWhitelist"
+  | "setPassword"
   | "spawnVehicle"
   | "teleport"
   | "thunder";
@@ -74,6 +77,7 @@ interface PlayerActions {
   openKick: (players: Player[]) => void;
   openLightning: (players: Player[]) => void;
   openRemoveFromWhitelist: (players: Player[]) => void;
+  openSetPassword: (players: Player[]) => void;
   openSpawnVehicle: (players: Player[]) => void;
   openTeleport: (players: Player[]) => void;
   openThunder: (players: Player[]) => void;
@@ -123,6 +127,7 @@ export function PlayerActionsProvider({
       openLightning: (targets) => openDialog("lightning", targets),
       openRemoveFromWhitelist: (targets) =>
         openDialog("removeFromWhitelist", targets),
+      openSetPassword: (targets) => openDialog("setPassword", targets),
       openSpawnVehicle: (targets) => openDialog("spawnVehicle", targets),
       openTeleport: (targets) => openDialog("teleport", targets),
       openThunder: (targets) => openDialog("thunder", targets),
@@ -142,6 +147,12 @@ export function PlayerActionsProvider({
         players={dialog.players}
         onClose={closeDialog}
         onSetAccessLevel={setAccessLevel}
+      />
+      <SetPasswordModal
+        opened={dialog.opened && dialog.type === "setPassword"}
+        players={dialog.players}
+        onClose={closeDialog}
+        onSetPassword={setPassword}
       />
       <AddServerUserModal
         opened={dialog.opened && dialog.type === "addServerUser"}

@@ -27,6 +27,7 @@ const (
 	PlayerList                  ID = "player.list"
 	PlayerRemoveFromWhitelist   ID = "player.removeFromWhitelist"
 	PlayerSetAccessLevel        ID = "player.setAccessLevel"
+	PlayerSetPassword           ID = "player.setPassword"
 	PlayerTeleportToPlayer      ID = "player.teleport.toPlayer"
 	PlayerTeleportToCoordinates ID = "player.teleport.toCoordinates"
 	PlayerSetVoiceBanned        ID = "player.setVoiceBanned"

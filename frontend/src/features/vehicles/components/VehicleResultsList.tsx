@@ -25,12 +25,17 @@ const summaryStats = [
   "enginePower",
   "topSpeed",
 ] as const;
+const summaryStatLabels = {
+  enginePower: "browser.statLabels.enginePower",
+  seats: "browser.statLabels.seats",
+  topSpeed: "browser.statLabels.topSpeed",
+  totalStorage: "browser.statLabels.totalStorage",
+} as const;
 
 interface VehicleResultsListProps {
   catalogEmpty: boolean;
   loading: boolean;
   onVehicleSelect: (vehicle: VehicleCatalogEntry) => void;
-  updating: boolean;
   vehicles: VehicleCatalogEntry[];
 }
 
@@ -62,7 +67,6 @@ export const VehicleResultsList = memo(function VehicleResultsList({
   catalogEmpty,
   loading,
   onVehicleSelect,
-  updating,
   vehicles,
 }: VehicleResultsListProps) {
   const { t } = useTranslation("vehicles");
@@ -75,14 +79,12 @@ export const VehicleResultsList = memo(function VehicleResultsList({
         flex: 1,
         height: 0,
         minHeight: 0,
-        opacity: updating ? 0.65 : 1,
         overflow: "hidden",
-        transition: "opacity 120ms ease",
       }}
     >
       <ScrollArea h="100%" type="auto" style={{ flex: 1, minWidth: 0 }}>
         <Box
-          aria-busy={loading || updating}
+          aria-busy={loading}
           aria-label={t("browser.accessibleLabel")}
           component="ul"
           m={0}
@@ -203,11 +205,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
                             <VehicleStat
                               icon={vehicleStatIcons[stat]}
                               key={stat}
-                              label={
-                                stat === "totalStorage"
-                                  ? t("browser.storage")
-                                  : t(`stats.${stat}`)
-                              }
+                              label={t(summaryStatLabels[stat])}
                               value={formatVehicleStat(
                                 t,
                                 stat,

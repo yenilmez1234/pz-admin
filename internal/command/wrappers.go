@@ -304,6 +304,15 @@ func (c *Client) SetAccessLevel(ctx context.Context, username, level string) (st
 	return res.(string), nil
 }
 
+// SetPassword changes a user's password without retaining it or the returned hash.
+func (c *Client) SetPassword(ctx context.Context, username, password string) error {
+	_, err := Execute(ctx, c.exec, "setpassword", c.version, map[string]string{
+		"username": username,
+		"password": password,
+	})
+	return err
+}
+
 // ShowOptions lists current server options and values as a map.
 func (c *Client) ShowOptions(ctx context.Context) (map[string]string, error) {
 	res, err := Execute(ctx, c.exec, "showoptions", c.version, nil)

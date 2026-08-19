@@ -40,6 +40,7 @@ export const vehicleSortFields = [
   "topSpeed",
   "seats",
   "totalStorage",
+  "trunkStorage",
   "weight",
 ] as const;
 
