@@ -2,7 +2,7 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import prettier from "prettier";
+import { format } from "prettier";
 import { displayCategoryTranslations } from "../catalogs/items/game-data.mjs";
 import { disambiguateItemNames } from "../catalogs/items/name-disambiguation.mjs";
 import { frontendRoot } from "../shared/paths.mjs";
@@ -158,7 +158,7 @@ async function main() {
     );
     const translations = { category, item };
     const outputPath = path.join(outputDirectory, `${languageTag}.json`);
-    const formatted = await prettier.format(JSON.stringify(translations), {
+    const formatted = await format(JSON.stringify(translations), {
       parser: "json",
     });
     await fs.writeFile(outputPath, formatted);

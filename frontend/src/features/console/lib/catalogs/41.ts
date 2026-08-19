@@ -68,9 +68,10 @@ export const build41ConsoleCommands = [
   },
 ] as const satisfies readonly ConsoleCommand[];
 
-export const build41CommandNames = build41ConsoleCommands
-  .map((command) => command.name)
-  .sort((first, second) => first.localeCompare(second));
+export const build41CommandNames = build41ConsoleCommands.map(
+  (command) => command.name,
+);
+build41CommandNames.sort((first, second) => first.localeCompare(second));
 
 export const build41ConsoleCatalog: ConsoleCatalog = {
   commands: build41ConsoleCommands,

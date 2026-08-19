@@ -10,11 +10,17 @@ const catalogs: Record<GameBuild, ConsoleCatalog> = {
 };
 export const clearConsoleCommand = "cls";
 export const localConsoleCommandNames = [clearConsoleCommand];
+function sortedStrings(values: readonly string[]) {
+  const sorted = [...values];
+  sorted.sort((first, second) => first.localeCompare(second));
+  return sorted;
+}
+
 const commandNames: Record<GameBuild, readonly string[]> = {
-  "41": [
+  "41": sortedStrings([
     ...localConsoleCommandNames,
     ...(build41ConsoleCatalog.values.commands ?? []),
-  ].sort((first, second) => first.localeCompare(second)),
+  ]),
   "42": localConsoleCommandNames,
 };
 const maximumSuggestions = 50;

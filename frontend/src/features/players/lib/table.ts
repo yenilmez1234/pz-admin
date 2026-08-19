@@ -42,35 +42,35 @@ export function filterAndSortPlayers(
   const query = search.trim().toLocaleLowerCase(language);
   const direction = sorting.direction === "asc" ? 1 : -1;
 
-  return players
-    .filter((player) =>
-      player.username.toLocaleLowerCase(language).includes(query),
-    )
-    .sort((a, b) => {
-      if (sorting.column === "accessLevel") {
-        const aUnknown = !hasKnownAccessLevel(playerAccessLevel(a));
-        const bUnknown = !hasKnownAccessLevel(playerAccessLevel(b));
-        if (aUnknown !== bUnknown) return aUnknown ? 1 : -1;
-      }
+  const filteredPlayers = players.filter((player) =>
+    player.username.toLocaleLowerCase(language).includes(query),
+  );
+  filteredPlayers.sort((a, b) => {
+    if (sorting.column === "accessLevel") {
+      const aUnknown = !hasKnownAccessLevel(playerAccessLevel(a));
+      const bUnknown = !hasKnownAccessLevel(playerAccessLevel(b));
+      if (aUnknown !== bUnknown) return aUnknown ? 1 : -1;
+    }
 
-      let comparison: number;
-      switch (sorting.column) {
-        case "username":
-          comparison = a.username.localeCompare(b.username, language);
-          break;
-        case "status":
-          comparison =
-            a.lastSeenOnlineAt.getTime() - b.lastSeenOnlineAt.getTime();
-          break;
-        case "accessLevel":
-          comparison =
-            accessLevelRank(playerAccessLevel(a)) -
-            accessLevelRank(playerAccessLevel(b));
-          break;
-      }
-      if (comparison === 0) {
+    let comparison: number;
+    switch (sorting.column) {
+      case "username":
         comparison = a.username.localeCompare(b.username, language);
-      }
-      return comparison * direction;
-    });
+        break;
+      case "status":
+        comparison =
+          a.lastSeenOnlineAt.getTime() - b.lastSeenOnlineAt.getTime();
+        break;
+      case "accessLevel":
+        comparison =
+          accessLevelRank(playerAccessLevel(a)) -
+          accessLevelRank(playerAccessLevel(b));
+        break;
+    }
+    if (comparison === 0) {
+      comparison = a.username.localeCompare(b.username, language);
+    }
+    return comparison * direction;
+  });
+  return filteredPlayers;
 }

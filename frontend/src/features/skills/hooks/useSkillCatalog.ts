@@ -33,11 +33,11 @@ export function useSkillCatalog(
     let current = true;
     setState(initialState);
 
-    loadSkillCatalog(build, language).then(
-      (catalog) => {
+    async function loadCatalog() {
+      try {
+        const catalog = await loadSkillCatalog(build, language);
         if (current) setState({ catalog, error: null, loading: false });
-      },
-      (loadError: unknown) => {
+      } catch (loadError) {
         if (current) {
           setState({
             catalog: null,
@@ -45,8 +45,10 @@ export function useSkillCatalog(
             loading: false,
           });
         }
-      },
-    );
+      }
+    }
+
+    void loadCatalog();
 
     return () => {
       current = false;

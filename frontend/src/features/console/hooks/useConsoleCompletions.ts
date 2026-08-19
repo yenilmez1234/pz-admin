@@ -102,14 +102,24 @@ export function useConsoleCompletions(
     if (!build || !isDynamicSource(activeSource)) return undefined;
 
     let current = true;
-    void loadDynamicCompletions(activeSource, build, language).then(
-      (values) => {
+    const activeBuild = build;
+    const source = activeSource;
+    async function loadCompletions() {
+      try {
+        const values = await loadDynamicCompletions(
+          source,
+          activeBuild,
+          language,
+        );
         if (current) {
-          setLoaded((existing) => ({ ...existing, [activeSource]: values }));
+          setLoaded((existing) => ({ ...existing, [source]: values }));
         }
-      },
-      () => {},
-    );
+      } catch {
+        // A later focus/input change retries catalog loading.
+      }
+    }
+
+    void loadCompletions();
     return () => {
       current = false;
     };

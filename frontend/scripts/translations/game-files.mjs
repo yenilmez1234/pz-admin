@@ -146,7 +146,7 @@ export async function gameTranslationFiles(
     }
   }
 
-  return files.sort((left, right) =>
+  return [...files].sort((left, right) =>
     left.gameLanguage.localeCompare(right.gameLanguage),
   );
 }

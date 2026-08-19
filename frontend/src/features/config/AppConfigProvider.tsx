@@ -1,8 +1,10 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useEffectEvent,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -82,8 +84,9 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
   useEffect(() => {
     let active = true;
 
-    loadConfig()
-      .then((loadedConfig) => {
+    async function initialize() {
+      try {
+        const loadedConfig = await loadConfig();
         if (!active) return;
 
         const nextConfig = appConfigFromBinding(loadedConfig);
@@ -91,13 +94,14 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
         applyColorScheme(
           nextConfig.theme === "system" ? "auto" : nextConfig.theme,
         );
-      })
-      .catch((loadError: unknown) => {
+      } catch (loadError) {
         if (active) setError(errorMessage(loadError));
-      })
-      .finally(() => {
+      } finally {
         if (active) setLoading(false);
-      });
+      }
+    }
+
+    void initialize();
 
     return () => {
       active = false;
@@ -110,18 +114,21 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
     void i18n.changeLanguage(activeLanguage);
   }, [activeLanguage]);
 
-  async function updateTheme(theme: ThemeSetting) {
-    setError(null);
-    try {
-      await SetTheme(theme);
-      setConfig((current) => current && { ...current, theme });
-      setColorScheme(theme === "system" ? "auto" : theme);
-    } catch (saveError) {
-      setError(errorMessage(saveError));
-    }
-  }
+  const updateTheme = useCallback(
+    async (theme: ThemeSetting) => {
+      setError(null);
+      try {
+        await SetTheme(theme);
+        setConfig((current) => current && { ...current, theme });
+        setColorScheme(theme === "system" ? "auto" : theme);
+      } catch (saveError) {
+        setError(errorMessage(saveError));
+      }
+    },
+    [setColorScheme],
+  );
 
-  async function updateLanguage(nextLanguage: LanguageSetting) {
+  const updateLanguage = useCallback(async (nextLanguage: LanguageSetting) => {
     setError(null);
     try {
       await SetLanguage(nextLanguage);
@@ -129,18 +136,21 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
     } catch (saveError) {
       setError(errorMessage(saveError));
     }
-  }
+  }, []);
+
+  const value = useMemo<AppConfigContextValue>(
+    () => ({
+      config,
+      error,
+      loading,
+      setLanguage: updateLanguage,
+      setTheme: updateTheme,
+    }),
+    [config, error, loading, updateLanguage, updateTheme],
+  );
 
   return (
-    <AppConfigContext.Provider
-      value={{
-        config,
-        error,
-        loading,
-        setLanguage: updateLanguage,
-        setTheme: updateTheme,
-      }}
-    >
+    <AppConfigContext.Provider value={value}>
       {children}
     </AppConfigContext.Provider>
   );

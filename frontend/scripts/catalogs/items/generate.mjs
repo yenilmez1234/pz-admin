@@ -2,7 +2,7 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import prettier from "prettier";
+import { format } from "prettier";
 import { frontendRoot } from "../../shared/paths.mjs";
 import { disambiguateItemNames } from "./name-disambiguation.mjs";
 import { readEnglishItemMetadata, readGameItems } from "./game-data.mjs";
@@ -103,13 +103,20 @@ function hybridCatalog(wikiCatalog, gameItems, itemNames, categoryNames) {
     categoryItems.push(item);
     itemsByCategory.set(item.categoryId, categoryItems);
   }
-  const categories = Array.from(itemsByCategory, ([id, categoryItems]) => ({
-    id,
-    items: categoryItems
-      .map(({ categoryId: _, ...item }) => item)
-      .sort((left, right) => left.name.localeCompare(right.name, "en-US")),
-    name: categoryNames[id] ?? id,
-  })).sort((left, right) => left.name.localeCompare(right.name, "en-US"));
+  const categories = Array.from(itemsByCategory, ([id, categoryItems]) => {
+    const sortedItems = categoryItems.map(({ categoryId: _, ...item }) => item);
+    sortedItems.sort((left, right) =>
+      left.name.localeCompare(right.name, "en-US"),
+    );
+    return {
+      id,
+      items: sortedItems,
+      name: categoryNames[id] ?? id,
+    };
+  });
+  categories.sort((left, right) =>
+    left.name.localeCompare(right.name, "en-US"),
+  );
 
   return {
     catalog: {
@@ -148,7 +155,7 @@ async function main() {
     args.output ??
       path.join(frontendRoot, "src", "data", "items", `${args.build}.json`),
   );
-  const formatted = await prettier.format(JSON.stringify(catalog), {
+  const formatted = await format(JSON.stringify(catalog), {
     parser: "json",
   });
   await fs.writeFile(outputPath, formatted);

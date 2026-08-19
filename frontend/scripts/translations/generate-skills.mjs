@@ -2,7 +2,7 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import prettier from "prettier";
+import { format } from "prettier";
 import { frontendRoot } from "../shared/paths.mjs";
 import {
   bcp47LanguageTag,
@@ -137,7 +137,7 @@ async function main() {
       ]).filter(([, name]) => typeof name === "string"),
     );
     const outputPath = path.join(outputDirectory, `${languageTag}.json`);
-    const formatted = await prettier.format(
+    const formatted = await format(
       JSON.stringify({
         categories: categoryTranslations,
         skills: skillTranslations,

@@ -87,13 +87,13 @@ export function TeleportPlayerModal({
     () => new Set(players.map((player) => player.id)),
     [players],
   );
-  const destinationPlayers = useMemo(
-    () =>
-      [...allPlayers]
-        .filter((player) => isOnline(player) && !sourcePlayerIds.has(player.id))
-        .sort((a, b) => a.username.localeCompare(b.username)),
-    [allPlayers, sourcePlayerIds],
-  );
+  const destinationPlayers = useMemo(() => {
+    const eligiblePlayers = allPlayers.filter(
+      (player) => isOnline(player) && !sourcePlayerIds.has(player.id),
+    );
+    eligiblePlayers.sort((a, b) => a.username.localeCompare(b.username));
+    return eligiblePlayers;
+  }, [allPlayers, sourcePlayerIds]);
 
   const resetForm = useEffectEvent(() => form.reset());
 

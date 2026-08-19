@@ -33,13 +33,13 @@ export function useItemCatalog(
     let current = true;
     setState(initialState);
 
-    loadItemCatalog(build, language).then(
-      (catalog) => {
+    async function loadCatalog() {
+      try {
+        const catalog = await loadItemCatalog(build, language);
         if (current) {
           setState({ catalog, error: null, loading: false });
         }
-      },
-      (loadError: unknown) => {
+      } catch (loadError) {
         if (current) {
           setState({
             catalog: null,
@@ -47,8 +47,10 @@ export function useItemCatalog(
             loading: false,
           });
         }
-      },
-    );
+      }
+    }
+
+    void loadCatalog();
 
     return () => {
       current = false;

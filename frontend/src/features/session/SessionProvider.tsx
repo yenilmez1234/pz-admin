@@ -93,20 +93,22 @@ export function SessionProvider({ children }: SessionProviderProps) {
         const revision = eventRevision.current;
         dispatch({ type: "initializing", profile: connectedProfile });
 
-        void CurrentFeatures().then(
-          (currentFeatures) => {
+        async function loadFeatures() {
+          try {
+            const currentFeatures = await CurrentFeatures();
             if (eventRevision.current !== revision) return;
             dispatch({
               type: "connected",
               features: currentFeatures,
               profile: connectedProfile,
             });
-          },
-          (loadError: unknown) => {
+          } catch (loadError) {
             if (eventRevision.current !== revision) return;
             dispatch({ type: "failed", error: errorMessage(loadError) });
-          },
-        );
+          }
+        }
+
+        void loadFeatures();
       },
     );
     const unsubscribeDisconnected = Events.On("session:disconnected", () => {

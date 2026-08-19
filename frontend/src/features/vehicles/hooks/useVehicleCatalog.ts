@@ -33,13 +33,13 @@ export function useVehicleCatalog(build: GameBuild): VehicleCatalogResult {
     let current = true;
     setState(initialState);
 
-    loadVehicleCatalog(build, language).then(
-      (loadedCatalog) => {
+    async function loadCatalog() {
+      try {
+        const loadedCatalog = await loadVehicleCatalog(build, language);
         if (current) {
           setState({ catalog: loadedCatalog, error: null, loading: false });
         }
-      },
-      (loadError: unknown) => {
+      } catch (loadError) {
         if (current) {
           setState({
             catalog: null,
@@ -47,8 +47,10 @@ export function useVehicleCatalog(build: GameBuild): VehicleCatalogResult {
             loading: false,
           });
         }
-      },
-    );
+      }
+    }
+
+    void loadCatalog();
 
     return () => {
       current = false;

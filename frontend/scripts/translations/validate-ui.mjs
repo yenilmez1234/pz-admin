@@ -7,11 +7,12 @@ const resourcesRoot = join(i18nRoot, "resources");
 const defaultLanguage = "en-US";
 const localeNames = readJson(join(i18nRoot, "locales.json"));
 const namespaceManifest = readJson(join(i18nRoot, "namespaces.json"));
-const supportedLanguages = Object.keys(localeNames).sort();
-const resourceLanguages = readdirSync(resourcesRoot, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
-  .map((entry) => entry.name)
-  .sort();
+const supportedLanguages = sortedStrings(Object.keys(localeNames));
+const resourceLanguages = sortedStrings(
+  readdirSync(resourcesRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name),
+);
 const errors = [];
 
 validateLocaleRegistry();
@@ -22,7 +23,7 @@ compareSets(
   resourceLanguages,
 );
 
-const defaultNamespaces = Object.keys(namespaceManifest).sort();
+const defaultNamespaces = sortedStrings(Object.keys(namespaceManifest));
 compareSets(
   "namespace manifest and default resources",
   defaultNamespaces,
@@ -52,8 +53,8 @@ for (const language of supportedLanguages) {
     );
     compareSets(
       `${language}:${namespace} keys`,
-      [...expected.keys()].sort(),
-      [...actual.keys()].sort(),
+      sortedStrings(expected.keys()),
+      sortedStrings(actual.keys()),
     );
 
     for (const [key, expectedValue] of expected) {
@@ -80,14 +81,19 @@ function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
+function sortedStrings(values) {
+  return [...values].sort((left, right) => left.localeCompare(right));
+}
+
 function namespaceFiles(language) {
   const languageDirectory = join(resourcesRoot, language);
   if (!existsSync(languageDirectory)) return [];
 
-  return readdirSync(languageDirectory)
-    .filter((file) => file.endsWith(".json"))
-    .map((file) => file.slice(0, -5))
-    .sort();
+  return sortedStrings(
+    readdirSync(languageDirectory)
+      .filter((file) => file.endsWith(".json"))
+      .map((file) => file.slice(0, -5)),
+  );
 }
 
 function resourceFile(language, namespace) {
@@ -130,7 +136,7 @@ function interpolationVariables(value) {
   const variables = new Set();
   const pattern = /{{\s*([^,}\s]+)(?:,[^}]*)?}}/g;
   for (const match of value.matchAll(pattern)) variables.add(match[1]);
-  return [...variables].sort();
+  return sortedStrings(variables);
 }
 
 function compareSets(context, expected, actual) {

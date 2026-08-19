@@ -73,9 +73,9 @@ async function fetchText(url) {
     ]);
     return stdout;
   } catch (error) {
-    throw new Error(
-      `curl failed for ${url}: ${error.stderr?.toString().trim() ?? error}`,
-    );
+    throw new Error(`curl failed for ${url}: ${commandError(error)}`, {
+      cause: error,
+    });
   }
 }
 
@@ -88,10 +88,17 @@ async function fetchBuffer(url) {
     );
     return stdout;
   } catch (error) {
-    throw new Error(
-      `curl failed for ${url}: ${error.stderr?.toString().trim() ?? error}`,
-    );
+    throw new Error(`curl failed for ${url}: ${commandError(error)}`, {
+      cause: error,
+    });
   }
+}
+
+function commandError(error) {
+  if (error && typeof error === "object" && "stderr" in error) {
+    return String(error.stderr).trim();
+  }
+  return String(error);
 }
 
 const stripTags = (html) =>
@@ -129,9 +136,6 @@ function rowCells(row) {
   }));
 }
 
-const linkIn = (cellHtml) =>
-  cellHtml.match(/href="(\/wiki\/[^"]+)"/)?.[1] ?? null;
-
 const imgIn = (cellHtml) => cellHtml.match(/src="([^"]+)"/)?.[1] ?? null;
 
 // /w/images/thumb/7/74/File.png/200px-File.png -> /w/images/7/74/File.png
@@ -156,8 +160,8 @@ function parseInfobox(html) {
     if (key) {
       stats[key] = value.replace(/ hp$/i, "");
     } else {
-      stats._unknown ??= [];
-      stats._unknown.push(label);
+      stats.unknownLabels ??= [];
+      stats.unknownLabels.push(label);
     }
   }
   return stats;
@@ -339,12 +343,15 @@ async function main() {
     try {
       modelHtml = await getPage(modelUrl);
     } catch (error) {
-      console.warn(`  ${model.name}: failed to fetch ${modelUrl}: ${error}`);
+      console.warn(
+        `  ${model.name}: failed to fetch ${modelUrl}: ${String(error)}`,
+      );
       continue;
     }
     const modelStats = parseInfobox(modelHtml);
-    for (const label of modelStats._unknown ?? []) unknownLabels.add(label);
-    delete modelStats._unknown;
+    for (const label of modelStats.unknownLabels ?? [])
+      unknownLabels.add(label);
+    delete modelStats.unknownLabels;
     const modelHasEngine = modelStats.enginePower !== undefined;
     const modelImage = parseInfoboxImage(modelHtml);
 
@@ -374,13 +381,13 @@ async function main() {
           pageHtml = await getPage(row.links[0]);
         } catch (error) {
           console.warn(
-            `  ${model.name}: failed to fetch ${row.links[0]}: ${error}`,
+            `  ${model.name}: failed to fetch ${row.links[0]}: ${String(error)}`,
           );
           continue;
         }
         const stats = parseInfobox(pageHtml);
-        for (const label of stats._unknown ?? []) unknownLabels.add(label);
-        delete stats._unknown;
+        for (const label of stats.unknownLabels ?? []) unknownLabels.add(label);
+        delete stats.unknownLabels;
         if (modelHasEngine && stats.enginePower === undefined) {
           skipped.push(`${model.name} / ${row.name} (${row.id})`);
           continue;
@@ -444,7 +451,7 @@ async function main() {
           await writeFile(path.join(leafDir, filename), data);
         } catch (error) {
           console.warn(
-            `  ${model.name} / ${leaf.name}: image download failed: ${error}`,
+            `  ${model.name} / ${leaf.name}: image download failed: ${String(error)}`,
           );
         }
       } else {

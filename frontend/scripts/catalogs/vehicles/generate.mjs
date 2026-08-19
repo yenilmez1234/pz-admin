@@ -119,6 +119,13 @@ function getNextType(currentType) {
   }
 }
 
+function countIds(nodes) {
+  return nodes.reduce(
+    (count, node) => count + (node.id ? 1 : 0) + countIds(node.children ?? []),
+    0,
+  );
+}
+
 // Reads a leaf's hand-edited stats.json (in the script-id folder, next to
 // the images) and attaches it to the leaf node. Hand-edited string values
 // are normalized to typed values for the catalog: "True"/"False" become
@@ -175,11 +182,6 @@ async function main() {
     "utf-8",
   );
 
-  const countIds = (nodes) =>
-    nodes.reduce(
-      (n, node) => n + (node.id ? 1 : 0) + countIds(node.children ?? []),
-      0,
-    );
   console.log(
     `wrote ${outputFile}: ${categories.length} categories, ${countIds(categories)} vehicles`,
   );
