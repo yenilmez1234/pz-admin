@@ -15,7 +15,6 @@
     "preview": "vite preview",
     "vehicles:generate": "node ./scripts/generate-vehicle-catalog.mjs",
     "vehicles:scrape-b42": "node ./scripts/scrape-vehicles-b42.mjs",
-    "items:scrape": "node ./scripts/scrape-items.mjs",
     "items:generate-hybrid": "node ./scripts/generate-hybrid-item-catalog.mjs",
     "items:test-generator": "node --test ./scripts/game-item-catalog.test.mjs",
     "items:translate": "node ./scripts/generate-item-translations.mjs",

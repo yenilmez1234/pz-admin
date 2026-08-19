@@ -1,15 +1,9 @@
-#!/usr/bin/env node
-
 import fs from "node:fs/promises";
 import path from "node:path";
 import { execFile } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import * as cheerio from "cheerio";
-import prettier from "prettier";
-import { disambiguateItemNames } from "./disambiguate-item-names.mjs";
 
-const FRONTEND_DIR = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const USER_AGENT =
   "pz-admin item catalog generator (https://github.com/beyenilmez/pz-admin)";
 const DOWNLOAD_CONCURRENCY = 8;
@@ -27,29 +21,9 @@ const sources = {
   },
 };
 
-function parseArgs(argv) {
-  const args = { build: "41", revision: undefined, skipImages: false };
-  for (let index = 0; index < argv.length; index += 1) {
-    if (argv[index] === "--build") args.build = argv[++index];
-    else if (argv[index] === "--revision") args.revision = argv[++index];
-    else if (argv[index] === "--skip-images") args.skipImages = true;
-    else throw new Error(`Unknown argument: ${argv[index]}`);
-  }
-  if (!sources[args.build]) {
-    throw new Error(`Unsupported build: ${args.build}`);
-  }
-  if (
-    args.revision !== undefined &&
-    args.revision !== "latest" &&
-    !/^[1-9]\d*$/.test(args.revision)
-  ) {
-    throw new Error("Revision must be a positive number or 'latest'");
-  }
-  return args;
-}
-
 export function resolveItemWikiSource(build, requestedRevision) {
   const configuredSource = sources[build];
+  if (!configuredSource) throw new Error(`Unsupported build: ${build}`);
   const revision =
     requestedRevision === "latest"
       ? null
@@ -172,14 +146,6 @@ export function parseItemWikiCatalog(html, build, source) {
     );
   }
 
-  const disambiguatedNames = disambiguateItemNames(
-    categories.flatMap((category) => category.items),
-  );
-  for (const category of categories) {
-    for (const item of category.items)
-      item.name = disambiguatedNames.get(item.id);
-  }
-
   const revision =
     source.revision ?? Number(html.match(/"wgRevisionId":(\d+)/)?.[1]);
   if (!revision) {
@@ -243,48 +209,6 @@ export async function downloadItemWikiImages(downloads, outputDirectory) {
   await Promise.all(
     Array.from({ length: DOWNLOAD_CONCURRENCY }, () => worker()),
   );
-}
-
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  const source = resolveItemWikiSource(args.build, args.revision);
-  const html = await fetchCatalogHtml(source.url);
-  const { catalog, downloads } = parseItemWikiCatalog(html, args.build, source);
-
-  if (!args.skipImages) {
-    await downloadItemWikiImages(
-      downloads,
-      path.join(FRONTEND_DIR, "public", "items", args.build),
-    );
-  }
-
-  const outputPath = path.join(
-    FRONTEND_DIR,
-    "src",
-    "data",
-    "items",
-    `${args.build}.json`,
-  );
-  const formattedCatalog = await prettier.format(JSON.stringify(catalog), {
-    parser: "json",
-  });
-  await fs.writeFile(outputPath, formattedCatalog);
-
-  const itemCount = catalog.categories.reduce(
-    (total, category) => total + category.items.length,
-    0,
-  );
-  console.log(
-    `wrote ${outputPath}: ${catalog.categories.length} categories, ${itemCount} items, ${downloads.length} images`,
-  );
-}
-
-const invokedPath = process.argv[1] && path.resolve(process.argv[1]);
-if (invokedPath === fileURLToPath(import.meta.url)) {
-  main().catch((error) => {
-    console.error(error instanceof Error ? error.message : String(error));
-    process.exitCode = 1;
-  });
 }
 
 export async function scrapeItemWikiCatalog(build, requestedRevision) {
