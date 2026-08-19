@@ -1,26 +1,5 @@
 {
-  "category": {
-    "Ammo": "Набої",
-    "CannedFood": "Продукти, що не псуються",
-    "Clothing": "Одяг",
-    "Container": "Сумки",
-    "Cookware": "Кулінарія",
-    "Farming": "Фермерство",
-    "Food": "Швидкопсувні продукти",
-    "Generator": "Генератори",
-    "Key": "Ключі",
-    "Literature": "Література",
-    "Material": "Матеріал",
-    "Mechanics": "Курси авторемонту",
-    "Medical": "Медичні об'єкти",
-    "Media": "Медіа",
-    "Memento": "Пам'ятні речі",
-    "Other": "Інше",
-    "RangedWeapon": "Вогнепальна зброя",
-    "SurvivalGears": "Інструменти для виживання",
-    "Tool": "Інструменти",
-    "Weapon": "Зброя ближнього бою"
-  },
+  "category": {},
   "item": {
     "Base.Bag_ClothSatchel_Denim": "Саморобна джинсова сумка",
     "Base.LightBulbCyan": "Лампочка (блакитна)",

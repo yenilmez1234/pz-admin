@@ -28,14 +28,17 @@ function prepareCatalog(
   const items: ItemCatalogEntry[] = [];
   const itemsById = new Map<string, ItemCatalogEntry>();
   const searchIndex = new Map<string, string>();
+  const collator = new Intl.Collator(language, {
+    numeric: true,
+    sensitivity: "base",
+  });
 
   for (const rawCategory of data.categories) {
-    const categoryId = rawCategory.items[0]?.lootCategory ?? rawCategory.name;
     const categoryName =
-      translatedItemCategoryName(build, language, categoryId) ??
+      translatedItemCategoryName(build, language, rawCategory.id) ??
       rawCategory.name;
     const category: ItemCatalogCategory = {
-      itemIds: [],
+      itemCount: rawCategory.items.length,
       name: categoryName,
     };
 
@@ -44,17 +47,10 @@ function prepareCatalog(
         build,
         category: categoryName,
         defaultName: rawItem.name,
-        displayCategory: rawItem.displayCategory,
-        dynamicMoveable: rawItem.dynamicMoveable,
         id: rawItem.id,
-        icon: rawItem.icon,
         images: rawItem.images,
-        itemType: rawItem.itemType,
-        lootCategory: rawItem.lootCategory,
         name: translatedItemName(build, language, rawItem.id) ?? rawItem.name,
-        tags: rawItem.tags,
       };
-      category.itemIds.push(item.id);
       items.push(item);
       itemsById.set(item.id, item);
       searchIndex.set(
@@ -65,8 +61,15 @@ function prepareCatalog(
       );
     }
 
-    if (category.itemIds.length > 0) categories.push(category);
+    if (category.itemCount > 0) categories.push(category);
   }
+
+  items.sort((left, right) => collator.compare(left.name, right.name));
+  categories.sort(
+    (left, right) =>
+      right.itemCount - left.itemCount ||
+      collator.compare(left.name, right.name),
+  );
 
   return {
     build,
@@ -75,7 +78,6 @@ function prepareCatalog(
     itemsById,
     language,
     searchIndex,
-    source: data.source,
   };
 }
 

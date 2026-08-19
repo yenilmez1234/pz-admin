@@ -1,27 +1,12 @@
 {
   "category": {
-    "Ammo": "Munitie",
-    "CannedFood": "Niet-bederfelijk voedsel",
     "Clothing": "Kleding",
-    "Container": "Tassen",
-    "Cookware": "Koken",
-    "Farming": "Landbouw",
-    "Food": "Bederfelijk voedsel",
-    "Generator": "Generatoren",
-    "Key": "Sleutels",
+    "Container": "Container",
+    "Food": "Voedsel",
     "Literature": "Literatuur",
-    "Material": "Materiaal",
-    "Mechanics": "Mechanica",
-    "Medical": "Medisch",
-    "Media": "Media",
-    "Memento": "Memento's",
-    "Other": "Overig",
-    "RangedWeapon": "Afstandswapens",
-    "RecipeResource": "Receptbronnen",
-    "SkillBook": "Vaardigheidsboeken",
-    "SurvivalGears": "Essentiële Overlevings-items",
-    "Tool": "Gereedschap",
-    "Weapon": "Meleewapens"
+    "Weapon": "Wapen",
+    "WeaponPart": "Wapen onderdeel",
+    "Ammo": "Munitie"
   },
   "item": {
     "Base.SwimTrunks_Green": "Zwembroek (Green)",

@@ -3,7 +3,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import prettier from "prettier";
-import { translatedLootCategoryNames } from "../catalogs/items/game-data.mjs";
+import { displayCategoryTranslations } from "../catalogs/items/game-data.mjs";
 import { disambiguateItemNames } from "../catalogs/items/name-disambiguation.mjs";
 import { frontendRoot } from "../shared/paths.mjs";
 import {
@@ -73,36 +73,25 @@ async function readJsonItemTranslations(languageDirectory) {
   return translations;
 }
 
-async function readJsonCategoryTranslations(languageDirectory) {
-  const sourcePath = path.join(languageDirectory, "Sandbox.json");
-  const translations = JSON.parse(await fs.readFile(sourcePath, "utf8"));
-  return translatedLootCategoryNames(translations, false);
+async function readLegacyCategoryTranslations(languageDirectory, gameLanguage) {
+  const { content } = await readGameTranslationFile(
+    languageDirectory,
+    `IG_UI_${gameLanguage}.txt`,
+  );
+  const translations = {};
+  for (const line of content.split(/\r?\n/)) {
+    const match = line.match(
+      /^\s*(IGUI_ItemCat_\S+)\s*=\s*"(.*)"\s*,?\s*(?:--.*)?$/,
+    );
+    if (match) translations[match[1]] = decodeLuaString(match[2]);
+  }
+  return displayCategoryTranslations(translations);
 }
 
-async function readSharedLootCategoryTranslations(language) {
-  const sourcePath = path.join(
-    frontendRoot,
-    "src",
-    "i18n",
-    "generated",
-    "items",
-    "42",
-    `${language}.json`,
-  );
-  try {
-    const translations = JSON.parse(await fs.readFile(sourcePath, "utf8"));
-    if (
-      typeof translations.category !== "object" ||
-      translations.category === null ||
-      Array.isArray(translations.category)
-    ) {
-      throw new Error(`Invalid item category translations: ${sourcePath}`);
-    }
-    return translations.category;
-  } catch (error) {
-    if (error.code === "ENOENT") return {};
-    throw error;
-  }
+async function readJsonCategoryTranslations(languageDirectory) {
+  const sourcePath = path.join(languageDirectory, "IG_UI.json");
+  const translations = JSON.parse(await fs.readFile(sourcePath, "utf8"));
+  return displayCategoryTranslations(translations);
 }
 
 async function main() {
@@ -120,6 +109,9 @@ async function main() {
     catalog.categories.flatMap((category) =>
       category.items.map((item) => item.id),
     ),
+  );
+  const categoryIds = new Set(
+    catalog.categories.map((category) => category.id),
   );
   const outputDirectory = path.join(
     frontendRoot,
@@ -158,9 +150,12 @@ async function main() {
     const item = Object.fromEntries(
       translatedEntries.map(({ id }) => [id, disambiguatedNames.get(id)]),
     );
-    const category = usesJsonTranslations
+    const availableCategories = usesJsonTranslations
       ? await readJsonCategoryTranslations(languageDirectory)
-      : await readSharedLootCategoryTranslations(languageTag);
+      : await readLegacyCategoryTranslations(languageDirectory, gameLanguage);
+    const category = Object.fromEntries(
+      Object.entries(availableCategories).filter(([id]) => categoryIds.has(id)),
+    );
     const translations = { category, item };
     const outputPath = path.join(outputDirectory, `${languageTag}.json`);
     const formatted = await prettier.format(JSON.stringify(translations), {

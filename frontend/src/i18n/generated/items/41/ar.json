@@ -1,25 +1,12 @@
 {
   "category": {
-    "Ammo": "Munición",
-    "CannedFood": "Comida no perecedera",
+    "Food": "Comida",
+    "Weapon": "Arma",
+    "WeaponPart": "Parte de arma",
     "Clothing": "Ropa",
-    "Container": "Bolsas",
-    "Cookware": "Cocina",
-    "Farming": "Agricultura",
-    "Food": "Comida perecedera",
-    "Generator": "Generadores",
-    "Key": "Llaves",
-    "Literature": "Lectura",
-    "Material": "Material",
-    "Mechanics": "Mecánica",
-    "Medical": "Instalaciones médicas",
-    "Media": "Multimedia",
-    "Memento": "Recuerdos",
-    "Other": "Otros",
-    "RangedWeapon": "Armas a distancia",
-    "SurvivalGears": "Útiles de supervivencia",
-    "Tool": "Herramientas",
-    "Weapon": "Armas cuerpo a cuerpo"
+    "Container": "Contenedor",
+    "Literature": "Literatura",
+    "Ammo": "Munición"
   },
   "item": {
     "Base.223Box": "Caja de balas .223",

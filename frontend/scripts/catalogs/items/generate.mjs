@@ -5,13 +5,7 @@ import path from "node:path";
 import prettier from "prettier";
 import { frontendRoot } from "../../shared/paths.mjs";
 import { disambiguateItemNames } from "./name-disambiguation.mjs";
-import {
-  gameItemMetadata,
-  itemLootCategory,
-  lootCategoryOrder,
-  readEnglishItemMetadata,
-  readGameItems,
-} from "./game-data.mjs";
+import { readEnglishItemMetadata, readGameItems } from "./game-data.mjs";
 import { downloadItemWikiImages, scrapeItemWikiCatalog } from "./wiki.mjs";
 
 function parseArgs(argv) {
@@ -65,20 +59,17 @@ function hybridCatalog(wikiCatalog, gameItems, itemNames, categoryNames) {
   for (const wikiItem of wikiItems) {
     const gameId = wikiItem.id.replace(/\*$/, "");
     let gameItem = gameItems.get(gameId);
-    let dynamicMoveable = false;
     if (
       !gameItem &&
       wikiItem.id.endsWith("*") &&
       (gameId.startsWith("Base.Mov_") || gameId === "Base.Moveable") &&
       ["Furniture", "Gardening"].includes(wikiItem.wikiCategory)
     ) {
-      dynamicMoveable = true;
       gameItem = {
         id: gameId,
         name: gameId.slice(gameId.indexOf(".") + 1),
         properties: {
           DisplayCategory: wikiItem.wikiCategory,
-          ItemType: "base:moveable",
         },
       };
     }
@@ -89,13 +80,11 @@ function hybridCatalog(wikiCatalog, gameItems, itemNames, categoryNames) {
 
     const gameName = itemNames[gameId];
     if (typeof gameName !== "string") missingNames.push(wikiItem.id);
-    const lootCategory = itemLootCategory(gameItem);
     items.push({
+      categoryId: gameItem.properties.DisplayCategory,
       id: wikiItem.id,
       images: wikiItem.images,
       name: gameName ?? wikiItem.name,
-      ...gameItemMetadata(gameItem, lootCategory),
-      ...(dynamicMoveable ? { dynamicMoveable: true } : {}),
     });
   }
 
@@ -108,21 +97,24 @@ function hybridCatalog(wikiCatalog, gameItems, itemNames, categoryNames) {
   const disambiguatedNames = disambiguateItemNames(items);
   for (const item of items) item.name = disambiguatedNames.get(item.id);
 
-  const categories = lootCategoryOrder
-    .map((lootCategory) => ({
-      items: items
-        .filter((item) => item.lootCategory === lootCategory)
-        .sort((left, right) => left.name.localeCompare(right.name, "en-US")),
-      name: categoryNames[lootCategory],
-    }))
-    .filter((category) => category.items.length > 0)
-    .sort((left, right) => left.name.localeCompare(right.name, "en-US"));
+  const itemsByCategory = new Map();
+  for (const item of items) {
+    const categoryItems = itemsByCategory.get(item.categoryId) ?? [];
+    categoryItems.push(item);
+    itemsByCategory.set(item.categoryId, categoryItems);
+  }
+  const categories = Array.from(itemsByCategory, ([id, categoryItems]) => ({
+    id,
+    items: categoryItems
+      .map(({ categoryId: _, ...item }) => item)
+      .sort((left, right) => left.name.localeCompare(right.name, "en-US")),
+    name: categoryNames[id] ?? id,
+  })).sort((left, right) => left.name.localeCompare(right.name, "en-US"));
 
   return {
     catalog: {
       build: wikiCatalog.build,
       categories,
-      source: wikiCatalog.source,
     },
     missingNames,
   };
@@ -134,7 +126,7 @@ async function main() {
   const [{ catalog: wikiCatalog, downloads }, gameItems, englishMetadata] =
     await Promise.all([
       scrapeItemWikiCatalog(args.build, args.revision),
-      readGameItems(gameDirectory, args.build),
+      readGameItems(gameDirectory),
       readEnglishItemMetadata(gameDirectory, args.build),
     ]);
 
@@ -142,7 +134,7 @@ async function main() {
     wikiCatalog,
     gameItems,
     englishMetadata.names,
-    englishMetadata.lootCategoryNames,
+    englishMetadata.categoryNames,
   );
 
   if (!args.skipImages) {
@@ -166,7 +158,7 @@ async function main() {
     0,
   );
   console.log(
-    `wrote ${outputPath}: ${catalog.categories.length} loot categories, ${itemCount} items, ${downloads.length} images`,
+    `wrote ${outputPath}: ${catalog.categories.length} categories, ${itemCount} items, ${downloads.length} images`,
   );
   if (missingNames.length > 0) {
     console.warn(

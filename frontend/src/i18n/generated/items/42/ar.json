@@ -1,26 +1,5 @@
 {
-  "category": {
-    "Ammo": "Munición",
-    "CannedFood": "Comida no perecedera",
-    "Clothing": "Ropa",
-    "Container": "Bolsas",
-    "Cookware": "Cocina",
-    "Farming": "Agricultura",
-    "Food": "Comida perecedera",
-    "Generator": "Generadores",
-    "Key": "Llaves",
-    "Literature": "Lectura",
-    "Material": "Material",
-    "Mechanics": "Mecánica",
-    "Medical": "Instalaciones médicas",
-    "Media": "Multimedia",
-    "Memento": "Recuerdos",
-    "Other": "Otros",
-    "RangedWeapon": "Armas a distancia",
-    "SurvivalGears": "Útiles de supervivencia",
-    "Tool": "Herramientas",
-    "Weapon": "Armas cuerpo a cuerpo"
-  },
+  "category": {},
   "item": {
     "Base.Bag_ClothSatchel_Denim": "Cartera de tela vaquera elaborada",
     "Base.LightBulbCyan": "Foco celeste",

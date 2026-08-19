@@ -21,7 +21,7 @@ const sources = {
   },
 };
 
-export function resolveItemWikiSource(build, requestedRevision) {
+function resolveItemWikiSource(build, requestedRevision) {
   const configuredSource = sources[build];
   if (!configuredSource) throw new Error(`Unsupported build: ${build}`);
   const revision =
@@ -75,7 +75,7 @@ function imageFilename(itemId, index, imageUrl) {
   return `${safeId}_${index}${imageExtension(imageUrl)}`;
 }
 
-export function parseItemWikiCatalog(html, build, source) {
+function parseItemWikiCatalog(html, build, source) {
   const $ = cheerio.load(html);
   const categories = [];
   const itemIds = new Set();
