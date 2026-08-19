@@ -3,6 +3,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import prettier from "prettier";
+import { translatedLootCategoryNames } from "../catalogs/items/game-data.mjs";
 import { disambiguateItemNames } from "../catalogs/items/name-disambiguation.mjs";
 import { frontendRoot } from "../shared/paths.mjs";
 import {
@@ -72,6 +73,12 @@ async function readJsonItemTranslations(languageDirectory) {
   return translations;
 }
 
+async function readJsonCategoryTranslations(languageDirectory) {
+  const sourcePath = path.join(languageDirectory, "Sandbox.json");
+  const translations = JSON.parse(await fs.readFile(sourcePath, "utf8"));
+  return translatedLootCategoryNames(translations, false);
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const translationDirectory = await findTranslationDirectory(
@@ -122,16 +129,20 @@ async function main() {
       .filter(([id]) => catalogIds.has(id))
       .map(([id, name]) => ({ id, name }));
     const disambiguatedNames = disambiguateItemNames(translatedEntries);
-    const translations = Object.fromEntries(
+    const item = Object.fromEntries(
       translatedEntries.map(({ id }) => [id, disambiguatedNames.get(id)]),
     );
+    const category = usesJsonTranslations
+      ? await readJsonCategoryTranslations(languageDirectory)
+      : {};
+    const translations = { category, item };
     const outputPath = path.join(outputDirectory, `${languageTag}.json`);
     const formatted = await prettier.format(JSON.stringify(translations), {
       parser: "json",
     });
     await fs.writeFile(outputPath, formatted);
     console.log(
-      `${languageTag}: ${Object.keys(translations).length}/${catalogIds.size} catalog items translated`,
+      `${languageTag}: ${Object.keys(item).length}/${catalogIds.size} items, ${Object.keys(category).length} categories translated`,
     );
   }
 }

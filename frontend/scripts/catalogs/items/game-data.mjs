@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { findTranslationDirectory } from "../../translations/game-files.mjs";
 
-const LOOT_CATEGORY_TRANSLATION_KEYS = {
+export const lootCategoryTranslationKeys = {
   Ammo: "Sandbox_AmmoLootNew",
   CannedFood: "Sandbox_CannedFoodLootNew",
   Clothing: "Sandbox_ClothingLootNew",
@@ -27,7 +27,20 @@ const LOOT_CATEGORY_TRANSLATION_KEYS = {
   Weapon: "Sandbox_WeaponLootNew",
 };
 
-export const lootCategoryOrder = Object.keys(LOOT_CATEGORY_TRANSLATION_KEYS);
+export const lootCategoryOrder = Object.keys(lootCategoryTranslationKeys);
+
+export function translatedLootCategoryNames(translations, requireAll = true) {
+  return Object.fromEntries(
+    Object.entries(lootCategoryTranslationKeys).flatMap(([category, key]) => {
+      const name = translations[key];
+      if (typeof name === "string") return [[category, name]];
+      if (requireAll) {
+        throw new Error(`Missing game translation: ${key}`);
+      }
+      return [];
+    }),
+  );
+}
 
 async function isDirectory(directory) {
   try {
@@ -264,14 +277,7 @@ export async function readEnglishItemMetadata(gameDirectory) {
       .readFile(path.join(englishDirectory, "Sandbox.json"), "utf8")
       .then((content) => JSON.parse(content)),
   ]);
-  const lootCategoryNames = Object.fromEntries(
-    Object.entries(LOOT_CATEGORY_TRANSLATION_KEYS).map(([category, key]) => {
-      const name = sandbox[key];
-      if (typeof name !== "string")
-        throw new Error(`Missing game translation: ${key}`);
-      return [category, name];
-    }),
-  );
+  const lootCategoryNames = translatedLootCategoryNames(sandbox);
   return { lootCategoryNames, names };
 }
 

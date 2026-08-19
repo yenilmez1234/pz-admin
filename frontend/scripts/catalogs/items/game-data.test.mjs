@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { build42LootCategory } from "./game-data.mjs";
+import {
+  build42LootCategory,
+  lootCategoryTranslationKeys,
+  translatedLootCategoryNames,
+} from "./game-data.mjs";
 
 function item(name, properties) {
   return { id: `Base.${name}`, name, properties };
@@ -50,5 +54,24 @@ test("falls back to Other when no loot rule matches", () => {
       }),
     ),
     "Other",
+  );
+});
+
+test("maps every loot category to its game translation", () => {
+  const translations = Object.fromEntries(
+    Object.entries(lootCategoryTranslationKeys).map(([category, key]) => [
+      key,
+      `Translated ${category}`,
+    ]),
+  );
+
+  assert.deepEqual(
+    translatedLootCategoryNames(translations),
+    Object.fromEntries(
+      Object.keys(lootCategoryTranslationKeys).map((category) => [
+        category,
+        `Translated ${category}`,
+      ]),
+    ),
   );
 });

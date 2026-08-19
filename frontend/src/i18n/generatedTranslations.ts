@@ -77,5 +77,32 @@ export function createGeneratedTranslationLoader<Resource>({
     return typeof fallback === "string" ? fallback : null;
   }
 
-  return { get, load };
+  function getRecordEntry(
+    build: GameBuild,
+    language: string,
+    section: string,
+    key: string,
+  ) {
+    const languageTag = canonicalLanguage(language);
+    const resourceNamespace = namespace(build);
+    const localized = i18n.getResource(languageTag, resourceNamespace, section);
+    if (isStringRecord(localized) && typeof localized[key] === "string") {
+      return localized[key];
+    }
+
+    const fallback = i18n.getResource(
+      defaultLanguage,
+      resourceNamespace,
+      section,
+    );
+    return isStringRecord(fallback) && typeof fallback[key] === "string"
+      ? fallback[key]
+      : null;
+  }
+
+  return { get, getRecordEntry, load };
+}
+
+function isStringRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }

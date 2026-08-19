@@ -4,7 +4,12 @@ import {
   type GeneratedTranslationModules,
 } from "@/i18n/generatedTranslations";
 
-type ItemTranslations = Record<string, string>;
+interface ItemTranslations {
+  category: Record<string, string>;
+  item: Record<string, string>;
+}
+
+type ItemTranslationSection = keyof ItemTranslations;
 const translationModules = import.meta.glob<{ default: ItemTranslations }>(
   "../../i18n/generated/items/*/*.json",
 ) satisfies GeneratedTranslationModules<ItemTranslations>;
@@ -25,7 +30,22 @@ export function translatedItemName(
   language: string,
   itemId: string,
 ) {
-  return translations.get(build, language, itemId, {
-    keySeparator: false,
-  });
+  return translatedName(build, language, "item", itemId);
+}
+
+export function translatedItemCategoryName(
+  build: GameBuild,
+  language: string,
+  categoryId: string,
+) {
+  return translatedName(build, language, "category", categoryId);
+}
+
+function translatedName(
+  build: GameBuild,
+  language: string,
+  section: ItemTranslationSection,
+  id: string,
+) {
+  return translations.getRecordEntry(build, language, section, id);
 }

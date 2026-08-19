@@ -1,4 +1,8 @@
-import { loadItemTranslations, translatedItemName } from "./translations";
+import {
+  loadItemTranslations,
+  translatedItemCategoryName,
+  translatedItemName,
+} from "./translations";
 import type { GameBuild } from "@/features/game/types";
 import { canonicalLanguage } from "@/i18n/locales";
 import type {
@@ -26,15 +30,20 @@ function prepareCatalog(
   const searchIndex = new Map<string, string>();
 
   for (const rawCategory of data.categories) {
+    const categoryId = rawCategory.items[0]?.lootCategory;
+    const categoryName = categoryId
+      ? (translatedItemCategoryName(build, language, categoryId) ??
+        rawCategory.name)
+      : rawCategory.name;
     const category: ItemCatalogCategory = {
       itemIds: [],
-      name: rawCategory.name,
+      name: categoryName,
     };
 
     for (const rawItem of rawCategory.items) {
       const item: ItemCatalogEntry = {
         build,
-        category: rawCategory.name,
+        category: categoryName,
         defaultName: rawItem.name,
         displayCategory: rawItem.displayCategory,
         dynamicMoveable: rawItem.dynamicMoveable,
@@ -51,7 +60,7 @@ function prepareCatalog(
       itemsById.set(item.id, item);
       searchIndex.set(
         item.id,
-        `${item.name} ${item.defaultName} ${item.id}`.toLocaleLowerCase(
+        `${item.name} ${item.defaultName} ${item.id} ${categoryName} ${rawCategory.name}`.toLocaleLowerCase(
           language,
         ),
       );
