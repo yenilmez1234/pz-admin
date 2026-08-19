@@ -1,4 +1,10 @@
+# Generated code and build output
 bindings/
 dist/
+src/data/items/
+src/data/vehicles/
+src/i18n/generated/
+
+# Dependency manager-owned files
 node_modules/
 pnpm-lock.yaml
