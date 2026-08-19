@@ -12,18 +12,30 @@ export interface RawItemCatalogCategory {
 }
 
 export interface RawItemCatalogEntry {
+  displayCategory?: string;
+  dynamicMoveable?: boolean;
   id: string;
+  icon?: string | null;
   images: string[];
+  itemType?: string;
+  lootCategory?: string;
   name: string;
+  tags?: string[];
 }
 
 export interface ItemCatalogEntry {
   build: GameBuild;
   category: string;
+  defaultName: string;
+  displayCategory?: string;
+  dynamicMoveable?: boolean;
   id: string;
+  icon?: string | null;
   images: string[];
+  itemType?: string;
+  lootCategory?: string;
   name: string;
-  wikiName: string;
+  tags?: string[];
 }
 
 export interface ItemCatalogCategory {

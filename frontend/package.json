@@ -7,7 +7,7 @@
     "dev": "vite",
     "build:dev": "tsc && vite build --minify false --mode development",
     "build": "tsc && vite build --mode production",
-    "check": "pnpm translations:check && pnpm lint && pnpm format:check && tsc",
+    "check": "pnpm translations:check && pnpm items:test-generator && pnpm lint && pnpm format:check && tsc",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "oxlint --type-aware --deny-warnings src vite.config.ts",
@@ -16,6 +16,8 @@
     "vehicles:generate": "node ./scripts/generate-vehicle-catalog.mjs",
     "vehicles:scrape-b42": "node ./scripts/scrape-vehicles-b42.mjs",
     "items:scrape": "node ./scripts/scrape-items.mjs",
+    "items:generate-hybrid": "node ./scripts/generate-hybrid-item-catalog.mjs",
+    "items:test-generator": "node --test ./scripts/game-item-catalog.test.mjs",
     "items:translate": "node ./scripts/generate-item-translations.mjs",
     "skills:translate": "node ./scripts/generate-skill-translations.mjs",
     "translations:check": "node ./scripts/check-translations.mjs"

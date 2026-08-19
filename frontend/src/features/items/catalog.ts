@@ -35,17 +35,25 @@ function prepareCatalog(
       const item: ItemCatalogEntry = {
         build,
         category: rawCategory.name,
+        defaultName: rawItem.name,
+        displayCategory: rawItem.displayCategory,
+        dynamicMoveable: rawItem.dynamicMoveable,
         id: rawItem.id,
+        icon: rawItem.icon,
         images: rawItem.images,
+        itemType: rawItem.itemType,
+        lootCategory: rawItem.lootCategory,
         name: translatedItemName(build, language, rawItem.id) ?? rawItem.name,
-        wikiName: rawItem.name,
+        tags: rawItem.tags,
       };
       category.itemIds.push(item.id);
       items.push(item);
       itemsById.set(item.id, item);
       searchIndex.set(
         item.id,
-        `${item.name} ${item.wikiName} ${item.id}`.toLocaleLowerCase(language),
+        `${item.name} ${item.defaultName} ${item.id}`.toLocaleLowerCase(
+          language,
+        ),
       );
     }
 

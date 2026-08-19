@@ -48,7 +48,7 @@ function parseArgs(argv) {
   return args;
 }
 
-function resolveSource(build, requestedRevision) {
+export function resolveItemWikiSource(build, requestedRevision) {
   const configuredSource = sources[build];
   const revision =
     requestedRevision === "latest"
@@ -101,7 +101,7 @@ function imageFilename(itemId, index, imageUrl) {
   return `${safeId}_${index}${imageExtension(imageUrl)}`;
 }
 
-function parseCatalog(html, build, source) {
+export function parseItemWikiCatalog(html, build, source) {
   const $ = cheerio.load(html);
   const categories = [];
   const itemIds = new Set();
@@ -229,7 +229,7 @@ async function downloadImage(download, outputDirectory) {
   }
 }
 
-async function downloadImages(downloads, outputDirectory) {
+export async function downloadItemWikiImages(downloads, outputDirectory) {
   await fs.mkdir(outputDirectory, { recursive: true });
   let nextIndex = 0;
 
@@ -247,12 +247,12 @@ async function downloadImages(downloads, outputDirectory) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const source = resolveSource(args.build, args.revision);
+  const source = resolveItemWikiSource(args.build, args.revision);
   const html = await fetchCatalogHtml(source.url);
-  const { catalog, downloads } = parseCatalog(html, args.build, source);
+  const { catalog, downloads } = parseItemWikiCatalog(html, args.build, source);
 
   if (!args.skipImages) {
-    await downloadImages(
+    await downloadItemWikiImages(
       downloads,
       path.join(FRONTEND_DIR, "public", "items", args.build),
     );
@@ -279,7 +279,16 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-});
+const invokedPath = process.argv[1] && path.resolve(process.argv[1]);
+if (invokedPath === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
+}
+
+export async function scrapeItemWikiCatalog(build, requestedRevision) {
+  const source = resolveItemWikiSource(build, requestedRevision);
+  const html = await fetchCatalogHtml(source.url);
+  return parseItemWikiCatalog(html, build, source);
+}
