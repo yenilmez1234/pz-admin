@@ -1,6 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { findTranslationDirectory } from "../../translations/game-files.mjs";
+import {
+  decodeLuaString,
+  findTranslationDirectory,
+  readGameTranslationFile,
+} from "../../translations/game-files.mjs";
 
 export const lootCategoryTranslationKeys = {
   Ammo: "Sandbox_AmmoLootNew",
@@ -28,6 +32,31 @@ export const lootCategoryTranslationKeys = {
 };
 
 export const lootCategoryOrder = Object.keys(lootCategoryTranslationKeys);
+
+const lootCategoryEnglishNames = {
+  Ammo: "Ammo",
+  CannedFood: "Non-Perishable Food",
+  Clothing: "Clothing",
+  Container: "Bags",
+  Cookware: "Cooking",
+  Farming: "Farming",
+  Food: "Perishable Food",
+  Generator: "Generators",
+  Key: "Keys",
+  Literature: "Other Literature",
+  Material: "Material",
+  Mechanics: "Mechanics",
+  Medical: "Medical",
+  Media: "Media",
+  Memento: "Mementos",
+  Other: "Other",
+  RangedWeapon: "Ranged Weapons",
+  RecipeResource: "Recipe Resources",
+  SkillBook: "Skill Books",
+  SurvivalGears: "Survival Essentials",
+  Tool: "Tools",
+  Weapon: "Melee Weapons",
+};
 
 export function translatedLootCategoryNames(translations, requireAll = true) {
   return Object.fromEntries(
@@ -148,25 +177,34 @@ function booleanProperty(properties, name) {
 }
 
 function itemType(properties) {
-  return properties.ItemType?.split(":").at(-1)?.toLowerCase() ?? null;
+  return (
+    (properties.ItemType ?? properties.Type)
+      ?.split(":")
+      .at(-1)
+      ?.toLowerCase() ?? null
+  );
 }
 
 function itemTags(properties) {
   return (properties.Tags ?? "")
     .split(";")
-    .map((tag) => tag.trim().toLowerCase())
+    .map((tag) =>
+      tag
+        .trim()
+        .toLowerCase()
+        .replace(/^base:/, ""),
+    )
     .filter(Boolean);
 }
 
-// Mirrors Build 42's ItemPickerJava.getLootType ordering. Keeping the rules
-// here makes the generated category explainable and testable without starting
-// the game runtime.
-export function build42LootCategory(item) {
+// Mirrors Build 42's ItemPickerJava.getLootType ordering. Build 41 did not
+// expose loot types, so equivalent legacy properties feed the same taxonomy.
+export function itemLootCategory(item) {
   const { properties } = item;
   const category = properties.DisplayCategory ?? null;
   const type = itemType(properties);
   const tags = new Set(itemTags(properties));
-  const hasTag = (tag) => tags.has(`base:${tag}`);
+  const hasTag = (tag) => tags.has(tag);
 
   if (
     item.name === "Generator" ||
@@ -241,8 +279,8 @@ export function build42LootCategory(item) {
 }
 
 export async function readGameItems(gameDirectory, build) {
-  if (build !== "42") {
-    throw new Error("Hybrid item extraction currently supports Build 42 only");
+  if (build !== "41" && build !== "42") {
+    throw new Error("Build must be 41 or 42");
   }
 
   const scriptsDirectory = await findGameScriptsDirectory(gameDirectory);
@@ -252,7 +290,10 @@ export async function readGameItems(gameDirectory, build) {
     for (const item of parseItemBlocks(content, sourcePath)) {
       // Actual inventory definitions have both fields. Other script constructs
       // can also use `item` blocks and are intentionally ignored.
-      if (!item.properties.ItemType || !item.properties.DisplayCategory)
+      if (
+        !(item.properties.ItemType ?? item.properties.Type) ||
+        !item.properties.DisplayCategory
+      )
         continue;
       const previous = definitions.get(item.id);
       if (previous && previous.sourcePath !== item.sourcePath) {
@@ -266,9 +307,32 @@ export async function readGameItems(gameDirectory, build) {
   return definitions;
 }
 
-export async function readEnglishItemMetadata(gameDirectory) {
+function parseLegacyItemNames(content) {
+  return Object.fromEntries(
+    content.split(/\r?\n/).flatMap((line) => {
+      const match = line.match(
+        /^\s*ItemName_(\S+)\s*=\s*"(.*)"\s*,?\s*(?:--.*)?$/,
+      );
+      return match ? [[match[1], decodeLuaString(match[2])]] : [];
+    }),
+  );
+}
+
+export async function readEnglishItemMetadata(gameDirectory, build) {
   const translationDirectory = await findTranslationDirectory(gameDirectory);
   const englishDirectory = path.join(translationDirectory, "EN");
+  if (build === "41") {
+    const { content } = await readGameTranslationFile(
+      englishDirectory,
+      "ItemName_EN.txt",
+    );
+    return {
+      lootCategoryNames: lootCategoryEnglishNames,
+      names: parseLegacyItemNames(content),
+    };
+  }
+  if (build !== "42") throw new Error("Build must be 41 or 42");
+
   const [names, sandbox] = await Promise.all([
     fs
       .readFile(path.join(englishDirectory, "ItemName.json"), "utf8")
@@ -285,7 +349,7 @@ export function gameItemMetadata(item, lootCategory) {
   return {
     displayCategory: item.properties.DisplayCategory,
     icon: item.properties.Icon ?? null,
-    itemType: item.properties.ItemType,
+    itemType: itemType(item.properties),
     lootCategory,
     tags: itemTags(item.properties),
   };

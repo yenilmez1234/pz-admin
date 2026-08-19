@@ -6,8 +6,8 @@ import prettier from "prettier";
 import { frontendRoot } from "../../shared/paths.mjs";
 import { disambiguateItemNames } from "./name-disambiguation.mjs";
 import {
-  build42LootCategory,
   gameItemMetadata,
+  itemLootCategory,
   lootCategoryOrder,
   readEnglishItemMetadata,
   readGameItems,
@@ -34,8 +34,8 @@ function parseArgs(argv) {
     else throw new Error(`Unknown argument: ${argument}`);
   }
 
-  if (args.build !== "42") {
-    throw new Error("Build is required and must be 42 (--build 42)");
+  if (args.build !== "41" && args.build !== "42") {
+    throw new Error("Build is required and must be 41 or 42 (--build <build>)");
   }
   if (!args.gameDirectory) {
     throw new Error("Game directory is required (--game-dir <path>)");
@@ -89,13 +89,13 @@ function hybridCatalog(wikiCatalog, gameItems, itemNames, categoryNames) {
 
     const gameName = itemNames[gameId];
     if (typeof gameName !== "string") missingNames.push(wikiItem.id);
-    const lootCategory = build42LootCategory(gameItem);
+    const lootCategory = itemLootCategory(gameItem);
     items.push({
       id: wikiItem.id,
       images: wikiItem.images,
       name: gameName ?? wikiItem.name,
       ...gameItemMetadata(gameItem, lootCategory),
-      dynamicMoveable,
+      ...(dynamicMoveable ? { dynamicMoveable: true } : {}),
     });
   }
 
@@ -135,7 +135,7 @@ async function main() {
     await Promise.all([
       scrapeItemWikiCatalog(args.build, args.revision),
       readGameItems(gameDirectory, args.build),
-      readEnglishItemMetadata(gameDirectory),
+      readEnglishItemMetadata(gameDirectory, args.build),
     ]);
 
   const { catalog, missingNames } = hybridCatalog(

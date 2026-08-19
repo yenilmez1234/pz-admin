@@ -1,10 +1,27 @@
 {
   "category": {
+    "Ammo": "Munição",
+    "CannedFood": "Comida Não Perecível",
     "Clothing": "Roupa",
-    "Container": "Contentor",
-    "Food": "Comida",
+    "Container": "Sacos",
+    "Cookware": "Cozinhar",
+    "Farming": "Agricultura",
+    "Food": "Comida Perecível",
+    "Generator": "Geradores",
+    "Key": "Chaves",
     "Literature": "Literatura",
-    "Weapon": "Arma"
+    "Material": "Material",
+    "Mechanics": "Mecânicas",
+    "Medical": "Medicamentos",
+    "Media": "Multimédia",
+    "Memento": "Lembranças",
+    "Other": "Outros",
+    "RangedWeapon": "Armas de Ataque à Distância",
+    "RecipeResource": "Recursos de Receitas",
+    "SkillBook": "Livros de Habilidade",
+    "SurvivalGears": "Essenciais para Sobrevivência",
+    "Tool": "Ferramentas",
+    "Weapon": "Armas de Luta Corpo a Corpo"
   },
   "item": {
     "Base.9mmClip": "Carregador de 9mm",

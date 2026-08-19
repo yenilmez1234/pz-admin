@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-  build42LootCategory,
+  itemLootCategory,
+  gameItemMetadata,
   lootCategoryTranslationKeys,
   translatedLootCategoryNames,
 } from "./game-data.mjs";
@@ -41,13 +42,13 @@ test("classifies representative Build 42 loot groups", () => {
   ];
 
   for (const [name, properties, expected] of cases) {
-    assert.equal(build42LootCategory(item(name, properties)), expected);
+    assert.equal(itemLootCategory(item(name, properties)), expected);
   }
 });
 
 test("falls back to Other when no loot rule matches", () => {
   assert.equal(
-    build42LootCategory(
+    itemLootCategory(
       item("Unclassified", {
         DisplayCategory: "Misc",
         ItemType: "base:normal",
@@ -55,6 +56,52 @@ test("falls back to Other when no loot rule matches", () => {
     ),
     "Other",
   );
+});
+
+test("supports equivalent Build 41 item properties", () => {
+  assert.equal(
+    itemLootCategory(
+      item("Pistol", {
+        DisplayCategory: "Weapon",
+        Ranged: "true",
+        Type: "Weapon",
+      }),
+    ),
+    "RangedWeapon",
+  );
+  assert.equal(
+    itemLootCategory(
+      item("FarmingSupply", {
+        DisplayCategory: "Misc",
+        Tags: "FarmingLoot",
+        Type: "Normal",
+      }),
+    ),
+    "Farming",
+  );
+});
+
+test("normalizes equivalent metadata across builds", () => {
+  const build41 = gameItemMetadata(
+    item("Axe", {
+      DisplayCategory: "ToolWeapon",
+      Icon: "Axe",
+      Tags: "ChopTree;CutPlant",
+      Type: "Weapon",
+    }),
+    "Tool",
+  );
+  const build42 = gameItemMetadata(
+    item("Axe", {
+      DisplayCategory: "ToolWeapon",
+      Icon: "Axe",
+      ItemType: "base:weapon",
+      Tags: "base:ChopTree;base:CutPlant",
+    }),
+    "Tool",
+  );
+
+  assert.deepEqual(build41, build42);
 });
 
 test("maps every loot category to its game translation", () => {
