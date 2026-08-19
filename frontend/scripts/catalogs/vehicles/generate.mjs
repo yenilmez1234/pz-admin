@@ -14,14 +14,14 @@ import path from "node:path";
 import { frontendRoot } from "../../shared/paths.mjs";
 
 function parseArgs(argv) {
-  const args = { build: "41" };
+  const args = { build: undefined };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--") continue;
     if (argv[i] === "--build") args.build = argv[++i];
     else throw new Error(`Unknown argument: ${argv[i]}`);
   }
   if (args.build !== "41" && args.build !== "42") {
-    throw new Error("Build must be 41 or 42");
+    throw new Error("Build is required and must be 41 or 42 (--build <build>)");
   }
   return args;
 }
@@ -186,6 +186,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Error processing vehicles data:", error);
+  console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });

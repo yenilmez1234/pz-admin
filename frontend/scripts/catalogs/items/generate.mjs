@@ -16,7 +16,7 @@ import { downloadItemWikiImages, scrapeItemWikiCatalog } from "./wiki.mjs";
 
 function parseArgs(argv) {
   const args = {
-    build: "42",
+    build: undefined,
     gameDirectory: undefined,
     output: undefined,
     revision: undefined,
@@ -35,7 +35,7 @@ function parseArgs(argv) {
   }
 
   if (args.build !== "42") {
-    throw new Error("Hybrid item extraction currently supports Build 42 only");
+    throw new Error("Build is required and must be 42 (--build 42)");
   }
   if (!args.gameDirectory) {
     throw new Error("Game directory is required (--game-dir <path>)");
