@@ -15,8 +15,10 @@
     "typeAware": true,
   },
   "plugins": [
+    "eslint",
     "import",
     "jsx-a11y",
+    "oxc",
     "promise",
     "react",
     "typescript",
