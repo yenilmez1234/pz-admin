@@ -13,7 +13,7 @@ import {
 import { useForm } from "@mantine/form";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
-import { isOnline } from "../../lib/status";
+import { isOnline } from "../../status";
 
 type TeleportMode = "coordinates" | "player";
 

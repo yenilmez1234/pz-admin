@@ -3,15 +3,13 @@ import { IconDots } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import { useSession } from "@/features/session/useSession";
-import { isOnline } from "../lib/status";
-import { hasProtectedModerationRole } from "../lib/table";
-import { usePlayerActions } from "../actions/PlayerActionsProvider";
-import {
-  PlayerAccountMenuItems,
-  PlayerEventMenuItems,
-  PlayerGiveMenuItems,
-} from "./PlayerActionGroupItems";
-import { PlayerModeMenuItems } from "./PlayerModeMenuItems";
+import { isOnline } from "../../status";
+import { hasProtectedModerationRole } from "../../table/table";
+import { usePlayerActions } from "../PlayerActionsProvider";
+import { PlayerEventMenuItems } from "../events/PlayerEventMenuItems";
+import { PlayerGiveMenuItems } from "../give/PlayerGiveMenuItems";
+import { SetPasswordMenuItem } from "../moderation/SetPasswordMenuItem";
+import { PlayerPowerMenuItems } from "../powers/PlayerPowerMenuItems";
 
 interface PlayerActionsMenuProps {
   player: Player;
@@ -24,6 +22,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
   const build = profile?.version === "41" ? "41" : "42";
   const online = isOnline(player);
   const moderationProtected = hasProtectedModerationRole(player, build);
+  const onlineOnlyMessage = t("actions.menu.onlineOnlyExplanation");
   const protectedRoleMessage = t("actions.menu.protectedRoleExplanation");
 
   return (
@@ -52,11 +51,21 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
       </Menu.Target>
 
       <Menu.Dropdown>
-        {online ? (
-          <Menu.Item onClick={() => actions.openTeleport([player])}>
-            {t("actions.labels.teleport")}
-          </Menu.Item>
-        ) : null}
+        <Tooltip
+          disabled={online}
+          label={onlineOnlyMessage}
+          position="right"
+          withinPortal
+        >
+          <Box component="span" display="block">
+            <Menu.Item
+              disabled={!online}
+              onClick={() => actions.openTeleport([player])}
+            >
+              {t("actions.labels.teleport")}
+            </Menu.Item>
+          </Box>
+        </Tooltip>
 
         <Menu.Sub>
           <Menu.Sub.Target>
@@ -66,7 +75,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
             <Menu.Item onClick={() => actions.openAccessLevel([player])}>
               {t("actions.labels.setAccessLevel")}
             </Menu.Item>
-            <PlayerAccountMenuItems players={[player]} />
+            <SetPasswordMenuItem players={[player]} />
             <Tooltip
               disabled={!moderationProtected || player.banned === true}
               label={protectedRoleMessage}
@@ -88,24 +97,32 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
                 </Menu.Item>
               </Box>
             </Tooltip>
-            {online ? (
-              <>
-                <Tooltip
-                  disabled={!moderationProtected}
-                  label={protectedRoleMessage}
-                  position="right"
-                  withinPortal
-                >
-                  <Box component="span" display="block">
-                    <Menu.Item
-                      disabled={moderationProtected}
-                      onClick={() => actions.openKick([player])}
-                    >
-                      {t("actions.labels.kick")}
-                    </Menu.Item>
-                  </Box>
-                </Tooltip>
+            <Tooltip
+              disabled={online && !moderationProtected}
+              label={
+                moderationProtected ? protectedRoleMessage : onlineOnlyMessage
+              }
+              position="right"
+              withinPortal
+            >
+              <Box component="span" display="block">
                 <Menu.Item
+                  disabled={!online || moderationProtected}
+                  onClick={() => actions.openKick([player])}
+                >
+                  {t("actions.labels.kick")}
+                </Menu.Item>
+              </Box>
+            </Tooltip>
+            <Tooltip
+              disabled={online}
+              label={onlineOnlyMessage}
+              position="right"
+              withinPortal
+            >
+              <Box component="span" display="block">
+                <Menu.Item
+                  disabled={!online}
                   onClick={() =>
                     actions.setVoiceBanned(
                       [player],
@@ -117,8 +134,8 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
                     ? t("actions.labels.removeVoiceBan")
                     : t("actions.labels.voiceBan")}
                 </Menu.Item>
-              </>
-            ) : null}
+              </Box>
+            </Tooltip>
             <Menu.Item
               onClick={() => actions.openRemoveFromWhitelist([player])}
             >
@@ -134,7 +151,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
                 <Menu.Sub.Item>{t("actions.groups.powers")}</Menu.Sub.Item>
               </Menu.Sub.Target>
               <Menu.Sub.Dropdown>
-                <PlayerModeMenuItems player={player} />
+                <PlayerPowerMenuItems player={player} />
               </Menu.Sub.Dropdown>
             </Menu.Sub>
 

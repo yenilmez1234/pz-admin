@@ -10,39 +10,33 @@ import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
 import { usePlayers } from "@/features/players/PlayersProvider";
 import { useSession } from "@/features/session/useSession";
-import { AddLocalPlayerModal } from "../components/dialogs/AddLocalPlayerModal";
-import { AddServerUserModal } from "../components/dialogs/AddServerUserModal";
-import { AddXpModal } from "../components/dialogs/AddXpModal";
-import { BanPlayerModal } from "../components/dialogs/BanPlayerModal";
-import { CreateHordeModal } from "../components/dialogs/CreateHordeModal";
-import { GiveItemsModal } from "../components/dialogs/GiveItemsModal";
-import { KickPlayerModal } from "../components/dialogs/KickPlayerModal";
-import { LightningPlayerModal } from "../components/dialogs/LightningPlayerModal";
-import { RemoveFromWhitelistModal } from "../components/dialogs/RemoveFromWhitelistModal";
-import { SetAccessLevelModal } from "../components/dialogs/SetAccessLevelModal";
-import { SetPasswordModal } from "../components/dialogs/SetPasswordModal";
-import { SpawnVehicleModal } from "../components/dialogs/SpawnVehicleModal";
-import { TeleportPlayerModal } from "../components/dialogs/TeleportPlayerModal";
-import { ThunderPlayerModal } from "../components/dialogs/ThunderPlayerModal";
+import { AddLocalPlayerModal } from "./creation/AddLocalPlayerModal";
+import { AddServerUserModal } from "./creation/AddServerUserModal";
+import { addLocalPlayer, addServerUser } from "./creation/actions";
+import { CreateHordeModal } from "./events/CreateHordeModal";
+import { LightningPlayerModal } from "./events/LightningPlayerModal";
+import { ThunderPlayerModal } from "./events/ThunderPlayerModal";
+import { createHorde, lightning, thunder } from "./events/actions";
+import { AddXpModal } from "./give/AddXpModal";
+import { GiveItemsModal } from "./give/GiveItemsModal";
+import { SpawnVehicleModal } from "./give/SpawnVehicleModal";
+import { addXp, giveItems, spawnVehicle } from "./give/actions";
+import { BanPlayerModal } from "./moderation/BanPlayerModal";
+import { KickPlayerModal } from "./moderation/KickPlayerModal";
+import { RemoveFromWhitelistModal } from "./moderation/RemoveFromWhitelistModal";
+import { SetAccessLevelModal } from "./moderation/SetAccessLevelModal";
+import { SetPasswordModal } from "./moderation/SetPasswordModal";
 import {
-  addLocalPlayer,
-  addServerUser,
-  addXp,
   ban,
-  createHorde,
-  giveItems,
   kick,
-  lightning,
   removeFromWhitelist,
   setAccessLevel,
   setPassword,
   setVoiceBanned,
-  spawnVehicle,
-  teleportToCoordinates,
-  teleportToPlayer,
-  thunder,
   unban,
-} from "./playerActions";
+} from "./moderation/actions";
+import { TeleportPlayerModal } from "./teleport/TeleportPlayerModal";
+import { teleportToCoordinates, teleportToPlayer } from "./teleport/actions";
 
 type DialogType =
   | "accessLevel"

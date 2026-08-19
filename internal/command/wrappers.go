@@ -32,6 +32,18 @@ func (c *Client) AddItem(ctx context.Context, username, item string, count int) 
 	return res.(string), nil
 }
 
+// InviteToSafehouse invites a player to the named safehouse.
+func (c *Client) InviteToSafehouse(ctx context.Context, safehouse, username string) (string, error) {
+	res, err := Execute(ctx, c.exec, "addtosafehouse", c.version, map[string]string{
+		"safehouse": safehouse,
+		"username":  username,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
 // AddUser creates a new user account on a whitelisted server.
 func (c *Client) AddUser(ctx context.Context, username, password string) (string, error) {
 	res, err := Execute(ctx, c.exec, "adduser", c.version, map[string]string{
@@ -212,6 +224,18 @@ func (c *Client) Kick(ctx context.Context, username, reason string) (string, err
 	return res.(string), nil
 }
 
+// RemoveFromSafehouse removes a player directly from the named safehouse.
+func (c *Client) RemoveFromSafehouse(ctx context.Context, safehouse, username string) (string, error) {
+	res, err := Execute(ctx, c.exec, "kickfromsafehouse", c.version, map[string]string{
+		"safehouse": safehouse,
+		"username":  username,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
 // Lightning strikes lightning on a player.
 func (c *Client) Lightning(ctx context.Context, username string) (string, error) {
 	res, err := Execute(ctx, c.exec, "lightning", c.version, map[string]string{
@@ -246,6 +270,17 @@ func (c *Client) Players(ctx context.Context) ([]string, error) {
 // Quit saves and quits the server.
 func (c *Client) Quit(ctx context.Context) (string, error) {
 	res, err := Execute(ctx, c.exec, "quit", c.version, nil)
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
+// ReleaseSafehouse releases the named safehouse.
+func (c *Client) ReleaseSafehouse(ctx context.Context, safehouse string) (string, error) {
+	res, err := Execute(ctx, c.exec, "releasesafehouse", c.version, map[string]string{
+		"safehouse": safehouse,
+	})
 	if err != nil {
 		return "", err
 	}

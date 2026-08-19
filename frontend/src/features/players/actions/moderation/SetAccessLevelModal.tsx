@@ -4,7 +4,7 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
-import { accessLevelColor } from "../../lib/table";
+import { accessLevelColor } from "../../table/table";
 
 const build41AccessLevels = [
   "none",

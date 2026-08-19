@@ -17,7 +17,7 @@ import {
   filterAndSortPlayers,
   type PlayerSorting,
   type SortColumn,
-} from "../lib/table";
+} from "./table";
 import { usePlayerActions } from "../actions/PlayerActionsProvider";
 import { PlayerTableHeader } from "./PlayerTableHeader";
 import { PlayerTableRow } from "./PlayerTableRow";

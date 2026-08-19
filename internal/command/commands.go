@@ -196,6 +196,29 @@ var definitions = []Definition{
 		},
 	},
 
+	// addToSafehouse invites a player to a safehouse.
+	//
+	// Usage: /addtosafehouse "safehouse" "username"
+	// Example: /addtosafehouse "Rosewood Base" "rj"
+	{
+		Name:       "addtosafehouse",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "safehouse", Type: TypeString, Required: true},
+			{Name: "username", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if matchesUsernameResponse(raw, args["username"], func(username string) string {
+				return fmt.Sprintf("Player %s invited to safehouse %s", username, args["safehouse"])
+			}) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// banID bans a Steam ID.
 	//
 	// Usage: /banid SteamID
@@ -939,6 +962,29 @@ var definitions = []Definition{
 		},
 	},
 
+	// kickFromSafehouse removes a player directly from a safehouse.
+	//
+	// Usage: /kickfromsafehouse "safehouse" "username"
+	// Example: /kickfromsafehouse "Rosewood Base" "rj"
+	{
+		Name:       "kickfromsafehouse",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "safehouse", Type: TypeString, Required: true},
+			{Name: "username", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if matchesUsernameResponse(raw, args["username"], func(username string) string {
+				return fmt.Sprintf("Player %s kicked from a safehouse %s", username, args["safehouse"])
+			}) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// noClip makes a player pass through walls and structures.
 	//
 	// Usage: /noclip "username" -value
@@ -960,6 +1006,26 @@ var definitions = []Definition{
 				}
 				return fmt.Sprintf("User %s will collide.", username)
 			}) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
+	// releaseSafehouse releases the named safehouse.
+	//
+	// Usage: /releasesafehouse "safehouse"
+	// Example: /releasesafehouse "Rosewood Base"
+	{
+		Name:       "releasesafehouse",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "safehouse", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if raw == fmt.Sprintf("Safehouse %s released", args["safehouse"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)

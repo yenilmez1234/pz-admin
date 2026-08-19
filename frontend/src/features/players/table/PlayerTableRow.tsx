@@ -6,8 +6,8 @@ import {
   accessLevelKey,
   lastSeenLabel,
   playerAccessLevel,
-} from "../lib/table";
-import { PlayerActionsMenu } from "./PlayerActionsMenu";
+} from "./table";
+import { PlayerActionsMenu } from "../actions/menu/PlayerActionsMenu";
 
 interface PlayerStatusProps {
   player: Player;

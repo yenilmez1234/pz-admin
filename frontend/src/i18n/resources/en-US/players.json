@@ -34,6 +34,7 @@
   "actions": {
     "menu": {
       "accessibleLabel": "Open actions for {{username}}",
+      "onlineOnlyExplanation": "This action requires the player to be online",
       "protectedRoleExplanation": "Admins and moderators cannot be banned or kicked"
     },
     "groups": {
@@ -59,7 +60,7 @@
       "unban": "Unban",
       "voiceBan": "Voice Ban"
     },
-    "modes": {
+    "powers": {
       "invisible": {
         "label": "Invisibility",
         "enable": "Enable Invisibility",

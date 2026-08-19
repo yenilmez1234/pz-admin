@@ -5,7 +5,7 @@ import {
   IconChevronUp,
 } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import type { PlayerSorting, SortColumn } from "../lib/table";
+import type { PlayerSorting, SortColumn } from "./table";
 
 interface SortableHeaderProps {
   column: SortColumn;

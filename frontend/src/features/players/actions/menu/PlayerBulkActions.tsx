@@ -12,15 +12,13 @@ import { IconChevronDown, IconX } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import { useSession } from "@/features/session/useSession";
-import { usePlayerActions } from "../actions/PlayerActionsProvider";
-import { isOnline } from "../lib/status";
-import { hasProtectedModerationRole } from "../lib/table";
-import { BulkPlayerModeMenuItems } from "./PlayerModeMenuItems";
-import {
-  PlayerAccountMenuItems,
-  PlayerEventMenuItems,
-  PlayerGiveMenuItems,
-} from "./PlayerActionGroupItems";
+import { isOnline } from "../../status";
+import { hasProtectedModerationRole } from "../../table/table";
+import { usePlayerActions } from "../PlayerActionsProvider";
+import { PlayerEventMenuItems } from "../events/PlayerEventMenuItems";
+import { PlayerGiveMenuItems } from "../give/PlayerGiveMenuItems";
+import { SetPasswordMenuItem } from "../moderation/SetPasswordMenuItem";
+import { BulkPlayerPowerMenuItems } from "../powers/PlayerPowerMenuItems";
 
 interface PlayerBulkActionsProps {
   onClear: () => void;
@@ -102,7 +100,7 @@ export function PlayerBulkActions({
               <Menu.Item onClick={() => actions.openAccessLevel(players)}>
                 {t("actions.labels.setAccessLevel")}
               </Menu.Item>
-              <PlayerAccountMenuItems players={players} />
+              <SetPasswordMenuItem players={players} />
               <Tooltip
                 disabled={!hasProtectedPlayer}
                 label={protectedRoleMessage}
@@ -176,41 +174,36 @@ export function PlayerBulkActions({
             </Menu.Sub.Dropdown>
           </Menu.Sub>
 
-          <Menu.Sub>
-            <Menu.Sub.Target>
-              <Menu.Sub.Item disabled={!allOnline}>
-                {t("actions.groups.powers")}
-              </Menu.Sub.Item>
-            </Menu.Sub.Target>
-            <Menu.Sub.Dropdown>
-              <BulkPlayerModeMenuItems
-                disabled={!allOnline}
-                players={players}
-              />
-            </Menu.Sub.Dropdown>
-          </Menu.Sub>
+          {allOnline ? (
+            <>
+              <Menu.Sub>
+                <Menu.Sub.Target>
+                  <Menu.Sub.Item>{t("actions.groups.powers")}</Menu.Sub.Item>
+                </Menu.Sub.Target>
+                <Menu.Sub.Dropdown>
+                  <BulkPlayerPowerMenuItems players={players} />
+                </Menu.Sub.Dropdown>
+              </Menu.Sub>
 
-          <Menu.Sub>
-            <Menu.Sub.Target>
-              <Menu.Sub.Item disabled={!allOnline}>
-                {t("actions.groups.give")}
-              </Menu.Sub.Item>
-            </Menu.Sub.Target>
-            <Menu.Sub.Dropdown>
-              <PlayerGiveMenuItems disabled={!allOnline} players={players} />
-            </Menu.Sub.Dropdown>
-          </Menu.Sub>
+              <Menu.Sub>
+                <Menu.Sub.Target>
+                  <Menu.Sub.Item>{t("actions.groups.give")}</Menu.Sub.Item>
+                </Menu.Sub.Target>
+                <Menu.Sub.Dropdown>
+                  <PlayerGiveMenuItems players={players} />
+                </Menu.Sub.Dropdown>
+              </Menu.Sub>
 
-          <Menu.Sub>
-            <Menu.Sub.Target>
-              <Menu.Sub.Item disabled={!allOnline}>
-                {t("actions.groups.events")}
-              </Menu.Sub.Item>
-            </Menu.Sub.Target>
-            <Menu.Sub.Dropdown>
-              <PlayerEventMenuItems disabled={!allOnline} players={players} />
-            </Menu.Sub.Dropdown>
-          </Menu.Sub>
+              <Menu.Sub>
+                <Menu.Sub.Target>
+                  <Menu.Sub.Item>{t("actions.groups.events")}</Menu.Sub.Item>
+                </Menu.Sub.Target>
+                <Menu.Sub.Dropdown>
+                  <PlayerEventMenuItems players={players} />
+                </Menu.Sub.Dropdown>
+              </Menu.Sub>
+            </>
+          ) : null}
         </Menu.Dropdown>
       </Menu>
 

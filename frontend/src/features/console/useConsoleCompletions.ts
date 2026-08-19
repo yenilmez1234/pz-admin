@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { GameBuild } from "@/features/game/types";
 import { loadItemCatalog } from "@/features/items/catalog";
-import { isOnline } from "@/features/players/lib/status";
+import { isOnline } from "@/features/players/status";
 import { loadSkillCatalog } from "@/features/skills/catalog";
 import { loadVehicleCatalog } from "@/features/vehicles/catalog";
 import { useAppConfig } from "@/features/config/AppConfigProvider";

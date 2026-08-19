@@ -34,6 +34,7 @@
   "actions": {
     "menu": {
       "accessibleLabel": "{{username}} için işlemleri aç",
+      "onlineOnlyExplanation": "Bu işlem için oyuncunun çevrimiçi olması gerekir",
       "protectedRoleExplanation": "Admin ve moderator rolleri yasaklanamaz veya atılamaz"
     },
     "groups": {
@@ -59,7 +60,7 @@
       "unban": "Yasağı Kaldır",
       "voiceBan": "Ses Yasağı"
     },
-    "modes": {
+    "powers": {
       "invisible": {
         "label": "Görünmezlik",
         "enable": "Görünmezliği Aç",

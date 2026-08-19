@@ -6,8 +6,8 @@ import { defaultLanguage } from "@/i18n/locales";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
 import { usePlayers } from "@/features/players/PlayersProvider";
-import { PlayerBulkActions } from "./PlayerBulkActions";
-import { PlayerTable } from "./PlayerTable";
+import { PlayerBulkActions } from "../actions/menu/PlayerBulkActions";
+import { PlayerTable } from "../table/PlayerTable";
 
 export function PlayersWorkspace() {
   const { t } = useTranslation(["players", "common"]);

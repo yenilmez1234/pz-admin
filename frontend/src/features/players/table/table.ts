@@ -1,6 +1,6 @@
 import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
-import { isOnline } from "./status";
+import { isOnline } from "../status";
 
 const unknownAccessLevelRank = -2;
 
