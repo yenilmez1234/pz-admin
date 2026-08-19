@@ -1,12 +1,13 @@
 import type { GameBuild } from "@/features/game/types";
 import { build41ConsoleCatalog } from "./catalogs/41";
+import { build42ConsoleCatalog } from "./catalogs/42";
 import { rankedConsoleSuggestions } from "./matching";
 import type { ConsoleCatalog, ConsoleCompletionValues } from "../types";
 
 const emptyCatalog: ConsoleCatalog = { commands: [], values: {} };
 const catalogs: Record<GameBuild, ConsoleCatalog> = {
   "41": build41ConsoleCatalog,
-  "42": emptyCatalog,
+  "42": build42ConsoleCatalog,
 };
 export const clearConsoleCommand = "cls";
 export const localConsoleCommandNames = [clearConsoleCommand];
@@ -21,7 +22,10 @@ const commandNames: Record<GameBuild, readonly string[]> = {
     ...localConsoleCommandNames,
     ...(build41ConsoleCatalog.values.commands ?? []),
   ]),
-  "42": localConsoleCommandNames,
+  "42": sortedStrings([
+    ...localConsoleCommandNames,
+    ...(build42ConsoleCatalog.values.commands ?? []),
+  ]),
 };
 const maximumSuggestions = 50;
 
