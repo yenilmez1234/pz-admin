@@ -14,8 +14,8 @@ import { useTranslation } from "react-i18next";
 import { XPGrant, type Player } from "@bindings/internal/player/models";
 import { SkillXpPicker } from "@/features/skills/components/SkillXpPicker";
 import type { GameBuild } from "@/features/game/types";
-import { useSkillCatalog } from "@/features/skills/useSkillCatalog";
-import { useSkillXpSelection } from "@/features/skills/useSkillXpSelection";
+import { useSkillCatalog } from "@/features/skills/hooks/useSkillCatalog";
+import { useSkillXpSelection } from "@/features/skills/hooks/useSkillXpSelection";
 
 interface AddXpModalProps {
   build: GameBuild;

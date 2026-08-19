@@ -3,7 +3,7 @@ import { Box } from "@mantine/core";
 import { ItemCatalogPane } from "./ItemCatalogPane";
 import { SelectedItemsPane } from "./SelectedItemsPane";
 import type { ItemCatalog } from "@/features/items/types";
-import type { ItemSelectionController } from "@/features/items/useItemSelection";
+import type { ItemSelectionController } from "@/features/items/hooks/useItemSelection";
 import classes from "./ItemBrowser.module.css";
 
 interface ItemBrowserProps {

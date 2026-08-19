@@ -12,7 +12,7 @@ import { Events } from "@wailsio/runtime";
 import { Player } from "@bindings/internal/player/models";
 import { List } from "@bindings/internal/player/service";
 import { errorMessage } from "@/shared/lib/errors";
-import { useSession } from "@/features/session/useSession";
+import { useSession } from "@/features/session/SessionProvider";
 
 interface PlayersContextValue {
   error: string | null;

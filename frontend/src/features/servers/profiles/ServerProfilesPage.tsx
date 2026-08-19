@@ -16,13 +16,13 @@ import { IconAlertCircle, IconPlus, IconServer } from "@tabler/icons-react";
 import type { Profile } from "@bindings/internal/profile/models";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
-import { useSession } from "@/features/session/useSession";
+import { useSession } from "@/features/session/SessionProvider";
 import { errorMessage } from "@/shared/lib/errors";
-import { DeleteServerModal } from "./DeleteServerModal";
-import { ServerCard } from "./ServerCard";
-import { ServerFormModal } from "./ServerFormModal";
-import { useProfileDialog } from "./useProfileDialog";
-import { useServerProfiles } from "./useServerProfiles";
+import { DeleteServerModal } from "./components/DeleteServerModal";
+import { ServerCard } from "./components/ServerCard";
+import { ServerFormModal } from "./components/ServerFormModal";
+import { useProfileDialog } from "./hooks/useProfileDialog";
+import { useServerProfiles } from "./hooks/useServerProfiles";
 
 export function ServerProfilesPage() {
   const { t } = useTranslation(["servers", "common"]);

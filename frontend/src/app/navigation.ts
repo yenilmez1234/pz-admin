@@ -1,4 +1,4 @@
-export const appSections = ["server", "tools", "settings"] as const;
+const appSections = ["server", "tools", "settings"] as const;
 
 export type AppSection = (typeof appSections)[number];
 

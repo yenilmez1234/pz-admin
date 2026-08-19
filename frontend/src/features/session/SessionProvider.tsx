@@ -1,5 +1,7 @@
 import {
+  createContext,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useReducer,
@@ -17,9 +19,25 @@ import {
   Features as CurrentFeatures,
 } from "@bindings/internal/session/service";
 import { errorMessage } from "@/shared/lib/errors";
-import { sessionSnapshot } from "./sessionSnapshot";
-import { initialSessionData, sessionReducer } from "./sessionState";
-import { SessionContext, type SessionContextValue } from "./useSession";
+import { sessionSnapshot } from "./lib/sessionSnapshot";
+import {
+  initialSessionData,
+  sessionReducer,
+  type SessionState,
+} from "./lib/sessionState";
+
+interface SessionContextValue {
+  connect: (profile: Profile) => Promise<void>;
+  disconnect: () => Promise<void>;
+  features: ReadonlySet<string>;
+  initializationError: string | null;
+  profile: Profile | null;
+  retryInitialization: () => Promise<void>;
+  state: SessionState;
+  supports: (feature: string) => boolean;
+}
+
+const SessionContext = createContext<SessionContextValue | null>(null);
 
 interface SessionProviderProps {
   children: ReactNode;
@@ -177,4 +195,12 @@ export function SessionProvider({ children }: SessionProviderProps) {
   return (
     <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
   );
+}
+
+export function useSession() {
+  const context = useContext(SessionContext);
+  if (!context) {
+    throw new Error("useSession must be used within SessionProvider");
+  }
+  return context;
 }

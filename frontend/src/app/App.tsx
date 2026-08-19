@@ -3,7 +3,7 @@ import { ServerPage } from "@/features/servers/ServerPage";
 import { SettingsPage } from "@/features/settings/SettingsPage";
 import { ToolsPage } from "@/features/tools/ToolsPage";
 import type { AppSection } from "@/app/navigation";
-import { usePersistentNavigation } from "@/shared/layout/usePersistentNavigation";
+import { usePersistentNavigation } from "@/shared/hooks/usePersistentNavigation";
 
 function App() {
   const navigation = usePersistentNavigation<AppSection>("server");

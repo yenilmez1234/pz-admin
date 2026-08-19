@@ -10,11 +10,11 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
-import { VehicleDetails } from "@/features/vehicles/components/VehicleDetails";
-import { VehicleExplorer } from "@/features/vehicles/components/VehicleExplorer";
+import { VehicleDetails } from "@/features/vehicles/components/details/VehicleDetails";
+import { VehicleExplorer } from "@/features/vehicles/components/explorer/VehicleExplorer";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
-import { useVehicleCatalog } from "@/features/vehicles/useVehicleCatalog";
+import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 
 export function VehiclesPage() {
   const { t } = useTranslation(["vehicles", "common"]);

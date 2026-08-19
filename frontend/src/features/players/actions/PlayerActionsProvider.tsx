@@ -8,8 +8,8 @@ import {
 } from "react";
 import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
-import { usePlayers } from "@/features/players/PlayersProvider";
-import { useSession } from "@/features/session/useSession";
+import { useSession } from "@/features/session/SessionProvider";
+import { usePlayers } from "../PlayersProvider";
 import { AddLocalPlayerModal } from "./creation/AddLocalPlayerModal";
 import { AddServerUserModal } from "./creation/AddServerUserModal";
 import { addLocalPlayer, addServerUser } from "./creation/actions";

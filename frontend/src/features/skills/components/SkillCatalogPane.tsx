@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import type { SkillCatalog } from "@/features/skills/types";
-import type { SkillXpSelectionController } from "@/features/skills/useSkillXpSelection";
+import type { SkillXpSelectionController } from "@/features/skills/hooks/useSkillXpSelection";
 import classes from "./SkillXpPicker.module.css";
 
 interface SkillCatalogPaneProps {

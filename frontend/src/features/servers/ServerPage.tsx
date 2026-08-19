@@ -1,9 +1,9 @@
 import { SimpleGrid, Skeleton } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { PageContainer } from "@/shared/layout/PageContainer";
-import { useSession } from "@/features/session/useSession";
+import { useSession } from "@/features/session/SessionProvider";
+import { ServerWorkspace } from "./components/ServerWorkspace";
 import { ServerProfilesPage } from "./profiles/ServerProfilesPage";
-import { ServerWorkspace } from "./workspace/ServerWorkspace";
 
 export function ServerPage() {
   const { t } = useTranslation("session");

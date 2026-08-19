@@ -1,4 +1,4 @@
-import { vehicleNumericStats } from "./stats";
+import { vehicleNumericStats } from "./lib/stats";
 import i18n from "@/i18n";
 import { canonicalLanguage, defaultLanguage } from "@/i18n/locales";
 import type { GameBuild } from "@/features/game/types";

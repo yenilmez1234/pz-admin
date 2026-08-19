@@ -1,8 +1,8 @@
 import { Box, Combobox, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { useConsoleInput } from "@/features/console/useConsoleInput";
+import { useConsoleInput } from "@/features/console/hooks/useConsoleInput";
 import { ConsoleSuggestionList } from "./ConsoleSuggestionList";
-import classes from "./ConsolePage.module.css";
+import classes from "../ConsolePage.module.css";
 
 interface ConsoleInputProps {
   executing: boolean;

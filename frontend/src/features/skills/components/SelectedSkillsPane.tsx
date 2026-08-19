@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Button, Group, Paper, ScrollArea, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import type { SkillCatalog, SkillCatalogEntry } from "@/features/skills/types";
-import type { SkillXpSelectionController } from "@/features/skills/useSkillXpSelection";
+import type { SkillXpSelectionController } from "@/features/skills/hooks/useSkillXpSelection";
 import { SelectedSkill } from "./SelectedSkill";
 import classes from "./SkillXpPicker.module.css";
 

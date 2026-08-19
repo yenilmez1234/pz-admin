@@ -12,9 +12,9 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
-import { VehiclePicker } from "@/features/vehicles/components/VehiclePicker";
+import { VehiclePicker } from "@/features/vehicles/components/picker/VehiclePicker";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
-import { useVehicleCatalog } from "@/features/vehicles/useVehicleCatalog";
+import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 
 interface SpawnVehicleModalProps {
   build: GameBuild;

@@ -16,7 +16,7 @@ import type {
   SkillCatalogEntry,
   SkillProgression,
 } from "@/features/skills/types";
-import type { SkillXpChoice } from "@/features/skills/useSkillXpSelection";
+import type { SkillXpChoice } from "@/features/skills/hooks/useSkillXpSelection";
 import classes from "./SkillXpPicker.module.css";
 
 interface SelectedSkillProps {

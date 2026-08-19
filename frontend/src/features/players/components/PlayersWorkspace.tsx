@@ -5,9 +5,9 @@ import { useTranslation } from "react-i18next";
 import { defaultLanguage } from "@/i18n/locales";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
-import { usePlayers } from "@/features/players/PlayersProvider";
+import { usePlayers } from "../PlayersProvider";
 import { PlayerBulkActions } from "../actions/menu/PlayerBulkActions";
-import { PlayerTable } from "../table/PlayerTable";
+import { PlayerTable } from "./table/PlayerTable";
 
 export function PlayersWorkspace() {
   const { t } = useTranslation(["players", "common"]);

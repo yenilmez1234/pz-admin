@@ -2,7 +2,7 @@ import {
   loadItemTranslations,
   translatedItemCategoryName,
   translatedItemName,
-} from "./translations";
+} from "./lib/translations";
 import type { GameBuild } from "@/features/game/types";
 import { canonicalLanguage } from "@/i18n/locales";
 import type {

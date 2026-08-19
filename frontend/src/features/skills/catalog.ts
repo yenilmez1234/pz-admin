@@ -4,7 +4,7 @@ import {
   loadSkillTranslations,
   translatedSkillCategoryName,
   translatedSkillName,
-} from "./translations";
+} from "./lib/translations";
 import type {
   RawSkillCatalogData,
   SkillCatalog,

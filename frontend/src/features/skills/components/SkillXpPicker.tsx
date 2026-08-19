@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Box } from "@mantine/core";
 import type { SkillCatalog } from "@/features/skills/types";
-import type { SkillXpSelectionController } from "@/features/skills/useSkillXpSelection";
+import type { SkillXpSelectionController } from "@/features/skills/hooks/useSkillXpSelection";
 import { SelectedSkillsPane } from "./SelectedSkillsPane";
 import { SkillCatalogPane } from "./SkillCatalogPane";
 import classes from "./SkillXpPicker.module.css";

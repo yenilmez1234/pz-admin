@@ -1,5 +1,5 @@
-import { PlayerActionsProvider } from "@/features/players/actions/PlayerActionsProvider";
-import { PlayersWorkspace } from "@/features/players/components/PlayersWorkspace";
+import { PlayerActionsProvider } from "./actions/PlayerActionsProvider";
+import { PlayersWorkspace } from "./components/PlayersWorkspace";
 
 export function PlayersPage() {
   return (

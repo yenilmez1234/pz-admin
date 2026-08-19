@@ -7,7 +7,7 @@ import {
 } from "@/shared/layout/SectionNavigation";
 import { ItemsPage } from "@/features/items/ItemsPage";
 import { VehiclesPage } from "@/features/vehicles/VehiclesPage";
-import { usePersistentNavigation } from "@/shared/layout/usePersistentNavigation";
+import { usePersistentNavigation } from "@/shared/hooks/usePersistentNavigation";
 
 type ToolsPageName = "items" | "vehicles";
 

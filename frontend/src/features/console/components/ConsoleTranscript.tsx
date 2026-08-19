@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Box, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import type { ConsoleEntry } from "@/features/console/types";
-import classes from "./ConsolePage.module.css";
+import classes from "../ConsolePage.module.css";
 
 interface ConsoleTranscriptProps {
   entries: ConsoleEntry[];

@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 import { ItemBrowser } from "@/features/items/components/ItemBrowser";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import type { GameBuild } from "@/features/game/types";
-import { useItemCatalog } from "@/features/items/useItemCatalog";
-import { useItemSelection } from "@/features/items/useItemSelection";
+import { useItemCatalog } from "@/features/items/hooks/useItemCatalog";
+import { useItemSelection } from "@/features/items/hooks/useItemSelection";
 
 export function ItemsPage() {
   const { i18n, t } = useTranslation(["items", "common"]);

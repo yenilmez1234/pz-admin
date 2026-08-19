@@ -1,7 +1,7 @@
 import { Combobox } from "@mantine/core";
-import type { ConsoleSuggestions } from "@/features/console/catalog";
-import { consoleSuggestionSegments } from "@/features/console/matching";
-import classes from "./ConsolePage.module.css";
+import type { ConsoleSuggestions } from "@/features/console/lib/catalog";
+import { consoleSuggestionSegments } from "@/features/console/lib/matching";
+import classes from "../ConsolePage.module.css";
 
 interface ConsoleSuggestionListProps {
   suggestions: ConsoleSuggestions;

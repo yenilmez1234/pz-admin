@@ -17,8 +17,21 @@
 - The app has no router: `app/App.tsx` directly composes feature entry screens.
 - Keep state beside its owner. Use a provider only when several distant
   descendants need the same live state or actions.
-- Prefer feature hooks for backend workflows and components for presentation.
-  Avoid components that only forward a large callback list.
+- Keep public feature entries such as pages, broadly consumed providers, and
+  shared feature types at the feature root.
+- Put feature UI in `components/`, React stateful logic in `hooks/`, and pure
+  internal logic in `lib/`. Use `actions/` for real user workflows that combine
+  operations and UI. Create these folders only when the feature needs them.
+- Nest a component or action family only when several files form a meaningful
+  unit. Do not add single-file or empty folders to match a template.
+- A reusable picker or browser remains in the feature that owns its domain.
+  Other features import it directly instead of duplicating it or prematurely
+  promoting it to `shared/`.
+- Keep workflow-specific providers with their workflow; keep broadly consumed
+  feature providers at the feature root. Do not create a `providers/` folder
+  for a single provider.
+- Avoid components that only forward a large callback list, and avoid helper
+  modules that merely hide dependencies without simplifying coordination.
 - Co-locate feature-only components, helpers, and CSS. Promote code to `shared/`
   only after it is genuinely useful across domains.
 - Comments should explain non-obvious constraints, races, or ownership—not

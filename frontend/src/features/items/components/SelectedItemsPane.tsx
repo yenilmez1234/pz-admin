@@ -16,7 +16,7 @@ import {
 import { IconPackage, IconPlus, IconX } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { ItemThumbnail } from "./ItemThumbnail";
-import type { ItemSelectionController } from "@/features/items/useItemSelection";
+import type { ItemSelectionController } from "@/features/items/hooks/useItemSelection";
 import type { ItemCatalog } from "@/features/items/types";
 import classes from "./ItemBrowser.module.css";
 

@@ -3,7 +3,7 @@ import { Menu, VisuallyHidden } from "@mantine/core";
 import { IconCheck, IconQuestionMark, IconX } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
-import { useSession } from "@/features/session/useSession";
+import { useSession } from "@/features/session/SessionProvider";
 import { playerPowers } from "./definitions";
 
 function useAvailablePlayerPowers() {
