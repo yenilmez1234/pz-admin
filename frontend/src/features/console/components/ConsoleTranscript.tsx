@@ -9,7 +9,7 @@ interface ConsoleTranscriptProps {
 }
 
 export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation("console");
   const viewport = useRef<HTMLDivElement>(null);
   const followLatestOutput = useRef(true);
 
@@ -26,7 +26,7 @@ export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
       className={classes.transcript}
       role="log"
       aria-live="polite"
-      aria-label={t("console.outputLabel")}
+      aria-label={t("outputLabel")}
       onScroll={(event) => {
         const element = event.currentTarget;
         followLatestOutput.current =
@@ -35,9 +35,9 @@ export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
     >
       {entries.length === 0 ? (
         <Box className={classes.emptyMessage}>
-          <Text size="sm">{t("console.welcome")}</Text>
+          <Text size="sm">{t("welcome")}</Text>
           <Text c="dimmed" size="sm">
-            {t("console.usageHint")}
+            {t("usageHint")}
           </Text>
         </Box>
       ) : (
@@ -59,7 +59,7 @@ export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
                 className={classes.result}
                 data-empty={entry.result ? undefined : true}
               >
-                {entry.result || t("console.noOutput")}
+                {entry.result || t("noOutput")}
               </Text>
             )}
           </Box>

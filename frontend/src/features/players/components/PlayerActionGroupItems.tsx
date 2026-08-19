@@ -18,19 +18,19 @@ export function PlayerGiveMenuItems({
   return (
     <>
       <Menu.Item disabled={disabled} onClick={() => actions.openAddXp(players)}>
-        {t("actionsMenu.addXp")}
+        {t("actions.labels.addXp")}
       </Menu.Item>
       <Menu.Item
         disabled={disabled}
         onClick={() => actions.openGiveItems(players)}
       >
-        {t("actionsMenu.addItem")}
+        {t("actions.labels.addItem")}
       </Menu.Item>
       <Menu.Item
         disabled={disabled}
         onClick={() => actions.openSpawnVehicle(players)}
       >
-        {t("actionsMenu.spawnVehicle")}
+        {t("actions.labels.spawnVehicle")}
       </Menu.Item>
     </>
   );
@@ -49,19 +49,19 @@ export function PlayerEventMenuItems({
         disabled={disabled}
         onClick={() => actions.openCreateHorde(players)}
       >
-        {t("actionsMenu.createHorde")}
+        {t("actions.labels.createHorde")}
       </Menu.Item>
       <Menu.Item
         disabled={disabled}
         onClick={() => actions.openLightning(players)}
       >
-        {t("actionsMenu.lightningStrike")}
+        {t("actions.labels.lightningStrike")}
       </Menu.Item>
       <Menu.Item
         disabled={disabled}
         onClick={() => actions.openThunder(players)}
       >
-        {t("actionsMenu.thunderStrike")}
+        {t("actions.labels.thunderStrike")}
       </Menu.Item>
     </>
   );

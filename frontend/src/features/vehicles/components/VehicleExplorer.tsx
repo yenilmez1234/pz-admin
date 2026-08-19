@@ -71,7 +71,10 @@ export function VehicleExplorer({
             <Select
               aria-label={t("sorting.label")}
               data={vehicleSortFields.map((field) => ({
-                label: t(`sorting.fields.${field}`),
+                label:
+                  field === "name"
+                    ? t("sorting.fields.name")
+                    : t(`stats.${field}`),
                 value: field,
               }))}
               disabled={loading}

@@ -44,7 +44,7 @@ export function AddLocalPlayerModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("addLocalPlayerDialog.title")}
+      title={t("dialogs.addLocalPlayer.title")}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -70,7 +70,7 @@ export function AddLocalPlayerModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("addLocalPlayerDialog.submit")}
+              {t("dialogs.addLocalPlayer.submit")}
             </Button>
           </Group>
         </Stack>

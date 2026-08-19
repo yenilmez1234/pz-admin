@@ -18,15 +18,11 @@
     "build": "Build {{version}}",
     "buildUnknown": "Bilinmeyen Build",
     "connect": "Bağlan",
-    "delete": "Sil",
     "edit": "Düzenle"
   },
   "form": {
     "addSubmit": "Sunucu Ekle",
     "addTitle": "Sunucu Ekle",
-    "build41": "Build 41",
-    "build42": "Build 42",
-    "buildLabel": "Oyun Sürümü (Build)",
     "editSubmit": "Değişiklikleri Kaydet",
     "editTitle": "Sunucuyu Düzenle",
     "hostLabel": "Sunucu Adresi (Host)",
@@ -52,29 +48,9 @@
     "errorTitle": "Sunucu Silinemedi",
     "title": "Sunucuyu Sil"
   },
-  "session": {
-    "connectionLostTitle": "Bağlantı Kesildi",
-    "connectionLostMessage": "Sunucu bağlantısı kapandı. Devam etmek için tekrar bağlanın.",
-    "loadingLabel": "Oturum yükleniyor…",
-    "unknownStateError": "Mevcut bağlantı durumu belirlenemiyor.",
-    "disconnect": "Bağlantıyı Kes",
-    "disconnectErrorTitle": "Bağlantı Kesilemedi",
-    "initializationErrorTitle": "Bağlantı Kontrol Edilemedi",
-    "serverNavigationLabel": "Sunucu sayfaları"
-  },
   "workspace": {
+    "navigationLabel": "Sunucu sayfaları",
     "console": "Konsol",
     "players": "Oyuncular"
-  },
-  "console": {
-    "commandLabel": "Sunucu komutu",
-    "commandPlaceholder": "Bir sunucu komutu girin",
-    "help": {
-      "cls": "Konsolda görüntülenen tüm çıktıyı temizler."
-    },
-    "noOutput": "Komut çıktı olmadan tamamlandı.",
-    "outputLabel": "Konsol çıktısı",
-    "usageHint": "Öneriler için Tab tuşunu, komut geçmişinde gezinmek için Yukarı ve Aşağı oklarını kullanın.",
-    "welcome": "Hoş geldiniz. Sunucu komutları için 'help', konsolu temizlemek için 'cls' yazın."
   }
 }

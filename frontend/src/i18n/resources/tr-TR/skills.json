@@ -1,0 +1,20 @@
+{
+  "errors": {
+    "loadTitle": "Yetenekler Yüklenemedi"
+  },
+  "picker": {
+    "clear": "Tümünü Temizle",
+    "customXp": "Özel XP",
+    "customXpAccessibleLabel": "{{skill}} için özel XP miktarı",
+    "customXpPlaceholder": "XP miktarı",
+    "emptySelection": "XP'sini yapılandırmak için bir yetenek seçin.",
+    "levelAccessibleLabel": "{{skill}}, seviye {{level}}: {{amount}} XP",
+    "levelShort": "Sv {{level}}",
+    "maxAll": "Tümünü Maksimum Yap",
+    "removeSkill": "{{skill}} yeteneğini kaldır",
+    "selectedHeading_one": "{{count}} Yetenek Seçildi",
+    "selectedHeading_other": "{{count}} Yetenek Seçildi",
+    "skillTotal": "{{amount}} XP",
+    "skillsHeading": "Yetenekler"
+  }
+}

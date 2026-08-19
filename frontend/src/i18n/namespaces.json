@@ -1,0 +1,13 @@
+{
+  "common": true,
+  "console": true,
+  "items": true,
+  "players": true,
+  "servers": true,
+  "session": true,
+  "settings": true,
+  "shell": true,
+  "skills": true,
+  "tools": true,
+  "vehicles": true
+}

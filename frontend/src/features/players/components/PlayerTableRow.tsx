@@ -93,7 +93,7 @@ export function PlayerTableRow({
           style={{ userSelect: "text", WebkitUserSelect: "text" }}
           variant={accessLevel === "unknown" ? "outline" : "light"}
         >
-          {t(`accessLevels.${accessLevel}`)}
+          {t(`roles.${accessLevel}`)}
         </Badge>
       </Table.Td>
       <Table.Td>

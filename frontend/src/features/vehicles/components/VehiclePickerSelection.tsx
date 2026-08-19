@@ -29,13 +29,13 @@ const summaryStats = [
 ] as const;
 
 const summaryStatLabelKeys = {
-  enginePower: "browser.enginePower",
-  engineQuality: "filters.stats.engineQuality",
-  seats: "browser.seats",
-  topSpeed: "browser.topSpeed",
-  totalStorage: "filters.stats.totalStorage",
-  trunkStorage: "filters.stats.trunkStorage",
-  weight: "filters.stats.weight",
+  enginePower: "stats.enginePower",
+  engineQuality: "stats.engineQuality",
+  seats: "stats.seats",
+  topSpeed: "stats.topSpeed",
+  totalStorage: "stats.totalStorage",
+  trunkStorage: "stats.trunkStorage",
+  weight: "stats.weight",
 } as const;
 
 interface VehiclePickerSelectionProps {
@@ -49,8 +49,7 @@ export function VehiclePickerSelection({
   selectedVehicle,
   variants,
 }: VehiclePickerSelectionProps) {
-  const { t } = useTranslation("players");
-  const { t: vehicleT } = useTranslation("vehicles");
+  const { t } = useTranslation("vehicles");
 
   return (
     <Stack gap="md" h={0} p="xs" style={{ flex: 1, minHeight: 0 }}>
@@ -99,15 +98,11 @@ export function VehiclePickerSelection({
                     w={16}
                   />
                   <Text c="dimmed" fz={12} lh={1.15}>
-                    {vehicleT(summaryStatLabelKeys[stat])}
+                    {t(summaryStatLabelKeys[stat])}
                   </Text>
                 </Group>
                 <Text fw={500} fz={13} lh={1.15}>
-                  {formatVehicleStat(
-                    vehicleT,
-                    stat,
-                    selectedVehicle.stats[stat],
-                  )}
+                  {formatVehicleStat(t, stat, selectedVehicle.stats[stat])}
                 </Text>
               </Fragment>
             ))}
@@ -117,7 +112,7 @@ export function VehiclePickerSelection({
       {variants.length > 1 ? (
         <Stack gap="xs" h={0} style={{ flex: 1, minHeight: 0 }}>
           <Text fw={600} size="sm">
-            {t("spawnVehicleDialog.variants")}
+            {t("picker.variants")}
           </Text>
           <ScrollArea
             h={0}
@@ -138,7 +133,7 @@ export function VehiclePickerSelection({
                   <Tooltip key={variant.id} label={label} withArrow>
                     <UnstyledButton
                       aria-current={selected ? "true" : undefined}
-                      aria-label={t("spawnVehicleDialog.selectVariant", {
+                      aria-label={t("picker.selectVariant", {
                         variant: label,
                       })}
                       className={classes.variant}

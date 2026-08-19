@@ -1,5 +1,6 @@
 import { loadItemTranslations, translatedItemName } from "./translations";
 import type { GameBuild } from "@/features/game/types";
+import { canonicalLanguage } from "@/i18n/locales";
 import type {
   ItemCatalog,
   ItemCatalogCategory,
@@ -66,7 +67,7 @@ export function loadItemCatalog(
   build: GameBuild,
   language: string,
 ): Promise<ItemCatalog> {
-  const languageTag = Intl.getCanonicalLocales(language)[0];
+  const languageTag = canonicalLanguage(language);
   const requestKey = `${build}:${languageTag}`;
   const existingRequest = catalogRequests.get(requestKey);
   if (existingRequest) return existingRequest;

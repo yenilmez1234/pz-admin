@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Alert, Box, Button, Stack, Text } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
+import { defaultLanguage } from "@/i18n/locales";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
 import { usePlayers } from "@/features/players/PlayersProvider";
@@ -53,7 +54,7 @@ export function PlayersWorkspace() {
         ) : null}
 
         <PlayerTable
-          language={config?.language ?? "en-US"}
+          language={config?.language ?? defaultLanguage}
           loading={loading}
           onSelectionChange={setSelectedPlayerIds}
           players={players}

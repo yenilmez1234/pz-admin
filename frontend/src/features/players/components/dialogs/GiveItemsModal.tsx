@@ -24,6 +24,7 @@ export function GiveItemsModal({
   players,
 }: GiveItemsModalProps) {
   const { i18n, t } = useTranslation(["players", "common"]);
+  const { t: itemT } = useTranslation("items");
   const language = i18n.resolvedLanguage ?? i18n.language;
   const { catalog, error, loading, reload } = useItemCatalog(build, language);
   const selection = useItemSelection();
@@ -59,12 +60,12 @@ export function GiveItemsModal({
       onExitTransitionEnd={resetBrowser}
       opened={opened}
       size="xl"
-      title={t("giveItemsDialog.title", { count: players.length })}
+      title={t("dialogs.giveItems.title", { count: players.length })}
       withCloseButton={!submitting}
     >
       <Stack gap="md">
         <Text c="dimmed" size="sm">
-          {t("giveItemsDialog.description", {
+          {t("dialogs.giveItems.description", {
             count: players.length,
             username: players[0]?.username,
           })}
@@ -75,7 +76,7 @@ export function GiveItemsModal({
             aria-live="polite"
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={t("giveItemsDialog.loadErrorTitle")}
+            title={itemT("errors.loadTitle")}
           >
             <Stack align="flex-start" gap="xs">
               <Text size="sm">{error}</Text>
@@ -108,7 +109,7 @@ export function GiveItemsModal({
             loading={submitting}
             onClick={() => void handleGive()}
           >
-            {t("giveItemsDialog.submit")}
+            {t("dialogs.giveItems.submit")}
           </Button>
         </Group>
       </Stack>

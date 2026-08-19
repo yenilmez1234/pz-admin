@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { GameBuild } from "@/features/game/types";
+import { canonicalLanguage } from "@/i18n/locales";
 import { errorMessage } from "@/shared/lib/errors";
 import { loadSkillCatalog } from "./catalog";
 import type { SkillCatalog } from "./types";
@@ -52,7 +53,7 @@ export function useSkillCatalog(
     };
   }, [build, language, revision]);
 
-  const languageTag = Intl.getCanonicalLocales(language)[0];
+  const languageTag = canonicalLanguage(language);
   if (
     state.catalog &&
     (state.catalog.build !== build || state.catalog.language !== languageTag)

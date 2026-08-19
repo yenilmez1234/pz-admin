@@ -53,7 +53,7 @@ export function AddServerUserModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("addServerUserDialog.title")}
+      title={t("dialogs.addServerUser.title")}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -86,7 +86,7 @@ export function AddServerUserModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("addServerUserDialog.submit")}
+              {t("dialogs.addServerUser.submit")}
             </Button>
           </Group>
         </Stack>

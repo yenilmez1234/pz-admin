@@ -10,6 +10,13 @@
     "reason": "Reason",
     "username": "Username"
   },
+  "gameBuild": {
+    "label": "Game build",
+    "options": {
+      "41": "Build 41",
+      "42": "Build 42"
+    }
+  },
   "placeholders": {
     "optional": "Optional"
   },

@@ -10,7 +10,7 @@ interface ConsoleInputProps {
 }
 
 export function ConsoleInput({ executing, onExecute }: ConsoleInputProps) {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation("console");
   const input = useConsoleInput({ executing, onExecute });
 
   return (
@@ -51,8 +51,8 @@ export function ConsoleInput({ executing, onExecute }: ConsoleInputProps) {
             onSelect={input.handleSelection}
             onBlur={input.closeSuggestions}
             onKeyDown={input.handleKeyDown}
-            placeholder={t("console.commandPlaceholder")}
-            aria-label={t("console.commandLabel")}
+            placeholder={t("commandPlaceholder")}
+            aria-label={t("commandLabel")}
             name="server-command"
             autoComplete="off"
             spellCheck={false}

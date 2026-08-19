@@ -116,7 +116,7 @@ export function VehicleOverview({ titleRef, vehicle }: VehicleOverviewProps) {
                     ) : null}
                     <Stack gap={2}>
                       <Text c="dimmed" size="xs">
-                        {t(`filters.stats.${stat}`)}
+                        {t(`stats.${stat}`)}
                       </Text>
                       <Text fw={500} size="sm">
                         {formatVehicleStat(t, stat, value)}

@@ -35,7 +35,7 @@ export function VehiclePicker({
   onChange,
   selectedVehicle,
 }: VehiclePickerProps) {
-  const { t } = useTranslation("players");
+  const { t } = useTranslation("vehicles");
   const [categoryIndex, setCategoryIndex] = useState<number | null>(null);
   const [modelIndex, setModelIndex] = useState<number | null>(null);
   const category =
@@ -90,7 +90,7 @@ export function VehiclePicker({
     <Stack className={classes.content} h="min(62vh, 34rem)">
       <Group gap={6} wrap="nowrap">
         <ActionIcon
-          aria-label={t("spawnVehicleDialog.back")}
+          aria-label={t("picker.back")}
           disabled={categoryIndex === null}
           onClick={goBack}
           size="sm"
@@ -104,11 +104,11 @@ export function VehiclePicker({
         >
           {category ? (
             <UnstyledButton className={classes.breadcrumbLink} onClick={reset}>
-              {t("spawnVehicleDialog.root")}
+              {t("picker.root")}
             </UnstyledButton>
           ) : (
             <Text fw={600} lh={1.2} size="sm">
-              {t("spawnVehicleDialog.root")}
+              {t("picker.root")}
             </Text>
           )}
           {category ? (

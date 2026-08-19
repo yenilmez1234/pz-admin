@@ -5,6 +5,7 @@ import { isOnline } from "@/features/players/lib/status";
 import { loadSkillCatalog } from "@/features/skills/catalog";
 import { loadVehicleCatalog } from "@/features/vehicles/catalog";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
+import { canonicalLanguage, defaultLanguage } from "@/i18n/locales";
 import { usePlayers } from "@/features/players/PlayersProvider";
 import { consoleCatalog, localConsoleCommandNames } from "./catalog";
 import type { ConsoleCompletionSource, ConsoleCompletionValues } from "./types";
@@ -89,7 +90,7 @@ export function useConsoleCompletions(
 ): ConsoleCompletionValues {
   const { config } = useAppConfig();
   const { players } = usePlayers();
-  const language = Intl.getCanonicalLocales(config?.language ?? "en-US")[0];
+  const language = canonicalLanguage(config?.language ?? defaultLanguage);
   const [loaded, setLoaded] = useState<
     Partial<Record<DynamicCompletionSource, LoadedCompletions>>
   >({});

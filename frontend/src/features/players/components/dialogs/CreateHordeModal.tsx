@@ -28,7 +28,7 @@ export function CreateHordeModal({
     validate: {
       count: isInRange(
         { min: 1, max: 2_147_483_647 },
-        t("hordeDialog.validation.sizeRange"),
+        t("dialogs.createHorde.validation.sizeRange"),
       ),
     },
   });
@@ -46,7 +46,7 @@ export function CreateHordeModal({
     if (succeeded) onClose();
   }
 
-  const targetDescription = t("hordeDialog.description", {
+  const targetDescription = t("dialogs.createHorde.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -58,7 +58,7 @@ export function CreateHordeModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("hordeDialog.title")}
+      title={t("dialogs.createHorde.title")}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)} noValidate>
@@ -69,7 +69,7 @@ export function CreateHordeModal({
           <NumberInput
             allowDecimal={false}
             clampBehavior="none"
-            label={t("hordeDialog.sizeLabel")}
+            label={t("dialogs.createHorde.sizeLabel")}
             max={2_147_483_647}
             min={1}
             name="count"
@@ -90,7 +90,7 @@ export function CreateHordeModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("hordeDialog.submit")}
+              {t("dialogs.createHorde.submit")}
             </Button>
           </Group>
         </Stack>

@@ -38,13 +38,13 @@ export function PlayerBulkActions({
   const hasProtectedPlayer = players.some((player) =>
     hasProtectedModerationRole(player, build),
   );
-  const onlineOnlyMessage = t("bulkActions.onlineOnlyExplanation");
-  const protectedRoleMessage = t("actionsMenu.protectedRoleExplanation");
+  const onlineOnlyMessage = t("actions.bulk.onlineOnlyExplanation");
+  const protectedRoleMessage = t("actions.menu.protectedRoleExplanation");
 
   return (
     <Paper
       component={Group}
-      aria-label={t("bulkActions.accessibleLabel")}
+      aria-label={t("actions.bulk.accessibleLabel")}
       gap="sm"
       maw="100%"
       px="md"
@@ -62,7 +62,7 @@ export function PlayerBulkActions({
         size="sm"
         style={{ whiteSpace: "nowrap" }}
       >
-        {t("bulkActions.selectedCount", { count: players.length })}
+        {t("actions.bulk.selectedCount", { count: players.length })}
       </Text>
 
       <Menu position="top" withinPortal>
@@ -72,7 +72,7 @@ export function PlayerBulkActions({
             size="xs"
             variant="default"
           >
-            {t("bulkActions.actionsButton")}
+            {t("actions.bulk.actionsButton")}
           </Button>
         </Menu.Target>
 
@@ -88,18 +88,18 @@ export function PlayerBulkActions({
                 disabled={!allOnline}
                 onClick={() => actions.openTeleport(players)}
               >
-                {t("actionsMenu.teleport")}
+                {t("actions.labels.teleport")}
               </Menu.Item>
             </Box>
           </Tooltip>
 
           <Menu.Sub>
             <Menu.Sub.Target>
-              <Menu.Sub.Item>{t("actionsMenu.moderation")}</Menu.Sub.Item>
+              <Menu.Sub.Item>{t("actions.groups.moderation")}</Menu.Sub.Item>
             </Menu.Sub.Target>
             <Menu.Sub.Dropdown>
               <Menu.Item onClick={() => actions.openAccessLevel(players)}>
-                {t("actionsMenu.setAccessLevel")}
+                {t("actions.labels.setAccessLevel")}
               </Menu.Item>
               <Tooltip
                 disabled={!hasProtectedPlayer}
@@ -112,12 +112,12 @@ export function PlayerBulkActions({
                     disabled={hasProtectedPlayer}
                     onClick={() => actions.openBan(players)}
                   >
-                    {t("actionsMenu.ban")}
+                    {t("actions.labels.ban")}
                   </Menu.Item>
                 </Box>
               </Tooltip>
               <Menu.Item onClick={() => actions.unban(players)}>
-                {t("actionsMenu.unban")}
+                {t("actions.labels.unban")}
               </Menu.Item>
               <Tooltip
                 disabled={allOnline && !hasProtectedPlayer}
@@ -132,7 +132,7 @@ export function PlayerBulkActions({
                     disabled={!allOnline || hasProtectedPlayer}
                     onClick={() => actions.openKick(players)}
                   >
-                    {t("actionsMenu.kick")}
+                    {t("actions.labels.kick")}
                   </Menu.Item>
                 </Box>
               </Tooltip>
@@ -147,7 +147,7 @@ export function PlayerBulkActions({
                     disabled={!allOnline}
                     onClick={() => actions.setVoiceBanned(players, true)}
                   >
-                    {t("actionsMenu.voiceBan")}
+                    {t("actions.labels.voiceBan")}
                   </Menu.Item>
                 </Box>
               </Tooltip>
@@ -162,14 +162,14 @@ export function PlayerBulkActions({
                     disabled={!allOnline}
                     onClick={() => actions.setVoiceBanned(players, false)}
                   >
-                    {t("actionsMenu.removeVoiceBan")}
+                    {t("actions.labels.removeVoiceBan")}
                   </Menu.Item>
                 </Box>
               </Tooltip>
               <Menu.Item
                 onClick={() => actions.openRemoveFromWhitelist(players)}
               >
-                {t("actionsMenu.removeFromWhitelist")}
+                {t("actions.labels.removeFromWhitelist")}
               </Menu.Item>
             </Menu.Sub.Dropdown>
           </Menu.Sub>
@@ -177,7 +177,7 @@ export function PlayerBulkActions({
           <Menu.Sub>
             <Menu.Sub.Target>
               <Menu.Sub.Item disabled={!allOnline}>
-                {t("actionsMenu.powers")}
+                {t("actions.groups.powers")}
               </Menu.Sub.Item>
             </Menu.Sub.Target>
             <Menu.Sub.Dropdown>
@@ -191,7 +191,7 @@ export function PlayerBulkActions({
           <Menu.Sub>
             <Menu.Sub.Target>
               <Menu.Sub.Item disabled={!allOnline}>
-                {t("actionsMenu.give")}
+                {t("actions.groups.give")}
               </Menu.Sub.Item>
             </Menu.Sub.Target>
             <Menu.Sub.Dropdown>
@@ -202,7 +202,7 @@ export function PlayerBulkActions({
           <Menu.Sub>
             <Menu.Sub.Target>
               <Menu.Sub.Item disabled={!allOnline}>
-                {t("actionsMenu.events")}
+                {t("actions.groups.events")}
               </Menu.Sub.Item>
             </Menu.Sub.Target>
             <Menu.Sub.Dropdown>
@@ -213,7 +213,7 @@ export function PlayerBulkActions({
       </Menu>
 
       <ActionIcon
-        aria-label={t("bulkActions.clearSelectionLabel")}
+        aria-label={t("actions.bulk.clearSelectionLabel")}
         color="gray"
         onClick={onClear}
         size="sm"

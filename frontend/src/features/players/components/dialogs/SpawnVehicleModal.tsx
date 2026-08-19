@@ -35,6 +35,7 @@ export function SpawnVehicleModal({
   players,
 }: SpawnVehicleModalProps) {
   const { t } = useTranslation(["players", "common"]);
+  const { t: vehicleT } = useTranslation("vehicles");
   const { catalog, error, loading, reload } = useVehicleCatalog(build);
   const [pickerRevision, setPickerRevision] = useState(0);
   const [selectedVehicle, setSelectedVehicle] =
@@ -65,12 +66,12 @@ export function SpawnVehicleModal({
       onExitTransitionEnd={resetPicker}
       opened={opened}
       size="xl"
-      title={t("spawnVehicleDialog.title", { count: players.length })}
+      title={t("dialogs.spawnVehicle.title", { count: players.length })}
       withCloseButton={!submitting}
     >
       <Stack gap="md">
         <Text c="dimmed" size="sm">
-          {t("spawnVehicleDialog.description", {
+          {t("dialogs.spawnVehicle.description", {
             count: players.length,
             username: players[0]?.username,
           })}
@@ -81,7 +82,7 @@ export function SpawnVehicleModal({
             aria-live="polite"
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={t("spawnVehicleDialog.loadErrorTitle")}
+            title={vehicleT("errors.loadTitle")}
           >
             <Stack align="flex-start" gap="xs">
               <Text size="sm">{error}</Text>
@@ -117,7 +118,7 @@ export function SpawnVehicleModal({
             loading={submitting}
             onClick={() => void handleSpawn()}
           >
-            {t("spawnVehicleDialog.submit")}
+            {t("dialogs.spawnVehicle.submit")}
           </Button>
         </Group>
       </Stack>

@@ -67,19 +67,19 @@ export function TeleportPlayerModal({
     validate: {
       targetPlayerId: (value, values) =>
         values.mode === "player" && !value
-          ? t("teleportDialog.validation.destinationRequired")
+          ? t("dialogs.teleport.validation.destinationRequired")
           : null,
       x: (value, values) =>
         values.mode === "coordinates" && !hasCoordinate(value)
-          ? t("teleportDialog.validation.xRequired")
+          ? t("dialogs.teleport.validation.xRequired")
           : null,
       y: (value, values) =>
         values.mode === "coordinates" && !hasCoordinate(value)
-          ? t("teleportDialog.validation.yRequired")
+          ? t("dialogs.teleport.validation.yRequired")
           : null,
       z: (value, values) =>
         values.mode === "coordinates" && !hasCoordinate(value)
-          ? t("teleportDialog.validation.zRequired")
+          ? t("dialogs.teleport.validation.zRequired")
           : null,
     },
   });
@@ -112,7 +112,7 @@ export function TeleportPlayerModal({
     if (succeeded) onClose();
   }
 
-  const targetDescription = t("teleportDialog.description", {
+  const targetDescription = t("dialogs.teleport.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -124,7 +124,7 @@ export function TeleportPlayerModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("teleportDialog.title", { count: players.length })}
+      title={t("dialogs.teleport.title", { count: players.length })}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)} noValidate>
@@ -135,10 +135,10 @@ export function TeleportPlayerModal({
           <SegmentedControl
             data={[
               {
-                label: t("teleportDialog.coordinatesMode"),
+                label: t("dialogs.teleport.coordinatesMode"),
                 value: "coordinates",
               },
-              { label: t("teleportDialog.playerMode"), value: "player" },
+              { label: t("dialogs.teleport.playerMode"), value: "player" },
             ]}
             fullWidth
             {...form.getInputProps("mode")}
@@ -147,19 +147,19 @@ export function TeleportPlayerModal({
           {form.values.mode === "coordinates" ? (
             <SimpleGrid cols={3}>
               <NumberInput
-                label={t("teleportDialog.xCoordinateLabel")}
+                label={t("dialogs.teleport.xCoordinateLabel")}
                 name="x"
                 placeholder="0"
                 {...form.getInputProps("x")}
               />
               <NumberInput
-                label={t("teleportDialog.yCoordinateLabel")}
+                label={t("dialogs.teleport.yCoordinateLabel")}
                 name="y"
                 placeholder="0"
                 {...form.getInputProps("y")}
               />
               <NumberInput
-                label={t("teleportDialog.zCoordinateLabel")}
+                label={t("dialogs.teleport.zCoordinateLabel")}
                 name="z"
                 placeholder="0"
                 {...form.getInputProps("z")}
@@ -171,10 +171,10 @@ export function TeleportPlayerModal({
                 label: player.username,
                 value: player.id,
               }))}
-              label={t("teleportDialog.destinationPlayerLabel")}
+              label={t("dialogs.teleport.destinationPlayerLabel")}
               name="targetPlayerId"
-              nothingFoundMessage={t("teleportDialog.noDestinationPlayers")}
-              placeholder={t("teleportDialog.selectPlayerPlaceholder")}
+              nothingFoundMessage={t("dialogs.teleport.noDestinationPlayers")}
+              placeholder={t("dialogs.teleport.selectPlayerPlaceholder")}
               searchable
               {...form.getInputProps("targetPlayerId")}
             />
@@ -193,7 +193,7 @@ export function TeleportPlayerModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("teleportDialog.submit")}
+              {t("dialogs.teleport.submit")}
             </Button>
           </Group>
         </Stack>

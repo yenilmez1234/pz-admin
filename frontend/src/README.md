@@ -25,3 +25,19 @@
   restate the code.
 - A normal feature change should remain inside one feature directory plus its
   translation namespace whenever possible.
+
+## Translations
+
+- `i18n/resources/<locale>/` contains application UI namespaces. A namespace
+  belongs to the feature that owns the reusable UI; `common` is only for
+  context-independent vocabulary.
+- `i18n/namespaces.json` is the application namespace manifest used by both
+  type checking and translation validation.
+- `i18n/locales.json` is the supported-locale registry. Locale directories use
+  IETF BCP 47 language tags, while displayed language names stay native.
+- To add a locale, add it to the registry, copy every namespace from `en-US`,
+  translate the values without changing keys or `{{variables}}`, and run
+  `pnpm translations:check`.
+- `i18n/generated/` contains game-derived item and skill translations. These
+  are build-specific, loaded on demand, and intentionally excluded from UI
+  namespace parity checks.

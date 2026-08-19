@@ -1,23 +1,44 @@
 {
   "page": {
-    "build41": "Build 41",
-    "build42": "Build 42",
-    "buildLabel": "Game build",
-    "loadErrorTitle": "Unable to Load Vehicles",
     "title": "Vehicles"
+  },
+  "errors": {
+    "loadTitle": "Unable to Load Vehicles"
+  },
+  "picker": {
+    "back": "Go Back",
+    "root": "Vehicles",
+    "selectVariant": "Select {{variant}} variant",
+    "variants": "Variants"
+  },
+  "stats": {
+    "animalSize": "Animal capacity",
+    "doors": "Doors",
+    "engineLoudness": "Engine loudness",
+    "enginePower": "Power",
+    "engineQuality": "Engine quality",
+    "gloveBox": "Glove-box capacity",
+    "lightbar": "Lightbar",
+    "occupantProtection": "Occupant protection",
+    "offRoadEfficiency": "Off-road efficiency",
+    "rollInfluence": "Roll influence",
+    "seats": "Seats",
+    "suspensionStiffness": "Suspension stiffness",
+    "topSpeed": "Top speed",
+    "totalStorage": "Total storage",
+    "trunkStorage": "Trunk storage",
+    "weight": "Weight",
+    "wheels": "Wheels"
   },
   "browser": {
     "accessibleLabel": "Vehicle catalog",
     "emptyCatalog": "The vehicle catalog is not available yet.",
-    "enginePower": "Power",
     "noSearchResults": "No vehicles match your search.",
     "resultCount_one": "{{count}} vehicle",
     "resultCount_other": "{{count}} vehicles",
     "searchLabel": "Search vehicles",
     "searchPlaceholder": "Search by name or ID…",
-    "seats": "Seats",
-    "totalStorage": "Storage",
-    "topSpeed": "Top speed",
+    "storage": "Storage",
     "values": {
       "enginePower": "{{value}} hp",
       "seats_one": "{{count}} seat",
@@ -41,12 +62,10 @@
     "values": {
       "weight": "{{value}} kg"
     },
-    "vehicleId": "Vehicle ID",
     "variants": "Variants"
   },
   "filters": {
     "advancedSection": "Advanced",
-    "allVehicles": "All vehicles",
     "boolean": {
       "any": "Any",
       "no": "No",
@@ -55,26 +74,6 @@
     "clear": "Clear filters",
     "collapse": "Collapse {{name}}",
     "expand": "Expand {{name}}",
-    "noVehicles": "No vehicles found",
-    "stats": {
-      "animalSize": "Animal capacity",
-      "doors": "Doors",
-      "engineLoudness": "Engine loudness",
-      "enginePower": "Power",
-      "engineQuality": "Engine quality",
-      "gloveBox": "Glove-box capacity",
-      "lightbar": "Lightbar",
-      "occupantProtection": "Occupant protection",
-      "offRoadEfficiency": "Off-road efficiency",
-      "rollInfluence": "Roll influence",
-      "seats": "Seats",
-      "suspensionStiffness": "Suspension stiffness",
-      "topSpeed": "Top speed",
-      "totalStorage": "Total storage",
-      "trunkStorage": "Trunk storage",
-      "weight": "Weight",
-      "wheels": "Wheels"
-    },
     "statsSection": "Stats",
     "title": "Filters",
     "vehicleLabel": "Category, model, or variant",
@@ -87,12 +86,7 @@
       "descending": "Descending"
     },
     "fields": {
-      "enginePower": "Power",
-      "name": "Name",
-      "seats": "Seats",
-      "topSpeed": "Top speed",
-      "totalStorage": "Total storage",
-      "weight": "Weight"
+      "name": "Name"
     },
     "label": "Sort by"
   }

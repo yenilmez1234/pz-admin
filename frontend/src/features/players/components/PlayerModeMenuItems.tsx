@@ -4,7 +4,7 @@ import { IconCheck, IconQuestionMark, IconX } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import { useSession } from "@/features/session/useSession";
-import { playerModes, type PlayerModeDefinition } from "../playerModes";
+import { playerModes } from "../playerModes";
 
 function useAvailablePlayerModes() {
   const { supports } = useSession();
@@ -19,13 +19,10 @@ function ModeStateIcon({ value }: { value: boolean | null | undefined }) {
   return <IconQuestionMark size={14} aria-hidden="true" />;
 }
 
-function stateLabel(
-  definition: PlayerModeDefinition,
-  value: boolean | null | undefined,
-) {
-  if (value === true) return definition.enabledStateLabel;
-  if (value === false) return definition.disabledStateLabel;
-  return definition.unknownStateLabel;
+function stateLabel(value: boolean | null | undefined) {
+  if (value === true) return "actions.modes.states.enabled";
+  if (value === false) return "actions.modes.states.disabled";
+  return "actions.modes.states.unknown";
 }
 
 export function PlayerModeMenuItems({ player }: { player: Player }) {
@@ -41,7 +38,7 @@ export function PlayerModeMenuItems({ player }: { player: Player }) {
         rightSection={<ModeStateIcon value={value} />}
       >
         {t(definition.label)}
-        <VisuallyHidden> {t(stateLabel(definition, value))}</VisuallyHidden>
+        <VisuallyHidden> {t(stateLabel(value))}</VisuallyHidden>
       </Menu.Item>
     );
   });

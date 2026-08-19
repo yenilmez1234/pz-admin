@@ -17,10 +17,9 @@
   "status": {
     "neverSeen": "Hiç görülmedi",
     "offline": "Çevrimdışı",
-    "online": "Çevrimiçi",
-    "unknown": "Bilinmiyor"
+    "online": "Çevrimiçi"
   },
-  "accessLevels": {
+  "roles": {
     "admin": "Admin",
     "banned": "Banned",
     "gm": "GM",
@@ -32,190 +31,168 @@
     "user": "User",
     "unknown": "Bilinmiyor"
   },
-  "actionsMenu": {
-    "moderation": "Moderasyon",
-    "accessibleLabel": "{{username}} için işlemleri aç",
-    "addItem": "Eşya Ekle",
-    "spawnVehicle": "Araç Oluştur",
-    "addXp": "XP Ekle",
-    "ban": "Yasakla",
-    "createHorde": "Sürü Oluştur",
-    "events": "Olaylar",
-    "disableGodMode": "Ölümsüzlük Modunu Kapat",
-    "disableInvisible": "Görünmezliği Kapat",
-    "disableNoClip": "Çarpışmasız Modu Kapat",
-    "enableGodMode": "Ölümsüzlük Modunu Aç",
-    "enableInvisible": "Görünmezliği Aç",
-    "enableNoClip": "Çarpışmasız Modu Aç",
-    "give": "Ver",
-    "godMode": "Ölümsüzlük Modu",
-    "godModeDisabledState": "kapalı",
-    "godModeEnabledState": "açık",
-    "godModeUnknownState": "bilinmiyor",
-    "invisible": "Görünmezlik",
-    "invisibleDisabledState": "kapalı",
-    "invisibleEnabledState": "açık",
-    "invisibleUnknownState": "bilinmiyor",
-    "kick": "At",
-    "lightningStrike": "Yıldırım Çarpması",
-    "noClip": "Çarpışmasız Mod",
-    "noClipDisabledState": "kapalı",
-    "noClipEnabledState": "açık",
-    "noClipUnknownState": "bilinmiyor",
-    "powers": "Güçler",
-    "protectedRoleExplanation": "Admin ve moderator rolleri yasaklanamaz veya atılamaz",
-    "removeFromWhitelist": "Beyaz Listeden Kaldır",
-    "removeVoiceBan": "Ses Yasağını Kaldır",
-    "setAccessLevel": "Rolü Ayarla",
-    "teleport": "Işınla",
-    "thunderStrike": "Gök Gürültüsü Çarpması",
-    "unban": "Yasağı Kaldır",
-    "voiceBan": "Ses Yasağı"
-  },
-  "bulkActions": {
-    "accessibleLabel": "Seçili oyuncu işlemleri",
-    "actionsButton": "İşlemler",
-    "clearSelectionLabel": "Oyuncu seçimini temizle",
-    "onlineOnlyExplanation": "Seçilen tüm oyuncular çevrimiçi olmalıdır",
-    "selectedCount_one": "{{count}} seçildi",
-    "selectedCount_other": "{{count}} seçildi"
-  },
-  "addServerUserDialog": {
-    "submit": "Beyaz Listeye Ekle",
-    "title": "Oyuncuyu Beyaz Listeye Ekle"
-  },
-  "addLocalPlayerDialog": {
-    "submit": "Oyuncu Ekle",
-    "title": "Yerel Oyuncu Ekle"
-  },
-  "banDialog": {
-    "banIpLabel": "Mevcut IP adresini de yasakla",
-    "description_one": "{{username}} sunucudan yasaklansın.",
-    "description_other": "{{count}} oyuncu sunucudan yasaklansın.",
-    "submit": "Yasakla",
-    "title_one": "Oyuncuyu Yasakla",
-    "title_other": "Oyuncuları Yasakla"
-  },
-  "kickDialog": {
-    "description_one": "{{username}} kullanıcısının sunucu bağlantısını kes.",
-    "description_other": "{{count}} oyuncunun sunucu bağlantısını kes.",
-    "submit": "At",
-    "title_one": "Oyuncuyu At",
-    "title_other": "Oyuncuları At"
-  },
-  "removeWhitelistDialog": {
-    "deleteLocalLabel": "Yerel oyuncu listesinden de kalıcı olarak sil",
-    "description_one": "{{username}} sunucu beyaz listesinden kaldırılsın mı?",
-    "description_other": "{{count}} oyuncu sunucu beyaz listesinden kaldırılsın mı?",
-    "title_one": "Beyaz Listeden Kaldır",
-    "title_other": "Oyuncuları Beyaz Listeden Kaldır"
-  },
-  "hordeDialog": {
-    "description_one": "{{username}} yakınına bir sürü oluştur.",
-    "description_other": "{{count}} oyuncunun her birinin yakınına bir sürü oluştur.",
-    "sizeLabel": "Sürü Büyüklüğü",
-    "submit": "Sürü Oluştur",
-    "title": "Sürü Oluştur",
-    "validation": {
-      "sizeRange": "Sıfırdan büyük bir tam sayı girin."
-    }
-  },
-  "lightningDialog": {
-    "description_one": "{{username}} üzerine yıldırım düşürülsün mü?",
-    "description_other": "{{count}} oyuncu üzerine yıldırım düşürülsün mü?",
-    "submit": "Yıldırım Düşür",
-    "title": "Yıldırım Çarpması"
-  },
-  "thunderDialog": {
-    "description_one": "{{username}} üzerinde gök gürültüsü tetiklensin mi?",
-    "description_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklensin mi?",
-    "submit": "Gök Gürültüsü Tetikle",
-    "title": "Gök Gürültüsü Çarpması"
-  },
-  "teleportDialog": {
-    "coordinatesMode": "Koordinatlar",
-    "description_one": "{{username}} kullanıcısının nereye ışınlanacağını seçin.",
-    "description_other": "{{count}} oyuncunun nereye ışınlanacağını seçin.",
-    "destinationPlayerLabel": "Hedef Oyuncu",
-    "noDestinationPlayers": "Başka çevrimiçi oyuncu bulunamadı",
-    "playerMode": "Oyuncu",
-    "selectPlayerPlaceholder": "Bir oyuncu seçin",
-    "submit": "Işınla",
-    "xCoordinateLabel": "X",
-    "yCoordinateLabel": "Y",
-    "zCoordinateLabel": "Z",
-    "title_one": "Oyuncuyu Işınla",
-    "title_other": "Oyuncuları Işınla",
-    "validation": {
-      "destinationRequired": "Bir hedef oyuncu seçin.",
-      "xRequired": "X değerini girin.",
-      "yRequired": "Y değerini girin.",
-      "zRequired": "Z değerini girin."
-    }
-  },
-  "spawnVehicleDialog": {
-    "back": "Geri Dön",
-    "description_one": "{{username}} yakınında oluşturulacak aracı seçin.",
-    "description_other": "{{count}} oyuncunun her birinin yakınında oluşturulacak aracı seçin.",
-    "loadErrorTitle": "Araçlar Yüklenemedi",
-    "root": "Araçlar",
-    "selectVariant": "{{variant}} varyantını seç",
-    "submit": "Araç Oluştur",
-    "title_one": "Araç Oluştur",
-    "title_other": "Araçlar Oluştur",
-    "variants": "Varyantlar"
-  },
-  "giveItemsDialog": {
-    "description_one": "{{username}} kullanıcısına verilecek eşyaları seçin.",
-    "description_other": "{{count}} oyuncunun her birine verilecek eşyaları seçin.",
-    "loadErrorTitle": "Eşyalar Yüklenemedi",
-    "submit": "Eşyaları Ver",
-    "title_one": "Eşya Ver",
-    "title_other": "Eşya Ver"
-  },
-  "addXpDialog": {
-    "clear": "Tümünü Temizle",
-    "customXp": "Özel XP",
-    "customXpAccessibleLabel": "{{skill}} için özel XP miktarı",
-    "customXpPlaceholder": "XP miktarı",
-    "description_one": "{{username}} kullanıcısına eklenecek yetenek XP'sini seçin.",
-    "description_other": "{{count}} oyuncunun her birine eklenecek yetenek XP'sini seçin.",
-    "emptySelection": "XP'sini yapılandırmak için bir yetenek seçin.",
-    "levelAccessibleLabel": "{{skill}}, seviye {{level}}: {{amount}} XP",
-    "levelShort": "Sv {{level}}",
-    "loadErrorTitle": "Yetenekler Yüklenemedi",
-    "maxAll": "Tümünü Maksimum Yap",
-    "removeSkill": "{{skill}} yeteneğini kaldır",
-    "selectedHeading_one": "{{count}} Yetenek Seçildi",
-    "selectedHeading_other": "{{count}} Yetenek Seçildi",
-    "skillTotal": "{{amount}} XP",
-    "skillsHeading": "Yetenekler",
-    "submit": "XP Ekle",
-    "title_one": "XP Ekle",
-    "title_other": "XP Ekle"
-  },
-  "accessLevelDialog": {
-    "description_one": "{{username}} için bir rol seçin.",
-    "description_other": "{{count}} oyuncu için bir rol seçin.",
-    "levelLabel": "Rol",
-    "submit": "Rolü Ayarla",
-    "title": "Rolü Ayarla",
-    "levels": {
-      "none": { "label": "None" },
-      "user": {
-        "label": "User"
-      },
-      "priority": {
-        "label": "Priority"
-      },
-      "observer": { "label": "Observer" },
-      "gm": { "label": "GM" },
-      "overseer": { "label": "Overseer" },
-      "moderator": { "label": "Moderator" },
-      "admin": { "label": "Admin" }
+  "actions": {
+    "menu": {
+      "accessibleLabel": "{{username}} için işlemleri aç",
+      "protectedRoleExplanation": "Admin ve moderator rolleri yasaklanamaz veya atılamaz"
     },
-    "validation": {
-      "levelRequired": "Bir rol seçin."
+    "groups": {
+      "moderation": "Moderasyon",
+      "events": "Olaylar",
+      "give": "Ver",
+      "powers": "Güçler"
+    },
+    "labels": {
+      "addItem": "Eşya Ekle",
+      "spawnVehicle": "Araç Oluştur",
+      "addXp": "XP Ekle",
+      "ban": "Yasakla",
+      "createHorde": "Sürü Oluştur",
+      "kick": "At",
+      "lightningStrike": "Yıldırım Çarpması",
+      "removeFromWhitelist": "Beyaz Listeden Kaldır",
+      "removeVoiceBan": "Ses Yasağını Kaldır",
+      "setAccessLevel": "Rolü Ayarla",
+      "teleport": "Işınla",
+      "thunderStrike": "Gök Gürültüsü Çarpması",
+      "unban": "Yasağı Kaldır",
+      "voiceBan": "Ses Yasağı"
+    },
+    "modes": {
+      "invisible": {
+        "label": "Görünmezlik",
+        "enable": "Görünmezliği Aç",
+        "disable": "Görünmezliği Kapat"
+      },
+      "godMode": {
+        "label": "Ölümsüzlük Modu",
+        "enable": "Ölümsüzlük Modunu Aç",
+        "disable": "Ölümsüzlük Modunu Kapat"
+      },
+      "noClip": {
+        "label": "Çarpışmasız Mod",
+        "enable": "Çarpışmasız Modu Aç",
+        "disable": "Çarpışmasız Modu Kapat"
+      },
+      "states": {
+        "enabled": "açık",
+        "disabled": "kapalı",
+        "unknown": "bilinmiyor"
+      }
+    },
+    "bulk": {
+      "accessibleLabel": "Seçili oyuncu işlemleri",
+      "actionsButton": "İşlemler",
+      "clearSelectionLabel": "Oyuncu seçimini temizle",
+      "onlineOnlyExplanation": "Seçilen tüm oyuncular çevrimiçi olmalıdır",
+      "selectedCount_one": "{{count}} seçildi",
+      "selectedCount_other": "{{count}} seçildi"
+    }
+  },
+  "dialogs": {
+    "addServerUser": {
+      "submit": "Beyaz Listeye Ekle",
+      "title": "Oyuncuyu Beyaz Listeye Ekle"
+    },
+    "addLocalPlayer": {
+      "submit": "Oyuncu Ekle",
+      "title": "Yerel Oyuncu Ekle"
+    },
+    "ban": {
+      "banIpLabel": "Mevcut IP adresini de yasakla",
+      "description_one": "{{username}} sunucudan yasaklansın.",
+      "description_other": "{{count}} oyuncu sunucudan yasaklansın.",
+      "submit": "Yasakla",
+      "title_one": "Oyuncuyu Yasakla",
+      "title_other": "Oyuncuları Yasakla"
+    },
+    "kick": {
+      "description_one": "{{username}} kullanıcısının sunucu bağlantısını kes.",
+      "description_other": "{{count}} oyuncunun sunucu bağlantısını kes.",
+      "submit": "At",
+      "title_one": "Oyuncuyu At",
+      "title_other": "Oyuncuları At"
+    },
+    "removeFromWhitelist": {
+      "deleteLocalLabel": "Yerel oyuncu listesinden de kalıcı olarak sil",
+      "description_one": "{{username}} sunucu beyaz listesinden kaldırılsın mı?",
+      "description_other": "{{count}} oyuncu sunucu beyaz listesinden kaldırılsın mı?",
+      "title_one": "Beyaz Listeden Kaldır",
+      "title_other": "Oyuncuları Beyaz Listeden Kaldır"
+    },
+    "createHorde": {
+      "description_one": "{{username}} yakınına bir sürü oluştur.",
+      "description_other": "{{count}} oyuncunun her birinin yakınına bir sürü oluştur.",
+      "sizeLabel": "Sürü Büyüklüğü",
+      "submit": "Sürü Oluştur",
+      "title": "Sürü Oluştur",
+      "validation": {
+        "sizeRange": "Sıfırdan büyük bir tam sayı girin."
+      }
+    },
+    "lightning": {
+      "description_one": "{{username}} üzerine yıldırım düşürülsün mü?",
+      "description_other": "{{count}} oyuncu üzerine yıldırım düşürülsün mü?",
+      "submit": "Yıldırım Düşür",
+      "title": "Yıldırım Çarpması"
+    },
+    "thunder": {
+      "description_one": "{{username}} üzerinde gök gürültüsü tetiklensin mi?",
+      "description_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklensin mi?",
+      "submit": "Gök Gürültüsü Tetikle",
+      "title": "Gök Gürültüsü Çarpması"
+    },
+    "teleport": {
+      "coordinatesMode": "Koordinatlar",
+      "description_one": "{{username}} kullanıcısının nereye ışınlanacağını seçin.",
+      "description_other": "{{count}} oyuncunun nereye ışınlanacağını seçin.",
+      "destinationPlayerLabel": "Hedef Oyuncu",
+      "noDestinationPlayers": "Başka çevrimiçi oyuncu bulunamadı",
+      "playerMode": "Oyuncu",
+      "selectPlayerPlaceholder": "Bir oyuncu seçin",
+      "submit": "Işınla",
+      "xCoordinateLabel": "X",
+      "yCoordinateLabel": "Y",
+      "zCoordinateLabel": "Z",
+      "title_one": "Oyuncuyu Işınla",
+      "title_other": "Oyuncuları Işınla",
+      "validation": {
+        "destinationRequired": "Bir hedef oyuncu seçin.",
+        "xRequired": "X değerini girin.",
+        "yRequired": "Y değerini girin.",
+        "zRequired": "Z değerini girin."
+      }
+    },
+    "spawnVehicle": {
+      "description_one": "{{username}} yakınında oluşturulacak aracı seçin.",
+      "description_other": "{{count}} oyuncunun her birinin yakınında oluşturulacak aracı seçin.",
+      "submit": "Araç Oluştur",
+      "title_one": "Araç Oluştur",
+      "title_other": "Araçlar Oluştur"
+    },
+    "giveItems": {
+      "description_one": "{{username}} kullanıcısına verilecek eşyaları seçin.",
+      "description_other": "{{count}} oyuncunun her birine verilecek eşyaları seçin.",
+      "submit": "Eşyaları Ver",
+      "title_one": "Eşya Ver",
+      "title_other": "Eşya Ver"
+    },
+    "addXp": {
+      "description_one": "{{username}} kullanıcısına eklenecek yetenek XP'sini seçin.",
+      "description_other": "{{count}} oyuncunun her birine eklenecek yetenek XP'sini seçin.",
+      "submit": "XP Ekle",
+      "title_one": "XP Ekle",
+      "title_other": "XP Ekle"
+    },
+    "setRole": {
+      "description_one": "{{username}} için bir rol seçin.",
+      "description_other": "{{count}} oyuncu için bir rol seçin.",
+      "levelLabel": "Rol",
+      "submit": "Rolü Ayarla",
+      "title": "Rolü Ayarla",
+      "validation": {
+        "levelRequired": "Bir rol seçin."
+      }
     }
   },
   "loadError": {

@@ -203,7 +203,11 @@ export const VehicleResultsList = memo(function VehicleResultsList({
                             <VehicleStat
                               icon={vehicleStatIcons[stat]}
                               key={stat}
-                              label={t(`browser.${stat}`)}
+                              label={
+                                stat === "totalStorage"
+                                  ? t("browser.storage")
+                                  : t(`stats.${stat}`)
+                              }
                               value={formatVehicleStat(
                                 t,
                                 stat,

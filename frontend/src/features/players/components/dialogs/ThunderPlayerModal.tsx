@@ -29,7 +29,7 @@ export function ThunderPlayerModal({
     }
   }
 
-  const targetDescription = t("thunderDialog.description", {
+  const targetDescription = t("dialogs.thunder.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -41,7 +41,7 @@ export function ThunderPlayerModal({
       closeOnEscape={!triggering}
       opened={opened}
       onClose={onClose}
-      title={t("thunderDialog.title")}
+      title={t("dialogs.thunder.title")}
       withCloseButton={!triggering}
     >
       <Stack>
@@ -51,7 +51,7 @@ export function ThunderPlayerModal({
             {t("actions.cancel", { ns: "common" })}
           </Button>
           <Button loading={triggering} onClick={handleThunder}>
-            {t("thunderDialog.submit")}
+            {t("dialogs.thunder.submit")}
           </Button>
         </Group>
       </Stack>

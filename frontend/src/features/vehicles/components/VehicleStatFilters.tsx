@@ -111,11 +111,11 @@ export function VehicleLightbarFilter({
           <Image aria-hidden="true" fit="contain" h={16} src={icon} w={16} />
         ) : null}
         <Text fw={500} fz={13}>
-          {t("filters.stats.lightbar")}
+          {t("stats.lightbar")}
         </Text>
       </Group>
       <SegmentedControl
-        aria-label={t("filters.stats.lightbar")}
+        aria-label={t("stats.lightbar")}
         data={[
           { label: t("filters.boolean.any"), value: "any" },
           { label: t("filters.boolean.yes"), value: "yes" },
@@ -147,7 +147,7 @@ export function VehicleStatFilters({
         if (!range || range.minimum === range.maximum) return null;
 
         const value = values[stat] ?? [range.minimum, range.maximum];
-        const label = t(`filters.stats.${stat}`);
+        const label = t(`stats.${stat}`);
 
         return (
           <VehicleStatFilterControl

@@ -51,7 +51,7 @@ export function BanPlayerModal({
     if (succeeded) onClose();
   }
 
-  const targetDescription = t("banDialog.description", {
+  const targetDescription = t("dialogs.ban.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -63,7 +63,7 @@ export function BanPlayerModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("banDialog.title", { count: players.length })}
+      title={t("dialogs.ban.title", { count: players.length })}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -83,7 +83,7 @@ export function BanPlayerModal({
           />
           <Checkbox
             key={form.key("banIP")}
-            label={t("banDialog.banIpLabel")}
+            label={t("dialogs.ban.banIpLabel")}
             {...form.getInputProps("banIP", { type: "checkbox" })}
           />
           <Group justify="flex-end" mt="xs">
@@ -100,7 +100,7 @@ export function BanPlayerModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("banDialog.submit")}
+              {t("dialogs.ban.submit")}
             </Button>
           </Group>
         </Stack>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { GameBuild } from "@/features/game/types";
+import { canonicalLanguage } from "@/i18n/locales";
 import { errorMessage } from "@/shared/lib/errors";
 import { loadItemCatalog } from "./catalog";
 import type { ItemCatalog } from "./types";
@@ -57,7 +58,7 @@ export function useItemCatalog(
   if (
     state.catalog &&
     (state.catalog.build !== build ||
-      state.catalog.language !== Intl.getCanonicalLocales(language)[0])
+      state.catalog.language !== canonicalLanguage(language))
   ) {
     return { catalog: null, error: null, loading: true, reload };
   }

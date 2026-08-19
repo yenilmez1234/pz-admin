@@ -16,7 +16,7 @@ export function ServerConnectionFooter({
   profile,
   state,
 }: ServerConnectionFooterProps) {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation("session");
   const disconnecting = state === "disconnecting";
 
   return (
@@ -42,7 +42,7 @@ export function ServerConnectionFooter({
         loading={disconnecting}
         onClick={onDisconnect}
       >
-        {t("session.disconnect")}
+        {t("disconnect")}
       </Button>
     </Stack>
   );

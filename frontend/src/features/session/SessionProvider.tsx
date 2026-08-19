@@ -26,7 +26,7 @@ interface SessionProviderProps {
 }
 
 export function SessionProvider({ children }: SessionProviderProps) {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation("session");
   const [{ features, initializationError, profile, state }, dispatch] =
     useReducer(sessionReducer, initialSessionData);
   // Async snapshots must not overwrite a newer connection lifecycle event.
@@ -54,7 +54,7 @@ export function SessionProvider({ children }: SessionProviderProps) {
         dispatch({
           type: "failed",
           clearProfile: true,
-          error: t("session.unknownStateError"),
+          error: t("unknownStateError"),
         });
       }
     } catch (loadError) {
@@ -97,8 +97,8 @@ export function SessionProvider({ children }: SessionProviderProps) {
       if (!disconnectRequested.current) {
         notifications.show({
           color: "red",
-          title: t("session.connectionLostTitle"),
-          message: t("session.connectionLostMessage"),
+          title: t("connectionLostTitle"),
+          message: t("connectionLostMessage"),
         });
       }
     });

@@ -6,7 +6,7 @@ import { ServerProfilesPage } from "./profiles/ServerProfilesPage";
 import { ServerWorkspace } from "./workspace/ServerWorkspace";
 
 export function ServerPage() {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation("session");
   const { profile, state } = useSession();
 
   if (state === "initializing") {
@@ -15,7 +15,7 @@ export function ServerPage() {
         contentWidth="standard"
         py="xl"
         aria-busy="true"
-        aria-label={t("session.loadingLabel")}
+        aria-label={t("loadingLabel")}
       >
         <SimpleGrid minColWidth={260}>
           <Skeleton height={112} />

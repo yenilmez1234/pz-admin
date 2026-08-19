@@ -11,7 +11,7 @@ import { ConsoleTranscript } from "./ConsoleTranscript";
 import classes from "./ConsolePage.module.css";
 
 export function ConsolePage() {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation("console");
   const [entries, setEntries] = useState<ConsoleEntry[]>([]);
   const [executing, setExecuting] = useState(false);
   const nextEntryId = useRef(0);
@@ -36,7 +36,7 @@ export function ConsolePage() {
         {
           command,
           id: nextEntryId.current++,
-          result: t("console.help.cls"),
+          result: t("help.cls"),
           status: "success",
         },
       ]);

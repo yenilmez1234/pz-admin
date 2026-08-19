@@ -23,7 +23,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
   const build = profile?.version === "41" ? "41" : "42";
   const online = isOnline(player);
   const moderationProtected = hasProtectedModerationRole(player, build);
-  const protectedRoleMessage = t("actionsMenu.protectedRoleExplanation");
+  const protectedRoleMessage = t("actions.menu.protectedRoleExplanation");
 
   return (
     <Menu
@@ -38,7 +38,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
     >
       <Menu.Target>
         <ActionIcon
-          aria-label={t("actionsMenu.accessibleLabel", {
+          aria-label={t("actions.menu.accessibleLabel", {
             username: player.username,
           })}
           color="gray"
@@ -53,17 +53,17 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
       <Menu.Dropdown>
         {online ? (
           <Menu.Item onClick={() => actions.openTeleport([player])}>
-            {t("actionsMenu.teleport")}
+            {t("actions.labels.teleport")}
           </Menu.Item>
         ) : null}
 
         <Menu.Sub>
           <Menu.Sub.Target>
-            <Menu.Sub.Item>{t("actionsMenu.moderation")}</Menu.Sub.Item>
+            <Menu.Sub.Item>{t("actions.groups.moderation")}</Menu.Sub.Item>
           </Menu.Sub.Target>
           <Menu.Sub.Dropdown>
             <Menu.Item onClick={() => actions.openAccessLevel([player])}>
-              {t("actionsMenu.setAccessLevel")}
+              {t("actions.labels.setAccessLevel")}
             </Menu.Item>
             <Tooltip
               disabled={!moderationProtected || player.banned === true}
@@ -81,8 +81,8 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
                   }
                 >
                   {player.banned
-                    ? t("actionsMenu.unban")
-                    : t("actionsMenu.ban")}
+                    ? t("actions.labels.unban")
+                    : t("actions.labels.ban")}
                 </Menu.Item>
               </Box>
             </Tooltip>
@@ -99,7 +99,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
                       disabled={moderationProtected}
                       onClick={() => actions.openKick([player])}
                     >
-                      {t("actionsMenu.kick")}
+                      {t("actions.labels.kick")}
                     </Menu.Item>
                   </Box>
                 </Tooltip>
@@ -112,15 +112,15 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
                   }
                 >
                   {player.voiceBanned
-                    ? t("actionsMenu.removeVoiceBan")
-                    : t("actionsMenu.voiceBan")}
+                    ? t("actions.labels.removeVoiceBan")
+                    : t("actions.labels.voiceBan")}
                 </Menu.Item>
               </>
             ) : null}
             <Menu.Item
               onClick={() => actions.openRemoveFromWhitelist([player])}
             >
-              {t("actionsMenu.removeFromWhitelist")}
+              {t("actions.labels.removeFromWhitelist")}
             </Menu.Item>
           </Menu.Sub.Dropdown>
         </Menu.Sub>
@@ -129,7 +129,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
           <>
             <Menu.Sub>
               <Menu.Sub.Target>
-                <Menu.Sub.Item>{t("actionsMenu.powers")}</Menu.Sub.Item>
+                <Menu.Sub.Item>{t("actions.groups.powers")}</Menu.Sub.Item>
               </Menu.Sub.Target>
               <Menu.Sub.Dropdown>
                 <PlayerModeMenuItems player={player} />
@@ -138,7 +138,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
 
             <Menu.Sub>
               <Menu.Sub.Target>
-                <Menu.Sub.Item>{t("actionsMenu.give")}</Menu.Sub.Item>
+                <Menu.Sub.Item>{t("actions.groups.give")}</Menu.Sub.Item>
               </Menu.Sub.Target>
               <Menu.Sub.Dropdown>
                 <PlayerGiveMenuItems players={[player]} />
@@ -147,7 +147,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
 
             <Menu.Sub>
               <Menu.Sub.Target>
-                <Menu.Sub.Item>{t("actionsMenu.events")}</Menu.Sub.Item>
+                <Menu.Sub.Item>{t("actions.groups.events")}</Menu.Sub.Item>
               </Menu.Sub.Target>
               <Menu.Sub.Dropdown>
                 <PlayerEventMenuItems players={[player]} />

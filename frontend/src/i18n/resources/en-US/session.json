@@ -1,0 +1,8 @@
+{
+  "connectionLostTitle": "Connection Lost",
+  "connectionLostMessage": "The server connection was closed. Connect again to continue.",
+  "loadingLabel": "Loading session…",
+  "unknownStateError": "Unable to determine the current connection state.",
+  "disconnect": "Disconnect",
+  "disconnectErrorTitle": "Unable to Disconnect"
+}

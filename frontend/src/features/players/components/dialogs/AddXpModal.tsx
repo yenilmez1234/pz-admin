@@ -33,6 +33,7 @@ export function AddXpModal({
   players,
 }: AddXpModalProps) {
   const { i18n, t } = useTranslation(["players", "common"]);
+  const { t: skillT } = useTranslation("skills");
   const language = i18n.resolvedLanguage ?? i18n.language;
   const { catalog, error, loading, reload } = useSkillCatalog(build, language);
   const selection = useSkillXpSelection();
@@ -97,12 +98,12 @@ export function AddXpModal({
       onExitTransitionEnd={selection.clear}
       opened={opened}
       size="xl"
-      title={t("addXpDialog.title", { count: players.length })}
+      title={t("dialogs.addXp.title", { count: players.length })}
       withCloseButton={!submitting}
     >
       <Stack gap="md">
         <Text c="dimmed" size="sm">
-          {t("addXpDialog.description", {
+          {t("dialogs.addXp.description", {
             count: players.length,
             username: players[0]?.username,
           })}
@@ -113,7 +114,7 @@ export function AddXpModal({
             aria-live="polite"
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={t("addXpDialog.loadErrorTitle")}
+            title={skillT("errors.loadTitle")}
           >
             <Stack align="flex-start" gap="xs">
               <Text size="sm">{error}</Text>
@@ -144,7 +145,7 @@ export function AddXpModal({
             onClick={selectMaximumXp}
             variant="default"
           >
-            {t("addXpDialog.maxAll")}
+            {skillT("picker.maxAll")}
           </Button>
           <Group>
             <Button disabled={submitting} onClick={onClose} variant="default">
@@ -155,7 +156,7 @@ export function AddXpModal({
               loading={submitting}
               onClick={() => void handleAdd()}
             >
-              {t("addXpDialog.submit")}
+              {t("dialogs.addXp.submit")}
             </Button>
           </Group>
         </Group>

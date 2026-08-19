@@ -1,10 +1,9 @@
 {
   "page": {
-    "title": "Items",
-    "buildLabel": "Game build",
-    "build41": "Build 41",
-    "build42": "Build 42",
-    "loadErrorTitle": "Unable to Load Items"
+    "title": "Items"
+  },
+  "errors": {
+    "loadTitle": "Unable to Load Items"
   },
   "browser": {
     "searchLabel": "Search items",

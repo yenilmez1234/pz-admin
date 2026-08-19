@@ -21,12 +21,12 @@ export function SkillCatalogPane({
   catalog,
   selection,
 }: SkillCatalogPaneProps) {
-  const { t } = useTranslation("players");
+  const { t } = useTranslation("skills");
 
   return (
     <Paper className={classes.pane} component={Stack} gap={0} withBorder>
       <Text fw={600} px="sm" py="xs" size="sm">
-        {t("addXpDialog.skillsHeading")}
+        {t("picker.skillsHeading")}
       </Text>
       <ScrollArea
         className={classes.scrollRegion}

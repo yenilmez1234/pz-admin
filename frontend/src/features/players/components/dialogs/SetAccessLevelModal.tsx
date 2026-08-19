@@ -70,7 +70,7 @@ export function SetAccessLevelModal({
     mode: "controlled",
     initialValues: { accessLevel: "" },
     validate: {
-      accessLevel: isNotEmpty(t("accessLevelDialog.validation.levelRequired")),
+      accessLevel: isNotEmpty(t("dialogs.setRole.validation.levelRequired")),
     },
   });
   const accessLevels =
@@ -94,7 +94,7 @@ export function SetAccessLevelModal({
     if (succeeded) onClose();
   }
 
-  const targetDescription = t("accessLevelDialog.description", {
+  const targetDescription = t("dialogs.setRole.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -107,7 +107,7 @@ export function SetAccessLevelModal({
       opened={opened}
       onClose={onClose}
       size="sm"
-      title={t("accessLevelDialog.title")}
+      title={t("dialogs.setRole.title")}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)} noValidate>
@@ -117,7 +117,7 @@ export function SetAccessLevelModal({
           </Text>
 
           <Radio.Group
-            label={t("accessLevelDialog.levelLabel")}
+            label={t("dialogs.setRole.levelLabel")}
             required
             {...form.getInputProps("accessLevel")}
           >
@@ -127,7 +127,7 @@ export function SetAccessLevelModal({
                   key={level}
                   label={
                     <Badge color={accessLevelColor(level)} variant="light">
-                      {t(`accessLevelDialog.levels.${level}.label`)}
+                      {t(`roles.${level}`)}
                     </Badge>
                   }
                   value={level}
@@ -149,7 +149,7 @@ export function SetAccessLevelModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("accessLevelDialog.submit")}
+              {t("dialogs.setRole.submit")}
             </Button>
           </Group>
         </Stack>

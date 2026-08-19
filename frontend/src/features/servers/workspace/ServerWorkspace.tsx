@@ -16,7 +16,7 @@ import { usePersistentNavigation } from "@/shared/layout/usePersistentNavigation
 type ServerWorkspacePage = "players" | "console";
 
 export function ServerWorkspace() {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation(["servers", "session"]);
   const navigation = usePersistentNavigation<ServerWorkspacePage>("players");
   const { disconnect, profile, state } = useSession();
   const pages = [
@@ -46,7 +46,7 @@ export function ServerWorkspace() {
     } catch (disconnectError) {
       notifications.show({
         color: "red",
-        title: t("session.disconnectErrorTitle"),
+        title: t("disconnectErrorTitle", { ns: "session" }),
         message: errorMessage(disconnectError),
       });
     }
@@ -56,7 +56,7 @@ export function ServerWorkspace() {
     <SectionNavigation
       activePage={navigation.activePage}
       items={pages}
-      label={t("session.serverNavigationLabel")}
+      label={t("workspace.navigationLabel")}
       onPageChange={navigation.changePage}
       sidebarWidth={208}
       footer={

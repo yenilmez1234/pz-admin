@@ -21,7 +21,7 @@ export function SelectedSkillsPane({
   selectedSkills,
   selection,
 }: SelectedSkillsPaneProps) {
-  const { t } = useTranslation("players");
+  const { t } = useTranslation("skills");
   const scrollRegionRef = useRef<HTMLDivElement>(null);
   const wasAtBottom = useRef(true);
   const previousCount = useRef(selectedSkills.length);
@@ -42,7 +42,7 @@ export function SelectedSkillsPane({
     <Paper className={classes.pane} component={Stack} gap={0} withBorder>
       <Group justify="space-between" px="sm" py="xs">
         <Text fw={600} size="sm">
-          {t("addXpDialog.selectedHeading", { count: selectedSkills.length })}
+          {t("picker.selectedHeading", { count: selectedSkills.length })}
         </Text>
         <Button
           color="gray"
@@ -51,7 +51,7 @@ export function SelectedSkillsPane({
           size="compact-xs"
           variant="subtle"
         >
-          {t("addXpDialog.clear")}
+          {t("picker.clear")}
         </Button>
       </Group>
 
@@ -94,7 +94,7 @@ export function SelectedSkillsPane({
           })
         ) : (
           <Text c="dimmed" p="xl" size="sm" ta="center">
-            {t("addXpDialog.emptySelection")}
+            {t("picker.emptySelection")}
           </Text>
         )}
       </ScrollArea>

@@ -139,14 +139,20 @@ export function ServerFormModal({
           </SimpleGrid>
           <Radio.Group
             key={form.key("version")}
-            label={t("form.buildLabel")}
+            label={t("gameBuild.label", { ns: "common" })}
             name="version"
             required
             {...form.getInputProps("version")}
           >
             <Group mt="xs">
-              <Radio value="41" label={t("form.build41")} />
-              <Radio value="42" label={t("form.build42")} />
+              <Radio
+                value="41"
+                label={t("gameBuild.options.41", { ns: "common" })}
+              />
+              <Radio
+                value="42"
+                label={t("gameBuild.options.42", { ns: "common" })}
+              />
             </Group>
           </Radio.Group>
           <PasswordInput

@@ -1,4 +1,5 @@
 import type { GameBuild } from "@/features/game/types";
+import { canonicalLanguage } from "@/i18n/locales";
 import {
   loadSkillTranslations,
   translatedSkillCategoryName,
@@ -88,7 +89,7 @@ export function loadSkillCatalog(
   build: GameBuild,
   language: string,
 ): Promise<SkillCatalog> {
-  const languageTag = Intl.getCanonicalLocales(language)[0];
+  const languageTag = canonicalLanguage(language);
   const requestKey = `${build}:${languageTag}`;
   const existingRequest = catalogRequests.get(requestKey);
   if (existingRequest) return existingRequest;

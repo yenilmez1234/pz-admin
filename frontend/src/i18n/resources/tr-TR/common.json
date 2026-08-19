@@ -10,6 +10,13 @@
     "reason": "Sebep",
     "username": "Kullanıcı Adı"
   },
+  "gameBuild": {
+    "label": "Oyun sürümü",
+    "options": {
+      "41": "Build 41",
+      "42": "Build 42"
+    }
+  },
   "placeholders": {
     "optional": "İsteğe bağlı"
   },

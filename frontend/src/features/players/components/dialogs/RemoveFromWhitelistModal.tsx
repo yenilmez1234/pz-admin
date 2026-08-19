@@ -37,7 +37,7 @@ export function RemoveFromWhitelistModal({
     if (succeeded) onClose();
   }
 
-  const targetDescription = t("removeWhitelistDialog.description", {
+  const targetDescription = t("dialogs.removeFromWhitelist.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -49,14 +49,14 @@ export function RemoveFromWhitelistModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("removeWhitelistDialog.title", { count: players.length })}
+      title={t("dialogs.removeFromWhitelist.title", { count: players.length })}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleRemove)}>
         <Stack>
           <Text size="sm">{targetDescription}</Text>
           <Checkbox
-            label={t("removeWhitelistDialog.deleteLocalLabel")}
+            label={t("dialogs.removeFromWhitelist.deleteLocalLabel")}
             {...form.getInputProps("deleteLocal", { type: "checkbox" })}
           />
           <Group justify="flex-end" mt="xs">

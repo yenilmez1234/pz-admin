@@ -17,7 +17,7 @@ import type { VehicleCatalogEntry } from "@/features/vehicles/types";
 import { useVehicleCatalog } from "@/features/vehicles/useVehicleCatalog";
 
 export function VehiclesPage() {
-  const { t } = useTranslation("vehicles");
+  const { t } = useTranslation(["vehicles", "common"]);
   const [build, setBuild] = useState<GameBuild>("42");
   const [selectedVehicle, setSelectedVehicle] =
     useState<VehicleCatalogEntry | null>(null);
@@ -65,10 +65,16 @@ export function VehiclesPage() {
           <Group justify="space-between">
             <Title order={1}>{t("page.title")}</Title>
             <SegmentedControl
-              aria-label={t("page.buildLabel")}
+              aria-label={t("gameBuild.label", { ns: "common" })}
               data={[
-                { label: t("page.build41"), value: "41" },
-                { label: t("page.build42"), value: "42" },
+                {
+                  label: t("gameBuild.options.41", { ns: "common" }),
+                  value: "41",
+                },
+                {
+                  label: t("gameBuild.options.42", { ns: "common" }),
+                  value: "42",
+                },
               ]}
               onChange={handleBuildChange}
               value={build}
@@ -79,7 +85,7 @@ export function VehiclesPage() {
             <Alert
               color="red"
               icon={<IconAlertCircle size={20} aria-hidden="true" />}
-              title={t("page.loadErrorTitle")}
+              title={t("errors.loadTitle")}
             >
               <Stack gap="xs" align="flex-start">
                 {error}

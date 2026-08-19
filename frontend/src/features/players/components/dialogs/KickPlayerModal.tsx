@@ -38,7 +38,7 @@ export function KickPlayerModal({
     if (succeeded) onClose();
   }
 
-  const targetDescription = t("kickDialog.description", {
+  const targetDescription = t("dialogs.kick.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -50,7 +50,7 @@ export function KickPlayerModal({
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      title={t("kickDialog.title", { count: players.length })}
+      title={t("dialogs.kick.title", { count: players.length })}
       withCloseButton={!form.submitting}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -81,7 +81,7 @@ export function KickPlayerModal({
               loading={form.submitting}
               type="submit"
             >
-              {t("kickDialog.submit")}
+              {t("dialogs.kick.submit")}
             </Button>
           </Group>
         </Stack>

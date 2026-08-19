@@ -42,7 +42,7 @@ export const SelectedSkill = memo(function SelectedSkill({
   progression,
   skill,
 }: SelectedSkillProps) {
-  const { t } = useTranslation("players");
+  const { t } = useTranslation("skills");
   const total =
     choice.mode === "custom"
       ? (choice.amount ?? 0)
@@ -63,10 +63,10 @@ export const SelectedSkill = memo(function SelectedSkill({
         </Group>
         <Group gap={4} wrap="nowrap">
           <Text c="dimmed" size="xs" style={{ whiteSpace: "nowrap" }}>
-            {t("addXpDialog.skillTotal", { amount: formatNumber(total) })}
+            {t("picker.skillTotal", { amount: formatNumber(total) })}
           </Text>
           <ActionIcon
-            aria-label={t("addXpDialog.removeSkill", { skill: skill.name })}
+            aria-label={t("picker.removeSkill", { skill: skill.name })}
             color="gray"
             onClick={() => onRemove(skill.id)}
             size="sm"
@@ -82,7 +82,7 @@ export const SelectedSkill = memo(function SelectedSkill({
           <NumberInput
             allowDecimal={false}
             allowNegative={false}
-            aria-label={t("addXpDialog.customXpAccessibleLabel", {
+            aria-label={t("picker.customXpAccessibleLabel", {
               skill: skill.name,
             })}
             hideControls
@@ -98,14 +98,14 @@ export const SelectedSkill = memo(function SelectedSkill({
                   : null,
               )
             }
-            placeholder={t("addXpDialog.customXpPlaceholder")}
+            placeholder={t("picker.customXpPlaceholder")}
             size="xs"
             value={choice.amount ?? ""}
             w={180}
           />
           <Switch
             checked
-            label={t("addXpDialog.customXp")}
+            label={t("picker.customXp")}
             onChange={() => onSetMode(skill.id, "levels")}
             size="xs"
           />
@@ -124,7 +124,7 @@ export const SelectedSkill = memo(function SelectedSkill({
             const selected = choice.levels.has(level.level);
             return (
               <Button
-                aria-label={t("addXpDialog.levelAccessibleLabel", {
+                aria-label={t("picker.levelAccessibleLabel", {
                   amount: formatNumber(level.xp),
                   level: level.level,
                   skill: skill.name,
@@ -141,7 +141,7 @@ export const SelectedSkill = memo(function SelectedSkill({
               >
                 <Stack align="center" gap={0}>
                   <Text className={classes.levelLabel} fz={9} lh={1}>
-                    {t("addXpDialog.levelShort", { level: level.level })}
+                    {t("picker.levelShort", { level: level.level })}
                   </Text>
                   <Text fz="xs" lh={1.2}>
                     +{formatCompactNumber(level.xp)}
@@ -152,7 +152,7 @@ export const SelectedSkill = memo(function SelectedSkill({
           })}
           <Switch
             checked={false}
-            label={t("addXpDialog.customXp")}
+            label={t("picker.customXp")}
             ml="auto"
             onChange={() => onSetMode(skill.id, "custom")}
             size="xs"

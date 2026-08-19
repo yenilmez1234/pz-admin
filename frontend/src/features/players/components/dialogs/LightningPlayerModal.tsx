@@ -29,7 +29,7 @@ export function LightningPlayerModal({
     }
   }
 
-  const targetDescription = t("lightningDialog.description", {
+  const targetDescription = t("dialogs.lightning.description", {
     count: players.length,
     username: players[0]?.username,
   });
@@ -41,7 +41,7 @@ export function LightningPlayerModal({
       closeOnEscape={!triggering}
       opened={opened}
       onClose={onClose}
-      title={t("lightningDialog.title")}
+      title={t("dialogs.lightning.title")}
       withCloseButton={!triggering}
     >
       <Stack>
@@ -51,7 +51,7 @@ export function LightningPlayerModal({
             {t("actions.cancel", { ns: "common" })}
           </Button>
           <Button loading={triggering} onClick={handleLightning}>
-            {t("lightningDialog.submit")}
+            {t("dialogs.lightning.submit")}
           </Button>
         </Group>
       </Stack>

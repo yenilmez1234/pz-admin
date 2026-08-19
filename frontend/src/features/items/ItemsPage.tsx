@@ -16,7 +16,7 @@ import { useItemCatalog } from "@/features/items/useItemCatalog";
 import { useItemSelection } from "@/features/items/useItemSelection";
 
 export function ItemsPage() {
-  const { i18n, t } = useTranslation("items");
+  const { i18n, t } = useTranslation(["items", "common"]);
   const [build, setBuild] = useState<GameBuild>("42");
   const language = i18n.resolvedLanguage ?? i18n.language;
   const { catalog, error, loading, reload } = useItemCatalog(build, language);
@@ -37,10 +37,16 @@ export function ItemsPage() {
         <Group justify="space-between">
           <Title order={1}>{t("page.title")}</Title>
           <SegmentedControl
-            aria-label={t("page.buildLabel")}
+            aria-label={t("gameBuild.label", { ns: "common" })}
             data={[
-              { label: t("page.build41"), value: "41" },
-              { label: t("page.build42"), value: "42" },
+              {
+                label: t("gameBuild.options.41", { ns: "common" }),
+                value: "41",
+              },
+              {
+                label: t("gameBuild.options.42", { ns: "common" }),
+                value: "42",
+              },
             ]}
             onChange={handleBuildChange}
             value={build}
@@ -51,7 +57,7 @@ export function ItemsPage() {
           <Alert
             color="red"
             icon={<IconAlertCircle aria-hidden="true" size={20} />}
-            title={t("page.loadErrorTitle")}
+            title={t("errors.loadTitle")}
           >
             <Stack align="flex-start" gap="xs">
               {error}

@@ -17,10 +17,9 @@
   "status": {
     "neverSeen": "Never seen",
     "offline": "Offline",
-    "online": "Online",
-    "unknown": "Unknown"
+    "online": "Online"
   },
-  "accessLevels": {
+  "roles": {
     "admin": "Admin",
     "banned": "Banned",
     "gm": "GM",
@@ -32,190 +31,168 @@
     "user": "User",
     "unknown": "Unknown"
   },
-  "actionsMenu": {
-    "moderation": "Moderation",
-    "accessibleLabel": "Open actions for {{username}}",
-    "addItem": "Add Item",
-    "spawnVehicle": "Spawn Vehicle",
-    "addXp": "Add XP",
-    "ban": "Ban",
-    "createHorde": "Create Horde",
-    "events": "Events",
-    "disableGodMode": "Disable God Mode",
-    "disableInvisible": "Disable Invisibility",
-    "disableNoClip": "Disable No Clip",
-    "enableGodMode": "Enable God Mode",
-    "enableInvisible": "Enable Invisibility",
-    "enableNoClip": "Enable No Clip",
-    "give": "Give",
-    "godMode": "God Mode",
-    "godModeDisabledState": "disabled",
-    "godModeEnabledState": "enabled",
-    "godModeUnknownState": "unknown",
-    "invisible": "Invisibility",
-    "invisibleDisabledState": "disabled",
-    "invisibleEnabledState": "enabled",
-    "invisibleUnknownState": "unknown",
-    "kick": "Kick",
-    "lightningStrike": "Lightning Strike",
-    "noClip": "No Clip",
-    "noClipDisabledState": "disabled",
-    "noClipEnabledState": "enabled",
-    "noClipUnknownState": "unknown",
-    "powers": "Powers",
-    "protectedRoleExplanation": "Admins and moderators cannot be banned or kicked",
-    "removeFromWhitelist": "Remove from Whitelist",
-    "removeVoiceBan": "Remove Voice Ban",
-    "setAccessLevel": "Set Role",
-    "teleport": "Teleport",
-    "thunderStrike": "Thunder Strike",
-    "unban": "Unban",
-    "voiceBan": "Voice Ban"
-  },
-  "bulkActions": {
-    "accessibleLabel": "Selected player actions",
-    "actionsButton": "Actions",
-    "clearSelectionLabel": "Clear player selection",
-    "onlineOnlyExplanation": "All selected players must be online",
-    "selectedCount_one": "{{count}} selected",
-    "selectedCount_other": "{{count}} selected"
-  },
-  "addServerUserDialog": {
-    "submit": "Add to Whitelist",
-    "title": "Add Player to Whitelist"
-  },
-  "addLocalPlayerDialog": {
-    "submit": "Add Player",
-    "title": "Add Local Player"
-  },
-  "banDialog": {
-    "banIpLabel": "Also ban the current IP address",
-    "description_one": "Ban {{username}} from the server.",
-    "description_other": "Ban {{count}} players from the server.",
-    "submit": "Ban",
-    "title_one": "Ban Player",
-    "title_other": "Ban Players"
-  },
-  "kickDialog": {
-    "description_one": "Disconnect {{username}} from the server.",
-    "description_other": "Disconnect {{count}} players from the server.",
-    "submit": "Kick",
-    "title_one": "Kick Player",
-    "title_other": "Kick Players"
-  },
-  "removeWhitelistDialog": {
-    "deleteLocalLabel": "Also permanently delete from the local player list",
-    "description_one": "Remove {{username}} from the server whitelist?",
-    "description_other": "Remove {{count}} players from the server whitelist?",
-    "title_one": "Remove from Whitelist",
-    "title_other": "Remove Players from Whitelist"
-  },
-  "hordeDialog": {
-    "description_one": "Create a horde near {{username}}.",
-    "description_other": "Create a horde near each of {{count}} players.",
-    "sizeLabel": "Horde Size",
-    "submit": "Create Horde",
-    "title": "Create Horde",
-    "validation": {
-      "sizeRange": "Enter a whole number greater than zero."
-    }
-  },
-  "lightningDialog": {
-    "description_one": "Trigger a lightning strike on {{username}}?",
-    "description_other": "Trigger a lightning strike on {{count}} players?",
-    "submit": "Trigger Lightning",
-    "title": "Lightning Strike"
-  },
-  "thunderDialog": {
-    "description_one": "Trigger a thunder strike on {{username}}?",
-    "description_other": "Trigger a thunder strike on {{count}} players?",
-    "submit": "Trigger Thunder",
-    "title": "Thunder Strike"
-  },
-  "teleportDialog": {
-    "coordinatesMode": "Coordinates",
-    "description_one": "Choose where to teleport {{username}}.",
-    "description_other": "Choose where to teleport {{count}} players.",
-    "destinationPlayerLabel": "Destination Player",
-    "noDestinationPlayers": "No other online players found",
-    "playerMode": "Player",
-    "selectPlayerPlaceholder": "Select a player",
-    "submit": "Teleport",
-    "xCoordinateLabel": "X",
-    "yCoordinateLabel": "Y",
-    "zCoordinateLabel": "Z",
-    "title_one": "Teleport Player",
-    "title_other": "Teleport Players",
-    "validation": {
-      "destinationRequired": "Select a destination player.",
-      "xRequired": "Enter X.",
-      "yRequired": "Enter Y.",
-      "zRequired": "Enter Z."
-    }
-  },
-  "spawnVehicleDialog": {
-    "back": "Go Back",
-    "description_one": "Choose a vehicle to spawn near {{username}}.",
-    "description_other": "Choose a vehicle to spawn near each of {{count}} players.",
-    "loadErrorTitle": "Unable to Load Vehicles",
-    "root": "Vehicles",
-    "selectVariant": "Select {{variant}} variant",
-    "submit": "Spawn Vehicle",
-    "title_one": "Spawn Vehicle",
-    "title_other": "Spawn Vehicles",
-    "variants": "Variants"
-  },
-  "giveItemsDialog": {
-    "description_one": "Choose items to give to {{username}}.",
-    "description_other": "Choose items to give to each of {{count}} players.",
-    "loadErrorTitle": "Unable to Load Items",
-    "submit": "Give Items",
-    "title_one": "Give Items",
-    "title_other": "Give Items"
-  },
-  "addXpDialog": {
-    "clear": "Clear All",
-    "customXp": "Custom XP",
-    "customXpAccessibleLabel": "Custom XP amount for {{skill}}",
-    "customXpPlaceholder": "XP amount",
-    "description_one": "Choose the skill XP to add to {{username}}.",
-    "description_other": "Choose the skill XP to add to each of {{count}} players.",
-    "emptySelection": "Select a skill to configure its XP.",
-    "levelAccessibleLabel": "{{skill}}, level {{level}}: {{amount}} XP",
-    "levelShort": "Lv {{level}}",
-    "loadErrorTitle": "Unable to Load Skills",
-    "maxAll": "Max All",
-    "removeSkill": "Remove {{skill}}",
-    "selectedHeading_one": "{{count}} Selected Skill",
-    "selectedHeading_other": "{{count}} Selected Skills",
-    "skillTotal": "{{amount}} XP",
-    "skillsHeading": "Skills",
-    "submit": "Add XP",
-    "title_one": "Add XP",
-    "title_other": "Add XP"
-  },
-  "accessLevelDialog": {
-    "description_one": "Choose a role for {{username}}.",
-    "description_other": "Choose a role for {{count}} players.",
-    "levelLabel": "Role",
-    "submit": "Set Role",
-    "title": "Set Role",
-    "levels": {
-      "none": { "label": "None" },
-      "user": {
-        "label": "User"
-      },
-      "priority": {
-        "label": "Priority"
-      },
-      "observer": { "label": "Observer" },
-      "gm": { "label": "GM" },
-      "overseer": { "label": "Overseer" },
-      "moderator": { "label": "Moderator" },
-      "admin": { "label": "Admin" }
+  "actions": {
+    "menu": {
+      "accessibleLabel": "Open actions for {{username}}",
+      "protectedRoleExplanation": "Admins and moderators cannot be banned or kicked"
     },
-    "validation": {
-      "levelRequired": "Select a role."
+    "groups": {
+      "moderation": "Moderation",
+      "events": "Events",
+      "give": "Give",
+      "powers": "Powers"
+    },
+    "labels": {
+      "addItem": "Add Item",
+      "spawnVehicle": "Spawn Vehicle",
+      "addXp": "Add XP",
+      "ban": "Ban",
+      "createHorde": "Create Horde",
+      "kick": "Kick",
+      "lightningStrike": "Lightning Strike",
+      "removeFromWhitelist": "Remove from Whitelist",
+      "removeVoiceBan": "Remove Voice Ban",
+      "setAccessLevel": "Set Role",
+      "teleport": "Teleport",
+      "thunderStrike": "Thunder Strike",
+      "unban": "Unban",
+      "voiceBan": "Voice Ban"
+    },
+    "modes": {
+      "invisible": {
+        "label": "Invisibility",
+        "enable": "Enable Invisibility",
+        "disable": "Disable Invisibility"
+      },
+      "godMode": {
+        "label": "God Mode",
+        "enable": "Enable God Mode",
+        "disable": "Disable God Mode"
+      },
+      "noClip": {
+        "label": "No Clip",
+        "enable": "Enable No Clip",
+        "disable": "Disable No Clip"
+      },
+      "states": {
+        "enabled": "enabled",
+        "disabled": "disabled",
+        "unknown": "unknown"
+      }
+    },
+    "bulk": {
+      "accessibleLabel": "Selected player actions",
+      "actionsButton": "Actions",
+      "clearSelectionLabel": "Clear player selection",
+      "onlineOnlyExplanation": "All selected players must be online",
+      "selectedCount_one": "{{count}} selected",
+      "selectedCount_other": "{{count}} selected"
+    }
+  },
+  "dialogs": {
+    "addServerUser": {
+      "submit": "Add to Whitelist",
+      "title": "Add Player to Whitelist"
+    },
+    "addLocalPlayer": {
+      "submit": "Add Player",
+      "title": "Add Local Player"
+    },
+    "ban": {
+      "banIpLabel": "Also ban the current IP address",
+      "description_one": "Ban {{username}} from the server.",
+      "description_other": "Ban {{count}} players from the server.",
+      "submit": "Ban",
+      "title_one": "Ban Player",
+      "title_other": "Ban Players"
+    },
+    "kick": {
+      "description_one": "Disconnect {{username}} from the server.",
+      "description_other": "Disconnect {{count}} players from the server.",
+      "submit": "Kick",
+      "title_one": "Kick Player",
+      "title_other": "Kick Players"
+    },
+    "removeFromWhitelist": {
+      "deleteLocalLabel": "Also permanently delete from the local player list",
+      "description_one": "Remove {{username}} from the server whitelist?",
+      "description_other": "Remove {{count}} players from the server whitelist?",
+      "title_one": "Remove from Whitelist",
+      "title_other": "Remove Players from Whitelist"
+    },
+    "createHorde": {
+      "description_one": "Create a horde near {{username}}.",
+      "description_other": "Create a horde near each of {{count}} players.",
+      "sizeLabel": "Horde Size",
+      "submit": "Create Horde",
+      "title": "Create Horde",
+      "validation": {
+        "sizeRange": "Enter a whole number greater than zero."
+      }
+    },
+    "lightning": {
+      "description_one": "Trigger a lightning strike on {{username}}?",
+      "description_other": "Trigger a lightning strike on {{count}} players?",
+      "submit": "Trigger Lightning",
+      "title": "Lightning Strike"
+    },
+    "thunder": {
+      "description_one": "Trigger a thunder strike on {{username}}?",
+      "description_other": "Trigger a thunder strike on {{count}} players?",
+      "submit": "Trigger Thunder",
+      "title": "Thunder Strike"
+    },
+    "teleport": {
+      "coordinatesMode": "Coordinates",
+      "description_one": "Choose where to teleport {{username}}.",
+      "description_other": "Choose where to teleport {{count}} players.",
+      "destinationPlayerLabel": "Destination Player",
+      "noDestinationPlayers": "No other online players found",
+      "playerMode": "Player",
+      "selectPlayerPlaceholder": "Select a player",
+      "submit": "Teleport",
+      "xCoordinateLabel": "X",
+      "yCoordinateLabel": "Y",
+      "zCoordinateLabel": "Z",
+      "title_one": "Teleport Player",
+      "title_other": "Teleport Players",
+      "validation": {
+        "destinationRequired": "Select a destination player.",
+        "xRequired": "Enter X.",
+        "yRequired": "Enter Y.",
+        "zRequired": "Enter Z."
+      }
+    },
+    "spawnVehicle": {
+      "description_one": "Choose a vehicle to spawn near {{username}}.",
+      "description_other": "Choose a vehicle to spawn near each of {{count}} players.",
+      "submit": "Spawn Vehicle",
+      "title_one": "Spawn Vehicle",
+      "title_other": "Spawn Vehicles"
+    },
+    "giveItems": {
+      "description_one": "Choose items to give to {{username}}.",
+      "description_other": "Choose items to give to each of {{count}} players.",
+      "submit": "Give Items",
+      "title_one": "Give Items",
+      "title_other": "Give Items"
+    },
+    "addXp": {
+      "description_one": "Choose the skill XP to add to {{username}}.",
+      "description_other": "Choose the skill XP to add to each of {{count}} players.",
+      "submit": "Add XP",
+      "title_one": "Add XP",
+      "title_other": "Add XP"
+    },
+    "setRole": {
+      "description_one": "Choose a role for {{username}}.",
+      "description_other": "Choose a role for {{count}} players.",
+      "levelLabel": "Role",
+      "submit": "Set Role",
+      "title": "Set Role",
+      "validation": {
+        "levelRequired": "Select a role."
+      }
     }
   },
   "loadError": {

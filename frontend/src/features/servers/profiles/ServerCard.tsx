@@ -30,7 +30,7 @@ export function ServerCard({
   onDelete,
   onEdit,
 }: ServerCardProps) {
-  const { t } = useTranslation("servers");
+  const { t } = useTranslation(["servers", "common"]);
   return (
     <Paper
       component="article"
@@ -86,7 +86,7 @@ export function ServerCard({
                 leftSection={<IconTrash size={14} aria-hidden="true" />}
                 onClick={() => onDelete(profile)}
               >
-                {t("card.delete")}
+                {t("actions.delete", { ns: "common" })}
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>

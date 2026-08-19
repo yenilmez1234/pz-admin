@@ -1,10 +1,9 @@
 {
   "page": {
-    "title": "Eşyalar",
-    "buildLabel": "Oyun sürümü",
-    "build41": "Build 41",
-    "build42": "Build 42",
-    "loadErrorTitle": "Eşyalar Yüklenemedi"
+    "title": "Eşyalar"
+  },
+  "errors": {
+    "loadTitle": "Eşyalar Yüklenemedi"
   },
   "browser": {
     "searchLabel": "Eşyalarda ara",

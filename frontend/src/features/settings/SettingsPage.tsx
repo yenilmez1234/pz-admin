@@ -13,7 +13,7 @@ import {
   isThemeSetting,
   useAppConfig,
 } from "@/features/config/AppConfigProvider";
-import { isSupportedLanguage, locales } from "@/i18n/locales";
+import { defaultLanguage, isSupportedLanguage, locales } from "@/i18n/locales";
 
 const languageOptions = locales.map(({ code, nativeName }) => ({
   value: code,
@@ -80,7 +80,7 @@ export function SettingsPage() {
               label={t("language.label")}
               description={t("language.description")}
               data={languageOptions}
-              value={config?.language ?? "en-US"}
+              value={config?.language ?? defaultLanguage}
               disabled={loading}
               allowDeselect={false}
               autoComplete="off"

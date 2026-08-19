@@ -18,15 +18,11 @@
     "build": "Build {{version}}",
     "buildUnknown": "Build Unknown",
     "connect": "Connect",
-    "delete": "Delete",
     "edit": "Edit"
   },
   "form": {
     "addSubmit": "Add Server",
     "addTitle": "Add Server",
-    "build41": "Build 41",
-    "build42": "Build 42",
-    "buildLabel": "Game Build",
     "editSubmit": "Save Changes",
     "editTitle": "Edit Server",
     "hostLabel": "Host",
@@ -52,29 +48,9 @@
     "errorTitle": "Unable to Delete Server",
     "title": "Delete Server"
   },
-  "session": {
-    "connectionLostTitle": "Connection Lost",
-    "connectionLostMessage": "The server connection was closed. Connect again to continue.",
-    "loadingLabel": "Loading session…",
-    "unknownStateError": "Unable to determine the current connection state.",
-    "disconnect": "Disconnect",
-    "disconnectErrorTitle": "Unable to Disconnect",
-    "initializationErrorTitle": "Unable to Check Connection",
-    "serverNavigationLabel": "Server pages"
-  },
   "workspace": {
+    "navigationLabel": "Server pages",
     "console": "Console",
     "players": "Players"
-  },
-  "console": {
-    "commandLabel": "Server command",
-    "commandPlaceholder": "Enter a server command",
-    "help": {
-      "cls": "Clears all output currently shown in the console."
-    },
-    "noOutput": "Command completed without output.",
-    "outputLabel": "Console output",
-    "usageHint": "Use Tab for suggestions and the Up and Down arrows to navigate command history.",
-    "welcome": "Welcome. Type 'help' for server commands or 'cls' to clear the console."
   }
 }
