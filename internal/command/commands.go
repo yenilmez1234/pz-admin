@@ -1032,6 +1032,33 @@ var definitions = []Definition{
 		},
 	},
 
+	// removeMapSymbolsForUser removes all shared map symbols created by a user.
+	//
+	// Usage: /removemapsymbolsforuser "username"
+	// Example: /removemapsymbolsforuser "rj"
+	{
+		Name:       "removemapsymbolsforuser",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "username", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, _ map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			countText, ok := strings.CutPrefix(raw, "removed ")
+			if ok {
+				countText, ok = strings.CutSuffix(countText, " symbols")
+			}
+			if ok {
+				count, err := strconv.Atoi(countText)
+				if err == nil && count >= 0 {
+					return count, nil
+				}
+			}
+			return nil, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// setPassword changes a user's password. The server returns the new password
 	// hash, which is never exposed by the typed wrapper.
 	//

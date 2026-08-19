@@ -287,6 +287,17 @@ func (c *Client) ReleaseSafehouse(ctx context.Context, safehouse string) (string
 	return res.(string), nil
 }
 
+// RemoveMapSymbolsForUser removes all shared map symbols created by a user.
+func (c *Client) RemoveMapSymbolsForUser(ctx context.Context, username string) (int, error) {
+	res, err := Execute(ctx, c.exec, "removemapsymbolsforuser", c.version, map[string]string{
+		"username": username,
+	})
+	if err != nil {
+		return 0, err
+	}
+	return res.(int), nil
+}
+
 // ReloadOptions reloads server options from ServerOptions.ini.
 func (c *Client) ReloadOptions(ctx context.Context) (string, error) {
 	res, err := Execute(ctx, c.exec, "reloadoptions", c.version, nil)
