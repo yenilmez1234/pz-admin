@@ -879,6 +879,46 @@ var definitions = []Definition{
 		},
 	},
 
+	// banIP bans an IPv4 address.
+	//
+	// Usage: /banip IP
+	// Example: /banip 0.0.0.0
+	{
+		Name:       "banip",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "ip", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if raw == fmt.Sprintf("System banned IP %s", args["ip"]) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
+	// unbanIP unbans an IPv4 address.
+	//
+	// Usage: /unbanip IP
+	// Example: /unbanip 0.0.0.0
+	{
+		Name:       "unbanip",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "ip", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if raw == fmt.Sprintf("System unbanned IP %s", args["ip"]) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// banUser bans a user. Add -ip to also ban the IP, -r "reason" to specify
 	// a reason.
 	//

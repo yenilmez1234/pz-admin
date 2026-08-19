@@ -2,6 +2,8 @@ package command
 
 import (
 	"context"
+	"fmt"
+	"net/netip"
 	"strconv"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
@@ -111,6 +113,38 @@ func (c *Client) UnbanID(ctx context.Context, steamid string) (string, error) {
 		return "", err
 	}
 	return res.(string), nil
+}
+
+// BanIP bans an IPv4 address.
+func (c *Client) BanIP(ctx context.Context, ip string) (string, error) {
+	if err := validateIPv4(ip); err != nil {
+		return "", err
+	}
+	res, err := Execute(ctx, c.exec, "banip", c.version, map[string]string{"ip": ip})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
+// UnbanIP unbans an IPv4 address.
+func (c *Client) UnbanIP(ctx context.Context, ip string) (string, error) {
+	if err := validateIPv4(ip); err != nil {
+		return "", err
+	}
+	res, err := Execute(ctx, c.exec, "unbanip", c.version, map[string]string{"ip": ip})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
+func validateIPv4(ip string) error {
+	address, err := netip.ParseAddr(ip)
+	if err != nil || !address.Is4() {
+		return fmt.Errorf("command: invalid IPv4 address %q", ip)
+	}
+	return nil
 }
 
 // BanUser bans a user. banIP also bans the IP. reason is optional.
