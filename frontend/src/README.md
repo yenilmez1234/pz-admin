@@ -37,7 +37,18 @@
   IETF BCP 47 language tags, while displayed language names stay native.
 - To add a locale, add it to the registry, copy every namespace from `en-US`,
   translate the values without changing keys or `{{variables}}`, and run
-  `pnpm translations:check`.
+  `pnpm check:translations`.
 - `i18n/generated/` contains game-derived item and skill translations. These
   are build-specific, loaded on demand, and intentionally excluded from UI
   namespace parity checks.
+
+## Generated game data
+
+- `pnpm generate:items` builds the item catalog from game metadata and wiki
+  images/IDs.
+- `pnpm generate:vehicles` builds a vehicle catalog from its curated asset
+  tree. `pnpm scrape:vehicles:42` refreshes that tree from the wiki separately.
+- `pnpm generate:items:translations` and
+  `pnpm generate:skills:translations` extract build-specific game text.
+- Scripts are grouped under `scripts/catalogs/`, `scripts/translations/`, and
+  `scripts/shared/`. Files without package commands are internal helpers.

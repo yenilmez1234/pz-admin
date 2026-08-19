@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { findTranslationDirectory } from "./game-translations.mjs";
+import { findTranslationDirectory } from "../../translations/game-files.mjs";
 
 const LOOT_CATEGORY_TRANSLATION_KEYS = {
   Ammo: "Sandbox_AmmoLootNew",

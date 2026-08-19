@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-// scrape-vehicles-b42.mjs — scrapes the b42 Project Zomboid Wiki and builds
+// Scrapes the Build 42 Project Zomboid Wiki and builds
 // the public/vehicles/42/ tree directly: folder structure, images, and
-// per-leaf stats.json files. Run `node scripts/generate-vehicle-catalog.mjs
-// --version 42` afterwards to generate the catalog.
+// per-leaf stats.json files. Run `pnpm generate:vehicles -- --build 42`
+// afterwards to generate the catalog.
 //
-// Usage: node scripts/scrape-vehicles-b42.mjs
+// Usage: pnpm scrape:vehicles:42
 //
 // List page: https://pzwiki.net/wiki/Vehicle — a vehicles table and a
 // trailers table (both with a Vehicle ID column). Model pages (e.g.
@@ -22,8 +22,8 @@
 import { execFile } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
+import { frontendRoot } from "../../shared/paths.mjs";
 
 const execFileAsync = promisify(execFile);
 
@@ -31,8 +31,6 @@ const WIKI = "https://pzwiki.net";
 const LIST_PAGE = `${WIKI}/wiki/Vehicle`;
 const USER_AGENT =
   "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0";
-const FRONTEND_DIR = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-
 // Infobox labels mapped to stats.json keys. Labels not listed here and not in
 // SKIP_LABELS are reported at the end.
 const STAT_KEYS = {
@@ -314,8 +312,8 @@ async function main() {
   console.log(`found ${models.length} models on the list page`);
 
   const modelIds = new Set(models.map((m) => m.id));
-  const versionDir = path.join(FRONTEND_DIR, "public", "vehicles", "42");
-  await mkdir(versionDir, { recursive: true });
+  const buildDirectory = path.join(frontendRoot, "public", "vehicles", "42");
+  await mkdir(buildDirectory, { recursive: true });
 
   const pageCache = new Map(); // url -> html
   async function getPage(url) {
@@ -420,7 +418,7 @@ async function main() {
     }
 
     const modelDir = path.join(
-      versionDir,
+      buildDirectory,
       sanitize(model.category),
       sanitize(model.name),
     );
@@ -474,7 +472,7 @@ async function main() {
     console.log(`\nunknown infobox labels: ${[...unknownLabels].join(", ")}`);
   }
   console.log(
-    "\nrun `node scripts/generate-vehicle-catalog.mjs --version 42` to generate the catalog",
+    "\nrun `pnpm generate:vehicles -- --build 42` to generate the catalog",
   );
 }
 

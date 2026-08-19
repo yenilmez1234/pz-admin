@@ -3,21 +3,22 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import prettier from "prettier";
-import { disambiguateItemNames } from "./disambiguate-item-names.mjs";
+import { disambiguateItemNames } from "../catalogs/items/name-disambiguation.mjs";
+import { frontendRoot } from "../shared/paths.mjs";
 import {
   bcp47LanguageTag,
   decodeLuaString,
   findTranslationDirectory,
-  FRONTEND_DIR,
   gameTranslationFiles,
   readGameTranslationFile,
-} from "./game-translations.mjs";
+} from "./game-files.mjs";
 
 function parseArgs(argv) {
   const args = { build: undefined, gameDirectory: undefined };
 
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
+    if (argument === "--") continue;
     if (argument === "--build") args.build = argv[++index];
     else if (argument === "--game-dir") args.gameDirectory = argv[++index];
     else throw new Error(`Unknown argument: ${argument}`);
@@ -78,7 +79,7 @@ async function main() {
   );
   const catalog = JSON.parse(
     await fs.readFile(
-      path.join(FRONTEND_DIR, "src", "data", "items", `${args.build}.json`),
+      path.join(frontendRoot, "src", "data", "items", `${args.build}.json`),
       "utf8",
     ),
   );
@@ -88,7 +89,7 @@ async function main() {
     ),
   );
   const outputDirectory = path.join(
-    FRONTEND_DIR,
+    frontendRoot,
     "src",
     "i18n",
     "generated",

@@ -1,11 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-export const FRONTEND_DIR = path.dirname(
-  path.dirname(fileURLToPath(import.meta.url)),
-);
-
 const TRANSLATE_PATH = ["media", "lua", "shared", "Translate"];
 
 const languageTagByGameLanguage = {

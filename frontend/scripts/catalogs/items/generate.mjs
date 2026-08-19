@@ -2,24 +2,17 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import prettier from "prettier";
-import { disambiguateItemNames } from "./disambiguate-item-names.mjs";
+import { frontendRoot } from "../../shared/paths.mjs";
+import { disambiguateItemNames } from "./name-disambiguation.mjs";
 import {
   build42LootCategory,
   gameItemMetadata,
   lootCategoryOrder,
   readEnglishItemMetadata,
   readGameItems,
-} from "./game-item-catalog.mjs";
-import {
-  downloadItemWikiImages,
-  scrapeItemWikiCatalog,
-} from "./scrape-items.mjs";
-
-const frontendDirectory = path.dirname(
-  path.dirname(fileURLToPath(import.meta.url)),
-);
+} from "./game-data.mjs";
+import { downloadItemWikiImages, scrapeItemWikiCatalog } from "./wiki.mjs";
 
 function parseArgs(argv) {
   const args = {
@@ -32,6 +25,7 @@ function parseArgs(argv) {
 
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
+    if (argument === "--") continue;
     if (argument === "--build") args.build = argv[++index];
     else if (argument === "--game-dir") args.gameDirectory = argv[++index];
     else if (argument === "--output") args.output = argv[++index];
@@ -154,19 +148,13 @@ async function main() {
   if (!args.skipImages) {
     await downloadItemWikiImages(
       downloads,
-      path.join(frontendDirectory, "public", "items", args.build),
+      path.join(frontendRoot, "public", "items", args.build),
     );
   }
 
   const outputPath = path.resolve(
     args.output ??
-      path.join(
-        frontendDirectory,
-        "src",
-        "data",
-        "items",
-        `${args.build}.json`,
-      ),
+      path.join(frontendRoot, "src", "data", "items", `${args.build}.json`),
   );
   const formatted = await prettier.format(JSON.stringify(catalog), {
     parser: "json",

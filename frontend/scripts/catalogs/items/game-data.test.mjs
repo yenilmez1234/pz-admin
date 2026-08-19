@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { build42LootCategory } from "./game-item-catalog.mjs";
+import { build42LootCategory } from "./game-data.mjs";
 
 function item(name, properties) {
   return { id: `Base.${name}`, name, properties };

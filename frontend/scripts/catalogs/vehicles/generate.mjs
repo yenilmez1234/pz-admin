@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Regenerates src/data/vehicles/<version>.json from the hand-curated
-// public/vehicles/<version>/ folder tree.
+// Regenerates src/data/vehicles/<build>.json from the hand-curated
+// public/vehicles/<build>/ folder tree.
 //
-// Usage: node scripts/generate-vehicle-catalog.mjs [--version 41]
+// Usage: pnpm generate:vehicles -- --build 41
 //
 // Folder tree:        {Category}/{Model}/{Variant}/{ScriptId}/image.webp
 // Single-variant:     {Category}/{Model}/{ScriptId}/image.webp  (flattened)
@@ -11,20 +11,22 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-
-const FRONTEND_DIR = path.dirname(
-  path.dirname(new URL(import.meta.url).pathname),
-);
+import { frontendRoot } from "../../shared/paths.mjs";
 
 function parseArgs(argv) {
-  const args = { version: "41" };
+  const args = { build: "41" };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === "--version") args.version = argv[++i];
+    if (argv[i] === "--") continue;
+    if (argv[i] === "--build") args.build = argv[++i];
+    else throw new Error(`Unknown argument: ${argv[i]}`);
+  }
+  if (args.build !== "41" && args.build !== "42") {
+    throw new Error("Build must be 41 or 42");
   }
   return args;
 }
 
-// rootDir is public/vehicles/<version>; every image path in the output is
+// rootDir is public/vehicles/<build>; every image path in the output is
 // relative to it, prefixed with the web path baseImagePath.
 async function processDirectory(dirPath, type, baseImagePath, rootDir) {
   const entries = await fs.readdir(dirPath, { withFileTypes: true });
@@ -150,19 +152,14 @@ async function attachStats(leafItem, leafDir) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const vehiclesDir = path.join(
-    FRONTEND_DIR,
-    "public",
-    "vehicles",
-    args.version,
-  );
-  const baseImagePath = `/vehicles/${args.version}`;
+  const vehiclesDir = path.join(frontendRoot, "public", "vehicles", args.build);
+  const baseImagePath = `/vehicles/${args.build}`;
   const outputFile = path.join(
-    FRONTEND_DIR,
+    frontendRoot,
     "src",
     "data",
     "vehicles",
-    `${args.version}.json`,
+    `${args.build}.json`,
   );
 
   const categories = await processDirectory(
@@ -174,7 +171,7 @@ async function main() {
 
   await fs.writeFile(
     outputFile,
-    `${JSON.stringify({ version: args.version, categories }, null, 2)}\n`,
+    `${JSON.stringify({ version: args.build, categories }, null, 2)}\n`,
     "utf-8",
   );
 

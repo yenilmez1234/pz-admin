@@ -1,8 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
+import { frontendRoot } from "../shared/paths.mjs";
 
-const frontendRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const i18nRoot = join(frontendRoot, "src", "i18n");
 const resourcesRoot = join(i18nRoot, "resources");
 const defaultLanguage = "en-US";
