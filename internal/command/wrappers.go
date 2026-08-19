@@ -32,6 +32,17 @@ func (c *Client) AddItem(ctx context.Context, username, item string, count int) 
 	return res.(string), nil
 }
 
+// AddSteamID adds a Steam ID to the server's allowed list.
+func (c *Client) AddSteamID(ctx context.Context, steamid string) (string, error) {
+	res, err := Execute(ctx, c.exec, "addsteamid", c.version, map[string]string{
+		"steamid": steamid,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
 // InviteToSafehouse invites a player to the named safehouse.
 func (c *Client) InviteToSafehouse(ctx context.Context, safehouse, username string) (string, error) {
 	res, err := Execute(ctx, c.exec, "addtosafehouse", c.version, map[string]string{
@@ -296,6 +307,17 @@ func (c *Client) RemoveMapSymbolsForUser(ctx context.Context, username string) (
 		return 0, err
 	}
 	return res.(int), nil
+}
+
+// RemoveSteamID removes a Steam ID from the server's allowed list.
+func (c *Client) RemoveSteamID(ctx context.Context, steamid string) (string, error) {
+	res, err := Execute(ctx, c.exec, "removesteamid", c.version, map[string]string{
+		"steamid": steamid,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
 }
 
 // ReloadOptions reloads server options from ServerOptions.ini.

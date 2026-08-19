@@ -789,6 +789,26 @@ var definitions = []Definition{
 	// B42 Commands
 	// ---------------------------------------------------------------------------
 
+	// addSteamID adds a Steam ID to the server's allowed list.
+	//
+	// Usage: /addsteamid "steamid"
+	// Example: /addsteamid "76561198181797231"
+	{
+		Name:       "addsteamid",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "steamid", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if raw == fmt.Sprintf("SteamID %s added to allowed SteamIDs", args["steamid"]) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// addUser creates a new account on a whitelisted server.
 	//
 	// Usage: /adduser "username" "password"
@@ -1056,6 +1076,26 @@ var definitions = []Definition{
 				}
 			}
 			return nil, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
+	// removeSteamID removes a Steam ID from the server's allowed list.
+	//
+	// Usage: /removesteamid "steamid"
+	// Example: /removesteamid "76561198181797231"
+	{
+		Name:       "removesteamid",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "steamid", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, args map[string]string) (any, error) {
+			raw = strings.TrimSpace(raw)
+			if raw == fmt.Sprintf("SteamID %s removed from allowed SteamIDs", args["steamid"]) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 		},
 	},
 
