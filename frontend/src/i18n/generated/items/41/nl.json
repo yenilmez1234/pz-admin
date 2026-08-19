@@ -1,5 +1,13 @@
 {
-  "category": {},
+  "category": {
+    "Ammo": "Munitie",
+    "Clothing": "Kleding",
+    "Container": "Container",
+    "Food": "Voedsel",
+    "Literature": "Literatuur",
+    "Weapon": "Wapen",
+    "Weapon Part": "Wapen onderdeel"
+  },
   "item": {
     "Base.SwimTrunks_Green": "Zwembroek (Green)",
     "Base.ChessBlack": "Zwart schaakstuk",

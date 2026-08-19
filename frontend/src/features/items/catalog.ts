@@ -30,11 +30,10 @@ function prepareCatalog(
   const searchIndex = new Map<string, string>();
 
   for (const rawCategory of data.categories) {
-    const categoryId = rawCategory.items[0]?.lootCategory;
-    const categoryName = categoryId
-      ? (translatedItemCategoryName(build, language, categoryId) ??
-        rawCategory.name)
-      : rawCategory.name;
+    const categoryId = rawCategory.items[0]?.lootCategory ?? rawCategory.name;
+    const categoryName =
+      translatedItemCategoryName(build, language, categoryId) ??
+      rawCategory.name;
     const category: ItemCatalogCategory = {
       itemIds: [],
       name: categoryName,

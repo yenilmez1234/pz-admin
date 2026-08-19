@@ -54,12 +54,43 @@ function parseTranslations(content, sourcePath) {
   return translations;
 }
 
+function parseCategoryTranslations(content, sourcePath, requireAny) {
+  const translations = {};
+
+  for (const line of content.split(/\r?\n/)) {
+    const match = line.match(
+      /^\s*IGUI_ItemCat_(\S+)\s*=\s*"(.*)"\s*,?\s*(?:--.*)?$/,
+    );
+    if (!match) continue;
+
+    const [, id, encodedName] = match;
+    translations[id] = decodeLuaString(encodedName);
+  }
+
+  if (requireAny && Object.keys(translations).length === 0) {
+    throw new Error(`No item category translations found in ${sourcePath}`);
+  }
+  return translations;
+}
+
 async function readItemTranslations(languageDirectory, gameLanguage) {
   const { content, sourcePath } = await readGameTranslationFile(
     languageDirectory,
     `ItemName_${gameLanguage}.txt`,
   );
   return parseTranslations(content, sourcePath);
+}
+
+async function readCategoryTranslations(
+  languageDirectory,
+  gameLanguage,
+  requireAny = false,
+) {
+  const { content, sourcePath } = await readGameTranslationFile(
+    languageDirectory,
+    `IG_UI_${gameLanguage}.txt`,
+  );
+  return parseCategoryTranslations(content, sourcePath, requireAny);
 }
 
 async function readJsonItemTranslations(languageDirectory) {
@@ -77,6 +108,26 @@ async function readJsonCategoryTranslations(languageDirectory) {
   const sourcePath = path.join(languageDirectory, "Sandbox.json");
   const translations = JSON.parse(await fs.readFile(sourcePath, "utf8"));
   return translatedLootCategoryNames(translations, false);
+}
+
+function legacyCategoryTranslations(
+  catalog,
+  englishCategories,
+  localizedCategories,
+) {
+  const categoryIdByEnglishName = new Map(
+    Object.entries(englishCategories).map(([id, name]) => [name, id]),
+  );
+  return Object.fromEntries(
+    catalog.categories.flatMap(({ name }) => {
+      const categoryId = categoryIdByEnglishName.get(name);
+      if (!categoryId) {
+        throw new Error(`No game category matches catalog category: ${name}`);
+      }
+      const translated = localizedCategories[categoryId];
+      return typeof translated === "string" ? [[name, translated]] : [];
+    }),
+  );
 }
 
 async function main() {
@@ -106,6 +157,13 @@ async function main() {
   await fs.mkdir(outputDirectory, { recursive: true });
 
   const usesJsonTranslations = args.build === "42";
+  const englishCategories = usesJsonTranslations
+    ? null
+    : await readCategoryTranslations(
+        path.join(translationDirectory, "EN"),
+        "EN",
+        true,
+      );
   const languageFiles = await gameTranslationFiles(
     translationDirectory,
     (gameLanguage) =>
@@ -134,7 +192,11 @@ async function main() {
     );
     const category = usesJsonTranslations
       ? await readJsonCategoryTranslations(languageDirectory)
-      : {};
+      : legacyCategoryTranslations(
+          catalog,
+          englishCategories,
+          await readCategoryTranslations(languageDirectory, gameLanguage),
+        );
     const translations = { category, item };
     const outputPath = path.join(outputDirectory, `${languageTag}.json`);
     const formatted = await prettier.format(JSON.stringify(translations), {

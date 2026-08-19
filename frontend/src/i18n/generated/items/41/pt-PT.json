@@ -1,5 +1,11 @@
 {
-  "category": {},
+  "category": {
+    "Clothing": "Roupa",
+    "Container": "Contentor",
+    "Food": "Comida",
+    "Literature": "Literatura",
+    "Weapon": "Arma"
+  },
   "item": {
     "Base.9mmClip": "Carregador de 9mm",
     "Base.Apple": "Maçã",

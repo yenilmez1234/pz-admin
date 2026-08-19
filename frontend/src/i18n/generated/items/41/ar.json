@@ -1,5 +1,13 @@
 {
-  "category": {},
+  "category": {
+    "Ammo": "Munición",
+    "Clothing": "Ropa",
+    "Container": "Contenedor",
+    "Food": "Comida",
+    "Literature": "Literatura",
+    "Weapon": "Arma",
+    "Weapon Part": "Parte de arma"
+  },
   "item": {
     "Base.223Box": "Caja de balas .223",
     "Base.223Bullets": "Balas .223",
