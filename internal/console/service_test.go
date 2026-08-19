@@ -15,6 +15,19 @@ type commandChannel struct {
 	err     error
 }
 
+type recordedCommand struct {
+	profile profile.Profile
+	input   string
+	output  string
+}
+
+func (r *recordedCommand) ObserveConsoleCommand(p profile.Profile, input, output string) error {
+	r.profile = p
+	r.input = input
+	r.output = output
+	return nil
+}
+
 func (c *commandChannel) State() connection.State {
 	return connection.StateConnected
 }
@@ -28,8 +41,10 @@ func (c *commandChannel) ExecuteCommand(_ context.Context, command string) (stri
 
 func TestExecuteUsesConnectedCommandChannel(t *testing.T) {
 	channel := &commandChannel{result: "response"}
-	service := NewService()
-	service.SessionChanged(profile.Profile{}, channel, connection.StateConnected)
+	recorded := &recordedCommand{}
+	p := profile.Profile{ID: "profile-id", Version: "42"}
+	service := NewService(recorded.ObserveConsoleCommand)
+	service.SessionChanged(p, channel, connection.StateConnected)
 
 	result, err := service.Execute(context.Background(), "  players  ")
 	if err != nil {
@@ -41,10 +56,13 @@ func TestExecuteUsesConnectedCommandChannel(t *testing.T) {
 	if result != "response" {
 		t.Fatalf("result = %q, want response", result)
 	}
+	if recorded.profile != p || recorded.input != "players" || recorded.output != result {
+		t.Fatalf("recorded command = %#v", recorded)
+	}
 }
 
 func TestExecuteRequiresCommandCapability(t *testing.T) {
-	service := NewService()
+	service := NewService(nil)
 	_, err := service.Execute(context.Background(), "players")
 	if err == nil {
 		t.Fatal("Execute() error = nil, want disconnected error")
@@ -54,7 +72,7 @@ func TestExecuteRequiresCommandCapability(t *testing.T) {
 func TestExecuteReturnsChannelError(t *testing.T) {
 	want := errors.New("command failed")
 	channel := &commandChannel{err: want}
-	service := NewService()
+	service := NewService(nil)
 	service.SessionChanged(profile.Profile{}, channel, connection.StateConnected)
 
 	_, err := service.Execute(context.Background(), "players")
@@ -64,7 +82,7 @@ func TestExecuteReturnsChannelError(t *testing.T) {
 }
 
 func TestDisconnectedSessionClearsCommandChannel(t *testing.T) {
-	service := NewService()
+	service := NewService(nil)
 	service.SessionChanged(profile.Profile{}, &commandChannel{}, connection.StateConnected)
 	service.SessionChanged(profile.Profile{}, nil, connection.StateDisconnected)
 

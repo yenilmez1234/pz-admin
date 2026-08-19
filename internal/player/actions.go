@@ -48,22 +48,7 @@ func (s *Service) AddUser(ctx context.Context, username, password string) error 
 		return fmt.Errorf("player: add user: %w", err)
 	}
 
-	accessLevel := "none"
-	if p.Version == "42" {
-		accessLevel = "user"
-	}
-	disabled := false
-	whitelisted := true
-	_, err = s.merge(p.ID, []Observation{{
-		Username:    username,
-		AccessLevel: &accessLevel,
-		GodMode:     &disabled,
-		Invisible:   &disabled,
-		NoClip:      &disabled,
-		Banned:      &disabled,
-		VoiceBanned: &disabled,
-		Whitelisted: &whitelisted,
-	}}, time.Now().UTC())
+	_, err = s.merge(p.ID, []Observation{addedUserObservation(p.Version, username)}, time.Now().UTC())
 	if err != nil {
 		return fmt.Errorf("player: record added user: %w", err)
 	}
@@ -168,8 +153,8 @@ func (s *Service) Kick(ctx context.Context, playerIDs []string, reason string) (
 		if err != nil {
 			return nil, err
 		}
-		online := false
-		return &Observation{Online: &online}, nil
+		observation := offlineObservation()
+		return &observation, nil
 	})
 }
 
@@ -184,23 +169,8 @@ func (s *Service) Ban(ctx context.Context, playerIDs []string, reason string, ba
 		if _, err := commands.BanUser(ctx, player.Username, reason, banIP); err != nil {
 			return nil, err
 		}
-		banned := true
-		disabled := false
-		online := false
-		role := "banned"
-		observation := &Observation{
-			Online:      &online,
-			AccessLevel: &role,
-			GodMode:     &disabled,
-			Invisible:   &disabled,
-			NoClip:      &disabled,
-			Banned:      &banned,
-		}
-		if p.Version == "41" {
-			role = "none"
-			observation.AccessLevel = &role
-		}
-		return observation, nil
+		observation := bannedObservation(p.Version)
+		return &observation, nil
 	})
 }
 
@@ -214,13 +184,8 @@ func (s *Service) Unban(ctx context.Context, playerIDs []string) (ActionResult, 
 		if _, err := commands.UnbanUser(ctx, player.Username); err != nil {
 			return nil, err
 		}
-		banned := false
-		observation := &Observation{Banned: &banned}
-		if p.Version != "41" {
-			role := "user"
-			observation.AccessLevel = &role
-		}
-		return observation, nil
+		observation := unbannedObservation(p.Version)
+		return &observation, nil
 	})
 }
 
@@ -232,7 +197,8 @@ func (s *Service) SetGodMode(ctx context.Context, playerIDs []string, enabled bo
 		if err != nil {
 			return nil, err
 		}
-		return &Observation{GodMode: &enabled}, nil
+		observation := godModeObservation(enabled)
+		return &observation, nil
 	})
 }
 
@@ -243,7 +209,8 @@ func (s *Service) SetInvisible(ctx context.Context, playerIDs []string, enabled 
 		if err != nil {
 			return nil, err
 		}
-		return &Observation{Invisible: &enabled}, nil
+		observation := invisibleObservation(enabled)
+		return &observation, nil
 	})
 }
 
@@ -254,7 +221,8 @@ func (s *Service) SetNoClip(ctx context.Context, playerIDs []string, enabled boo
 		if err != nil {
 			return nil, err
 		}
-		return &Observation{NoClip: &enabled}, nil
+		observation := noClipObservation(enabled)
+		return &observation, nil
 	})
 }
 
@@ -264,7 +232,8 @@ func (s *Service) SetVoiceBanned(ctx context.Context, playerIDs []string, banned
 		if _, err := commands.VoiceBan(ctx, player.Username, banned); err != nil {
 			return nil, err
 		}
-		return &Observation{VoiceBanned: &banned}, nil
+		observation := voiceBannedObservation(banned)
+		return &observation, nil
 	})
 }
 
@@ -279,12 +248,8 @@ func (s *Service) SetAccessLevel(ctx context.Context, playerIDs []string, level 
 		if _, err := commands.SetAccessLevel(ctx, player.Username, level); err != nil {
 			return nil, err
 		}
-		observation := &Observation{AccessLevel: &level}
-		if p.Version != "41" {
-			banned := strings.EqualFold(level, "banned")
-			observation.Banned = &banned
-		}
-		return observation, nil
+		observation := accessLevelObservation(p.Version, level)
+		return &observation, nil
 	})
 }
 
@@ -311,8 +276,8 @@ func (s *Service) RemoveFromWhitelist(ctx context.Context, playerIDs []string, d
 		if _, err := commands.RemoveUserFromWhitelist(ctx, player.Username); err != nil {
 			return nil, err
 		}
-		whitelisted := false
-		return &Observation{Whitelisted: &whitelisted}, nil
+		observation := whitelistedObservation(false)
+		return &observation, nil
 	})
 	if err != nil || !deleteLocal || len(result.Succeeded) == 0 {
 		return result, err

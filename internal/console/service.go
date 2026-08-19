@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"strings"
 	"sync"
 
@@ -14,26 +15,34 @@ import (
 
 // Service is the Wails boundary for raw server command execution.
 type Service struct {
+	observer CommandObserver
+
 	mu       sync.Mutex
+	profile  profile.Profile
 	executor connection.CommandExecutor
 }
 
-// NewService creates a console service.
-func NewService() *Service {
-	return &Service{}
+// CommandObserver records facts confirmed by raw console responses.
+type CommandObserver func(p profile.Profile, input, output string) error
+
+// NewService creates a console service. A nil observer disables observation.
+func NewService(observer CommandObserver) *Service {
+	return &Service{observer: observer}
 }
 
 // SessionChanged follows the command capability of the active session.
 //
 //wails:ignore
-func (s *Service) SessionChanged(_ profile.Profile, channel connection.Channel, state connection.State) {
+func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel, state connection.State) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.profile = profile.Profile{}
 	s.executor = nil
 	if state != connection.StateConnected || channel == nil {
 		return
 	}
+	s.profile = p
 	s.executor, _ = channel.(connection.CommandExecutor)
 }
 
@@ -45,6 +54,7 @@ func (s *Service) Execute(ctx context.Context, command string) (string, error) {
 	}
 
 	s.mu.Lock()
+	p := s.profile
 	executor := s.executor
 	s.mu.Unlock()
 	if executor == nil {
@@ -54,6 +64,13 @@ func (s *Service) Execute(ctx context.Context, command string) (string, error) {
 	result, err := executor.ExecuteCommand(ctx, command)
 	if err != nil {
 		return "", fmt.Errorf("console: execute command: %w", err)
+	}
+	if s.observer != nil {
+		if err := s.observer(p, command, result); err != nil {
+			// The remote command succeeded; local observation must not turn it
+			// into a misleading console failure.
+			slog.Warn("console command observation failed", "command", command, "err", err)
+		}
 	}
 	return result, nil
 }

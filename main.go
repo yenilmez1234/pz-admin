@@ -87,7 +87,7 @@ func run() error {
 	// 'Mac' options tailor the application when running an macOS.
 	playerSvc := player.NewService()
 	profileSvc := profile.NewService(playerSvc)
-	consoleSvc := console.NewService()
+	consoleSvc := console.NewService(playerSvc.ObserveConsoleCommand)
 	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc)
 
 	app := application.New(application.Options{
