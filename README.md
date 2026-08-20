@@ -60,3 +60,11 @@ Happy coding with Wails3! If you encounter any issues or have questions, don't h
 
 WAILS_MCP=1 wails3 dev
 podman run --rm -it   --network host   docker.io/outdead/rcon:latest   ./rcon   -a 127.0.0.1:27015   -p 12345
+
+## Pre-launch checklist
+
+- [ ] Verify player observations more thoroughly, including how role changes affect God Mode, No Clip, and other player state.
+- [ ] Fix or replace the RCON library so multipart responses are handled correctly.
+- [ ] Add Crowdin support for community translations.
+- [ ] Audit Build 41 and Build 42 differences to ensure Build 41 does not accidentally lose supported features.
+- [ ] Minimize the code surface required to support a new game version such as Build 43, particularly by removing scattered build-specific conditionals where declarative version definitions would be clearer.
