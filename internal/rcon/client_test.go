@@ -4,31 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net"
 	"strings"
 	"sync"
-	"sync/atomic"
 	"testing"
 	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
-	gorcon "github.com/gorcon/rcon"
-	"github.com/gorcon/rcon/rcontest"
+	source "gitlab.com/nyxi/go-source-rcon/v2"
 )
 
 const testPassword = "test-password"
 
-func newTestServer(t *testing.T, opts ...rcontest.Option) *rcontest.Server {
-	t.Helper()
-	opts = append([]rcontest.Option{
-		rcontest.SetSettings(rcontest.Settings{Password: testPassword}),
-	}, opts...)
-	server := rcontest.NewServer(opts...)
-	t.Cleanup(func() { server.Close() })
-	return server
-}
-
-func newTestClient(t *testing.T, server *rcontest.Server, opts Options) *Client {
+func newTestClient(t *testing.T, server *testServer, opts Config) *Client {
 	t.Helper()
 	if opts.Addr == "" {
 		opts.Addr = server.Addr()
@@ -36,11 +23,8 @@ func newTestClient(t *testing.T, server *rcontest.Server, opts Options) *Client 
 	if opts.Password == "" {
 		opts.Password = testPassword
 	}
-	if opts.DialTimeout == 0 {
-		opts.DialTimeout = 2 * time.Second
-	}
-	if opts.InteractionTimeout == 0 {
-		opts.InteractionTimeout = 2 * time.Second
+	if opts.Timeout == 0 {
+		opts.Timeout = 2 * time.Second
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -52,35 +36,18 @@ func newTestClient(t *testing.T, server *rcontest.Server, opts Options) *Client 
 	return client
 }
 
-func echoHandler(c *rcontest.Context) {
-	_, _ = gorcon.NewPacket(
-		gorcon.SERVERDATA_RESPONSE_VALUE,
-		c.Request().ID,
-		"echo:"+c.Request().Body(),
-	).WriteTo(c.Conn())
-}
-
-// rcontest panics when a handler closes its connection outright. Closing the
-// write half makes the client observe EOF while allowing the server to exit
-// cleanly.
-func closeWriteHalf(c *rcontest.Context) {
-	tcpConn, ok := c.Conn().(*net.TCPConn)
-	if !ok {
-		panic(fmt.Sprintf("rcontest connection is %T, want *net.TCPConn", c.Conn()))
-	}
-	if err := tcpConn.CloseWrite(); err != nil {
-		panic(fmt.Sprintf("rcontest CloseWrite: %v", err))
-	}
+func echoHandler(command string) testReply {
+	return testReply{body: "echo:" + command, respond: true}
 }
 
 func TestConnectAndExecute(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(echoHandler))
-	client := newTestClient(t, server, Options{})
+	server := newTestServer(t, echoHandler)
+	client := newTestClient(t, server, Config{})
 
 	if client.State() != connection.StateConnected {
 		t.Fatal("State() != Connected after Connect")
 	}
-	for _, command := range []string{"say hello", "players", "quit"} {
+	for _, command := range []string{"servermsg hello", "players", "quit"} {
 		response, err := client.ExecuteCommand(context.Background(), command)
 		if err != nil {
 			t.Fatalf("ExecuteCommand(%q) error = %v", command, err)
@@ -91,14 +58,30 @@ func TestConnectAndExecute(t *testing.T) {
 	}
 }
 
+func TestExecuteAcceptsLargeProjectZomboidResponse(t *testing.T) {
+	want := strings.Repeat("x", 4208) // 4218-byte packet including the RCON envelope.
+	server := newTestServer(t, func(string) testReply {
+		return testReply{body: want, respond: true}
+	})
+	client := newTestClient(t, server, Config{})
+
+	response, err := client.ExecuteCommand(context.Background(), "help")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if response != want {
+		t.Errorf("response length = %d, want %d", len(response), len(want))
+	}
+}
+
 func TestConnectAuthFailure(t *testing.T) {
 	server := newTestServer(t)
-	_, err := Connect(context.Background(), Options{
+	_, err := Connect(context.Background(), Config{
 		Addr:     server.Addr(),
 		Password: "wrong-password",
 	})
-	if !errors.Is(err, gorcon.ErrAuthFailed) {
-		t.Errorf("Connect() error = %v, want gorcon.ErrAuthFailed", err)
+	if !errors.Is(err, source.ErrAuthentication) {
+		t.Errorf("Connect() error = %v, want source.ErrAuthentication", err)
 	}
 }
 
@@ -106,62 +89,15 @@ func TestConnectWithCancelledContext(t *testing.T) {
 	server := newTestServer(t)
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := Connect(ctx, Options{Addr: server.Addr(), Password: testPassword})
+	_, err := Connect(ctx, Config{Addr: server.Addr(), Password: testPassword})
 	if !errors.Is(err, context.Canceled) {
 		t.Errorf("Connect() error = %v, want context.Canceled", err)
 	}
 }
 
-func TestConnectSingleAttempt(t *testing.T) {
-	listener, err := net.Listen("tcp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = listener.Close() })
-
-	var attempts atomic.Int64
-	done := make(chan struct{})
-	go func() {
-		defer close(done)
-		for {
-			conn, err := listener.Accept()
-			if err != nil {
-				return
-			}
-			attempts.Add(1)
-			_ = conn.Close()
-		}
-	}()
-
-	_, err = Connect(context.Background(), Options{
-		Addr:               listener.Addr().String(),
-		Password:           testPassword,
-		DialTimeout:        time.Second,
-		InteractionTimeout: time.Second,
-	})
-	if err == nil {
-		t.Fatal("Connect() succeeded, want error")
-	}
-	_ = listener.Close()
-	<-done
-	if got := attempts.Load(); got != 1 {
-		t.Errorf("dial attempts = %d, want 1", got)
-	}
-}
-
-func TestWithDefaults(t *testing.T) {
-	opts := (Options{}).withDefaults()
-	if opts.DialTimeout != defaultDialTimeout {
-		t.Errorf("DialTimeout = %v, want %v", opts.DialTimeout, defaultDialTimeout)
-	}
-	if opts.InteractionTimeout != defaultInteractionTimeout {
-		t.Errorf("InteractionTimeout = %v, want %v", opts.InteractionTimeout, defaultInteractionTimeout)
-	}
-}
-
 func TestExecuteAfterClose(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(echoHandler))
-	client := newTestClient(t, server, Options{})
+	server := newTestServer(t, echoHandler)
+	client := newTestClient(t, server, Config{})
 	client.Close()
 
 	_, err := client.ExecuteCommand(context.Background(), "anything")
@@ -171,19 +107,19 @@ func TestExecuteAfterClose(t *testing.T) {
 }
 
 func TestExecuteCommandValidation(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(echoHandler))
-	client := newTestClient(t, server, Options{})
+	server := newTestServer(t, echoHandler)
+	client := newTestClient(t, server, Config{})
 
 	_, err := client.ExecuteCommand(context.Background(), "")
-	if !errors.Is(err, gorcon.ErrCommandEmpty) {
-		t.Errorf("empty command error = %v, want gorcon.ErrCommandEmpty", err)
+	if err == nil {
+		t.Error("empty command succeeded")
 	}
 	_, err = client.ExecuteCommand(
 		context.Background(),
-		strings.Repeat("x", gorcon.MaxCommandLen+1),
+		strings.Repeat("x", 5000),
 	)
-	if !errors.Is(err, gorcon.ErrCommandTooLong) {
-		t.Errorf("long command error = %v, want gorcon.ErrCommandTooLong", err)
+	if !errors.Is(err, source.ErrBodyTooLarge) {
+		t.Errorf("long command error = %v, want source.ErrBodyTooLarge", err)
 	}
 	if client.State() != connection.StateConnected {
 		t.Error("validation errors changed the connection state")
@@ -191,8 +127,8 @@ func TestExecuteCommandValidation(t *testing.T) {
 }
 
 func TestExecuteWithCancelledContext(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(echoHandler))
-	client := newTestClient(t, server, Options{})
+	server := newTestServer(t, echoHandler)
+	client := newTestClient(t, server, Config{})
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 
@@ -206,14 +142,13 @@ func TestExecuteWithCancelledContext(t *testing.T) {
 }
 
 func TestTransportFailureDisconnectsPermanently(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(func(c *rcontest.Context) {
-		if c.Request().Body() == "break" {
-			closeWriteHalf(c)
-			return
+	server := newTestServer(t, func(command string) testReply {
+		if command == "break" {
+			return testReply{closeWrite: true}
 		}
-		echoHandler(c)
-	}))
-	client := newTestClient(t, server, Options{})
+		return echoHandler(command)
+	})
+	client := newTestClient(t, server, Config{})
 
 	if _, err := client.ExecuteCommand(context.Background(), "break"); err == nil {
 		t.Fatal("ExecuteCommand(break) succeeded, want transport error")
@@ -228,16 +163,14 @@ func TestTransportFailureDisconnectsPermanently(t *testing.T) {
 }
 
 func TestConcurrentExecute(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(echoHandler))
-	client := newTestClient(t, server, Options{})
+	server := newTestServer(t, echoHandler)
+	client := newTestClient(t, server, Config{})
 
 	const count = 20
 	var wg sync.WaitGroup
 	errs := make(chan error, count)
 	for i := range count {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		wg.Go(func() {
 			command := fmt.Sprintf("command-%d", i)
 			response, err := client.ExecuteCommand(context.Background(), command)
 			if err != nil {
@@ -247,7 +180,7 @@ func TestConcurrentExecute(t *testing.T) {
 			if response != "echo:"+command {
 				errs <- fmt.Errorf("response = %q", response)
 			}
-		}()
+		})
 	}
 	wg.Wait()
 	close(errs)
@@ -256,14 +189,14 @@ func TestConcurrentExecute(t *testing.T) {
 	}
 }
 
-func TestInteractionTimeoutDisconnects(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(func(c *rcontest.Context) {
-		if c.Request().Body() == "slow" {
-			return
+func TestTimeoutDisconnects(t *testing.T) {
+	server := newTestServer(t, func(command string) testReply {
+		if command == "slow" {
+			return testReply{}
 		}
-		echoHandler(c)
-	}))
-	client := newTestClient(t, server, Options{InteractionTimeout: 50 * time.Millisecond})
+		return echoHandler(command)
+	})
+	client := newTestClient(t, server, Config{Timeout: 50 * time.Millisecond})
 
 	_, err := client.ExecuteCommand(context.Background(), "slow")
 	if !errors.Is(err, connection.ErrCommandTimeout) {
@@ -275,8 +208,8 @@ func TestInteractionTimeoutDisconnects(t *testing.T) {
 }
 
 func TestCloseIsIdempotent(t *testing.T) {
-	server := newTestServer(t, rcontest.SetCommandHandler(echoHandler))
-	client := newTestClient(t, server, Options{})
+	server := newTestServer(t, echoHandler)
+	client := newTestClient(t, server, Config{})
 
 	client.Close()
 	client.Close()
@@ -287,10 +220,10 @@ func TestCloseIsIdempotent(t *testing.T) {
 
 func TestOnStateChange(t *testing.T) {
 	events := make(chan connection.State, 2)
-	server := newTestServer(t, rcontest.SetCommandHandler(func(c *rcontest.Context) {
-		closeWriteHalf(c)
-	}))
-	client := newTestClient(t, server, Options{
+	server := newTestServer(t, func(string) testReply {
+		return testReply{closeWrite: true}
+	})
+	client := newTestClient(t, server, Config{
 		OnStateChange: func(state connection.State) { events <- state },
 	})
 

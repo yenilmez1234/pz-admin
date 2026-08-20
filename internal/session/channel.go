@@ -19,7 +19,7 @@ func openChannel(
 ) (connection.Channel, error) {
 	switch p.ConnectionType {
 	case connection.TypeRCON:
-		return rcon.Connect(ctx, rcon.Options{
+		return rcon.Connect(ctx, rcon.Config{
 			Addr:          channelAddr(p),
 			Password:      password,
 			OnStateChange: onStateChange,
