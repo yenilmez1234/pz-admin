@@ -15,7 +15,13 @@ export interface OptionRequirement {
 }
 
 export interface OptionSpecialValue {
-  meaning: "never" | "noRequirement" | "unlimited";
+  meaning:
+    | "disabled"
+    | "forever"
+    | "never"
+    | "noRequirement"
+    | "unlimited"
+    | "useSpawnRegions";
   value: OptionValue;
 }
 
@@ -27,6 +33,7 @@ export interface OptionDefinition {
   maximum?: number;
   maximumLength?: number;
   minimum?: number;
+  multiple?: boolean;
   name: string;
   readOnly?: boolean;
   requirements?: OptionRequirement[];
@@ -64,8 +71,13 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType15", equals: true }],
   },
-  AntiCheatProtectionType16: { type: "boolean", defaultValue: true },
+  AntiCheatProtectionType16: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "NoFire", equals: true }],
+  },
   AntiCheatProtectionType17: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType18: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType19: { type: "boolean", defaultValue: true },
@@ -76,6 +88,7 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType20", equals: true }],
   },
   AntiCheatProtectionType21: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType22: { type: "boolean", defaultValue: true },
@@ -84,6 +97,7 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType22", equals: true }],
   },
   AntiCheatProtectionType23: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType24: { type: "boolean", defaultValue: true },
@@ -92,12 +106,14 @@ const build41Options = {
     defaultValue: 6,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType24", equals: true }],
   },
   AntiCheatProtectionType2ThresholdMultiplier: {
     type: "number",
     defaultValue: 3,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType2", equals: true }],
   },
   AntiCheatProtectionType3: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType3ThresholdMultiplier: {
@@ -105,6 +121,7 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType3", equals: true }],
   },
   AntiCheatProtectionType4: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType4ThresholdMultiplier: {
@@ -112,6 +129,7 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType4", equals: true }],
   },
   AntiCheatProtectionType5: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType6: { type: "boolean", defaultValue: true },
@@ -123,6 +141,7 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 10,
+    requirements: [{ option: "AntiCheatProtectionType9", equals: true }],
   },
   AutoCreateUserInWhiteList: {
     type: "boolean",
@@ -137,6 +156,7 @@ const build41Options = {
     defaultValue: 0,
     minimum: 0,
     maximum: 1500,
+    specialValue: { value: 0, meaning: "disabled" },
   },
   BanKickGlobalSound: { type: "boolean", defaultValue: true },
   BloodSplatLifespanDays: {
@@ -144,6 +164,7 @@ const build41Options = {
     defaultValue: 0,
     minimum: 0,
     maximum: 365,
+    specialValue: { value: 0, meaning: "forever" },
   },
   CarEngineAttractionModifier: {
     type: "number",
@@ -151,7 +172,21 @@ const build41Options = {
     minimum: 0,
     maximum: 10,
   },
-  ChatStreams: { type: "string", defaultValue: "s,r,a,w,y,sh,f,all" },
+  ChatStreams: {
+    type: "string",
+    defaultValue: "s,r,a,w,y,sh,f,all",
+    multiple: true,
+    choices: [
+      { id: "say", value: "s" },
+      { id: "radio", value: "r" },
+      { id: "admin", value: "a" },
+      { id: "whisper", value: "w" },
+      { id: "yell", value: "y" },
+      { id: "safehouse", value: "sh" },
+      { id: "faction", value: "f" },
+      { id: "global", value: "all" },
+    ],
+  },
   ClientActionLogs: {
     type: "string",
     defaultValue: "ISEnterVehicle;ISExitVehicle;ISTakeEngineParts;",
@@ -169,11 +204,27 @@ const build41Options = {
     maximum: 65535,
   },
   DenyLoginOnOverloadedServer: { type: "boolean", defaultValue: true },
-  DisableRadioAdmin: { type: "boolean", defaultValue: true },
-  DisableRadioGM: { type: "boolean", defaultValue: true },
+  DisableRadioAdmin: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "DisableRadioStaff", equals: false }],
+  },
+  DisableRadioGM: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "DisableRadioStaff", equals: false }],
+  },
   DisableRadioInvisible: { type: "boolean", defaultValue: true },
-  DisableRadioModerator: { type: "boolean", defaultValue: false },
-  DisableRadioOverseer: { type: "boolean", defaultValue: false },
+  DisableRadioModerator: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "DisableRadioStaff", equals: false }],
+  },
+  DisableRadioOverseer: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "DisableRadioStaff", equals: false }],
+  },
   DisableRadioStaff: { type: "boolean", defaultValue: false },
   DisableSafehouseWhenPlayerConnected: { type: "boolean", defaultValue: false },
   DiscordEnable: { type: "boolean", defaultValue: false },
@@ -205,6 +256,7 @@ const build41Options = {
     defaultValue: 40,
     minimum: 1,
     maximum: 100,
+    requirements: [{ option: "SleepAllowed", equals: true }],
   },
   GlobalChat: { type: "boolean", defaultValue: true },
   HidePlayersBehindYou: { type: "boolean", defaultValue: true },
@@ -213,12 +265,14 @@ const build41Options = {
     defaultValue: 0,
     minimum: 0,
     maximum: 2147483647,
+    specialValue: { value: 0, meaning: "never" },
   },
   ItemNumbersLimitPerContainer: {
     type: "integer",
     defaultValue: 0,
     minimum: 0,
     maximum: 9000,
+    specialValue: { value: 0, meaning: "unlimited" },
   },
   KickFastPlayers: { type: "boolean", defaultValue: false },
   KnockedDownAllowed: { type: "boolean", defaultValue: true },
@@ -227,6 +281,7 @@ const build41Options = {
     defaultValue: 60,
     minimum: 20,
     maximum: 1200,
+    requirements: [{ option: "LoginQueueEnabled", equals: true }],
   },
   LoginQueueEnabled: { type: "boolean", defaultValue: false },
   Map: { type: "string", defaultValue: "Muldraugh, KY" },
@@ -235,6 +290,11 @@ const build41Options = {
     defaultValue: 1,
     minimum: 1,
     maximum: 3,
+    choices: [
+      { id: "hidden", value: 1 },
+      { id: "friends", value: 2 },
+      { id: "everyone", value: 3 },
+    ],
   },
   MaxAccountsPerUser: {
     type: "integer",
@@ -262,14 +322,20 @@ const build41Options = {
     defaultValue: 50,
     minimum: 0,
     maximum: 500,
+    requirements: [{ option: "PVP", equals: true }],
   },
   PVPMeleeDamageModifier: {
     type: "number",
     defaultValue: 30,
     minimum: 0,
     maximum: 500,
+    requirements: [{ option: "PVP", equals: true }],
   },
-  PVPMeleeWhileHitReaction: { type: "boolean", defaultValue: false },
+  PVPMeleeWhileHitReaction: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "PVP", equals: true }],
+  },
   PauseEmpty: { type: "boolean", defaultValue: true },
   PerkLogs: { type: "boolean", defaultValue: true },
   PingLimit: {
@@ -277,9 +343,14 @@ const build41Options = {
     defaultValue: 400,
     minimum: 100,
     maximum: 2147483647,
+    specialValue: { value: 100, meaning: "disabled" },
   },
   PlayerBumpPlayer: { type: "boolean", defaultValue: false },
-  PlayerRespawnWithOther: { type: "boolean", defaultValue: false },
+  PlayerRespawnWithOther: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "AllowCoop", equals: true }],
+  },
   PlayerRespawnWithSelf: { type: "boolean", defaultValue: false },
   PlayerSafehouse: { type: "boolean", defaultValue: false },
   Public: { type: "boolean", defaultValue: false },
@@ -295,6 +366,7 @@ const build41Options = {
     dynamicDefault: true,
     minimum: 0,
     maximum: 2147483647,
+    readOnly: true,
   },
   SafeHouseRemovalTime: {
     type: "integer",
@@ -320,53 +392,100 @@ const build41Options = {
     defaultValue: 3,
     minimum: 0,
     maximum: 1000,
+    requirements: [
+      { option: "PVP", equals: true },
+      { option: "SafetySystem", equals: true },
+    ],
   },
-  SafetySystem: { type: "boolean", defaultValue: true },
+  SafetySystem: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "PVP", equals: true }],
+  },
   SafetyToggleTimer: {
     type: "integer",
     defaultValue: 2,
     minimum: 0,
     maximum: 1000,
+    requirements: [
+      { option: "PVP", equals: true },
+      { option: "SafetySystem", equals: true },
+    ],
   },
   SaveWorldEveryMinutes: {
     type: "integer",
     defaultValue: 0,
     minimum: 0,
     maximum: 2147483647,
+    specialValue: { value: 0, meaning: "disabled" },
   },
-  ServerPlayerID: { type: "string", dynamicDefault: true },
+  ServerPlayerID: { type: "string", dynamicDefault: true, readOnly: true },
   ServerWelcomeMessage: {
     type: "text",
     defaultValue:
       "Welcome to Project Zomboid Multiplayer! <LINE> <LINE> To interact with the Chat panel: press Tab, T, or Enter. <LINE> <LINE> The Tab key will change the target stream of the message. <LINE> <LINE> Global Streams: /all <LINE> Local Streams: /say, /yell <LINE> Special Steams: /whisper, /safehouse, /faction. <LINE> <LINE> Press the Up arrow to cycle through your message history. Click the Gear icon to customize chat. <LINE> <LINE> Happy surviving!",
+    editor: "message",
   },
   ShowFirstAndLastName: { type: "boolean", defaultValue: false },
-  ShowSafety: { type: "boolean", defaultValue: true },
-  SledgehammerOnlyInSafehouse: { type: "boolean", defaultValue: false },
+  ShowSafety: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [
+      { option: "PVP", equals: true },
+      { option: "SafetySystem", equals: true },
+    ],
+  },
+  SledgehammerOnlyInSafehouse: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "AllowDestructionBySledgehammer", equals: true }],
+  },
   SleepAllowed: { type: "boolean", defaultValue: false },
-  SleepNeeded: { type: "boolean", defaultValue: false },
+  SleepNeeded: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "SleepAllowed", equals: true }],
+  },
   SneakModeHideFromOtherPlayers: { type: "boolean", defaultValue: true },
-  SpawnItems: { type: "string", defaultValue: "" },
-  SpawnPoint: { type: "string", defaultValue: "0,0,0" },
+  SpawnItems: { type: "string", defaultValue: "", editor: "items" },
+  SpawnPoint: {
+    type: "string",
+    defaultValue: "0,0,0",
+    specialValue: { value: "0,0,0", meaning: "useSpawnRegions" },
+  },
   SpeedLimit: { type: "number", defaultValue: 70, minimum: 10, maximum: 150 },
-  SteamScoreboard: { type: "string", defaultValue: "true" },
+  SteamScoreboard: {
+    type: "string",
+    defaultValue: "true",
+    choices: [
+      { id: "everyone", value: "true" },
+      { id: "administrators", value: "admin" },
+      { id: "nobody", value: "false" },
+    ],
+  },
   SteamVAC: { type: "boolean", defaultValue: true },
   TrashDeleteAll: { type: "boolean", defaultValue: false },
   UDPPort: { type: "integer", defaultValue: 16262, minimum: 0, maximum: 65535 },
   UPnP: { type: "boolean", defaultValue: true },
-  Voice3D: { type: "boolean", defaultValue: true },
+  Voice3D: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "VoiceEnable", equals: true }],
+  },
   VoiceEnable: { type: "boolean", defaultValue: true },
   VoiceMaxDistance: {
     type: "number",
     defaultValue: 100,
     minimum: 0,
     maximum: 100000,
+    requirements: [{ option: "VoiceEnable", equals: true }],
   },
   VoiceMinDistance: {
     type: "number",
     defaultValue: 10,
     minimum: 0,
     maximum: 100000,
+    requirements: [{ option: "VoiceEnable", equals: true }],
   },
   WorkshopItems: { type: "string", defaultValue: "" },
   server_browser_announced_ip: { type: "string", defaultValue: "" },
@@ -410,9 +529,11 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "networkAndConnection",
           options: b41([
+            // Player traffic ports and automatic router configuration.
             "DefaultPort",
             "UDPPort",
             "UPnP",
+            // Optional advertised address for multi-address network setups.
             "server_browser_announced_ip",
           ]),
         },
@@ -424,37 +545,46 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "players",
           options: b41([
+            // World time and sleeping behavior.
             "PauseEmpty",
             "SleepAllowed",
             "SleepNeeded",
             "FastForwardMultiplier",
+            // Respawn locations for local and Remote Play players.
             "PlayerRespawnWithSelf",
             "PlayerRespawnWithOther",
+            // Player identity and visibility in-game and in player lists.
             "DisplayUserName",
             "ShowFirstAndLastName",
             "MouseOverToSeeDisplayName",
             "SteamScoreboard",
+            // Reading speed.
             "MinutesPerPage",
           ]),
         },
         {
           id: "world",
           options: b41([
+            // Fire and persistent world cleanup.
             "NoFire",
-            "SpeedLimit",
-            "CarEngineAttractionModifier",
             "BloodSplatLifespanDays",
             "RemovePlayerCorpsesOnCorpseRemoval",
             "TrashDeleteAll",
+            // Vehicle behavior.
+            "SpeedLimit",
+            "CarEngineAttractionModifier",
           ]),
         },
         {
           id: "lootAndConstruction",
           options: b41([
+            // Loot respawn interval and eligibility.
             "HoursForLootRespawn",
             "MaxItemsForLootRespawn",
             "ConstructionPreventsLootRespawn",
+            // Player storage limits.
             "ItemNumbersLimitPerContainer",
+            // Sledgehammer destruction policy.
             "AllowDestructionBySledgehammer",
             "SledgehammerOnlyInSafehouse",
           ]),
@@ -462,14 +592,17 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "pvpAndSafety",
           options: b41([
+            // Global PvP policy and the per-player safety system.
             "PVP",
             "SafetySystem",
             "ShowSafety",
             "SafetyToggleTimer",
             "SafetyCooldownTimer",
+            // PvP damage behavior.
             "PVPFirearmDamageModifier",
             "PVPMeleeDamageModifier",
             "PVPMeleeWhileHitReaction",
+            // Player collisions and visibility.
             "PlayerBumpPlayer",
             "KnockedDownAllowed",
             "SneakModeHideFromOtherPlayers",
@@ -511,21 +644,25 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "chatAndVoice",
           options: b41([
+            // Messages and available text-chat channels.
+            "ServerWelcomeMessage",
             "GlobalChat",
             "ChatStreams",
-            "ServerWelcomeMessage",
             "AnnounceDeath",
             "BanKickGlobalSound",
+            // Voice chat availability, positioning, and range.
             "VoiceEnable",
             "Voice3D",
             "VoiceMinDistance",
             "VoiceMaxDistance",
+            // Radio restrictions, from the broad override to narrower cases.
             "DisableRadioStaff",
             "DisableRadioAdmin",
             "DisableRadioModerator",
             "DisableRadioOverseer",
             "DisableRadioGM",
             "DisableRadioInvisible",
+            // External chat integration.
             "DiscordEnable",
           ]),
         },
@@ -538,12 +675,18 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
           id: "mapAndSpawning",
           options: b41([
             "Map",
+            // New-player location and inventory.
             "SpawnPoint",
             "SpawnItems",
+            // Visibility of other players on the in-game map.
             "MapRemotePlayerVisibility",
           ]),
         },
-        { id: "modsAndWorkshop", options: b41(["WorkshopItems", "Mods"]) },
+        {
+          id: "modsAndWorkshop",
+          // Workshop content first, followed by the mod IDs loaded by the server.
+          options: b41(["WorkshopItems", "Mods"]),
+        },
       ],
     },
     {
@@ -551,18 +694,20 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       sections: [
         {
           id: "savingAndBackups",
+          // World saving first, then backup triggers and retention, followed by generated IDs.
           options: b41([
             "SaveWorldEveryMinutes",
             "BackupsOnStart",
+            "BackupsOnVersionChange",
             "BackupsPeriod",
             "BackupsCount",
-            "BackupsOnVersionChange",
             "ResetID",
             "ServerPlayerID",
           ]),
         },
         {
           id: "loginAndPerformance",
+          // Admission controls first, followed by connection-quality protections.
           options: b41([
             "DenyLoginOnOverloadedServer",
             "LoginQueueEnabled",
@@ -583,6 +728,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         { id: "protections", options: b41(["SteamVAC", "DoLuaChecksum"]) },
         {
           id: "antiCheat",
+          // Keep the game's numbered order and each configurable threshold together.
           options: b41([
             "AntiCheatProtectionType1",
             "AntiCheatProtectionType2",

@@ -1,8 +1,11 @@
 {
   "specialValues": {
+    "disabled": "Disabled",
+    "forever": "Forever",
     "never": "Never",
     "noRequirement": "No requirement",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "useSpawnRegions": "Use spawn regions"
   },
   "fields": {
     "AdminSafehouse": {
@@ -96,6 +99,466 @@
     "AllowCoop": {
       "label": "Split-screen players",
       "description": "Allows additional local players to join through split-screen co-op."
+    },
+    "DefaultPort": {
+      "label": "Player port",
+      "description": "Primary UDP port used by players to connect to the server."
+    },
+    "UDPPort": {
+      "label": "Additional UDP port",
+      "description": "Secondary UDP port used for player communication."
+    },
+    "UPnP": {
+      "label": "Automatic port forwarding",
+      "description": "Attempts to configure port forwarding automatically on a UPnP-compatible router."
+    },
+    "server_browser_announced_ip": {
+      "label": "Advertised IP address",
+      "description": "IP address advertised by the server in network setups with multiple addresses."
+    },
+    "PauseEmpty": {
+      "label": "Pause when empty",
+      "description": "Pauses game time while no players are connected."
+    },
+    "SleepAllowed": {
+      "label": "Allow sleeping",
+      "description": "Allows players to sleep when tired without requiring them to sleep."
+    },
+    "SleepNeeded": {
+      "label": "Require sleeping",
+      "description": "Makes players become tired and require sleep."
+    },
+    "FastForwardMultiplier": {
+      "label": "Sleep time speed",
+      "description": "Multiplier applied to the passage of time while players sleep."
+    },
+    "PlayerRespawnWithSelf": {
+      "label": "Respawn at death location",
+      "description": "Allows a local player to respawn where their previous character died."
+    },
+    "PlayerRespawnWithOther": {
+      "label": "Respawn with another player",
+      "description": "Allows a local split-screen or Remote Play player to respawn at another player's location."
+    },
+    "DisplayUserName": {
+      "label": "Show usernames",
+      "description": "Displays usernames above player characters."
+    },
+    "ShowFirstAndLastName": {
+      "label": "Show character names",
+      "description": "Displays character first and last names above player characters."
+    },
+    "MouseOverToSeeDisplayName": {
+      "label": "Names on hover only",
+      "description": "Shows a player's display name only while pointing at them."
+    },
+    "SteamScoreboard": {
+      "label": "Steam identity visibility",
+      "description": "Controls who can see Steam usernames and avatars in the player list.",
+      "choices": {
+        "everyone": "Everyone",
+        "administrators": "Administrators only",
+        "nobody": "Nobody"
+      }
+    },
+    "MinutesPerPage": {
+      "label": "Minutes per book page",
+      "description": "Number of in-game minutes required to read one page of a book."
+    },
+    "NoFire": {
+      "label": "Disable fire",
+      "description": "Disables all fire except campfires."
+    },
+    "BloodSplatLifespanDays": {
+      "label": "Blood stain lifetime",
+      "description": "Number of in-game days before old blood stains are removed when their map chunks load."
+    },
+    "RemovePlayerCorpsesOnCorpseRemoval": {
+      "label": "Clean up player corpses",
+      "description": "Includes player corpses when the world's corpse-removal interval runs."
+    },
+    "TrashDeleteAll": {
+      "label": "Delete all from bins",
+      "description": "Allows players to permanently delete all contents of a bin."
+    },
+    "SpeedLimit": {
+      "label": "Vehicle speed limit",
+      "description": "Limits vehicle simulation speed on the server."
+    },
+    "CarEngineAttractionModifier": {
+      "label": "Engine noise attraction",
+      "description": "Multiplier applied to the distance at which vehicle engines attract zombies. Lower values may reduce server load."
+    },
+    "HoursForLootRespawn": {
+      "label": "Loot respawn interval",
+      "description": "Number of in-game hours after which previously looted containers can respawn loot."
+    },
+    "MaxItemsForLootRespawn": {
+      "label": "Loot respawn item threshold",
+      "description": "Containers with this many items or more are not eligible to respawn loot."
+    },
+    "ConstructionPreventsLootRespawn": {
+      "label": "Construction blocks loot respawn",
+      "description": "Prevents loot from respawning in buildings where players have built or barricaded."
+    },
+    "ItemNumbersLimitPerContainer": {
+      "label": "Items per container",
+      "description": "Maximum number of individual items players can place in one container."
+    },
+    "AllowDestructionBySledgehammer": {
+      "label": "Allow sledgehammer destruction",
+      "description": "Allows players to destroy world objects with sledgehammers."
+    },
+    "SledgehammerOnlyInSafehouse": {
+      "label": "Sledgehammers in safehouses only",
+      "description": "Restricts players to destroying world objects inside their own safehouses."
+    },
+    "PVP": {
+      "label": "Allow PvP",
+      "description": "Allows players to hurt and kill other players."
+    },
+    "SafetySystem": {
+      "label": "Player safety system",
+      "description": "Allows each player to enter or leave PvP mode individually."
+    },
+    "ShowSafety": {
+      "label": "Show PvP status",
+      "description": "Displays a skull icon above players who have entered PvP mode."
+    },
+    "SafetyToggleTimer": {
+      "label": "PvP toggle duration",
+      "description": "Time required for a player to enter or leave PvP mode."
+    },
+    "SafetyCooldownTimer": {
+      "label": "PvP toggle cooldown",
+      "description": "Delay before a player can change their PvP mode again."
+    },
+    "PVPFirearmDamageModifier": {
+      "label": "PvP firearm damage",
+      "description": "Percentage modifier applied to firearm damage against other players."
+    },
+    "PVPMeleeDamageModifier": {
+      "label": "PvP melee damage",
+      "description": "Percentage modifier applied to melee damage against other players."
+    },
+    "PVPMeleeWhileHitReaction": {
+      "label": "Melee during hit reactions",
+      "description": "Allows a player to make another melee attack while reacting to a hit from another player."
+    },
+    "PlayerBumpPlayer": {
+      "label": "Player collisions",
+      "description": "Allows running players to bump into and knock over other players."
+    },
+    "KnockedDownAllowed": {
+      "label": "Allow knockdowns",
+      "description": "Allows players to be knocked down."
+    },
+    "SneakModeHideFromOtherPlayers": {
+      "label": "Sneaking hides players",
+      "description": "Makes sneaking players harder for other players to see."
+    },
+    "HidePlayersBehindYou": {
+      "label": "Hide players outside view",
+      "description": "Hides players outside the character's field of view, like zombies."
+    },
+    "ServerWelcomeMessage": {
+      "label": "Welcome message",
+      "description": "Message shown in chat when a player joins the server."
+    },
+    "GlobalChat": {
+      "label": "Global chat",
+      "description": "Allows players to communicate with everyone through global chat."
+    },
+    "ChatStreams": {
+      "label": "Available chat channels",
+      "description": "Chat channels players can use on the server.",
+      "choices": {
+        "say": "Say",
+        "radio": "Radio",
+        "admin": "Admin",
+        "whisper": "Whisper",
+        "yell": "Yell",
+        "safehouse": "Safehouse",
+        "faction": "Faction",
+        "global": "Global"
+      }
+    },
+    "AnnounceDeath": {
+      "label": "Announce player deaths",
+      "description": "Posts a global chat message whenever a player dies."
+    },
+    "BanKickGlobalSound": {
+      "label": "Ban and kick sound",
+      "description": "Plays a global sound when a player is banned or kicked."
+    },
+    "VoiceEnable": {
+      "label": "Voice chat",
+      "description": "Allows players to communicate using voice chat."
+    },
+    "Voice3D": {
+      "label": "Directional voice audio",
+      "description": "Positions voice chat audio according to the speaker's location."
+    },
+    "VoiceMinDistance": {
+      "label": "Full-volume distance",
+      "description": "Distance in tiles within which voice chat is heard at full volume."
+    },
+    "VoiceMaxDistance": {
+      "label": "Maximum voice distance",
+      "description": "Maximum distance in tiles at which voice chat can be heard."
+    },
+    "DisableRadioStaff": {
+      "label": "Mute all staff radios",
+      "description": "Prevents radio transmissions from players with any staff access level."
+    },
+    "DisableRadioAdmin": {
+      "label": "Mute admin radios",
+      "description": "Prevents radio transmissions from administrators."
+    },
+    "DisableRadioModerator": {
+      "label": "Mute moderator radios",
+      "description": "Prevents radio transmissions from moderators."
+    },
+    "DisableRadioOverseer": {
+      "label": "Mute overseer radios",
+      "description": "Prevents radio transmissions from overseers."
+    },
+    "DisableRadioGM": {
+      "label": "Mute GM radios",
+      "description": "Prevents radio transmissions from game masters."
+    },
+    "DisableRadioInvisible": {
+      "label": "Mute invisible-player radios",
+      "description": "Prevents radio transmissions from invisible players."
+    },
+    "DiscordEnable": {
+      "label": "Discord chat integration",
+      "description": "Connects global text chat to a configured Discord channel."
+    },
+    "Map": {
+      "label": "Maps",
+      "description": "Semicolon-separated map folder names loaded by the server."
+    },
+    "SpawnPoint": {
+      "label": "Fixed spawn point",
+      "description": "World coordinates where every new player spawns, in x,y,z format."
+    },
+    "SpawnItems": {
+      "label": "Starting items",
+      "description": "Items given to new players when they spawn."
+    },
+    "MapRemotePlayerVisibility": {
+      "label": "Player visibility on map",
+      "description": "Determines which remote players appear on the in-game map.",
+      "choices": {
+        "hidden": "Hidden",
+        "friends": "Friends",
+        "everyone": "Everyone"
+      }
+    },
+    "WorkshopItems": {
+      "label": "Workshop item IDs",
+      "description": "Semicolon-separated Steam Workshop item IDs downloaded by the server."
+    },
+    "Mods": {
+      "label": "Mod IDs",
+      "description": "Semicolon-separated mod IDs loaded by the server."
+    },
+    "SaveWorldEveryMinutes": {
+      "label": "Automatic save interval",
+      "description": "Saves loaded parts of the world after the specified number of real-world minutes."
+    },
+    "BackupsOnStart": {
+      "label": "Back up on startup",
+      "description": "Creates a backup when the server starts."
+    },
+    "BackupsOnVersionChange": {
+      "label": "Back up on version change",
+      "description": "Creates a backup when the game version changes."
+    },
+    "BackupsPeriod": {
+      "label": "Periodic backup interval",
+      "description": "Time in real-world minutes between periodic backups."
+    },
+    "BackupsCount": {
+      "label": "Backups to keep",
+      "description": "Maximum number of backups retained for each backup type."
+    },
+    "ResetID": {
+      "label": "Reset ID",
+      "description": "Generated world-reset identifier used to determine whether existing characters remain compatible."
+    },
+    "ServerPlayerID": {
+      "label": "Server player ID",
+      "description": "Generated server identifier used to determine whether a character belongs to this server."
+    },
+    "DenyLoginOnOverloadedServer": {
+      "label": "Reject logins while overloaded",
+      "description": "Rejects new login attempts while the server is too busy to process them."
+    },
+    "LoginQueueEnabled": {
+      "label": "Login queue",
+      "description": "Queues players and admits them to the server one at a time."
+    },
+    "LoginQueueConnectTimeout": {
+      "label": "Queue connection timeout",
+      "description": "Seconds given to an admitted player to complete the connection before the queue moves on."
+    },
+    "PingLimit": {
+      "label": "Ping limit",
+      "description": "Maximum ping in milliseconds before a non-privileged player is removed."
+    },
+    "KickFastPlayers": {
+      "label": "Remove unusually fast players",
+      "description": "Removes players detected moving faster than normally possible. This check may produce false positives."
+    },
+    "PerkLogs": {
+      "label": "Perk change logs",
+      "description": "Records changes to player perk levels in PerkLog.txt."
+    },
+    "ClientActionLogs": {
+      "label": "Logged client actions",
+      "description": "Semicolon-separated client action names to record in ClientActionLogs.txt."
+    },
+    "ClientCommandFilter": {
+      "label": "Client command log filter",
+      "description": "Semicolon-separated include and exclude patterns controlling which client commands are recorded in cmd.txt."
+    },
+    "SteamVAC": {
+      "label": "Steam VAC",
+      "description": "Enables Steam's Valve Anti-Cheat protection."
+    },
+    "DoLuaChecksum": {
+      "label": "Lua checksum validation",
+      "description": "Removes clients whose Lua files do not match the server."
+    },
+    "AntiCheatProtectionType1": {
+      "label": "Unauthorized PvP",
+      "description": "Checks whether player-versus-player attacks are permitted."
+    },
+    "AntiCheatProtectionType2": {
+      "label": "Movement speed",
+      "description": "Checks for movement exceeding the permitted speed."
+    },
+    "AntiCheatProtectionType2ThresholdMultiplier": {
+      "label": "Movement speed threshold",
+      "description": "Multiplies the threshold used by movement-speed validation."
+    },
+    "AntiCheatProtectionType3": {
+      "label": "Interaction distance",
+      "description": "Checks for interactions over an invalid distance."
+    },
+    "AntiCheatProtectionType3ThresholdMultiplier": {
+      "label": "Interaction distance threshold",
+      "description": "Multiplies the threshold used by interaction-distance validation."
+    },
+    "AntiCheatProtectionType4": {
+      "label": "Attack damage",
+      "description": "Checks for attacks dealing excessive damage."
+    },
+    "AntiCheatProtectionType4ThresholdMultiplier": {
+      "label": "Attack damage threshold",
+      "description": "Multiplies the threshold used by attack-damage validation."
+    },
+    "AntiCheatProtectionType5": {
+      "label": "Zombie ownership",
+      "description": "Checks whether a client is authorized to control the affected zombie."
+    },
+    "AntiCheatProtectionType6": {
+      "label": "Player targeting",
+      "description": "Checks whether a client may target the affected player."
+    },
+    "AntiCheatProtectionType7": {
+      "label": "Safehouse authorization",
+      "description": "Checks whether a player is authorized for the affected safehouse."
+    },
+    "AntiCheatProtectionType8": {
+      "label": "Unauthorized packets",
+      "description": "Enforces access requirements for restricted network packets."
+    },
+    "AntiCheatProtectionType9": {
+      "label": "XP gain rate",
+      "description": "Checks for experience gained at an excessive rate."
+    },
+    "AntiCheatProtectionType9ThresholdMultiplier": {
+      "label": "XP gain threshold",
+      "description": "Multiplies the threshold used by experience-gain validation."
+    },
+    "AntiCheatProtectionType10": {
+      "label": "Unknown network messages",
+      "description": "Checks for unrecognized low-level network messages."
+    },
+    "AntiCheatProtectionType11": {
+      "label": "Protection type 11",
+      "description": "Configures the game's undocumented anti-cheat protection type 11."
+    },
+    "AntiCheatProtectionType12": {
+      "label": "Invalid player flags",
+      "description": "Checks for restricted player-state flags received from clients."
+    },
+    "AntiCheatProtectionType13": {
+      "label": "Unknown game packets",
+      "description": "Checks for unrecognized game packet types."
+    },
+    "AntiCheatProtectionType14": {
+      "label": "XP target ownership",
+      "description": "Checks whether a client is authorized to modify the target player's experience."
+    },
+    "AntiCheatProtectionType15": {
+      "label": "XP amount",
+      "description": "Checks for excessive experience changes received from clients."
+    },
+    "AntiCheatProtectionType15ThresholdMultiplier": {
+      "label": "XP amount threshold",
+      "description": "Multiplies the threshold used by experience-amount validation."
+    },
+    "AntiCheatProtectionType16": {
+      "label": "Prohibited fire",
+      "description": "Checks for attempts to start fire when fire is disabled."
+    },
+    "AntiCheatProtectionType17": {
+      "label": "Invalid fire placement",
+      "description": "Checks for attempts to start fire in an invalid location."
+    },
+    "AntiCheatProtectionType18": {
+      "label": "Invalid smoke placement",
+      "description": "Checks for attempts to create smoke in an invalid location."
+    },
+    "AntiCheatProtectionType19": {
+      "label": "Duplicate safehouses",
+      "description": "Checks for attempts to create another safehouse for the same owner."
+    },
+    "AntiCheatProtectionType20": {
+      "label": "Safehouse size",
+      "description": "Checks for safehouses exceeding the permitted dimensions."
+    },
+    "AntiCheatProtectionType20ThresholdMultiplier": {
+      "label": "Safehouse size threshold",
+      "description": "Multiplies the maximum safehouse dimensions used by validation."
+    },
+    "AntiCheatProtectionType21": {
+      "label": "Recipe checksum mismatch",
+      "description": "Checks for recipe data that does not match the server."
+    },
+    "AntiCheatProtectionType22": {
+      "label": "Recipe checksum timeout",
+      "description": "Checks for clients that do not return recipe validation in time."
+    },
+    "AntiCheatProtectionType22ThresholdMultiplier": {
+      "label": "Recipe validation timing",
+      "description": "Multiplies the delays and timeouts used by recipe validation."
+    },
+    "AntiCheatProtectionType23": {
+      "label": "Time multiplier mismatch",
+      "description": "Checks for a client time multiplier that does not match the server."
+    },
+    "AntiCheatProtectionType24": {
+      "label": "Time multiplier timeout",
+      "description": "Checks for clients that do not return time-multiplier validation in time."
+    },
+    "AntiCheatProtectionType24ThresholdMultiplier": {
+      "label": "Time validation timeout",
+      "description": "Multiplies the timeout used by time-multiplier validation."
     }
   }
 }

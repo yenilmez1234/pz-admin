@@ -1,8 +1,11 @@
 {
   "specialValues": {
+    "disabled": "Devre dışı",
+    "forever": "Süresiz",
     "never": "Asla",
     "noRequirement": "Gereklilik yok",
-    "unlimited": "Sınırsız"
+    "unlimited": "Sınırsız",
+    "useSpawnRegions": "Doğma bölgelerini kullan"
   },
   "fields": {
     "AdminSafehouse": {
@@ -96,6 +99,466 @@
     "AllowCoop": {
       "label": "Bölünmüş ekran oyuncuları",
       "description": "Ek yerel oyuncuların bölünmüş ekranlı eşli oyunla katılmasına izin verir."
+    },
+    "DefaultPort": {
+      "label": "Oyuncu portu",
+      "description": "Oyuncuların sunucuya bağlanmak için kullandığı birincil UDP portu."
+    },
+    "UDPPort": {
+      "label": "Ek UDP portu",
+      "description": "Oyuncu iletişimi için kullanılan ikincil UDP portu."
+    },
+    "UPnP": {
+      "label": "Otomatik port yönlendirme",
+      "description": "UPnP uyumlu bir yönlendiricide port yönlendirmeyi otomatik olarak yapılandırmayı dener."
+    },
+    "server_browser_announced_ip": {
+      "label": "Duyurulan IP adresi",
+      "description": "Birden fazla adres kullanılan ağ yapılandırmalarında sunucunun duyurduğu IP adresi."
+    },
+    "PauseEmpty": {
+      "label": "Boşken duraklat",
+      "description": "Hiçbir oyuncu bağlı değilken oyun zamanını duraklatır."
+    },
+    "SleepAllowed": {
+      "label": "Uyumaya izin ver",
+      "description": "Oyuncuların yorulduklarında uyumasına izin verir ancak uykuyu zorunlu tutmaz."
+    },
+    "SleepNeeded": {
+      "label": "Uykuyu zorunlu tut",
+      "description": "Oyuncuların yorulmasını ve uyumak zorunda kalmasını sağlar."
+    },
+    "FastForwardMultiplier": {
+      "label": "Uyku zamanı hızı",
+      "description": "Oyuncular uyurken zamanın geçişine uygulanan çarpan."
+    },
+    "PlayerRespawnWithSelf": {
+      "label": "Ölüm konumunda yeniden doğ",
+      "description": "Yerel oyuncunun önceki karakterinin öldüğü yerde yeniden doğmasına izin verir."
+    },
+    "PlayerRespawnWithOther": {
+      "label": "Başka oyuncunun yanında doğ",
+      "description": "Yerel bölünmüş ekran veya Remote Play oyuncusunun başka bir oyuncunun konumunda yeniden doğmasına izin verir."
+    },
+    "DisplayUserName": {
+      "label": "Kullanıcı adlarını göster",
+      "description": "Oyuncu karakterlerinin üzerinde kullanıcı adlarını gösterir."
+    },
+    "ShowFirstAndLastName": {
+      "label": "Karakter adlarını göster",
+      "description": "Oyuncu karakterlerinin üzerinde karakter adı ve soyadını gösterir."
+    },
+    "MouseOverToSeeDisplayName": {
+      "label": "Adları yalnızca işaret edince göster",
+      "description": "Oyuncunun görünen adını yalnızca oyuncu işaret edilirken gösterir."
+    },
+    "SteamScoreboard": {
+      "label": "Steam kimliği görünürlüğü",
+      "description": "Oyuncu listesinde Steam kullanıcı adlarını ve avatarlarını kimlerin görebileceğini belirler.",
+      "choices": {
+        "everyone": "Herkes",
+        "administrators": "Yalnızca yöneticiler",
+        "nobody": "Hiç kimse"
+      }
+    },
+    "MinutesPerPage": {
+      "label": "Kitap sayfası başına dakika",
+      "description": "Bir kitap sayfasını okumak için gereken oyun içi dakika sayısı."
+    },
+    "NoFire": {
+      "label": "Ateşi devre dışı bırak",
+      "description": "Kamp ateşleri dışındaki tüm ateşleri devre dışı bırakır."
+    },
+    "BloodSplatLifespanDays": {
+      "label": "Kan lekesi ömrü",
+      "description": "Eski kan lekelerinin, bulundukları harita parçaları yüklendiğinde kaldırılmadan önce kalacağı oyun içi gün sayısı."
+    },
+    "RemovePlayerCorpsesOnCorpseRemoval": {
+      "label": "Oyuncu cesetlerini temizle",
+      "description": "Dünyanın ceset kaldırma aralığı çalıştığında oyuncu cesetlerini de temizliğe dahil eder."
+    },
+    "TrashDeleteAll": {
+      "label": "Çöp kutularından tümünü sil",
+      "description": "Oyuncuların bir çöp kutusunun tüm içeriğini kalıcı olarak silmesine izin verir."
+    },
+    "SpeedLimit": {
+      "label": "Araç hız sınırı",
+      "description": "Sunucudaki araç simülasyon hızını sınırlar."
+    },
+    "CarEngineAttractionModifier": {
+      "label": "Motor sesi çekim gücü",
+      "description": "Araç motorlarının zombileri çektiği mesafeye uygulanan çarpan. Daha düşük değerler sunucu yükünü azaltabilir."
+    },
+    "HoursForLootRespawn": {
+      "label": "Ganimet yenilenme aralığı",
+      "description": "Daha önce yağmalanmış konteynerlerde ganimetin yenilenebileceği oyun içi saat aralığı."
+    },
+    "MaxItemsForLootRespawn": {
+      "label": "Ganimet yenilenme eşik değeri",
+      "description": "Bu sayıda veya daha fazla eşya içeren konteynerlerde ganimet yenilenmez."
+    },
+    "ConstructionPreventsLootRespawn": {
+      "label": "İnşaat ganimet yenilenmesini engeller",
+      "description": "Oyuncuların inşa ettiği veya barikat kurduğu binalarda ganimetin yenilenmesini engeller."
+    },
+    "ItemNumbersLimitPerContainer": {
+      "label": "Konteyner başına eşya",
+      "description": "Oyuncuların bir konteynere koyabileceği tekil eşyaların azami sayısı."
+    },
+    "AllowDestructionBySledgehammer": {
+      "label": "Balyozla yıkıma izin ver",
+      "description": "Oyuncuların dünya nesnelerini balyozla yok etmesine izin verir."
+    },
+    "SledgehammerOnlyInSafehouse": {
+      "label": "Balyoz yalnızca güvenli evlerde",
+      "description": "Oyuncuların dünya nesnelerini yalnızca kendi güvenli evlerinde yok edebilmesini sağlar."
+    },
+    "PVP": {
+      "label": "PvP'ye izin ver",
+      "description": "Oyuncuların diğer oyunculara zarar vermesine ve onları öldürmesine izin verir."
+    },
+    "SafetySystem": {
+      "label": "Oyuncu güvenlik sistemi",
+      "description": "Her oyuncunun PvP moduna ayrı ayrı girip çıkmasına izin verir."
+    },
+    "ShowSafety": {
+      "label": "PvP durumunu göster",
+      "description": "PvP moduna giren oyuncuların üzerinde kafatası simgesi gösterir."
+    },
+    "SafetyToggleTimer": {
+      "label": "PvP geçiş süresi",
+      "description": "Oyuncunun PvP moduna girmesi veya bu moddan çıkması için gereken süre."
+    },
+    "SafetyCooldownTimer": {
+      "label": "PvP geçiş bekleme süresi",
+      "description": "Oyuncunun PvP modunu yeniden değiştirebilmeden önce beklemesi gereken süre."
+    },
+    "PVPFirearmDamageModifier": {
+      "label": "PvP ateşli silah hasarı",
+      "description": "Diğer oyunculara verilen ateşli silah hasarına uygulanan yüzde çarpanı."
+    },
+    "PVPMeleeDamageModifier": {
+      "label": "PvP yakın dövüş hasarı",
+      "description": "Diğer oyunculara verilen yakın dövüş hasarına uygulanan yüzde çarpanı."
+    },
+    "PVPMeleeWhileHitReaction": {
+      "label": "Darbe tepkisi sırasında saldırı",
+      "description": "Oyuncunun başka bir oyuncudan darbe alırken tekrar yakın dövüş saldırısı yapmasına izin verir."
+    },
+    "PlayerBumpPlayer": {
+      "label": "Oyuncu çarpışmaları",
+      "description": "Koşan oyuncuların diğer oyunculara çarpmasına ve onları devirmesine izin verir."
+    },
+    "KnockedDownAllowed": {
+      "label": "Devrilmeye izin ver",
+      "description": "Oyuncuların devrilmesine izin verir."
+    },
+    "SneakModeHideFromOtherPlayers": {
+      "label": "Gizlice hareket ederken saklan",
+      "description": "Gizlenen oyuncuların diğer oyuncular tarafından görülmesini zorlaştırır."
+    },
+    "HidePlayersBehindYou": {
+      "label": "Görüş dışındaki oyuncuları gizle",
+      "description": "Karakterin görüş alanı dışındaki oyuncuları zombiler gibi gizler."
+    },
+    "ServerWelcomeMessage": {
+      "label": "Karşılama mesajı",
+      "description": "Bir oyuncu sunucuya katıldığında sohbette gösterilen mesaj."
+    },
+    "GlobalChat": {
+      "label": "Genel sohbet",
+      "description": "Oyuncuların genel sohbet üzerinden herkesle iletişim kurmasına izin verir."
+    },
+    "ChatStreams": {
+      "label": "Kullanılabilir sohbet kanalları",
+      "description": "Oyuncuların sunucuda kullanabileceği sohbet kanalları.",
+      "choices": {
+        "say": "Konuşma",
+        "radio": "Telsiz",
+        "admin": "Yönetici",
+        "whisper": "Fısıltı",
+        "yell": "Bağırma",
+        "safehouse": "Güvenli ev",
+        "faction": "Grup",
+        "global": "Genel"
+      }
+    },
+    "AnnounceDeath": {
+      "label": "Oyuncu ölümlerini duyur",
+      "description": "Bir oyuncu her öldüğünde genel sohbette bir mesaj yayımlar."
+    },
+    "BanKickGlobalSound": {
+      "label": "Yasaklama ve atma sesi",
+      "description": "Bir oyuncu yasaklandığında veya atıldığında herkese bir ses çalar."
+    },
+    "VoiceEnable": {
+      "label": "Sesli sohbet",
+      "description": "Oyuncuların sesli sohbet kullanarak iletişim kurmasına izin verir."
+    },
+    "Voice3D": {
+      "label": "Yönlü sesli sohbet",
+      "description": "Sesli sohbeti konuşmacının konumuna göre konumlandırır."
+    },
+    "VoiceMinDistance": {
+      "label": "Tam ses mesafesi",
+      "description": "Sesli sohbetin tam ses seviyesinde duyulduğu karo cinsinden mesafe."
+    },
+    "VoiceMaxDistance": {
+      "label": "Azami ses mesafesi",
+      "description": "Sesli sohbetin duyulabildiği karo cinsinden azami mesafe."
+    },
+    "DisableRadioStaff": {
+      "label": "Tüm yetkili telsizlerini sustur",
+      "description": "Herhangi bir yetkili erişim düzeyine sahip oyuncuların telsiz yayınlarını engeller."
+    },
+    "DisableRadioAdmin": {
+      "label": "Yönetici telsizlerini sustur",
+      "description": "Yöneticilerin telsiz yayınlarını engeller."
+    },
+    "DisableRadioModerator": {
+      "label": "Moderatör telsizlerini sustur",
+      "description": "Moderatörlerin telsiz yayınlarını engeller."
+    },
+    "DisableRadioOverseer": {
+      "label": "Gözetmen telsizlerini sustur",
+      "description": "Gözetmenlerin telsiz yayınlarını engeller."
+    },
+    "DisableRadioGM": {
+      "label": "Oyun yöneticisi telsizlerini sustur",
+      "description": "Oyun yöneticilerinin telsiz yayınlarını engeller."
+    },
+    "DisableRadioInvisible": {
+      "label": "Görünmez oyuncu telsizlerini sustur",
+      "description": "Görünmez oyuncuların telsiz yayınlarını engeller."
+    },
+    "DiscordEnable": {
+      "label": "Discord sohbet entegrasyonu",
+      "description": "Genel metin sohbetini yapılandırılmış bir Discord kanalına bağlar."
+    },
+    "Map": {
+      "label": "Haritalar",
+      "description": "Sunucunun yüklediği, noktalı virgülle ayrılmış harita klasörü adları."
+    },
+    "SpawnPoint": {
+      "label": "Sabit doğma noktası",
+      "description": "Her yeni oyuncunun doğduğu x,y,z biçimindeki dünya koordinatları."
+    },
+    "SpawnItems": {
+      "label": "Başlangıç eşyaları",
+      "description": "Yeni oyunculara doğduklarında verilen eşyalar."
+    },
+    "MapRemotePlayerVisibility": {
+      "label": "Haritada oyuncu görünürlüğü",
+      "description": "Oyun içi haritada hangi uzaktaki oyuncuların görüneceğini belirler.",
+      "choices": {
+        "hidden": "Gizli",
+        "friends": "Arkadaşlar",
+        "everyone": "Herkes"
+      }
+    },
+    "WorkshopItems": {
+      "label": "Atölye öğesi kimlikleri",
+      "description": "Sunucunun indirdiği, noktalı virgülle ayrılmış Steam Atölyesi öğesi kimlikleri."
+    },
+    "Mods": {
+      "label": "Mod kimlikleri",
+      "description": "Sunucunun yüklediği, noktalı virgülle ayrılmış mod kimlikleri."
+    },
+    "SaveWorldEveryMinutes": {
+      "label": "Otomatik kayıt aralığı",
+      "description": "Dünyanın yüklenmiş bölümlerini belirtilen gerçek dünya dakikası aralığında kaydeder."
+    },
+    "BackupsOnStart": {
+      "label": "Başlangıçta yedekle",
+      "description": "Sunucu başlatıldığında bir yedek oluşturur."
+    },
+    "BackupsOnVersionChange": {
+      "label": "Sürüm değişince yedekle",
+      "description": "Oyun sürümü değiştiğinde bir yedek oluşturur."
+    },
+    "BackupsPeriod": {
+      "label": "Düzenli yedekleme aralığı",
+      "description": "Düzenli yedeklemeler arasındaki gerçek dünya dakikası."
+    },
+    "BackupsCount": {
+      "label": "Saklanacak yedekler",
+      "description": "Her yedekleme türü için saklanacak en fazla yedek sayısı."
+    },
+    "ResetID": {
+      "label": "Sıfırlama kimliği",
+      "description": "Mevcut karakterlerin uyumlu kalıp kalmadığını belirlemek için kullanılan, oluşturulmuş dünya sıfırlama kimliği."
+    },
+    "ServerPlayerID": {
+      "label": "Sunucu oyuncu kimliği",
+      "description": "Bir karakterin bu sunucuya ait olup olmadığını belirlemek için kullanılan, oluşturulmuş sunucu kimliği."
+    },
+    "DenyLoginOnOverloadedServer": {
+      "label": "Aşırı yükte girişleri reddet",
+      "description": "Sunucu işlemleri gerçekleştiremeyecek kadar meşgulken yeni giriş denemelerini reddeder."
+    },
+    "LoginQueueEnabled": {
+      "label": "Giriş kuyruğu",
+      "description": "Oyuncuları sıraya alır ve sunucuya birer birer kabul eder."
+    },
+    "LoginQueueConnectTimeout": {
+      "label": "Kuyruk bağlantı zaman aşımı",
+      "description": "Kabul edilen oyuncunun, sıra ilerlemeden önce bağlantıyı tamamlaması için tanınan saniye."
+    },
+    "PingLimit": {
+      "label": "Ping sınırı",
+      "description": "Yetkili olmayan bir oyuncu çıkarılmadan önce izin verilen en yüksek ping değeri (milisaniye)."
+    },
+    "KickFastPlayers": {
+      "label": "Olağan dışı hızlı oyuncuları çıkar",
+      "description": "Normalde mümkün olandan hızlı hareket ettiği algılanan oyuncuları çıkarır. Bu denetim hatalı sonuç verebilir."
+    },
+    "PerkLogs": {
+      "label": "Yetenek değişikliği günlükleri",
+      "description": "Oyuncu yetenek seviyelerindeki değişiklikleri PerkLog.txt dosyasına kaydeder."
+    },
+    "ClientActionLogs": {
+      "label": "Günlüğe alınan istemci eylemleri",
+      "description": "ClientActionLogs.txt dosyasına kaydedilecek, noktalı virgülle ayrılmış istemci eylemi adları."
+    },
+    "ClientCommandFilter": {
+      "label": "İstemci komutu günlük filtresi",
+      "description": "cmd.txt dosyasına kaydedilecek istemci komutlarını denetleyen, noktalı virgülle ayrılmış dahil etme ve hariç tutma kalıpları."
+    },
+    "SteamVAC": {
+      "label": "Steam VAC",
+      "description": "Steam'in Valve Anti-Cheat korumasını etkinleştirir."
+    },
+    "DoLuaChecksum": {
+      "label": "Lua sağlama toplamı doğrulaması",
+      "description": "Lua dosyaları sunucuyla eşleşmeyen istemcileri çıkarır."
+    },
+    "AntiCheatProtectionType1": {
+      "label": "Yetkisiz PvP",
+      "description": "Oyuncular arası saldırılara izin verilip verilmediğini denetler."
+    },
+    "AntiCheatProtectionType2": {
+      "label": "Hareket hızı",
+      "description": "İzin verilen hızı aşan hareketleri denetler."
+    },
+    "AntiCheatProtectionType2ThresholdMultiplier": {
+      "label": "Hareket hızı eşiği",
+      "description": "Hareket hızı doğrulamasında kullanılan eşiği çarpar."
+    },
+    "AntiCheatProtectionType3": {
+      "label": "Etkileşim mesafesi",
+      "description": "Geçersiz bir mesafeden yapılan etkileşimleri denetler."
+    },
+    "AntiCheatProtectionType3ThresholdMultiplier": {
+      "label": "Etkileşim mesafesi eşiği",
+      "description": "Etkileşim mesafesi doğrulamasında kullanılan eşiği çarpar."
+    },
+    "AntiCheatProtectionType4": {
+      "label": "Saldırı hasarı",
+      "description": "Aşırı hasar veren saldırıları denetler."
+    },
+    "AntiCheatProtectionType4ThresholdMultiplier": {
+      "label": "Saldırı hasarı eşiği",
+      "description": "Saldırı hasarı doğrulamasında kullanılan eşiği çarpar."
+    },
+    "AntiCheatProtectionType5": {
+      "label": "Zombi sahipliği",
+      "description": "İstemcinin etkilenen zombiyi denetlemeye yetkili olup olmadığını denetler."
+    },
+    "AntiCheatProtectionType6": {
+      "label": "Oyuncu hedefleme",
+      "description": "İstemcinin etkilenen oyuncuyu hedefleyip hedefleyemeyeceğini denetler."
+    },
+    "AntiCheatProtectionType7": {
+      "label": "Güvenli ev yetkisi",
+      "description": "Oyuncunun etkilenen güvenli ev için yetkili olup olmadığını denetler."
+    },
+    "AntiCheatProtectionType8": {
+      "label": "Yetkisiz paketler",
+      "description": "Kısıtlanmış ağ paketlerinin erişim gereksinimlerini uygular."
+    },
+    "AntiCheatProtectionType9": {
+      "label": "TP kazanma hızı",
+      "description": "Aşırı hızda kazanılan tecrübe puanlarını denetler."
+    },
+    "AntiCheatProtectionType9ThresholdMultiplier": {
+      "label": "TP kazanma eşiği",
+      "description": "Tecrübe kazanma doğrulamasında kullanılan eşiği çarpar."
+    },
+    "AntiCheatProtectionType10": {
+      "label": "Bilinmeyen ağ iletileri",
+      "description": "Tanınmayan düşük seviyeli ağ iletilerini denetler."
+    },
+    "AntiCheatProtectionType11": {
+      "label": "Koruma türü 11",
+      "description": "Oyunun belgelenmemiş 11 numaralı hile korumasını yapılandırır."
+    },
+    "AntiCheatProtectionType12": {
+      "label": "Geçersiz oyuncu işaretleri",
+      "description": "İstemcilerden alınan kısıtlanmış oyuncu durumu işaretlerini denetler."
+    },
+    "AntiCheatProtectionType13": {
+      "label": "Bilinmeyen oyun paketleri",
+      "description": "Tanınmayan oyun paketi türlerini denetler."
+    },
+    "AntiCheatProtectionType14": {
+      "label": "TP hedefi sahipliği",
+      "description": "İstemcinin hedef oyuncunun tecrübesini değiştirmeye yetkili olup olmadığını denetler."
+    },
+    "AntiCheatProtectionType15": {
+      "label": "TP miktarı",
+      "description": "İstemcilerden alınan aşırı tecrübe değişikliklerini denetler."
+    },
+    "AntiCheatProtectionType15ThresholdMultiplier": {
+      "label": "TP miktarı eşiği",
+      "description": "Tecrübe miktarı doğrulamasında kullanılan eşiği çarpar."
+    },
+    "AntiCheatProtectionType16": {
+      "label": "Yasaklanmış yangın",
+      "description": "Yangın devre dışıyken yangın başlatma girişimlerini denetler."
+    },
+    "AntiCheatProtectionType17": {
+      "label": "Geçersiz yangın konumu",
+      "description": "Geçersiz bir konumda yangın başlatma girişimlerini denetler."
+    },
+    "AntiCheatProtectionType18": {
+      "label": "Geçersiz duman konumu",
+      "description": "Geçersiz bir konumda duman oluşturma girişimlerini denetler."
+    },
+    "AntiCheatProtectionType19": {
+      "label": "Yinelenen güvenli evler",
+      "description": "Aynı sahip için başka bir güvenli ev oluşturma girişimlerini denetler."
+    },
+    "AntiCheatProtectionType20": {
+      "label": "Güvenli ev boyutu",
+      "description": "İzin verilen boyutları aşan güvenli evleri denetler."
+    },
+    "AntiCheatProtectionType20ThresholdMultiplier": {
+      "label": "Güvenli ev boyutu eşiği",
+      "description": "Doğrulamada kullanılan en yüksek güvenli ev boyutlarını çarpar."
+    },
+    "AntiCheatProtectionType21": {
+      "label": "Tarif sağlama toplamı uyuşmazlığı",
+      "description": "Sunucuyla eşleşmeyen tarif verilerini denetler."
+    },
+    "AntiCheatProtectionType22": {
+      "label": "Tarif sağlama toplamı zaman aşımı",
+      "description": "Tarif doğrulamasını zamanında döndürmeyen istemcileri denetler."
+    },
+    "AntiCheatProtectionType22ThresholdMultiplier": {
+      "label": "Tarif doğrulama zamanlaması",
+      "description": "Tarif doğrulamasında kullanılan gecikmeleri ve zaman aşımlarını çarpar."
+    },
+    "AntiCheatProtectionType23": {
+      "label": "Zaman çarpanı uyuşmazlığı",
+      "description": "İstemci zaman çarpanının sunucuyla eşleşip eşleşmediğini denetler."
+    },
+    "AntiCheatProtectionType24": {
+      "label": "Zaman çarpanı zaman aşımı",
+      "description": "Zaman çarpanı doğrulamasını zamanında döndürmeyen istemcileri denetler."
+    },
+    "AntiCheatProtectionType24ThresholdMultiplier": {
+      "label": "Zaman doğrulama zaman aşımı",
+      "description": "Zaman çarpanı doğrulamasında kullanılan zaman aşımını çarpar."
     }
   }
 }
