@@ -2,7 +2,9 @@
   "specialValues": {
     "disabled": "Devre dışı",
     "forever": "Süresiz",
+    "instant": "Anında",
     "never": "Asla",
+    "noCooldown": "Bekleme süresi yok",
     "noRequirement": "Gereklilik yok",
     "unlimited": "Sınırsız",
     "useSpawnRegions": "Doğma bölgelerini kullan"
@@ -66,7 +68,7 @@
     },
     "PublicDescription": {
       "label": "Sunucu açıklaması",
-      "description": "Oyun içi ve Steam sunucu listelerinde gösterilen açıklama."
+      "description": "Oyun içi ve Steam sunucu listelerinde gösterilen açıklama. Yeni satır başlatmak için \\n kullanın."
     },
     "Public": {
       "label": "Herkese açık listeleme",
@@ -122,7 +124,7 @@
     },
     "SleepAllowed": {
       "label": "Uyumaya izin ver",
-      "description": "Oyuncuların yorulduklarında uyumasına izin verir ancak uykuyu zorunlu tutmaz."
+      "description": "Oyuncuların uyumasına izin verir; uykuyu zorunlu kılmaz."
     },
     "SleepNeeded": {
       "label": "Uykuyu zorunlu tut",
@@ -183,7 +185,7 @@
     },
     "SpeedLimit": {
       "label": "Araç hız sınırı",
-      "description": "Sunucudaki araç simülasyon hızını sınırlar."
+      "description": "Araçların sunucuda ulaşabileceği azami hız (km/sa)."
     },
     "CarEngineAttractionModifier": {
       "label": "Motor sesi çekim gücü",
@@ -199,11 +201,11 @@
     },
     "ConstructionPreventsLootRespawn": {
       "label": "İnşaat ganimet yenilenmesini engeller",
-      "description": "Oyuncuların inşa ettiği veya barikat kurduğu binalarda ganimetin yenilenmesini engeller."
+      "description": "Oyuncu inşaatı veya değişikliğiyle işaretlenen bölgelerde ganimetin yenilenmesini engeller."
     },
     "ItemNumbersLimitPerContainer": {
       "label": "Konteyner başına eşya",
-      "description": "Oyuncuların bir konteynere koyabileceği tekil eşyaların azami sayısı."
+      "description": "Oyuncuların bir dünya konteynerine koyabileceği, iç içe konteynerlerdekiler dahil azami eşya sayısı."
     },
     "AllowDestructionBySledgehammer": {
       "label": "Balyozla yıkıma izin ver",
@@ -227,11 +229,11 @@
     },
     "SafetyToggleTimer": {
       "label": "PvP geçiş süresi",
-      "description": "Oyuncunun PvP moduna girmesi veya bu moddan çıkması için gereken süre."
+      "description": "Oyuncunun PvP moduna girmesi veya bu moddan çıkması için gereken gerçek dünya saniyesi."
     },
     "SafetyCooldownTimer": {
       "label": "PvP geçiş bekleme süresi",
-      "description": "Oyuncunun PvP modunu yeniden değiştirebilmeden önce beklemesi gereken süre."
+      "description": "Güvenliği kapalı bir oyuncu saldırdığında güvenliğin yeniden etkinleşmesini geciktiren gerçek dünya saniyesi."
     },
     "PVPFirearmDamageModifier": {
       "label": "PvP ateşli silah hasarı",
@@ -352,7 +354,7 @@
       "description": "Oyun içi haritada hangi uzaktaki oyuncuların görüneceğini belirler.",
       "choices": {
         "hidden": "Gizli",
-        "friends": "Arkadaşlar",
+        "factionAndSafehouseMembers": "Grup ve güvenli ev üyeleri",
         "everyone": "Herkes"
       }
     },
@@ -366,7 +368,7 @@
     },
     "SaveWorldEveryMinutes": {
       "label": "Otomatik kayıt aralığı",
-      "description": "Dünyanın yüklenmiş bölümlerini belirtilen gerçek dünya dakikası aralığında kaydeder."
+      "description": "Dünyanın yüklenmiş bölümlerini gerçek dünya dakikası cinsinden belirtilen aralıkta kaydeder."
     },
     "BackupsOnStart": {
       "label": "Başlangıçta yedekle",
@@ -374,11 +376,11 @@
     },
     "BackupsOnVersionChange": {
       "label": "Sürüm değişince yedekle",
-      "description": "Oyun sürümü değiştiğinde bir yedek oluşturur."
+      "description": "Sunucu farklı bir oyun sürümüyle başlatıldığında bir yedek oluşturur."
     },
     "BackupsPeriod": {
       "label": "Düzenli yedekleme aralığı",
-      "description": "Düzenli yedeklemeler arasındaki gerçek dünya dakikası."
+      "description": "Düzenli yedeklemeler arasındaki dakika cinsinden süre."
     },
     "BackupsCount": {
       "label": "Saklanacak yedekler",
@@ -429,8 +431,8 @@
       "description": "Steam'in Valve Anti-Cheat korumasını etkinleştirir."
     },
     "DoLuaChecksum": {
-      "label": "Lua sağlama toplamı doğrulaması",
-      "description": "Lua dosyaları sunucuyla eşleşmeyen istemcileri çıkarır."
+      "label": "Oyun dosyası doğrulaması",
+      "description": "Oyun dosyaları sunucuyla eşleşmeyen istemcileri sunucudan atar."
     },
     "AntiCheatProtectionType1": {
       "label": "Yetkisiz PvP",
@@ -465,8 +467,8 @@
       "description": "İstemcinin etkilenen zombiyi denetlemeye yetkili olup olmadığını denetler."
     },
     "AntiCheatProtectionType6": {
-      "label": "Oyuncu hedefleme",
-      "description": "İstemcinin etkilenen oyuncuyu hedefleyip hedefleyemeyeceğini denetler."
+      "label": "Oyuncu sahipliği",
+      "description": "Etkilenen oyuncunun gönderen istemciye ait olup olmadığını denetler."
     },
     "AntiCheatProtectionType7": {
       "label": "Güvenli ev yetkisi",
@@ -490,7 +492,7 @@
     },
     "AntiCheatProtectionType11": {
       "label": "Koruma türü 11",
-      "description": "Oyunun belgelenmemiş 11 numaralı hile korumasını yapılandırır."
+      "description": "Build 41'de davranışı belirlenemeyen, ayrılmış ve belgelenmemiş hile koruması seçeneği."
     },
     "AntiCheatProtectionType12": {
       "label": "Geçersiz oyuncu işaretleri",

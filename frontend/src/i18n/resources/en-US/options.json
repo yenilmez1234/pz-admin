@@ -2,7 +2,9 @@
   "specialValues": {
     "disabled": "Disabled",
     "forever": "Forever",
+    "instant": "Instant",
     "never": "Never",
+    "noCooldown": "No cooldown",
     "noRequirement": "No requirement",
     "unlimited": "Unlimited",
     "useSpawnRegions": "Use spawn regions"
@@ -66,7 +68,7 @@
     },
     "PublicDescription": {
       "label": "Server description",
-      "description": "Description shown in the in-game and Steam server browsers."
+      "description": "Description shown in the in-game and Steam server browsers. Use \\n to start a new line."
     },
     "Public": {
       "label": "Public listing",
@@ -122,7 +124,7 @@
     },
     "SleepAllowed": {
       "label": "Allow sleeping",
-      "description": "Allows players to sleep when tired without requiring them to sleep."
+      "description": "Allows players to sleep; this does not make sleep necessary."
     },
     "SleepNeeded": {
       "label": "Require sleeping",
@@ -183,7 +185,7 @@
     },
     "SpeedLimit": {
       "label": "Vehicle speed limit",
-      "description": "Limits vehicle simulation speed on the server."
+      "description": "Maximum speed vehicles can reach on the server, in km/h."
     },
     "CarEngineAttractionModifier": {
       "label": "Engine noise attraction",
@@ -199,11 +201,11 @@
     },
     "ConstructionPreventsLootRespawn": {
       "label": "Construction blocks loot respawn",
-      "description": "Prevents loot from respawning in buildings where players have built or barricaded."
+      "description": "Prevents loot from respawning in zones marked by player construction or modification."
     },
     "ItemNumbersLimitPerContainer": {
       "label": "Items per container",
-      "description": "Maximum number of individual items players can place in one container."
+      "description": "Maximum items players can place in a world container, including items inside nested containers."
     },
     "AllowDestructionBySledgehammer": {
       "label": "Allow sledgehammer destruction",
@@ -227,11 +229,11 @@
     },
     "SafetyToggleTimer": {
       "label": "PvP toggle duration",
-      "description": "Time required for a player to enter or leave PvP mode."
+      "description": "Real-world seconds required for a player to enter or leave PvP mode."
     },
     "SafetyCooldownTimer": {
       "label": "PvP toggle cooldown",
-      "description": "Delay before a player can change their PvP mode again."
+      "description": "Real-world seconds added after an unsafe player attacks, delaying safety reactivation."
     },
     "PVPFirearmDamageModifier": {
       "label": "PvP firearm damage",
@@ -352,7 +354,7 @@
       "description": "Determines which remote players appear on the in-game map.",
       "choices": {
         "hidden": "Hidden",
-        "friends": "Friends",
+        "factionAndSafehouseMembers": "Faction and safehouse members",
         "everyone": "Everyone"
       }
     },
@@ -374,7 +376,7 @@
     },
     "BackupsOnVersionChange": {
       "label": "Back up on version change",
-      "description": "Creates a backup when the game version changes."
+      "description": "Creates a backup when the server starts with a different game version."
     },
     "BackupsPeriod": {
       "label": "Periodic backup interval",
@@ -429,8 +431,8 @@
       "description": "Enables Steam's Valve Anti-Cheat protection."
     },
     "DoLuaChecksum": {
-      "label": "Lua checksum validation",
-      "description": "Removes clients whose Lua files do not match the server."
+      "label": "Game file validation",
+      "description": "Kicks clients whose game files do not match the server."
     },
     "AntiCheatProtectionType1": {
       "label": "Unauthorized PvP",
@@ -465,8 +467,8 @@
       "description": "Checks whether a client is authorized to control the affected zombie."
     },
     "AntiCheatProtectionType6": {
-      "label": "Player targeting",
-      "description": "Checks whether a client may target the affected player."
+      "label": "Player ownership",
+      "description": "Checks whether the affected player belongs to the sending client."
     },
     "AntiCheatProtectionType7": {
       "label": "Safehouse authorization",
@@ -490,7 +492,7 @@
     },
     "AntiCheatProtectionType11": {
       "label": "Protection type 11",
-      "description": "Configures the game's undocumented anti-cheat protection type 11."
+      "description": "Reserved, undocumented anti-cheat option with no behavior identified in Build 41."
     },
     "AntiCheatProtectionType12": {
       "label": "Invalid player flags",

@@ -6,6 +6,7 @@ export type OptionType = "boolean" | "integer" | "number" | "string" | "text";
 
 export interface OptionChoice {
   id: string;
+  requirements?: OptionRequirement[];
   value: OptionValue;
 }
 
@@ -18,7 +19,9 @@ export interface OptionSpecialValue {
   meaning:
     | "disabled"
     | "forever"
+    | "instant"
     | "never"
+    | "noCooldown"
     | "noRequirement"
     | "unlimited"
     | "useSpawnRegions";
@@ -184,7 +187,11 @@ const build41Options = {
       { id: "yell", value: "y" },
       { id: "safehouse", value: "sh" },
       { id: "faction", value: "f" },
-      { id: "global", value: "all" },
+      {
+        id: "global",
+        value: "all",
+        requirements: [{ option: "GlobalChat", equals: true }],
+      },
     ],
   },
   ClientActionLogs: {
@@ -292,7 +299,7 @@ const build41Options = {
     maximum: 3,
     choices: [
       { id: "hidden", value: 1 },
-      { id: "friends", value: 2 },
+      { id: "factionAndSafehouseMembers", value: 2 },
       { id: "everyone", value: 3 },
     ],
   },
@@ -396,6 +403,7 @@ const build41Options = {
       { option: "PVP", equals: true },
       { option: "SafetySystem", equals: true },
     ],
+    specialValue: { value: 0, meaning: "noCooldown" },
   },
   SafetySystem: {
     type: "boolean",
@@ -411,6 +419,7 @@ const build41Options = {
       { option: "PVP", equals: true },
       { option: "SafetySystem", equals: true },
     ],
+    specialValue: { value: 0, meaning: "instant" },
   },
   SaveWorldEveryMinutes: {
     type: "integer",
