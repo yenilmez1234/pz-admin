@@ -2,6 +2,8 @@
 bin
 frontend/dist
 frontend/node_modules
+# Temporary reference and scratch files
+~*
 build/linux/appimage/build
 build/windows/nsis/MicrosoftEdgeWebview2Setup.exe
 # Mobile generated (per-machine; overlays hold absolute paths)

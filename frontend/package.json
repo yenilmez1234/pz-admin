@@ -17,6 +17,7 @@
     "scrape:vehicles:42": "node ./scripts/catalogs/vehicles/scrape-build-42.mjs",
     "generate:items": "node ./scripts/catalogs/items/generate.mjs",
     "generate:vehicles": "node ./scripts/catalogs/vehicles/generate.mjs",
+    "generate:options:reference": "node ./scripts/catalogs/options/generate-reference.mjs",
     "generate:items:translations": "node ./scripts/translations/generate-items.mjs",
     "generate:skills:translations": "node ./scripts/translations/generate-skills.mjs"
   },

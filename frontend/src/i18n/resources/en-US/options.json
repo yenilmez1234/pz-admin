@@ -1,0 +1,101 @@
+{
+  "specialValues": {
+    "never": "Never",
+    "noRequirement": "No requirement",
+    "unlimited": "Unlimited"
+  },
+  "fields": {
+    "AdminSafehouse": {
+      "label": "Admin safehouses",
+      "description": "Allows administrators and moderators to claim safehouses."
+    },
+    "PlayerSafehouse": {
+      "label": "Player safehouses",
+      "description": "Allows players to claim safehouses."
+    },
+    "SafehouseDaySurvivedToClaim": {
+      "label": "Required survival days",
+      "description": "Number of in-game days a player must survive before claiming a safehouse."
+    },
+    "SafeHouseRemovalTime": {
+      "label": "Inactive removal period",
+      "description": "Removes a safehouse when none of its members have visited it for the specified number of real-world hours."
+    },
+    "DisableSafehouseWhenPlayerConnected": {
+      "label": "Protect only while offline",
+      "description": "Disables safehouse protection while any member is connected."
+    },
+    "SafehouseAllowTrepass": {
+      "label": "Allow trespassing",
+      "description": "Allows non-members to enter safehouses without an invitation."
+    },
+    "SafehouseAllowLoot": {
+      "label": "Allow looting",
+      "description": "Allows non-members to loot containers and move objects in safehouses."
+    },
+    "SafehouseAllowFire": {
+      "label": "Allow fire damage",
+      "description": "Allows fire to damage safehouses."
+    },
+    "SafehouseAllowRespawn": {
+      "label": "Allow respawning",
+      "description": "Allows members to choose their safehouse as a respawn location."
+    },
+    "SafehouseAllowNonResidential": {
+      "label": "Non-residential safehouses",
+      "description": "Allows non-residential buildings to be claimed as safehouses."
+    },
+    "Faction": {
+      "label": "Factions",
+      "description": "Allows players to create factions."
+    },
+    "FactionDaySurvivedToCreate": {
+      "label": "Required survival days",
+      "description": "Number of in-game days a player must survive before creating a faction."
+    },
+    "FactionPlayersRequiredForTag": {
+      "label": "Members required for a tag",
+      "description": "Number of faction members, including the owner, required to create a faction tag."
+    },
+    "PublicName": {
+      "label": "Server name",
+      "description": "Name shown in the in-game and Steam server browsers."
+    },
+    "PublicDescription": {
+      "label": "Server description",
+      "description": "Description shown in the in-game and Steam server browsers."
+    },
+    "Public": {
+      "label": "Public listing",
+      "description": "Lists the server in the in-game public server browser. Steam-enabled servers remain visible in the Steam server browser."
+    },
+    "Open": {
+      "label": "Open server",
+      "description": "Allows players without an existing whitelist account to join. When disabled, accounts must be created by an administrator."
+    },
+    "MaxPlayers": {
+      "label": "Maximum players",
+      "description": "Maximum number of regular players connected at once. Values above 32 may cause poor map streaming and desynchronization."
+    },
+    "AutoCreateUserInWhiteList": {
+      "label": "Create accounts on join",
+      "description": "Adds unknown usernames to the whitelist when they join an open server. Players provide their own username and password."
+    },
+    "MaxAccountsPerUser": {
+      "label": "Accounts per Steam user",
+      "description": "Maximum number of accounts one Steam user can create. Does not apply when using the Host menu."
+    },
+    "DropOffWhiteListAfterDeath": {
+      "label": "Remove account after death",
+      "description": "Removes a regular player's whitelist account after death, preventing them from creating another character on a closed server."
+    },
+    "AllowNonAsciiUsername": {
+      "label": "Non-ASCII usernames",
+      "description": "Allows usernames containing non-ASCII characters, such as Cyrillic letters."
+    },
+    "AllowCoop": {
+      "label": "Split-screen players",
+      "description": "Allows additional local players to join through split-screen co-op."
+    }
+  }
+}

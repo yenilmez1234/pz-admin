@@ -8,6 +8,9 @@ src/data/items/
 src/data/vehicles/
 src/i18n/generated/
 
+# Temporary reference and scratch files
+~*
+
 # Dependency manager-owned files
 node_modules/
 pnpm-lock.yaml

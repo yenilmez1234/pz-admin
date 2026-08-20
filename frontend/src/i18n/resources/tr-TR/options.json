@@ -1,0 +1,101 @@
+{
+  "specialValues": {
+    "never": "Asla",
+    "noRequirement": "Gereklilik yok",
+    "unlimited": "Sınırsız"
+  },
+  "fields": {
+    "AdminSafehouse": {
+      "label": "Yönetici güvenli evleri",
+      "description": "Yöneticilerin ve moderatörlerin güvenli ev talep etmesine izin verir."
+    },
+    "PlayerSafehouse": {
+      "label": "Oyuncu güvenli evleri",
+      "description": "Oyuncuların güvenli ev talep etmesine izin verir."
+    },
+    "SafehouseDaySurvivedToClaim": {
+      "label": "Gerekli hayatta kalma süresi",
+      "description": "Oyuncuların güvenli ev talep etmeden önce hayatta kalması gereken oyun içi gün sayısı."
+    },
+    "SafeHouseRemovalTime": {
+      "label": "Etkin olmama süresi",
+      "description": "Belirtilen gerçek dünya saati boyunca hiçbir üyesi tarafından ziyaret edilmeyen güvenli evi kaldırır."
+    },
+    "DisableSafehouseWhenPlayerConnected": {
+      "label": "Yalnızca çevrim dışıyken koru",
+      "description": "Herhangi bir üyesi bağlıyken güvenli ev korumasını devre dışı bırakır."
+    },
+    "SafehouseAllowTrepass": {
+      "label": "İzinsiz girişe izin ver",
+      "description": "Üye olmayanların davet edilmeden güvenli evlere girmesine izin verir."
+    },
+    "SafehouseAllowLoot": {
+      "label": "Yağmalamaya izin ver",
+      "description": "Üye olmayanların güvenli evlerdeki konteynerleri yağmalamasına ve nesneleri taşımasına izin verir."
+    },
+    "SafehouseAllowFire": {
+      "label": "Yangın hasarına izin ver",
+      "description": "Yangının güvenli evlere hasar vermesine izin verir."
+    },
+    "SafehouseAllowRespawn": {
+      "label": "Yeniden doğmaya izin ver",
+      "description": "Üyelerin güvenli evlerini yeniden doğma konumu olarak seçmesine izin verir."
+    },
+    "SafehouseAllowNonResidential": {
+      "label": "Konut dışı güvenli evler",
+      "description": "Konut dışı binaların güvenli ev olarak talep edilmesine izin verir."
+    },
+    "Faction": {
+      "label": "Gruplar",
+      "description": "Oyuncuların grup oluşturmasına izin verir."
+    },
+    "FactionDaySurvivedToCreate": {
+      "label": "Gerekli hayatta kalma süresi",
+      "description": "Oyuncunun grup oluşturmadan önce hayatta kalması gereken oyun içi gün sayısı."
+    },
+    "FactionPlayersRequiredForTag": {
+      "label": "Etiket için gerekli üyeler",
+      "description": "Grup etiketi oluşturmak için grup sahibi dahil gereken üye sayısı."
+    },
+    "PublicName": {
+      "label": "Sunucu adı",
+      "description": "Oyun içi ve Steam sunucu listelerinde gösterilen ad."
+    },
+    "PublicDescription": {
+      "label": "Sunucu açıklaması",
+      "description": "Oyun içi ve Steam sunucu listelerinde gösterilen açıklama."
+    },
+    "Public": {
+      "label": "Herkese açık listeleme",
+      "description": "Sunucuyu oyun içi herkese açık sunucu listesinde gösterir. Steam etkin sunucular Steam sunucu listesinde görünmeye devam eder."
+    },
+    "Open": {
+      "label": "Açık sunucu",
+      "description": "Mevcut bir beyaz liste hesabı olmayan oyuncuların katılmasına izin verir. Devre dışıyken hesaplar bir yönetici tarafından oluşturulmalıdır."
+    },
+    "MaxPlayers": {
+      "label": "Maksimum oyuncu",
+      "description": "Aynı anda bağlanabilecek normal oyuncuların azami sayısı. 32'nin üzerindeki değerler harita aktarımı ve eş zamanlama sorunlarına yol açabilir."
+    },
+    "AutoCreateUserInWhiteList": {
+      "label": "Katılırken hesap oluştur",
+      "description": "Açık sunucuya katılan bilinmeyen kullanıcı adlarını beyaz listeye ekler. Oyuncular kendi kullanıcı adı ve parolalarını sağlar."
+    },
+    "MaxAccountsPerUser": {
+      "label": "Steam kullanıcısı başına hesap",
+      "description": "Bir Steam kullanıcısının oluşturabileceği azami hesap sayısı. Sunucu Kur menüsü kullanılırken uygulanmaz."
+    },
+    "DropOffWhiteListAfterDeath": {
+      "label": "Ölümden sonra hesabı kaldır",
+      "description": "Normal oyuncunun beyaz liste hesabını ölümden sonra kaldırarak kapalı sunucuda başka bir karakter oluşturmasını engeller."
+    },
+    "AllowNonAsciiUsername": {
+      "label": "ASCII dışı kullanıcı adları",
+      "description": "Kiril harfleri gibi ASCII dışı karakterler içeren kullanıcı adlarına izin verir."
+    },
+    "AllowCoop": {
+      "label": "Bölünmüş ekran oyuncuları",
+      "description": "Ek yerel oyuncuların bölünmüş ekranlı eşli oyunla katılmasına izin verir."
+    }
+  }
+}

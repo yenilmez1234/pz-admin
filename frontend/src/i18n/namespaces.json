@@ -3,6 +3,7 @@
   "console": true,
   "items": true,
   "messages": true,
+  "options": true,
   "players": true,
   "servers": true,
   "session": true,
