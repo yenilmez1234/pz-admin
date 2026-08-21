@@ -11,7 +11,6 @@ import {
 import { Events } from "@wailsio/runtime";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
-import { State as ConnectionState } from "@bindings/internal/connection/models";
 import type { Profile } from "@bindings/internal/profile/models";
 import {
   Connect,
@@ -56,30 +55,24 @@ export function SessionProvider({ children }: SessionProviderProps) {
     dispatch({ type: "initializing" });
 
     try {
-      const [backendState, [currentProfile, hasProfile], currentFeatures] =
+      const [[currentProfile, hasProfile], currentFeatures] =
         await sessionSnapshot();
       if (eventRevision.current !== revision) return;
 
-      if (backendState === ConnectionState.StateConnected && hasProfile) {
+      if (hasProfile) {
         dispatch({
           type: "connected",
           features: currentFeatures,
           profile: currentProfile,
         });
-      } else if (backendState === ConnectionState.StateDisconnected) {
-        dispatch({ type: "disconnected" });
       } else {
-        dispatch({
-          type: "failed",
-          clearProfile: true,
-          error: t("unknownStateError"),
-        });
+        dispatch({ type: "disconnected" });
       }
     } catch (loadError) {
       if (eventRevision.current !== revision) return;
       dispatch({ type: "failed", error: errorMessage(loadError) });
     }
-  }, [t]);
+  }, []);
 
   useEffect(() => {
     const markEvent = () => {

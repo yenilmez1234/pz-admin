@@ -1,5 +1,5 @@
-// Package connection defines transport-neutral server connection lifecycle,
-// retry behavior, and errors.
+// Package connection defines transport-neutral server channel contracts and
+// errors.
 package connection
 
 import "context"
@@ -11,11 +11,9 @@ const (
 	TypeRCON Type = "rcon"
 )
 
-// Channel is the lifecycle shared by every active server transport.
-// Implementations are created already open. Close must be idempotent and safe
-// to call concurrently with supported capability operations.
+// Channel is an open server transport. Close must be idempotent and safe to
+// call concurrently with supported capability operations.
 type Channel interface {
-	State() State
 	Close()
 }
 

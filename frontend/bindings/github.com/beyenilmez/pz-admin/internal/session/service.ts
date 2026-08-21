@@ -12,9 +12,6 @@ import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Cr
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as connection$0 from "../connection/models.js";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore: Unused imports
 import * as profile$0 from "../profile/models.js";
 
 /**
@@ -51,13 +48,6 @@ export function Profile(): $CancellablePromise<[profile$0.Profile, boolean]> {
         $result[0] = $$createType1($result[0]);
         return $result;
     });
-}
-
-/**
- * State returns the current connection state.
- */
-export function State(): $CancellablePromise<connection$0.State> {
-    return $Call.ByID(1957644782);
 }
 
 // Private type creation functions

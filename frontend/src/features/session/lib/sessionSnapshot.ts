@@ -1,7 +1,7 @@
-import { Features, Profile, State } from "@bindings/internal/session/service";
+import { Features, Profile } from "@bindings/internal/session/service";
 
 function loadSessionSnapshot() {
-  return Promise.all([State(), Profile(), Features()]);
+  return Promise.all([Profile(), Features()]);
 }
 
 let activeRequest: ReturnType<typeof loadSessionSnapshot> | null = null;

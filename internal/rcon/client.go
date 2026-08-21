@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"sync/atomic"
 	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
@@ -27,10 +28,9 @@ type Config struct {
 	// execution. Zero uses the default of 5s.
 	Timeout time.Duration
 
-	// OnStateChange is called from a single dispatcher goroutine
-	// whenever the connection state transitions, including the
-	// initial connect. Optional.
-	OnStateChange func(state connection.State)
+	// OnDisconnect is called after an unexpected transport failure. Explicitly
+	// closing the client does not call it. Optional.
+	OnDisconnect func()
 }
 
 // withDefaults fills in zero-valued options with their defaults.
@@ -43,15 +43,10 @@ func (c Config) withDefaults() Config {
 
 // Client is a managed RCON connection. Safe for concurrent use. A Client is
 // created via Connect and must be closed via Close to release resources.
-//
-// Config.OnStateChange fires from a single dispatcher goroutine
-// whenever the connection state transitions. Delivery order matches
-// transition order. The callback must not block because a stalled callback
-// delays all delivery. The initial connect is reported asynchronously;
-// Connect does not wait for the callback.
 type Client struct {
-	conn   *source.Client
-	states *connection.StateTracker
+	conn         *source.Client
+	closed       atomic.Bool
+	onDisconnect func()
 }
 
 // Ensure Client implements the shared connection contracts.
@@ -65,16 +60,8 @@ var (
 // reported as source.ErrAuthentication (wrapped in "rcon: connect").
 // ctx bounds only the initial dial; the Client's lifetime is
 // independent of it — use Close to shut the client down.
-//
-// If Config.OnStateChange is set, it fires for the initial connect
-// with StateConnected asynchronously; Connect returns without
-// waiting for the callback.
 func Connect(ctx context.Context, config Config) (*Client, error) {
 	config = config.withDefaults()
-
-	c := &Client{
-		states: connection.NewStateTracker(connection.StateDisconnected, config.OnStateChange),
-	}
 	// PZ returns one complete packet per command and can exceed Source's
 	// standard 4096-byte packet limit (B42's `help` packet is 4218 bytes).
 	conn, err := source.Dial(
@@ -87,19 +74,10 @@ func Connect(ctx context.Context, config Config) (*Client, error) {
 		source.WithUTF8(),
 	)
 	if err != nil {
-		c.states.Close()
 		return nil, fmt.Errorf("rcon: connect: %w", err)
 	}
 
-	c.conn = conn
-	c.states.Set(connection.StateConnected)
-	return c, nil
-}
-
-// State returns the current connection state. Lock-free; safe to call
-// from any goroutine without blocking on an in-flight Execute or Close.
-func (c *Client) State() connection.State {
-	return c.states.State()
+	return &Client{conn: conn, onDisconnect: config.OnDisconnect}, nil
 }
 
 // ExecuteCommand runs a command on the established connection. The underlying
@@ -115,7 +93,7 @@ func (c *Client) State() connection.State {
 // unwrapped (without the "rcon: execute:" prefix) so callers can
 // distinguish user cancellation from transport failures via errors.Is.
 func (c *Client) ExecuteCommand(ctx context.Context, cmd string) (string, error) {
-	if c.State() != connection.StateConnected {
+	if c.closed.Load() {
 		return "", fmt.Errorf("rcon: execute: %w", connection.ErrDisconnected)
 	}
 	if err := ctx.Err(); err != nil {
@@ -135,8 +113,7 @@ func (c *Client) ExecuteCommand(ctx context.Context, cmd string) (string, error)
 
 		// Any transaction failure may have left the stream ambiguous. Keep the
 		// application's explicit reconnect lifecycle instead of reusing it.
-		_ = c.conn.Close()
-		c.states.Set(connection.StateDisconnected)
+		c.close(true)
 		var netErr net.Error
 		if errors.Is(err, context.DeadlineExceeded) ||
 			(errors.As(err, &netErr) && netErr.Timeout()) {
@@ -156,7 +133,15 @@ func isCommandValidationError(err error) bool {
 
 // Close shuts down the client. Idempotent.
 func (c *Client) Close() {
+	c.close(false)
+}
+
+func (c *Client) close(notify bool) {
+	if !c.closed.CompareAndSwap(false, true) {
+		return
+	}
 	_ = c.conn.Close()
-	c.states.Set(connection.StateDisconnected)
-	c.states.Close()
+	if notify && c.onDisconnect != nil {
+		c.onDisconnect()
+	}
 }

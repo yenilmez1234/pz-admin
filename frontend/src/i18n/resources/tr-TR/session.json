@@ -2,7 +2,6 @@
   "connectionLostTitle": "Bağlantı Kesildi",
   "connectionLostMessage": "Sunucu bağlantısı kapandı. Devam etmek için tekrar bağlanın.",
   "loadingLabel": "Oturum yükleniyor…",
-  "unknownStateError": "Mevcut bağlantı durumu belirlenemiyor.",
   "disconnect": "Bağlantıyı Kes",
   "disconnectErrorTitle": "Bağlantı Kesilemedi"
 }

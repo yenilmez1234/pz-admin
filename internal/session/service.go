@@ -30,10 +30,10 @@ type Service struct {
 	features feature.Set
 }
 
-// Observer receives backend session lifecycle changes. Implementations must
-// return quickly because channel state callbacks are delivered serially.
+// Observer receives initialized-session changes. A nil channel means the
+// session disconnected. Implementations must return quickly.
 type Observer interface {
-	SessionChanged(profile.Profile, connection.Channel, connection.State)
+	SessionChanged(profile.Profile, connection.Channel)
 }
 
 // NewService creates a session service wired to the given profile service and
@@ -60,16 +60,8 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if s.channel != nil && s.channel.State() == connection.StateConnected {
-		return errors.New("session: already connected")
-	}
-
-	// Close a stale channel before opening a new session.
 	if s.channel != nil {
-		s.channel.Close()
-		s.channel = nil
-		s.current = profile.Profile{}
-		s.features = nil
+		return errors.New("session: already connected")
 	}
 
 	p, password, err := s.profiles.Credentials(profileID)
@@ -77,19 +69,18 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 		return fmt.Errorf("session: %w", err)
 	}
 
-	s.current = p
-
-	channel, err := openChannel(ctx, p, password, func(state connection.State) {
-		s.handleState(p, state)
+	var channel connection.Channel
+	channel, err = openChannel(ctx, p, password, func() {
+		s.handleDisconnect(p.ID, channel)
 	})
 	if err != nil {
-		s.current = profile.Profile{}
-		s.features = nil
 		return fmt.Errorf("session: %w", err)
 	}
 
 	s.channel = channel
+	s.current = p
 	s.features = resolveFeatures(p, channel)
+	s.notify(p, channel)
 	return nil
 }
 
@@ -107,25 +98,15 @@ func (s *Service) Disconnect() error {
 	s.current = profile.Profile{}
 	s.features = nil
 	s.mu.Unlock()
-	s.notify(profile.Profile{}, nil, connection.StateDisconnected)
+	s.notify(profile.Profile{}, nil)
 	return nil
-}
-
-// State returns the current connection state.
-func (s *Service) State() connection.State {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	if s.channel == nil {
-		return connection.StateDisconnected
-	}
-	return s.channel.State()
 }
 
 // Profile returns the profile associated with the active connection.
 func (s *Service) Profile() (profile.Profile, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.channel == nil || s.channel.State() != connection.StateConnected {
+	if s.channel == nil {
 		return profile.Profile{}, false
 	}
 	return s.current, true
@@ -136,7 +117,7 @@ func (s *Service) Profile() (profile.Profile, bool) {
 func (s *Service) Features() []string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.channel == nil || s.channel.State() != connection.StateConnected {
+	if s.channel == nil {
 		return []string{}
 	}
 
@@ -148,32 +129,30 @@ func (s *Service) Features() []string {
 	return features
 }
 
-func (s *Service) handleState(p profile.Profile, state connection.State) {
+func (s *Service) handleDisconnect(profileID string, channel connection.Channel) {
 	s.mu.Lock()
-	if s.channel == nil || s.current.ID != p.ID {
+	if s.channel == nil || s.channel != channel || s.current.ID != profileID {
 		s.mu.Unlock()
 		return
 	}
-	channel := s.channel
-	if state == connection.StateDisconnected {
-		s.features = nil
-	}
+	s.channel = nil
+	s.current = profile.Profile{}
+	s.features = nil
 	s.mu.Unlock()
-	s.notify(p, channel, state)
+	s.notify(profile.Profile{}, nil)
 }
 
-func (s *Service) notify(p profile.Profile, channel connection.Channel, state connection.State) {
+func (s *Service) notify(p profile.Profile, channel connection.Channel) {
 	for _, observer := range s.observers {
 		if observer != nil {
-			observer.SessionChanged(p, channel, state)
+			observer.SessionChanged(p, channel)
 		}
 	}
 
 	app := application.Get()
-	switch state {
-	case connection.StateConnected:
+	if channel != nil {
 		app.Event.Emit("session:connected", p)
-	case connection.StateDisconnected:
+	} else {
 		app.Event.Emit("session:disconnected")
 	}
 }

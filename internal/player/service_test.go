@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/google/uuid"
 )
@@ -16,8 +15,7 @@ type commandChannel struct {
 	calls    atomic.Int32
 }
 
-func (c *commandChannel) State() connection.State { return connection.StateConnected }
-func (c *commandChannel) Close()                  {}
+func (c *commandChannel) Close() {}
 func (c *commandChannel) ExecuteCommand(context.Context, string) (string, error) {
 	c.calls.Add(1)
 	return c.response, nil
@@ -34,7 +32,7 @@ func TestConnectedSessionPollsAndMergesImmediately(t *testing.T) {
 
 	p := profile.Profile{ID: uuid.NewString(), Version: "42"}
 	channel := &commandChannel{response: "Players connected (2):\n-Alice\n-Bob"}
-	service.SessionChanged(p, channel, connection.StateConnected)
+	service.SessionChanged(p, channel)
 
 	deadline := time.Now().Add(time.Second)
 	for {

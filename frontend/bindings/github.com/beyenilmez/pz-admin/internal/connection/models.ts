@@ -6,26 +6,6 @@
 import { Create as $Create } from "@wailsio/runtime";
 
 /**
- * State represents the lifecycle state of a server connection.
- */
-export enum State {
-    /**
-     * The Go zero value for the underlying type of the enum.
-     */
-    $zero = 0,
-
-    /**
-     * StateDisconnected is the zero value: no connection is established.
-     */
-    StateDisconnected = 0,
-
-    /**
-     * StateConnected means the channel is ready for operations.
-     */
-    StateConnected = 1,
-};
-
-/**
  * Type identifies the transport configured by a server profile.
  */
 export enum Type {

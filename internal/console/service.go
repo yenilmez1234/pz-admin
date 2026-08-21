@@ -33,13 +33,13 @@ func NewService(observer CommandObserver) *Service {
 // SessionChanged follows the command capability of the active session.
 //
 //wails:ignore
-func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel, state connection.State) {
+func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	s.profile = profile.Profile{}
 	s.executor = nil
-	if state != connection.StateConnected || channel == nil {
+	if channel == nil {
 		return
 	}
 	s.profile = p

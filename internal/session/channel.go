@@ -15,14 +15,14 @@ func openChannel(
 	ctx context.Context,
 	p profile.Profile,
 	password string,
-	onStateChange func(connection.State),
+	onDisconnect func(),
 ) (connection.Channel, error) {
 	switch p.ConnectionType {
 	case connection.TypeRCON:
 		return rcon.Connect(ctx, rcon.Config{
-			Addr:          channelAddr(p),
-			Password:      password,
-			OnStateChange: onStateChange,
+			Addr:         channelAddr(p),
+			Password:     password,
+			OnDisconnect: onDisconnect,
 		})
 	default:
 		return nil, fmt.Errorf("unsupported connection type %q", p.ConnectionType)

@@ -4,15 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/feature"
 	"github.com/beyenilmez/pz-admin/internal/profile"
 )
 
 type featureTestChannel struct{}
 
-func (featureTestChannel) State() connection.State { return connection.StateConnected }
-func (featureTestChannel) Close()                  {}
+func (featureTestChannel) Close() {}
 
 type featureTestCommandChannel struct{ featureTestChannel }
 

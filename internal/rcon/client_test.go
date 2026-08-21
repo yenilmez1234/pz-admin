@@ -44,9 +44,6 @@ func TestConnectAndExecute(t *testing.T) {
 	server := newTestServer(t, echoHandler)
 	client := newTestClient(t, server, Config{})
 
-	if client.State() != connection.StateConnected {
-		t.Fatal("State() != Connected after Connect")
-	}
 	for _, command := range []string{"servermsg hello", "players", "quit"} {
 		response, err := client.ExecuteCommand(context.Background(), command)
 		if err != nil {
@@ -121,8 +118,8 @@ func TestExecuteCommandValidation(t *testing.T) {
 	if !errors.Is(err, source.ErrBodyTooLarge) {
 		t.Errorf("long command error = %v, want source.ErrBodyTooLarge", err)
 	}
-	if client.State() != connection.StateConnected {
-		t.Error("validation errors changed the connection state")
+	if _, err := client.ExecuteCommand(context.Background(), "players"); err != nil {
+		t.Errorf("validation error made connection unusable: %v", err)
 	}
 }
 
@@ -136,8 +133,8 @@ func TestExecuteWithCancelledContext(t *testing.T) {
 	if !errors.Is(err, context.Canceled) {
 		t.Errorf("ExecuteCommand() error = %v, want context.Canceled", err)
 	}
-	if client.State() != connection.StateConnected {
-		t.Error("a cancelled command changed the connection state")
+	if _, err := client.ExecuteCommand(context.Background(), "players"); err != nil {
+		t.Errorf("cancelled command made connection unusable: %v", err)
 	}
 }
 
@@ -152,9 +149,6 @@ func TestTransportFailureDisconnectsPermanently(t *testing.T) {
 
 	if _, err := client.ExecuteCommand(context.Background(), "break"); err == nil {
 		t.Fatal("ExecuteCommand(break) succeeded, want transport error")
-	}
-	if client.State() != connection.StateDisconnected {
-		t.Error("State() != Disconnected after transport failure")
 	}
 	_, err := client.ExecuteCommand(context.Background(), "after")
 	if !errors.Is(err, connection.ErrDisconnected) {
@@ -202,8 +196,9 @@ func TestTimeoutDisconnects(t *testing.T) {
 	if !errors.Is(err, connection.ErrCommandTimeout) {
 		t.Errorf("ExecuteCommand(slow) error = %v, want connection.ErrCommandTimeout", err)
 	}
-	if client.State() != connection.StateDisconnected {
-		t.Error("State() != Disconnected after command timeout")
+	_, nextErr := client.ExecuteCommand(context.Background(), "after")
+	if !errors.Is(nextErr, connection.ErrDisconnected) {
+		t.Errorf("next ExecuteCommand() error = %v, want connection.ErrDisconnected", nextErr)
 	}
 }
 
@@ -213,38 +208,23 @@ func TestCloseIsIdempotent(t *testing.T) {
 
 	client.Close()
 	client.Close()
-	if client.State() != connection.StateDisconnected {
-		t.Error("State() != Disconnected after Close")
-	}
 }
 
-func TestOnStateChange(t *testing.T) {
-	events := make(chan connection.State, 2)
+func TestUnexpectedDisconnectCallback(t *testing.T) {
+	disconnected := make(chan struct{}, 1)
 	server := newTestServer(t, func(string) testReply {
 		return testReply{closeWrite: true}
 	})
 	client := newTestClient(t, server, Config{
-		OnStateChange: func(state connection.State) { events <- state },
+		OnDisconnect: func() { disconnected <- struct{}{} },
 	})
 
-	if got := awaitState(t, events); got != connection.StateConnected {
-		t.Fatalf("initial event = %v, want Connected", got)
-	}
 	if _, err := client.ExecuteCommand(context.Background(), "break"); err == nil {
 		t.Fatal("ExecuteCommand() succeeded, want transport error")
 	}
-	if got := awaitState(t, events); got != connection.StateDisconnected {
-		t.Fatalf("failure event = %v, want Disconnected", got)
-	}
-}
-
-func awaitState(t *testing.T, events <-chan connection.State) connection.State {
-	t.Helper()
 	select {
-	case state := <-events:
-		return state
+	case <-disconnected:
 	case <-time.After(5 * time.Second):
-		t.Fatal("timed out waiting for state event")
-		return connection.StateDisconnected
+		t.Fatal("timed out waiting for disconnect callback")
 	}
 }

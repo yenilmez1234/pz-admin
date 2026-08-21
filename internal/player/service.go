@@ -70,14 +70,14 @@ func (s *Service) ServiceShutdown() error {
 // SessionChanged starts or stops polling to match the active session.
 //
 //wails:ignore
-func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel, state connection.State) {
+func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	s.stopPollingLocked()
 	s.activeProfile = profile.Profile{}
 	s.executor = nil
-	if s.closed || state != connection.StateConnected || channel == nil {
+	if s.closed || channel == nil {
 		return
 	}
 	s.activeProfile = p
