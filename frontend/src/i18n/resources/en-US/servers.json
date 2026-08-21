@@ -36,7 +36,7 @@
       "saveTitle": "Unable to Save Server"
     },
     "validation": {
-      "buildRequired": "Select Build 41 or Build 42.",
+      "buildRequired": "Select a game build.",
       "hostRequired": "Enter an IP address or hostname.",
       "nameRequired": "Enter a server name.",
       "passwordRequired": "Enter the RCON password.",

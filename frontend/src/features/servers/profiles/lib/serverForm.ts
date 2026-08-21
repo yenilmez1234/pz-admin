@@ -16,7 +16,7 @@ export function initialServerForm(profile: Profile | null): ServerFormValues {
     name: profile?.name ?? "",
     host: profile?.host ?? "",
     port: profile?.port ?? 27015,
-    version: profile?.version ?? "42",
+    version: profile?.version ?? "auto",
     password: "",
   };
 }

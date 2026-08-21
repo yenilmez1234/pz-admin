@@ -30,6 +30,7 @@ export function accessLevelKey(accessLevel: string | null | undefined) {
 export function accessLevelColor(accessLevel: string | null | undefined) {
   switch (accessLevel?.toLowerCase()) {
     case "admin":
+      return "orange";
     case "banned":
       return "red";
     case "moderator":

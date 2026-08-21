@@ -28,8 +28,8 @@ type Config struct {
 	// execution. Zero uses the default of 5s.
 	Timeout time.Duration
 
-	// OnDisconnect is called after an unexpected transport failure. Explicitly
-	// closing the client does not call it. Optional.
+	// OnDisconnect is called asynchronously after an unexpected transport
+	// failure. Explicitly closing the client does not call it. Optional.
 	OnDisconnect func()
 }
 
@@ -142,6 +142,6 @@ func (c *Client) close(notify bool) {
 	}
 	_ = c.conn.Close()
 	if notify && c.onDisconnect != nil {
-		c.onDisconnect()
+		go c.onDisconnect()
 	}
 }

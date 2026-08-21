@@ -46,7 +46,10 @@ export function ServerFormModal({
       name: isNotEmpty(t("form.validation.nameRequired")),
       host: isNotEmpty(t("form.validation.hostRequired")),
       port: isInRange({ min: 1, max: 65535 }, t("form.validation.portRange")),
-      version: isOneOf(["41", "42"], t("form.validation.buildRequired")),
+      version: isOneOf(
+        ["auto", "41", "42"],
+        t("form.validation.buildRequired"),
+      ),
       password: (value) =>
         editing || value ? null : t("form.validation.passwordRequired"),
     },
@@ -145,6 +148,10 @@ export function ServerFormModal({
             {...form.getInputProps("version")}
           >
             <Group mt="xs">
+              <Radio
+                value="auto"
+                label={t("gameBuild.options.auto", { ns: "common" })}
+              />
               <Radio
                 value="41"
                 label={t("gameBuild.options.41", { ns: "common" })}

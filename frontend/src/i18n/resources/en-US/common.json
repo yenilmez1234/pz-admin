@@ -13,6 +13,7 @@
   "gameBuild": {
     "label": "Game build",
     "options": {
+      "auto": "Auto",
       "41": "Build 41",
       "42": "Build 42"
     }

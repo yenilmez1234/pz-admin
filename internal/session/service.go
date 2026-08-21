@@ -76,6 +76,14 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 	if err != nil {
 		return fmt.Errorf("session: %w", err)
 	}
+	if p.Version == "auto" {
+		version, detectErr := detectGameVersion(ctx, channel)
+		if detectErr != nil {
+			channel.Close()
+			return fmt.Errorf("session: %w", detectErr)
+		}
+		p.Version = version
+	}
 
 	s.channel = channel
 	s.current = p

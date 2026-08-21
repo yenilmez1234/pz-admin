@@ -36,7 +36,7 @@
       "saveTitle": "Sunucu Kaydedilemedi"
     },
     "validation": {
-      "buildRequired": "Build 41 veya Build 42 seçin.",
+      "buildRequired": "Bir oyun sürümü seçin.",
       "hostRequired": "Bir IP adresi veya ana bilgisayar adı girin.",
       "nameRequired": "Bir sunucu adı girin.",
       "passwordRequired": "RCON şifresini girin.",

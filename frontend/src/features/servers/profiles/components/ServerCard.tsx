@@ -31,6 +31,13 @@ export function ServerCard({
   onEdit,
 }: ServerCardProps) {
   const { t } = useTranslation(["servers", "common"]);
+  let buildLabel = t("card.buildUnknown");
+  if (profile.version === "auto") {
+    buildLabel = t("gameBuild.options.auto", { ns: "common" });
+  } else if (profile.version) {
+    buildLabel = t("card.build", { version: profile.version });
+  }
+
   return (
     <Paper
       component="article"
@@ -94,9 +101,7 @@ export function ServerCard({
 
         <Group justify="space-between" align="center" mt="auto">
           <Badge variant="light" color="gray">
-            {profile.version
-              ? t("card.build", { version: profile.version })
-              : t("card.buildUnknown")}
+            {buildLabel}
           </Badge>
           <Button
             size="xs"

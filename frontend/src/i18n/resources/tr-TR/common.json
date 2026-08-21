@@ -13,6 +13,7 @@
   "gameBuild": {
     "label": "Oyun sürümü",
     "options": {
+      "auto": "Otomatik",
       "41": "Build 41",
       "42": "Build 42"
     }
