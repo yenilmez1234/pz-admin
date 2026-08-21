@@ -2,6 +2,9 @@
   "page": {
     "title": "Message Editor"
   },
+  "dialog": {
+    "title": "Edit Message"
+  },
   "editor": {
     "label": "Message",
     "lineLabel": "Message line {{line}}",
@@ -21,8 +24,10 @@
     "byteLimit": "{{count}} / {{max}} bytes"
   },
   "actions": {
+    "apply": "Apply",
     "clear": "Clear",
     "copy": "Copy Formatted Message",
-    "copied": "Copied"
+    "copied": "Copied",
+    "edit": "Edit Message"
   }
 }

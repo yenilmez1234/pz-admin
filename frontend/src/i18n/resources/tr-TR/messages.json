@@ -2,6 +2,9 @@
   "page": {
     "title": "Mesaj Düzenleyici"
   },
+  "dialog": {
+    "title": "Mesajı Düzenle"
+  },
   "editor": {
     "label": "Mesaj",
     "lineLabel": "Mesaj satırı {{line}}",
@@ -21,8 +24,10 @@
     "byteLimit": "{{count}} / {{max}} bayt"
   },
   "actions": {
+    "apply": "Uygula",
     "clear": "Temizle",
     "copy": "Biçimlendirilmiş Mesajı Kopyala",
-    "copied": "Kopyalandı"
+    "copied": "Kopyalandı",
+    "edit": "Mesajı Düzenle"
   }
 }

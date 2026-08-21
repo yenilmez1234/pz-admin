@@ -1,5 +1,5 @@
 import { Button, Group, Text, Textarea } from "@mantine/core";
-import { useId } from "react";
+import { useId, type CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import {
   defaultMessageColor,
@@ -12,10 +12,15 @@ import classes from "./MessageEditor.module.css";
 
 interface MessageEditorProps {
   document: MessageDocument;
+  maxHeight?: CSSProperties["maxHeight"];
   onChange: (document: MessageDocument) => void;
 }
 
-export function MessageEditor({ document, onChange }: MessageEditorProps) {
+export function MessageEditor({
+  document,
+  maxHeight,
+  onChange,
+}: MessageEditorProps) {
   const { t } = useTranslation("messages");
   const labelId = useId();
   const editor = useMessageEditor(document, onChange);
@@ -40,7 +45,11 @@ export function MessageEditor({ document, onChange }: MessageEditorProps) {
           {t("actions.clear")}
         </Button>
       </Group>
-      <fieldset aria-labelledby={labelId} className={classes.editor}>
+      <fieldset
+        aria-labelledby={labelId}
+        className={classes.editor}
+        style={{ maxHeight }}
+      >
         {document.lines.map((line, lineIndex) => (
           <div className={classes.line} key={line.id}>
             <MessageLineColorControl

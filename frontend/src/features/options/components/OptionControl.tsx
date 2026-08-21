@@ -1,0 +1,38 @@
+import { MessageEditorDialog } from "@/features/messages/components/MessageEditorDialog";
+import type { OptionDefinition } from "../catalog";
+import { OptionInput, type OptionInputProps } from "./OptionInput";
+
+export function optionControlSize(definition: OptionDefinition) {
+  if (definition.type === "boolean") return "intrinsic";
+  if (definition.type === "integer" || definition.type === "number") {
+    return "compact";
+  }
+  if (definition.choices && !definition.multiple) return "medium";
+  if (
+    definition.type === "string" &&
+    definition.maximumLength !== undefined &&
+    definition.maximumLength <= 24
+  ) {
+    return "medium";
+  }
+  return "wide";
+}
+
+/** Routes catalogued editors while preserving the generic input fallback. */
+export function OptionControl(props: OptionInputProps) {
+  if (props.definition.editor === "message") {
+    return (
+      <MessageEditorDialog
+        descriptionId={props.descriptionId}
+        disabled={props.disabled}
+        invalid={Boolean(props.error)}
+        labelId={props.labelId}
+        maxBytes={props.definition.maximumBytes}
+        onChange={props.onChange}
+        value={typeof props.value === "string" ? props.value : ""}
+      />
+    );
+  }
+
+  return <OptionInput {...props} />;
+}

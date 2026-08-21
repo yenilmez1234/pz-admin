@@ -14,7 +14,7 @@ import type { OptionDefinition } from "../catalog";
 import { useOptionTranslations } from "../hooks/useOptionTranslations";
 import { formatServerValue, type OptionFormValue } from "../lib/optionValues";
 
-interface OptionInputProps {
+export interface OptionInputProps {
   definition: OptionDefinition;
   descriptionId: string;
   disabled: boolean;
@@ -23,22 +23,6 @@ interface OptionInputProps {
   labelId: string;
   onChange: (value: OptionFormValue) => void;
   value: OptionFormValue | undefined;
-}
-
-export function optionControlSize(definition: OptionDefinition) {
-  if (definition.type === "boolean") return "intrinsic";
-  if (definition.type === "integer" || definition.type === "number") {
-    return "compact";
-  }
-  if (definition.choices && !definition.multiple) return "medium";
-  if (
-    definition.type === "string" &&
-    definition.maximumLength !== undefined &&
-    definition.maximumLength <= 24
-  ) {
-    return "medium";
-  }
-  return "wide";
 }
 
 export function OptionInput({

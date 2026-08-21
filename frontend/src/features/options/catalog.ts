@@ -33,6 +33,7 @@ export interface OptionDefinition {
   defaultValue?: OptionValue;
   editor?: "items" | "message";
   maximum?: number;
+  maximumBytes?: number;
   maximumLength?: number;
   minimum?: number;
   multiple?: boolean;
@@ -57,6 +58,12 @@ export interface OptionSection {
 }
 
 type OptionMetadata = Omit<OptionDefinition, "name">;
+
+const maximumRconCommandBytes = 4096;
+
+function changeOptionValueByteLimit(name: string) {
+  return maximumRconCommandBytes - `changeoption "${name}" ""`.length;
+}
 
 const build41Options = {
   AdminSafehouse: { type: "boolean", defaultValue: false },
@@ -446,6 +453,7 @@ const build41Options = {
     defaultValue:
       "Welcome to Project Zomboid Multiplayer! <LINE> <LINE> To interact with the Chat panel: press Tab, T, or Enter. <LINE> <LINE> The Tab key will change the target stream of the message. <LINE> <LINE> Global Streams: /all <LINE> Local Streams: /say, /yell <LINE> Special Steams: /whisper, /safehouse, /faction. <LINE> <LINE> Press the Up arrow to cycle through your message history. Click the Gear icon to customize chat. <LINE> <LINE> Happy surviving!",
     editor: "message",
+    maximumBytes: changeOptionValueByteLimit("ServerWelcomeMessage"),
   },
   ShowFirstAndLastName: { type: "boolean", defaultValue: false },
   ShowSafety: {

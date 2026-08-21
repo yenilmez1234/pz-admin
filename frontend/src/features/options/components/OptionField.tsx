@@ -13,7 +13,7 @@ import {
 import type { OptionValidationIssue } from "../lib/validation";
 import { validateOptionValue } from "../lib/validation";
 import classes from "./OptionField.module.css";
-import { OptionInput, optionControlSize } from "./OptionInput";
+import { OptionControl, optionControlSize } from "./OptionControl";
 import { OptionSearchHighlight } from "./OptionSearchHighlight";
 import { SpecialValueControl } from "./SpecialValueControl";
 
@@ -83,7 +83,7 @@ function OptionFieldComponent({
   };
 
   let control = (
-    <OptionInput
+    <OptionControl
       definition={definition}
       descriptionId={descriptionId}
       disabled={definition.readOnly || specialActive}
