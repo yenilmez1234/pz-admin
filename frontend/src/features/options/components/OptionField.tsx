@@ -3,6 +3,7 @@ import { ActionIcon, Badge, Group, Stack, Text, Tooltip } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
 import { IconRestore } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
+import type { GameBuild } from "@/features/game/types";
 import type { OptionDefinition, ScalarOptionValue } from "../catalog";
 import { useOptionTranslations } from "../hooks/useOptionTranslations";
 import {
@@ -18,6 +19,7 @@ import { OptionSearchHighlight } from "./OptionSearchHighlight";
 import { SpecialValueControl } from "./SpecialValueControl";
 
 interface OptionFieldProps {
+  build: GameBuild;
   definition: OptionDefinition;
   form: UseFormReturnType<OptionFormValues>;
   highlight?: string;
@@ -34,6 +36,7 @@ function expectedValueLabel(
 }
 
 function OptionFieldComponent({
+  build,
   definition,
   form,
   highlight,
@@ -84,6 +87,7 @@ function OptionFieldComponent({
 
   let control = (
     <OptionControl
+      build={build}
       definition={definition}
       descriptionId={descriptionId}
       disabled={definition.readOnly || specialActive}

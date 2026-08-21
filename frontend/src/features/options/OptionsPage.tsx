@@ -160,6 +160,7 @@ export function OptionsPage() {
                   {searchCategories.map((category) =>
                     category.sections.map((section, index) => (
                       <OptionsSection
+                        build={build}
                         key={`${category.id}:${section.id}`}
                         category={category}
                         form={editor.form}
@@ -187,6 +188,7 @@ export function OptionsPage() {
                     <Stack gap="xl">
                       {category.sections.map((section, index) => (
                         <OptionsSection
+                          build={build}
                           key={section.id}
                           category={category}
                           form={editor.form}

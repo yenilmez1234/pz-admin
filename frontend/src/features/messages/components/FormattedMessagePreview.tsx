@@ -1,6 +1,6 @@
 import { Code, Group, Paper, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { messageByteLength } from "@/features/messages/lib/messageDocument";
+import { utf8ByteLength } from "@/shared/lib/text";
 
 interface FormattedMessagePreviewProps {
   maxBytes?: number;
@@ -12,7 +12,7 @@ export function FormattedMessagePreview({
   value,
 }: FormattedMessagePreviewProps) {
   const { t } = useTranslation("messages");
-  const byteLength = messageByteLength(value);
+  const byteLength = utf8ByteLength(value);
   const overLimit = maxBytes !== undefined && byteLength > maxBytes;
 
   return (

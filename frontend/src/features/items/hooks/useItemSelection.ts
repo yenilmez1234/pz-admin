@@ -5,6 +5,7 @@ export interface ItemSelectionController {
   add: (itemId: string, amount?: number) => void;
   clear: () => void;
   remove: (itemId: string) => void;
+  replace: (selection: ItemSelection) => void;
   selection: ItemSelection;
   setQuantity: (itemId: string, quantity: number) => void;
 }
@@ -45,6 +46,10 @@ export function useItemSelection(): ItemSelectionController {
   }, []);
 
   const clear = useCallback(() => setSelection(new Map()), []);
+  const replace = useCallback(
+    (nextSelection: ItemSelection) => setSelection(new Map(nextSelection)),
+    [],
+  );
 
-  return { add, clear, remove, selection, setQuantity };
+  return { add, clear, remove, replace, selection, setQuantity };
 }

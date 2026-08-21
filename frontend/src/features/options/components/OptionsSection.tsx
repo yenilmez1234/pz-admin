@@ -1,5 +1,6 @@
 import { Paper, Stack, Title } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
+import type { GameBuild } from "@/features/game/types";
 import type { OptionCategory, OptionSection } from "../catalog";
 import { useOptionTranslations } from "../hooks/useOptionTranslations";
 import type { OptionFormValues } from "../lib/optionValues";
@@ -7,6 +8,7 @@ import { OptionField } from "./OptionField";
 import { OptionSearchHighlight } from "./OptionSearchHighlight";
 
 interface OptionsSectionProps {
+  build: GameBuild;
   category: OptionCategory;
   form: UseFormReturnType<OptionFormValues>;
   highlight?: string;
@@ -15,6 +17,7 @@ interface OptionsSectionProps {
 }
 
 export function OptionsSection({
+  build,
   category,
   form,
   highlight,
@@ -43,6 +46,7 @@ export function OptionsSection({
       <Paper withBorder>
         {section.options.map((definition) => (
           <OptionField
+            build={build}
             key={definition.name}
             definition={definition}
             form={form}

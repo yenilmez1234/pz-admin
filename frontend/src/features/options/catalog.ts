@@ -476,7 +476,12 @@ const build41Options = {
     requirements: [{ option: "SleepAllowed", equals: true }],
   },
   SneakModeHideFromOtherPlayers: { type: "boolean", defaultValue: true },
-  SpawnItems: { type: "string", defaultValue: "", editor: "items" },
+  SpawnItems: {
+    type: "string",
+    defaultValue: "",
+    editor: "items",
+    maximumBytes: changeOptionValueByteLimit("SpawnItems"),
+  },
   SpawnPoint: {
     type: "string",
     defaultValue: "0,0,0",

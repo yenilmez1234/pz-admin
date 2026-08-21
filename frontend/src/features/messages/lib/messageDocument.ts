@@ -41,10 +41,6 @@ export function serializeMessage(document: MessageDocument): string {
     .join("<LINE>");
 }
 
-export function messageByteLength(value: string): number {
-  return new TextEncoder().encode(value).length;
-}
-
 function hexToRgbFloats(color: string): string {
   const normalized = color.replace("#", "");
   const channels = [0, 2, 4].map((offset) =>

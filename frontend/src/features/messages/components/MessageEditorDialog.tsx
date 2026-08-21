@@ -5,11 +5,11 @@ import { IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import {
   createEmptyMessage,
-  messageByteLength,
   parseMessage,
   serializeMessage,
 } from "../lib/messageDocument";
 import type { MessageDocument } from "../types";
+import { utf8ByteLength } from "@/shared/lib/text";
 import { FormattedMessagePreview } from "./FormattedMessagePreview";
 import { MessageEditor } from "./MessageEditor";
 
@@ -38,7 +38,7 @@ export function MessageEditorDialog({
   const [draft, setDraft] = useState<MessageDocument>(createEmptyMessage);
   const formattedDraft = serializeMessage(draft);
   const overLimit =
-    maxBytes !== undefined && messageByteLength(formattedDraft) > maxBytes;
+    maxBytes !== undefined && utf8ByteLength(formattedDraft) > maxBytes;
 
   function openEditor() {
     setDraft(parseMessage(value));
