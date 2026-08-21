@@ -29,10 +29,11 @@ const (
 
 // Param describes one parameter of a command.
 type Param struct {
-	Name     string // "username", "reason", "count"
-	Type     ParamType
-	Prefix   string // for flags/choices, "" for positional
-	Required bool
+	Name       string // "username", "reason", "count"
+	Type       ParamType
+	Prefix     string // for flags/choices, "" for positional
+	Required   bool
+	AllowEmpty bool // an explicitly provided empty string is still an argument
 }
 
 // Definition is a version-constrained game RCON command.
@@ -82,10 +83,10 @@ func Build(d Definition, args map[string]string) (string, error) {
 
 	for _, p := range d.Params {
 		val, ok := args[p.Name]
-		if p.Required && (!ok || val == "") {
+		if p.Required && (!ok || (val == "" && !p.AllowEmpty)) {
 			return "", fmt.Errorf("command: %s: missing required arg %q", d.Name, p.Name)
 		}
-		if !ok || val == "" {
+		if !ok || (val == "" && !p.AllowEmpty) {
 			continue // optional, not provided
 		}
 		switch p.Type {

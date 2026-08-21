@@ -318,13 +318,13 @@ var definitions = []Definition{
 		MaxVersion: "42",
 		Params: []Param{
 			{Name: "option", Type: TypeString, Required: true},
-			{Name: "value", Type: TypeString, Required: true},
+			{Name: "value", Type: TypeString, Required: true, AllowEmpty: true},
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			prefix := fmt.Sprintf("Option : %s is now : ", args["option"])
+			prefix := fmt.Sprintf("Option : %s is now :", args["option"])
 			if returned, ok := strings.CutPrefix(raw, prefix); ok &&
-				optionValueMatches(args["value"], returned) {
+				optionValueMatches(args["value"], strings.TrimSpace(returned)) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)

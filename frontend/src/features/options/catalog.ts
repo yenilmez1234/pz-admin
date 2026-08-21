@@ -79,7 +79,6 @@ const build41Options = {
   AntiCheatProtectionType16: {
     type: "boolean",
     defaultValue: true,
-    requirements: [{ option: "NoFire", equals: true }],
   },
   AntiCheatProtectionType17: { type: "boolean", defaultValue: true },
   AntiCheatProtectionType18: { type: "boolean", defaultValue: true },
@@ -546,6 +545,11 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "server_browser_announced_ip",
           ]),
         },
+        {
+          id: "modsAndWorkshop",
+          // Workshop content first, followed by the mod IDs loaded by the server.
+          options: b41(["WorkshopItems", "Mods"]),
+        },
       ],
     },
     {
@@ -569,11 +573,16 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "SteamScoreboard",
             // Reading speed.
             "MinutesPerPage",
+            // New-player location, starting inventory, and map visibility.
+            "SpawnPoint",
+            "SpawnItems",
+            "MapRemotePlayerVisibility",
           ]),
         },
         {
           id: "world",
           options: b41([
+            "Map",
             // Fire and persistent world cleanup.
             "NoFire",
             "BloodSplatLifespanDays",
@@ -678,27 +687,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       ],
     },
     {
-      id: "content",
-      sections: [
-        {
-          id: "mapAndSpawning",
-          options: b41([
-            "Map",
-            // New-player location and inventory.
-            "SpawnPoint",
-            "SpawnItems",
-            // Visibility of other players on the in-game map.
-            "MapRemotePlayerVisibility",
-          ]),
-        },
-        {
-          id: "modsAndWorkshop",
-          // Workshop content first, followed by the mod IDs loaded by the server.
-          options: b41(["WorkshopItems", "Mods"]),
-        },
-      ],
-    },
-    {
       id: "operations",
       sections: [
         {
@@ -716,13 +704,12 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         },
         {
           id: "loginAndPerformance",
-          // Admission controls first, followed by connection-quality protections.
+          // Admission controls first, followed by connection-quality limits.
           options: b41([
             "DenyLoginOnOverloadedServer",
             "LoginQueueEnabled",
             "LoginQueueConnectTimeout",
             "PingLimit",
-            "KickFastPlayers",
           ]),
         },
         {
@@ -734,7 +721,10 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
     {
       id: "security",
       sections: [
-        { id: "protections", options: b41(["SteamVAC", "DoLuaChecksum"]) },
+        {
+          id: "protections",
+          options: b41(["SteamVAC", "DoLuaChecksum", "KickFastPlayers"]),
+        },
         {
           id: "antiCheat",
           // Keep the game's numbered order and each configurable threshold together.

@@ -1,4 +1,83 @@
 {
+  "navigation": {
+    "label": "Seçenek bölümleri",
+    "searchLabel": "Seçeneklerde ara",
+    "searchPlaceholder": "Seçeneklerde ara…",
+    "clearSearch": "Aramayı temizle",
+    "noResults": "Eşleşen bölüm yok"
+  },
+  "categories": {
+    "server": "Sunucu",
+    "gameplay": "Oynanış",
+    "communities": "Topluluklar",
+    "operations": "İşletim",
+    "security": "Güvenlik"
+  },
+  "sections": {
+    "identityAndListing": "Kimlik ve listeleme",
+    "accessAndCapacity": "Erişim ve kapasite",
+    "networkAndConnection": "Ağ ve bağlantı",
+    "players": "Oyuncular",
+    "world": "Dünya",
+    "lootAndConstruction": "Ganimet ve inşaat",
+    "pvpAndSafety": "PvP ve güvenlik",
+    "safehouses": "Güvenli evler",
+    "factions": "Gruplar",
+    "chatAndVoice": "Sohbet ve ses",
+    "modsAndWorkshop": "Modlar ve Workshop",
+    "savingAndBackups": "Kaydetme ve yedekler",
+    "loginAndPerformance": "Giriş ve performans",
+    "loggingAndDiagnostics": "Günlükler ve tanılama",
+    "protections": "Korumalar",
+    "antiCheat": "Hile koruması"
+  },
+  "field": {
+    "notInEffect": "Şu an etkisiz",
+    "restoreCatalogDefault": "Varsayılana döndür",
+    "numericRange": "Minimum {{minimum}}, maksimum {{maximum}}",
+    "numericRange_minimum": "Minimum {{minimum}}",
+    "numericRange_maximum": "Maksimum {{maximum}}",
+    "requirement": "{{option}} {{value}} olduğunda uygulanır."
+  },
+  "values": {
+    "enabled": "etkin",
+    "disabled": "devre dışı"
+  },
+  "validation": {
+    "invalidChoice": "Geçerli bir değer seçin.",
+    "integer": "Tam sayı girin.",
+    "number": "Bir sayı girin.",
+    "required": "Bir değer girin.",
+    "minimum": "Değer en az {{value}} olmalıdır.",
+    "maximum": "Değer en fazla {{value}} olmalıdır.",
+    "maximumLength": "En fazla {{value}} karakter kullanın."
+  },
+  "actions": {
+    "retry": "Tekrar Dene",
+    "reset": "Sıfırla",
+    "save": "Değişiklikleri Kaydet",
+    "unsaved_one": "{{count}} kaydedilmemiş değişiklik",
+    "unsaved_other": "{{count}} kaydedilmemiş değişiklik"
+  },
+  "notifications": {
+    "updatedTitle": "Seçenekler Güncellendi",
+    "updatedMessage_one": "{{count}} seçenek güncellendi.",
+    "updatedMessage_other": "{{count}} seçenek güncellendi.",
+    "partiallyUpdatedTitle": "Bazı Seçenekler Güncellenemedi",
+    "partiallyUpdatedMessage": "{{updated}} seçenek güncellendi; {{failed}} seçenek başarısız oldu.",
+    "updateFailedTitle": "Seçenekler Güncellenemedi",
+    "updateFailedMessage_one": "{{count}} seçenek güncellenemedi.",
+    "updateFailedMessage_other": "{{count}} seçenek güncellenemedi.",
+    "refreshFailedTitle": "Seçenekler Yeniden Yüklenemedi",
+    "refreshFailedMessage": "Güncelleme tamamlandı ancak güncel sunucu değerleri yeniden yüklenemedi. Düzenlemeleriniz korundu."
+  },
+  "errors": {
+    "loadTitle": "Seçenekler Yüklenemedi"
+  },
+  "empty": {
+    "title": "Kullanılabilir Seçenek Yok",
+    "message": "Bu oyun sürümü için seçenek tanımları henüz mevcut değil."
+  },
   "specialValues": {
     "disabled": "Devre dışı",
     "forever": "Süresiz",
@@ -68,7 +147,7 @@
     },
     "PublicDescription": {
       "label": "Sunucu açıklaması",
-      "description": "Oyun içi ve Steam sunucu listelerinde gösterilen açıklama. Yeni satır başlatmak için \\n kullanın."
+      "description": "Oyun içi ve Steam sunucu listelerinde gösterilen açıklama."
     },
     "Public": {
       "label": "Herkese açık listeleme",
@@ -314,20 +393,20 @@
       "description": "Herhangi bir yetkili erişim düzeyine sahip oyuncuların telsiz yayınlarını engeller."
     },
     "DisableRadioAdmin": {
-      "label": "Yönetici telsizlerini sustur",
-      "description": "Yöneticilerin telsiz yayınlarını engeller."
+      "label": "Admin telsizlerini sustur",
+      "description": "Admin erişim düzeyine sahip oyuncuların telsiz yayınlarını engeller."
     },
     "DisableRadioModerator": {
-      "label": "Moderatör telsizlerini sustur",
-      "description": "Moderatörlerin telsiz yayınlarını engeller."
+      "label": "Moderator telsizlerini sustur",
+      "description": "Moderator erişim düzeyine sahip oyuncuların telsiz yayınlarını engeller."
     },
     "DisableRadioOverseer": {
-      "label": "Gözetmen telsizlerini sustur",
-      "description": "Gözetmenlerin telsiz yayınlarını engeller."
+      "label": "Overseer telsizlerini sustur",
+      "description": "Overseer erişim düzeyine sahip oyuncuların telsiz yayınlarını engeller."
     },
     "DisableRadioGM": {
-      "label": "Oyun yöneticisi telsizlerini sustur",
-      "description": "Oyun yöneticilerinin telsiz yayınlarını engeller."
+      "label": "GM telsizlerini sustur",
+      "description": "GM erişim düzeyine sahip oyuncuların telsiz yayınlarını engeller."
     },
     "DisableRadioInvisible": {
       "label": "Görünmez oyuncu telsizlerini sustur",
@@ -435,132 +514,132 @@
       "description": "Oyun dosyaları sunucuyla eşleşmeyen istemcileri sunucudan atar."
     },
     "AntiCheatProtectionType1": {
-      "label": "Yetkisiz PvP",
-      "description": "Oyuncular arası saldırılara izin verilip verilmediğini denetler."
+      "label": "Hile koruması 1",
+      "description": "Oyunun 1 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType2": {
-      "label": "Hareket hızı",
-      "description": "İzin verilen hızı aşan hareketleri denetler."
+      "label": "Hile koruması 2",
+      "description": "Oyunun 2 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType2ThresholdMultiplier": {
-      "label": "Hareket hızı eşiği",
-      "description": "Hareket hızı doğrulamasında kullanılan eşiği çarpar."
+      "label": "Hile koruması 2 eşiği",
+      "description": "2 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType3": {
-      "label": "Etkileşim mesafesi",
-      "description": "Geçersiz bir mesafeden yapılan etkileşimleri denetler."
+      "label": "Hile koruması 3",
+      "description": "Oyunun 3 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType3ThresholdMultiplier": {
-      "label": "Etkileşim mesafesi eşiği",
-      "description": "Etkileşim mesafesi doğrulamasında kullanılan eşiği çarpar."
+      "label": "Hile koruması 3 eşiği",
+      "description": "3 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType4": {
-      "label": "Saldırı hasarı",
-      "description": "Aşırı hasar veren saldırıları denetler."
+      "label": "Hile koruması 4",
+      "description": "Oyunun 4 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType4ThresholdMultiplier": {
-      "label": "Saldırı hasarı eşiği",
-      "description": "Saldırı hasarı doğrulamasında kullanılan eşiği çarpar."
+      "label": "Hile koruması 4 eşiği",
+      "description": "4 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType5": {
-      "label": "Zombi sahipliği",
-      "description": "İstemcinin etkilenen zombiyi denetlemeye yetkili olup olmadığını denetler."
+      "label": "Hile koruması 5",
+      "description": "Oyunun 5 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType6": {
-      "label": "Oyuncu sahipliği",
-      "description": "Etkilenen oyuncunun gönderen istemciye ait olup olmadığını denetler."
+      "label": "Hile koruması 6",
+      "description": "Oyunun 6 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType7": {
-      "label": "Güvenli ev yetkisi",
-      "description": "Oyuncunun etkilenen güvenli ev için yetkili olup olmadığını denetler."
+      "label": "Hile koruması 7",
+      "description": "Oyunun 7 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType8": {
-      "label": "Yetkisiz paketler",
-      "description": "Kısıtlanmış ağ paketlerinin erişim gereksinimlerini uygular."
+      "label": "Hile koruması 8",
+      "description": "Oyunun 8 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType9": {
-      "label": "TP kazanma hızı",
-      "description": "Aşırı hızda kazanılan tecrübe puanlarını denetler."
+      "label": "Hile koruması 9",
+      "description": "Oyunun 9 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType9ThresholdMultiplier": {
-      "label": "TP kazanma eşiği",
-      "description": "Tecrübe kazanma doğrulamasında kullanılan eşiği çarpar."
+      "label": "Hile koruması 9 eşiği",
+      "description": "9 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType10": {
-      "label": "Bilinmeyen ağ iletileri",
-      "description": "Tanınmayan düşük seviyeli ağ iletilerini denetler."
+      "label": "Hile koruması 10",
+      "description": "Oyunun 10 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType11": {
-      "label": "Koruma türü 11",
-      "description": "Build 41'de davranışı belirlenemeyen, ayrılmış ve belgelenmemiş hile koruması seçeneği."
+      "label": "Hile koruması 11",
+      "description": "Oyunun 11 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType12": {
-      "label": "Geçersiz oyuncu işaretleri",
-      "description": "İstemcilerden alınan kısıtlanmış oyuncu durumu işaretlerini denetler."
+      "label": "Hile koruması 12",
+      "description": "Oyunun 12 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType13": {
-      "label": "Bilinmeyen oyun paketleri",
-      "description": "Tanınmayan oyun paketi türlerini denetler."
+      "label": "Hile koruması 13",
+      "description": "Oyunun 13 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType14": {
-      "label": "TP hedefi sahipliği",
-      "description": "İstemcinin hedef oyuncunun tecrübesini değiştirmeye yetkili olup olmadığını denetler."
+      "label": "Hile koruması 14",
+      "description": "Oyunun 14 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType15": {
-      "label": "TP miktarı",
-      "description": "İstemcilerden alınan aşırı tecrübe değişikliklerini denetler."
+      "label": "Hile koruması 15",
+      "description": "Oyunun 15 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType15ThresholdMultiplier": {
-      "label": "TP miktarı eşiği",
-      "description": "Tecrübe miktarı doğrulamasında kullanılan eşiği çarpar."
+      "label": "Hile koruması 15 eşiği",
+      "description": "15 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType16": {
-      "label": "Yasaklanmış yangın",
-      "description": "Yangın devre dışıyken yangın başlatma girişimlerini denetler."
+      "label": "Hile koruması 16",
+      "description": "Oyunun 16 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType17": {
-      "label": "Geçersiz yangın konumu",
-      "description": "Geçersiz bir konumda yangın başlatma girişimlerini denetler."
+      "label": "Hile koruması 17",
+      "description": "Oyunun 17 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType18": {
-      "label": "Geçersiz duman konumu",
-      "description": "Geçersiz bir konumda duman oluşturma girişimlerini denetler."
+      "label": "Hile koruması 18",
+      "description": "Oyunun 18 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType19": {
-      "label": "Yinelenen güvenli evler",
-      "description": "Aynı sahip için başka bir güvenli ev oluşturma girişimlerini denetler."
+      "label": "Hile koruması 19",
+      "description": "Oyunun 19 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType20": {
-      "label": "Güvenli ev boyutu",
-      "description": "İzin verilen boyutları aşan güvenli evleri denetler."
+      "label": "Hile koruması 20",
+      "description": "Oyunun 20 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType20ThresholdMultiplier": {
-      "label": "Güvenli ev boyutu eşiği",
-      "description": "Doğrulamada kullanılan en yüksek güvenli ev boyutlarını çarpar."
+      "label": "Hile koruması 20 eşiği",
+      "description": "20 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType21": {
-      "label": "Tarif sağlama toplamı uyuşmazlığı",
-      "description": "Sunucuyla eşleşmeyen tarif verilerini denetler."
+      "label": "Hile koruması 21",
+      "description": "Oyunun 21 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType22": {
-      "label": "Tarif sağlama toplamı zaman aşımı",
-      "description": "Tarif doğrulamasını zamanında döndürmeyen istemcileri denetler."
+      "label": "Hile koruması 22",
+      "description": "Oyunun 22 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType22ThresholdMultiplier": {
-      "label": "Tarif doğrulama zamanlaması",
-      "description": "Tarif doğrulamasında kullanılan gecikmeleri ve zaman aşımlarını çarpar."
+      "label": "Hile koruması 22 eşiği",
+      "description": "22 numaralı hile korumasının eşiğini ayarlar."
     },
     "AntiCheatProtectionType23": {
-      "label": "Zaman çarpanı uyuşmazlığı",
-      "description": "İstemci zaman çarpanının sunucuyla eşleşip eşleşmediğini denetler."
+      "label": "Hile koruması 23",
+      "description": "Oyunun 23 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType24": {
-      "label": "Zaman çarpanı zaman aşımı",
-      "description": "Zaman çarpanı doğrulamasını zamanında döndürmeyen istemcileri denetler."
+      "label": "Hile koruması 24",
+      "description": "Oyunun 24 numaralı hile korumasını etkinleştirir."
     },
     "AntiCheatProtectionType24ThresholdMultiplier": {
-      "label": "Zaman doğrulama zaman aşımı",
-      "description": "Zaman çarpanı doğrulamasında kullanılan zaman aşımını çarpar."
+      "label": "Hile koruması 24 eşiği",
+      "description": "24 numaralı hile korumasının eşiğini ayarlar."
     }
   }
 }

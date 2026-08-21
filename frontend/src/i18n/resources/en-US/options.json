@@ -1,4 +1,83 @@
 {
+  "navigation": {
+    "label": "Option sections",
+    "searchLabel": "Search options",
+    "searchPlaceholder": "Search options…",
+    "clearSearch": "Clear search",
+    "noResults": "No matching sections"
+  },
+  "categories": {
+    "server": "Server",
+    "gameplay": "Gameplay",
+    "communities": "Communities",
+    "operations": "Operations",
+    "security": "Security"
+  },
+  "sections": {
+    "identityAndListing": "Identity and listing",
+    "accessAndCapacity": "Access and capacity",
+    "networkAndConnection": "Network and connection",
+    "players": "Players",
+    "world": "World",
+    "lootAndConstruction": "Loot and construction",
+    "pvpAndSafety": "PvP and safety",
+    "safehouses": "Safehouses",
+    "factions": "Factions",
+    "chatAndVoice": "Chat and voice",
+    "modsAndWorkshop": "Mods and Workshop",
+    "savingAndBackups": "Saving and backups",
+    "loginAndPerformance": "Login and performance",
+    "loggingAndDiagnostics": "Logging and diagnostics",
+    "protections": "Protections",
+    "antiCheat": "Anti-cheat"
+  },
+  "field": {
+    "notInEffect": "Not in effect",
+    "restoreCatalogDefault": "Restore default",
+    "numericRange": "Minimum {{minimum}}, maximum {{maximum}}",
+    "numericRange_minimum": "Minimum {{minimum}}",
+    "numericRange_maximum": "Maximum {{maximum}}",
+    "requirement": "Applies when {{option}} is {{value}}."
+  },
+  "values": {
+    "enabled": "enabled",
+    "disabled": "disabled"
+  },
+  "validation": {
+    "invalidChoice": "Select a valid value.",
+    "integer": "Enter a whole number.",
+    "number": "Enter a number.",
+    "required": "Enter a value.",
+    "minimum": "Value must be at least {{value}}.",
+    "maximum": "Value must be at most {{value}}.",
+    "maximumLength": "Use no more than {{value}} characters."
+  },
+  "actions": {
+    "retry": "Try Again",
+    "reset": "Reset",
+    "save": "Save Changes",
+    "unsaved_one": "{{count}} unsaved change",
+    "unsaved_other": "{{count}} unsaved changes"
+  },
+  "notifications": {
+    "updatedTitle": "Options Updated",
+    "updatedMessage_one": "Updated {{count}} option.",
+    "updatedMessage_other": "Updated {{count}} options.",
+    "partiallyUpdatedTitle": "Some Options Were Not Updated",
+    "partiallyUpdatedMessage": "Updated {{updated}} options; {{failed}} failed.",
+    "updateFailedTitle": "Unable to Update Options",
+    "updateFailedMessage_one": "{{count}} option could not be updated.",
+    "updateFailedMessage_other": "{{count}} options could not be updated.",
+    "refreshFailedTitle": "Unable to Reload Options",
+    "refreshFailedMessage": "The update finished, but the current server values could not be reloaded. Your edits were kept."
+  },
+  "errors": {
+    "loadTitle": "Unable to Load Options"
+  },
+  "empty": {
+    "title": "No Options Available",
+    "message": "Option definitions are not available for this game build yet."
+  },
   "specialValues": {
     "disabled": "Disabled",
     "forever": "Forever",
@@ -68,7 +147,7 @@
     },
     "PublicDescription": {
       "label": "Server description",
-      "description": "Description shown in the in-game and Steam server browsers. Use \\n to start a new line."
+      "description": "Description shown in the in-game and Steam server browsers."
     },
     "Public": {
       "label": "Public listing",
@@ -315,19 +394,19 @@
     },
     "DisableRadioAdmin": {
       "label": "Mute admin radios",
-      "description": "Prevents radio transmissions from administrators."
+      "description": "Prevents radio transmissions from players with the Admin access level."
     },
     "DisableRadioModerator": {
       "label": "Mute moderator radios",
-      "description": "Prevents radio transmissions from moderators."
+      "description": "Prevents radio transmissions from players with the Moderator access level."
     },
     "DisableRadioOverseer": {
       "label": "Mute overseer radios",
-      "description": "Prevents radio transmissions from overseers."
+      "description": "Prevents radio transmissions from players with the Overseer access level."
     },
     "DisableRadioGM": {
       "label": "Mute GM radios",
-      "description": "Prevents radio transmissions from game masters."
+      "description": "Prevents radio transmissions from players with the GM access level."
     },
     "DisableRadioInvisible": {
       "label": "Mute invisible-player radios",
@@ -435,132 +514,132 @@
       "description": "Kicks clients whose game files do not match the server."
     },
     "AntiCheatProtectionType1": {
-      "label": "Unauthorized PvP",
-      "description": "Checks whether player-versus-player attacks are permitted."
+      "label": "Anti-cheat protection 1",
+      "description": "Enables the game's anti-cheat protection type 1."
     },
     "AntiCheatProtectionType2": {
-      "label": "Movement speed",
-      "description": "Checks for movement exceeding the permitted speed."
+      "label": "Anti-cheat protection 2",
+      "description": "Enables the game's anti-cheat protection type 2."
     },
     "AntiCheatProtectionType2ThresholdMultiplier": {
-      "label": "Movement speed threshold",
-      "description": "Multiplies the threshold used by movement-speed validation."
+      "label": "Anti-cheat protection 2 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 2."
     },
     "AntiCheatProtectionType3": {
-      "label": "Interaction distance",
-      "description": "Checks for interactions over an invalid distance."
+      "label": "Anti-cheat protection 3",
+      "description": "Enables the game's anti-cheat protection type 3."
     },
     "AntiCheatProtectionType3ThresholdMultiplier": {
-      "label": "Interaction distance threshold",
-      "description": "Multiplies the threshold used by interaction-distance validation."
+      "label": "Anti-cheat protection 3 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 3."
     },
     "AntiCheatProtectionType4": {
-      "label": "Attack damage",
-      "description": "Checks for attacks dealing excessive damage."
+      "label": "Anti-cheat protection 4",
+      "description": "Enables the game's anti-cheat protection type 4."
     },
     "AntiCheatProtectionType4ThresholdMultiplier": {
-      "label": "Attack damage threshold",
-      "description": "Multiplies the threshold used by attack-damage validation."
+      "label": "Anti-cheat protection 4 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 4."
     },
     "AntiCheatProtectionType5": {
-      "label": "Zombie ownership",
-      "description": "Checks whether a client is authorized to control the affected zombie."
+      "label": "Anti-cheat protection 5",
+      "description": "Enables the game's anti-cheat protection type 5."
     },
     "AntiCheatProtectionType6": {
-      "label": "Player ownership",
-      "description": "Checks whether the affected player belongs to the sending client."
+      "label": "Anti-cheat protection 6",
+      "description": "Enables the game's anti-cheat protection type 6."
     },
     "AntiCheatProtectionType7": {
-      "label": "Safehouse authorization",
-      "description": "Checks whether a player is authorized for the affected safehouse."
+      "label": "Anti-cheat protection 7",
+      "description": "Enables the game's anti-cheat protection type 7."
     },
     "AntiCheatProtectionType8": {
-      "label": "Unauthorized packets",
-      "description": "Enforces access requirements for restricted network packets."
+      "label": "Anti-cheat protection 8",
+      "description": "Enables the game's anti-cheat protection type 8."
     },
     "AntiCheatProtectionType9": {
-      "label": "XP gain rate",
-      "description": "Checks for experience gained at an excessive rate."
+      "label": "Anti-cheat protection 9",
+      "description": "Enables the game's anti-cheat protection type 9."
     },
     "AntiCheatProtectionType9ThresholdMultiplier": {
-      "label": "XP gain threshold",
-      "description": "Multiplies the threshold used by experience-gain validation."
+      "label": "Anti-cheat protection 9 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 9."
     },
     "AntiCheatProtectionType10": {
-      "label": "Unknown network messages",
-      "description": "Checks for unrecognized low-level network messages."
+      "label": "Anti-cheat protection 10",
+      "description": "Enables the game's anti-cheat protection type 10."
     },
     "AntiCheatProtectionType11": {
-      "label": "Protection type 11",
-      "description": "Reserved, undocumented anti-cheat option with no behavior identified in Build 41."
+      "label": "Anti-cheat protection 11",
+      "description": "Enables the game's anti-cheat protection type 11."
     },
     "AntiCheatProtectionType12": {
-      "label": "Invalid player flags",
-      "description": "Checks for restricted player-state flags received from clients."
+      "label": "Anti-cheat protection 12",
+      "description": "Enables the game's anti-cheat protection type 12."
     },
     "AntiCheatProtectionType13": {
-      "label": "Unknown game packets",
-      "description": "Checks for unrecognized game packet types."
+      "label": "Anti-cheat protection 13",
+      "description": "Enables the game's anti-cheat protection type 13."
     },
     "AntiCheatProtectionType14": {
-      "label": "XP target ownership",
-      "description": "Checks whether a client is authorized to modify the target player's experience."
+      "label": "Anti-cheat protection 14",
+      "description": "Enables the game's anti-cheat protection type 14."
     },
     "AntiCheatProtectionType15": {
-      "label": "XP amount",
-      "description": "Checks for excessive experience changes received from clients."
+      "label": "Anti-cheat protection 15",
+      "description": "Enables the game's anti-cheat protection type 15."
     },
     "AntiCheatProtectionType15ThresholdMultiplier": {
-      "label": "XP amount threshold",
-      "description": "Multiplies the threshold used by experience-amount validation."
+      "label": "Anti-cheat protection 15 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 15."
     },
     "AntiCheatProtectionType16": {
-      "label": "Prohibited fire",
-      "description": "Checks for attempts to start fire when fire is disabled."
+      "label": "Anti-cheat protection 16",
+      "description": "Enables the game's anti-cheat protection type 16."
     },
     "AntiCheatProtectionType17": {
-      "label": "Invalid fire placement",
-      "description": "Checks for attempts to start fire in an invalid location."
+      "label": "Anti-cheat protection 17",
+      "description": "Enables the game's anti-cheat protection type 17."
     },
     "AntiCheatProtectionType18": {
-      "label": "Invalid smoke placement",
-      "description": "Checks for attempts to create smoke in an invalid location."
+      "label": "Anti-cheat protection 18",
+      "description": "Enables the game's anti-cheat protection type 18."
     },
     "AntiCheatProtectionType19": {
-      "label": "Duplicate safehouses",
-      "description": "Checks for attempts to create another safehouse for the same owner."
+      "label": "Anti-cheat protection 19",
+      "description": "Enables the game's anti-cheat protection type 19."
     },
     "AntiCheatProtectionType20": {
-      "label": "Safehouse size",
-      "description": "Checks for safehouses exceeding the permitted dimensions."
+      "label": "Anti-cheat protection 20",
+      "description": "Enables the game's anti-cheat protection type 20."
     },
     "AntiCheatProtectionType20ThresholdMultiplier": {
-      "label": "Safehouse size threshold",
-      "description": "Multiplies the maximum safehouse dimensions used by validation."
+      "label": "Anti-cheat protection 20 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 20."
     },
     "AntiCheatProtectionType21": {
-      "label": "Recipe checksum mismatch",
-      "description": "Checks for recipe data that does not match the server."
+      "label": "Anti-cheat protection 21",
+      "description": "Enables the game's anti-cheat protection type 21."
     },
     "AntiCheatProtectionType22": {
-      "label": "Recipe checksum timeout",
-      "description": "Checks for clients that do not return recipe validation in time."
+      "label": "Anti-cheat protection 22",
+      "description": "Enables the game's anti-cheat protection type 22."
     },
     "AntiCheatProtectionType22ThresholdMultiplier": {
-      "label": "Recipe validation timing",
-      "description": "Multiplies the delays and timeouts used by recipe validation."
+      "label": "Anti-cheat protection 22 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 22."
     },
     "AntiCheatProtectionType23": {
-      "label": "Time multiplier mismatch",
-      "description": "Checks for a client time multiplier that does not match the server."
+      "label": "Anti-cheat protection 23",
+      "description": "Enables the game's anti-cheat protection type 23."
     },
     "AntiCheatProtectionType24": {
-      "label": "Time multiplier timeout",
-      "description": "Checks for clients that do not return time-multiplier validation in time."
+      "label": "Anti-cheat protection 24",
+      "description": "Enables the game's anti-cheat protection type 24."
     },
     "AntiCheatProtectionType24ThresholdMultiplier": {
-      "label": "Time validation timeout",
-      "description": "Multiplies the timeout used by time-multiplier validation."
+      "label": "Anti-cheat protection 24 threshold",
+      "description": "Adjusts the threshold for anti-cheat protection type 24."
     }
   }
 }

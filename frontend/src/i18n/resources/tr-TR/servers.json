@@ -51,6 +51,7 @@
   "workspace": {
     "navigationLabel": "Sunucu sayfaları",
     "console": "Konsol",
+    "options": "Seçenekler",
     "players": "Oyuncular"
   }
 }

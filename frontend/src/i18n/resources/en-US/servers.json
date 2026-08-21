@@ -51,6 +51,7 @@
   "workspace": {
     "navigationLabel": "Server pages",
     "console": "Console",
+    "options": "Options",
     "players": "Players"
   }
 }
