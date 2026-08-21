@@ -12,6 +12,7 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/config"
 	"github.com/beyenilmez/pz-admin/internal/console"
 	"github.com/beyenilmez/pz-admin/internal/logger"
+	"github.com/beyenilmez/pz-admin/internal/options"
 	"github.com/beyenilmez/pz-admin/internal/player"
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/beyenilmez/pz-admin/internal/session"
@@ -88,7 +89,8 @@ func run() error {
 	playerSvc := player.NewService()
 	profileSvc := profile.NewService(playerSvc)
 	consoleSvc := console.NewService(playerSvc.ObserveConsoleCommand)
-	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc)
+	optionsSvc := options.NewService()
+	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc, optionsSvc)
 
 	app := application.New(application.Options{
 		Name:        "pz-admin",
@@ -97,6 +99,7 @@ func run() error {
 		Services: []application.Service{
 			application.NewService(config.NewService()),
 			application.NewService(consoleSvc),
+			application.NewService(optionsSvc),
 			application.NewService(playerSvc),
 			application.NewService(profileSvc),
 			application.NewService(sessionSvc),
