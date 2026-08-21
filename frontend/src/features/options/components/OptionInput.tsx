@@ -11,11 +11,8 @@ import {
 } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import type { OptionDefinition } from "../catalog";
-import { nestedTranslationText } from "../lib/translationLookup";
-import {
-  serializeOptionValue,
-  type OptionFormValue,
-} from "../lib/optionValues";
+import { useOptionTranslations } from "../hooks/useOptionTranslations";
+import { formatServerValue, type OptionFormValue } from "../lib/optionValues";
 
 interface OptionInputProps {
   definition: OptionDefinition;
@@ -23,7 +20,6 @@ interface OptionInputProps {
   disabled: boolean;
   error: ReactNode;
   inputId: string;
-  inputKey: string;
   labelId: string;
   onChange: (value: OptionFormValue) => void;
   value: OptionFormValue | undefined;
@@ -51,13 +47,12 @@ export function OptionInput({
   disabled,
   error,
   inputId,
-  inputKey,
   labelId,
   onChange,
   value,
 }: OptionInputProps) {
   const { t } = useTranslation("options");
-  const fields = t("fields", { returnObjects: true });
+  const labels = useOptionTranslations();
   const commonProps = {
     "aria-describedby": descriptionId,
     "aria-invalid": Boolean(error),
@@ -72,8 +67,7 @@ export function OptionInput({
     return (
       <Switch
         {...commonProps}
-        key={inputKey}
-        defaultChecked={value === true}
+        checked={value === true}
         onChange={(event) => onChange(event.currentTarget.checked)}
       />
     );
@@ -83,18 +77,12 @@ export function OptionInput({
     return (
       <MultiSelect
         {...commonProps}
-        key={inputKey}
         clearable
         data={definition.choices.map((choice) => ({
-          label: nestedTranslationText(
-            fields,
-            definition.name,
-            `choices.${choice.id}`,
-            choice.id,
-          ),
-          value: serializeOptionValue(choice.value),
+          label: labels.choiceLabel(definition.name, choice.id),
+          value: formatServerValue(choice.value),
         }))}
-        defaultValue={Array.isArray(value) ? value : []}
+        value={Array.isArray(value) ? value : []}
         onChange={onChange}
       />
     );
@@ -104,22 +92,15 @@ export function OptionInput({
     return (
       <Select
         {...commonProps}
-        key={inputKey}
         allowDeselect={false}
         data={definition.choices.map((choice) => ({
-          label: nestedTranslationText(
-            fields,
-            definition.name,
-            `choices.${choice.id}`,
-            choice.id,
-          ),
-          value: serializeOptionValue(choice.value),
+          label: labels.choiceLabel(definition.name, choice.id),
+          value: formatServerValue(choice.value),
         }))}
-        defaultValue={value === undefined ? null : serializeOptionValue(value)}
+        value={value === undefined ? null : formatServerValue(value)}
         onChange={(selectedValue) => {
           const choice = definition.choices?.find(
-            (candidate) =>
-              serializeOptionValue(candidate.value) === selectedValue,
+            (candidate) => formatServerValue(candidate.value) === selectedValue,
           );
           if (choice) onChange(choice.value);
         }}
@@ -135,14 +116,11 @@ export function OptionInput({
       <Stack gap={2}>
         <NumberInput
           {...commonProps}
-          key={inputKey}
           allowDecimal={definition.type === "number"}
           clampBehavior="blur"
           max={definition.maximum}
           min={definition.minimum}
-          {...(definition.specialValue
-            ? { value: typeof value === "number" ? value : "" }
-            : { defaultValue: typeof value === "number" ? value : "" })}
+          value={typeof value === "number" ? value : ""}
           onChange={onChange}
         />
         {definition.minimum !== undefined || displayedMaximum !== undefined ? (
@@ -172,19 +150,18 @@ export function OptionInput({
     );
   }
 
-  if (definition.type === "text" || definition.editor === "message") {
-    // Generic multiline options use literal `\n`; the message editor owns its
-    // own serialization and therefore receives the value unchanged.
-    const escapesLineBreaks = definition.editor !== "message";
+  if (definition.type === "text") {
+    // Generic multiline options use literal `\n`; specialized editors own
+    // their serialization and therefore receive the value unchanged.
+    const escapesLineBreaks = definition.editor === undefined;
     return (
       <Textarea
         {...commonProps}
-        key={inputKey}
         autosize
         maxLength={definition.maximumLength}
         maxRows={10}
         minRows={3}
-        defaultValue={
+        value={
           typeof value === "string" && escapesLineBreaks
             ? value.split("\\n").join("\n")
             : typeof value === "string"
@@ -205,12 +182,9 @@ export function OptionInput({
   return (
     <TextInput
       {...commonProps}
-      key={inputKey}
       maxLength={definition.maximumLength}
       type={definition.secret ? "password" : "text"}
-      {...(definition.specialValue
-        ? { value: typeof value === "string" ? value : "" }
-        : { defaultValue: typeof value === "string" ? value : "" })}
+      value={typeof value === "string" ? value : ""}
       onChange={(event) => onChange(event.currentTarget.value)}
     />
   );

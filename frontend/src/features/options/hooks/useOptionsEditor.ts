@@ -2,46 +2,85 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "@mantine/form";
 import { List, Update } from "@bindings/internal/options/service";
 import type { UpdateResult } from "@bindings/internal/options/models";
-import type { OptionCategory, OptionDefinition } from "../catalog";
+import type {
+  OptionCategory,
+  OptionDefinition,
+  OptionSection,
+} from "../catalog";
 import {
-  availableOptionCategories,
-  flattenOptionDefinitions,
-} from "../lib/catalogQueries";
-import {
-  optionValues,
-  serializeOptionValue,
+  createFormValues,
+  formatServerValue,
+  optionValuesEqual,
   type OptionFormValues,
 } from "../lib/optionValues";
 import { validateOptionValues } from "../lib/validation";
-import { createOptionFormEvents } from "./useOptionFormEvents";
 
 interface SaveOutcome {
   refreshed: boolean;
   result: UpdateResult;
 }
 
-function readCatalog(
+/** Produces the flat list used by validation and saving from the UI hierarchy. */
+function collectDefinitions(categories: readonly OptionCategory[]) {
+  const definitions: OptionDefinition[] = [];
+  for (const category of categories) {
+    for (const section of category.sections) {
+      definitions.push(...section.options);
+    }
+  }
+  return definitions;
+}
+
+/** Removes catalog entries that the connected server did not report. */
+function supportedCategories(
+  catalog: readonly OptionCategory[],
+  serverValues: Record<string, string | undefined>,
+) {
+  const categories: OptionCategory[] = [];
+  for (const category of catalog) {
+    const sections: OptionSection[] = [];
+    for (const section of category.sections) {
+      const options = section.options.filter(
+        (definition) =>
+          definition.writeOnly || serverValues[definition.name] !== undefined,
+      );
+      if (options.length > 0) sections.push({ ...section, options });
+    }
+    if (sections.length > 0) categories.push({ ...category, sections });
+  }
+  return categories;
+}
+
+function prepareEditorData(
   catalog: readonly OptionCategory[],
   rawValues: Record<string, string | undefined>,
 ) {
-  const categories = availableOptionCategories(catalog, rawValues);
-  const definitions = flattenOptionDefinitions(categories);
+  // `showoptions` decides what the connected server supports. Write-only
+  // entries remain because the server accepts but does not return them.
+  const categories = supportedCategories(catalog, rawValues);
+  const definitions = collectDefinitions(categories);
   return {
     categories,
     definitions,
-    values: optionValues(definitions, rawValues),
+    values: createFormValues(definitions, rawValues),
   };
 }
 
-function changedValues(
+/** Formats only fields whose current value differs from the loaded value. */
+function collectChanges(
   definitions: readonly OptionDefinition[],
   values: OptionFormValues,
-  isDirty: (name: string) => boolean,
+  initialValues: OptionFormValues,
 ) {
   const changes: Record<string, string> = {};
   for (const definition of definitions) {
-    if (isDirty(definition.name)) {
-      changes[definition.name] = serializeOptionValue(values[definition.name]);
+    if (
+      !optionValuesEqual(
+        values[definition.name],
+        initialValues[definition.name],
+      )
+    ) {
+      changes[definition.name] = formatServerValue(values[definition.name]);
     }
   }
   return changes;
@@ -52,14 +91,11 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
   const [loadError, setLoadError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [events] = useState(createOptionFormEvents);
   const definitions = useMemo(
-    () => flattenOptionDefinitions(categories),
+    () => collectDefinitions(categories),
     [categories],
   );
   const form = useForm<OptionFormValues>({
-    // Over a hundred controlled inputs made typing noticeably block the UI.
-    mode: "uncontrolled",
     initialValues: {},
   });
   const { clearErrors, resetDirty, setInitialValues, setValues } = form;
@@ -69,19 +105,18 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
     setLoadError(null);
     try {
       const rawValues = await List();
-      const loaded = readCatalog(catalog, rawValues);
+      const loaded = prepareEditorData(catalog, rawValues);
       setCategories(loaded.categories);
       setInitialValues(loaded.values);
       setValues(loaded.values);
       resetDirty(loaded.values);
       clearErrors();
-      events.notify();
     } catch (error) {
       setLoadError(error);
     } finally {
       setLoading(false);
     }
-  }, [catalog, clearErrors, events, resetDirty, setInitialValues, setValues]);
+  }, [catalog, clearErrors, resetDirty, setInitialValues, setValues]);
 
   useEffect(() => {
     void load();
@@ -95,7 +130,11 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
       return null;
     }
     const values = form.getValues();
-    const changes = changedValues(definitions, values, form.isDirty);
+    const changes = collectChanges(
+      definitions,
+      values,
+      form.getInitialValues(),
+    );
     if (Object.keys(changes).length === 0) return null;
 
     setSaving(true);
@@ -105,7 +144,7 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
       let refreshed = false;
       try {
         const rawValues = await List();
-        const loaded = readCatalog(catalog, rawValues);
+        const loaded = prepareEditorData(catalog, rawValues);
         const displayedValues = { ...loaded.values };
 
         // Successful changes adopt the server value. Failed changes stay in
@@ -117,7 +156,6 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
         form.setInitialValues(loaded.values);
         form.setValues(displayedValues);
         form.resetDirty(loaded.values);
-        events.notify();
         refreshed = true;
       } catch {
         // Keep local edits dirty when the authoritative state cannot be reloaded.
@@ -138,10 +176,8 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
     loading,
     reset() {
       form.reset();
-      events.notify();
     },
     save,
     saving,
-    events,
   };
 }

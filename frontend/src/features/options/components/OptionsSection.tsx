@@ -1,49 +1,52 @@
 import { Paper, Stack, Title } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
-import { useTranslation } from "react-i18next";
-import type { OptionFormEvents } from "../hooks/useOptionFormEvents";
-import type { OptionSectionEntry } from "../lib/catalogQueries";
+import type { OptionCategory, OptionSection } from "../catalog";
+import { useOptionTranslations } from "../hooks/useOptionTranslations";
 import type { OptionFormValues } from "../lib/optionValues";
-import { translationText } from "../lib/translationLookup";
 import { OptionField } from "./OptionField";
+import { OptionSearchHighlight } from "./OptionSearchHighlight";
 
 interface OptionsSectionProps {
-  entry: OptionSectionEntry;
+  category: OptionCategory;
   form: UseFormReturnType<OptionFormValues>;
+  highlight?: string;
+  section: OptionSection;
   showCategory: boolean;
-  events: OptionFormEvents;
 }
 
 export function OptionsSection({
-  entry,
+  category,
   form,
+  highlight,
+  section,
   showCategory,
-  events,
 }: OptionsSectionProps) {
-  const { t } = useTranslation("options");
-  const categories = t("categories", { returnObjects: true });
-  const sections = t("sections", { returnObjects: true });
+  const labels = useOptionTranslations();
 
   return (
     <Stack gap="sm">
       <div>
         {showCategory ? (
           <Title order={2} size="h3" mb={2}>
-            {translationText(categories, entry.category.id, entry.category.id)}
+            <OptionSearchHighlight query={highlight}>
+              {labels.categoryLabel(category.id)}
+            </OptionSearchHighlight>
           </Title>
         ) : null}
         <Title order={3} size="h4">
-          {translationText(sections, entry.section.id, entry.section.id)}
+          <OptionSearchHighlight query={highlight}>
+            {labels.sectionLabel(section.id)}
+          </OptionSearchHighlight>
         </Title>
       </div>
 
       <Paper withBorder>
-        {entry.section.options.map((definition) => (
+        {section.options.map((definition) => (
           <OptionField
             key={definition.name}
             definition={definition}
             form={form}
-            events={events}
+            highlight={highlight}
           />
         ))}
       </Paper>

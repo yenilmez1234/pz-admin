@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { Activity, useLayoutEffect, useRef, useState } from "react";
 import { Alert, Box, Button, Skeleton, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconAlertCircle } from "@tabler/icons-react";
@@ -11,10 +11,8 @@ import { optionCatalogs } from "./catalog";
 import { OptionsNavigation } from "./components/OptionsNavigation";
 import { OptionsSection } from "./components/OptionsSection";
 import { OptionsActions } from "./components/OptionsActions";
-import { SearchResultsSentinel } from "./components/SearchResultsSentinel";
 import { useOptionsEditor } from "./hooks/useOptionsEditor";
 import { useOptionsSearch } from "./hooks/useOptionsSearch";
-import { optionSections } from "./lib/catalogQueries";
 import classes from "./OptionsPage.module.css";
 
 export function OptionsPage() {
@@ -29,9 +27,10 @@ export function OptionsPage() {
   const activeCategory =
     editor.categories.find((category) => category.id === requestedCategory) ??
     editor.categories[0];
-  const visibleCategories =
-    search.result?.categories ?? (activeCategory ? [activeCategory] : []);
-  const sections = optionSections(visibleCategories);
+  const searchCategories = search.results ?? [];
+  const hasSearchResults = searchCategories.some(
+    (category) => category.sections.length > 0,
+  );
 
   useLayoutEffect(() => {
     // Category content replaces the current list; retaining its scroll offset
@@ -155,28 +154,50 @@ export function OptionsPage() {
 
         <div className={classes.content}>
           <div ref={scrollerRef} className={classes.scroller}>
-            {sections.length > 0 ? (
-              <Stack gap="xl">
-                {sections.map((entry, index) => (
-                  <OptionsSection
-                    key={`${entry.category.id}:${entry.section.id}`}
-                    entry={entry}
-                    form={editor.form}
-                    showCategory={
-                      index === 0 ||
-                      sections[index - 1]?.category.id !== entry.category.id
-                    }
-                    events={editor.events}
-                  />
-                ))}
-                {search.result && search.visibleCount < search.result.total ? (
-                  <SearchResultsSentinel onVisible={search.showMore} />
-                ) : null}
-              </Stack>
+            {search.results ? (
+              hasSearchResults ? (
+                <Stack gap="xl">
+                  {searchCategories.map((category) =>
+                    category.sections.map((section, index) => (
+                      <OptionsSection
+                        key={`${category.id}:${section.id}`}
+                        category={category}
+                        form={editor.form}
+                        highlight={search.term}
+                        section={section}
+                        showCategory={index === 0}
+                      />
+                    )),
+                  )}
+                </Stack>
+              ) : (
+                <Text c="dimmed" size="sm" ta="center" py="xl">
+                  {t("navigation.noResults")}
+                </Text>
+              )
             ) : (
-              <Text c="dimmed" size="sm" ta="center" py="xl">
-                {t("navigation.noResults")}
-              </Text>
+              <Stack gap="xl">
+                {editor.categories.map((category) => (
+                  <Activity
+                    key={category.id}
+                    mode={
+                      category.id === activeCategory?.id ? "visible" : "hidden"
+                    }
+                  >
+                    <Stack gap="xl">
+                      {category.sections.map((section, index) => (
+                        <OptionsSection
+                          key={section.id}
+                          category={category}
+                          form={editor.form}
+                          section={section}
+                          showCategory={index === 0}
+                        />
+                      ))}
+                    </Stack>
+                  </Activity>
+                ))}
+              </Stack>
             )}
           </div>
           <div className={classes.actions}>
@@ -185,7 +206,6 @@ export function OptionsPage() {
               form={editor.form}
               onReset={() => editor.reset()}
               saving={editor.saving}
-              events={editor.events}
             />
           </div>
         </div>

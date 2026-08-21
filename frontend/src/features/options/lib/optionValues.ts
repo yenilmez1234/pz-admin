@@ -1,10 +1,27 @@
 import type { OptionDefinition, OptionValue } from "../catalog";
 
-export type OptionFormValue = OptionValue | string[] | undefined;
+export type OptionFormValue = OptionValue | undefined;
 export type OptionFormValues = Record<string, OptionFormValue>;
 
+/** Multi-select values are sets; their order does not make an option dirty. */
+export function optionValuesEqual(
+  value: OptionFormValue,
+  expected: OptionFormValue,
+): boolean {
+  if (!Array.isArray(value) || !Array.isArray(expected)) {
+    return value === expected;
+  }
+
+  const values = new Set(value);
+  const expectedValues = new Set(expected);
+  return (
+    values.size === expectedValues.size &&
+    [...values].every((entry) => expectedValues.has(entry))
+  );
+}
+
 /** Converts the string-only RCON representation into a value suitable for its editor. */
-export function parseOptionValue(
+function parseServerValue(
   definition: OptionDefinition,
   rawValue: string,
 ): OptionFormValue {
@@ -32,13 +49,15 @@ export function parseOptionValue(
   return rawValue;
 }
 
-export function serializeOptionValue(value: OptionFormValue): string {
+/** Converts a typed editor value back to the string expected by RCON. */
+export function formatServerValue(value: OptionFormValue): string {
   if (Array.isArray(value)) return value.join(",");
   if (value === undefined) return "";
   return String(value);
 }
 
-export function optionValues(
+/** Builds the initial form values from a `showoptions` response. */
+export function createFormValues(
   definitions: readonly OptionDefinition[],
   rawValues: Record<string, string | undefined>,
 ): OptionFormValues {
@@ -46,7 +65,7 @@ export function optionValues(
   for (const definition of definitions) {
     const rawValue = rawValues[definition.name];
     if (rawValue !== undefined) {
-      values[definition.name] = parseOptionValue(definition, rawValue);
+      values[definition.name] = parseServerValue(definition, rawValue);
     } else if (definition.writeOnly) {
       // Preserve "untouched" separately from an explicitly entered empty
       // string, which allows a private server value to be cleared.

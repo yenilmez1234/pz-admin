@@ -1,5 +1,5 @@
 import type { OptionDefinition } from "../catalog";
-import { serializeOptionValue, type OptionFormValues } from "./optionValues";
+import { formatServerValue, type OptionFormValues } from "./optionValues";
 
 export type OptionValidationIssue =
   | { type: "invalidChoice" }
@@ -23,11 +23,9 @@ export function validateOptionValue(
 
   if (definition.choices) {
     const allowed = new Set(
-      definition.choices.map((choice) => serializeOptionValue(choice.value)),
+      definition.choices.map((choice) => formatServerValue(choice.value)),
     );
-    const selected = Array.isArray(value)
-      ? value
-      : [serializeOptionValue(value)];
+    const selected = Array.isArray(value) ? value : [formatServerValue(value)];
     return selected.some((choice) => !allowed.has(choice))
       ? { type: "invalidChoice" }
       : undefined;

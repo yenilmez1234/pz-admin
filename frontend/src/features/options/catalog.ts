@@ -1,16 +1,17 @@
 import type { GameBuild } from "@/features/game/types";
 
-export type OptionValue = boolean | number | string;
+export type ScalarOptionValue = boolean | number | string;
+export type OptionValue = ScalarOptionValue | string[];
 
 export type OptionType = "boolean" | "integer" | "number" | "string" | "text";
 
 export interface OptionChoice {
   id: string;
-  value: OptionValue;
+  value: ScalarOptionValue;
 }
 
 export interface OptionRequirement {
-  equals: OptionValue;
+  equals: ScalarOptionValue;
   option: string;
 }
 
@@ -24,7 +25,7 @@ export interface OptionSpecialValue {
     | "noRequirement"
     | "unlimited"
     | "useSpawnRegions";
-  value: OptionValue;
+  value: ScalarOptionValue;
 }
 
 export interface OptionDefinition {
@@ -177,7 +178,7 @@ const build41Options = {
   },
   ChatStreams: {
     type: "string",
-    defaultValue: "s,r,a,w,y,sh,f,all",
+    defaultValue: ["s", "r", "a", "w", "y", "sh", "f", "all"],
     multiple: true,
     choices: [
       { id: "say", value: "s" },
@@ -441,7 +442,7 @@ const build41Options = {
   },
   ServerPlayerID: { type: "string", readOnly: true },
   ServerWelcomeMessage: {
-    type: "text",
+    type: "string",
     defaultValue:
       "Welcome to Project Zomboid Multiplayer! <LINE> <LINE> To interact with the Chat panel: press Tab, T, or Enter. <LINE> <LINE> The Tab key will change the target stream of the message. <LINE> <LINE> Global Streams: /all <LINE> Local Streams: /say, /yell <LINE> Special Steams: /whisper, /safehouse, /faction. <LINE> <LINE> Press the Up arrow to cycle through your message history. Click the Gear icon to customize chat. <LINE> <LINE> Happy surviving!",
     editor: "message",
@@ -529,8 +530,13 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       sections: [
         {
           id: "identityAndListing",
-          // Listing identity first, followed by whether the server is publicly listed.
-          options: b41(["PublicName", "PublicDescription", "Public"]),
+          // Text shown before and after joining, followed by listing visibility.
+          options: b41([
+            "PublicName",
+            "PublicDescription",
+            "ServerWelcomeMessage",
+            "Public",
+          ]),
         },
         {
           id: "accessAndCapacity",
@@ -675,8 +681,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "chatAndVoice",
           options: b41([
-            // Messages and available text-chat channels.
-            "ServerWelcomeMessage",
+            // Available text-chat channels and server-wide notifications.
             "GlobalChat",
             "ChatStreams",
             "AnnounceDeath",

@@ -13,10 +13,17 @@ The feature has three layers:
    sections. `OptionField` owns row-level behavior; `OptionInput` selects the
    concrete Mantine input for an option definition.
 
-The form is uncontrolled because rendering every option on each keystroke made
-typing noticeably slow. `useOptionFormEvents.ts` is the small bridge that
-refreshes only the action footer and fields whose derived UI depends on another
-value.
+The editor uses Mantine's normal controlled form state. Field controls receive
+their current value explicitly, so related requirement and validation UI stays
+in sync without a separate event system.
+
+## Data flow
+
+`useOptionsEditor` calls the backend and owns the form. `optionValues.ts`
+converts between backend strings and form values. `validation.ts` validates
+those form values. `OptionField` handles one setting row, while `OptionInput`
+chooses its Mantine control. `useOptionsSearch` is independent of editing and
+only decides which catalog entries are visible.
 
 ## Adding an option
 

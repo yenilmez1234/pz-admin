@@ -45,14 +45,13 @@
   font-weight: 600;
 }
 
+.label,
+.count {
+  line-height: 1;
+}
+
 .count {
   color: var(--mantine-color-dimmed);
   font-size: var(--mantine-font-size-xs);
   font-variant-numeric: tabular-nums;
-}
-
-@media (max-width: 48em) {
-  .root {
-    padding-inline: var(--mantine-spacing-md);
-  }
 }

@@ -1,107 +1,93 @@
 import { useCallback, useDeferredValue, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { OptionCategory } from "../catalog";
-import {
-  nestedTranslationText,
-  translationText,
-} from "../lib/translationLookup";
-
-const resultBatchSize = 20;
+import type {
+  OptionCategory,
+  OptionDefinition,
+  OptionSection,
+} from "../catalog";
+import { useOptionTranslations } from "./useOptionTranslations";
 
 function normalized(value: string, locale: string | undefined) {
   return locale ? value.toLocaleLowerCase(locale) : value.toLocaleLowerCase();
 }
 
-/**
- * Keeps expensive filtering behind a deferred query and reveals large result
- * sets incrementally. This prevents the 100+ option fields from mounting while
- * the user is still typing.
- */
+/** Keeps filtering behind the input so typing remains responsive. */
 export function useOptionsSearch(categories: readonly OptionCategory[]) {
-  const { i18n, t } = useTranslation("options");
+  const { i18n } = useTranslation("options");
+  const labels = useOptionTranslations();
   const [query, setQuery] = useState("");
-  const [visibleCount, setVisibleCount] = useState(resultBatchSize);
   const locale = i18n.resolvedLanguage;
   const deferredQuery = useDeferredValue(query.trim());
 
   const searchIndex = useMemo(() => {
-    const categoryTranslations = t("categories", { returnObjects: true });
-    const sectionTranslations = t("sections", { returnObjects: true });
-    const fieldTranslations = t("fields", { returnObjects: true });
+    const entries = [];
+    for (const category of categories) {
+      const categoryLabel = labels.categoryLabel(category.id);
+      for (const section of category.sections) {
+        const sectionLabel = labels.sectionLabel(section.id);
+        for (const definition of section.options) {
+          entries.push({
+            category,
+            definition,
+            section,
+            text: normalized(
+              [
+                definition.name,
+                categoryLabel,
+                sectionLabel,
+                labels.fieldLabel(definition.name),
+                labels.fieldDescription(definition.name),
+              ].join(" "),
+              locale,
+            ),
+          });
+        }
+      }
+    }
+    return entries;
+  }, [categories, labels, locale]);
 
-    return categories.flatMap((category) => {
-      const categoryLabel = translationText(
-        categoryTranslations,
-        category.id,
-        category.id,
-      );
-      return category.sections.flatMap((section) => {
-        const sectionLabel = translationText(
-          sectionTranslations,
-          section.id,
-          section.id,
-        );
-        return section.options.map((definition) => ({
-          name: definition.name,
-          text: normalized(
-            [
-              definition.name,
-              categoryLabel,
-              sectionLabel,
-              nestedTranslationText(
-                fieldTranslations,
-                definition.name,
-                "label",
-                definition.name,
-              ),
-              nestedTranslationText(
-                fieldTranslations,
-                definition.name,
-                "description",
-                "",
-              ),
-            ].join(" "),
-            locale,
-          ),
-        }));
-      });
-    });
-  }, [categories, locale, t]);
-
-  const result = useMemo(() => {
+  const results = useMemo(() => {
     if (!deferredQuery) return null;
 
-    const matchingNames = searchIndex
-      .filter((entry) => entry.text.includes(normalized(deferredQuery, locale)))
-      .map((entry) => entry.name);
-    const visibleNames = new Set(matchingNames.slice(0, visibleCount));
-    const visibleCategories = categories.flatMap((category) => {
-      const sections = category.sections.flatMap((section) => {
-        const options = section.options.filter((definition) =>
-          visibleNames.has(definition.name),
-        );
-        return options.length > 0 ? [{ ...section, options }] : [];
-      });
-      return sections.length > 0 ? [{ ...category, sections }] : [];
-    });
+    const normalizedQuery = normalized(deferredQuery, locale);
+    const matches = new Map<
+      OptionCategory,
+      Map<OptionSection, OptionDefinition[]>
+    >();
 
-    return { categories: visibleCategories, total: matchingNames.length };
-  }, [categories, deferredQuery, locale, searchIndex, visibleCount]);
+    for (const entry of searchIndex) {
+      if (!entry.text.includes(normalizedQuery)) continue;
+
+      let sections = matches.get(entry.category);
+      if (!sections) {
+        sections = new Map();
+        matches.set(entry.category, sections);
+      }
+
+      const options = sections.get(entry.section);
+      if (options) options.push(entry.definition);
+      else sections.set(entry.section, [entry.definition]);
+    }
+
+    return Array.from(matches, ([category, sections]) => ({
+      ...category,
+      sections: Array.from(sections, ([section, options]) => ({
+        ...section,
+        options,
+      })),
+    }));
+  }, [deferredQuery, locale, searchIndex]);
 
   const changeQuery = useCallback((value: string) => {
     setQuery(value);
-    setVisibleCount(resultBatchSize);
-  }, []);
-  const showMore = useCallback(() => {
-    setVisibleCount((current) => current + resultBatchSize);
   }, []);
 
   return {
     changeQuery,
     query,
-    result,
+    results: query.trim() ? results : null,
     searching: Boolean(query.trim()),
-    showMore,
-    visibleCount,
+    term: deferredQuery,
   };
 }

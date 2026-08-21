@@ -1,12 +1,11 @@
 import { useRef, type ReactNode } from "react";
 import { Checkbox } from "@mantine/core";
-import { useTranslation } from "react-i18next";
 import type {
   OptionDefinition,
+  ScalarOptionValue,
   OptionSpecialValue,
-  OptionValue,
 } from "../catalog";
-import { translationText } from "../lib/translationLookup";
+import { useOptionTranslations } from "../hooks/useOptionTranslations";
 import type { OptionFormValue } from "../lib/optionValues";
 import classes from "./OptionField.module.css";
 
@@ -18,18 +17,20 @@ interface SpecialValueControlProps {
   value: OptionFormValue | undefined;
 }
 
-function initialOrdinaryValue(definition: OptionDefinition): OptionValue {
+function initialOrdinaryValue(definition: OptionDefinition): ScalarOptionValue {
   const special = definition.specialValue?.value;
+  const defaultValue = definition.defaultValue;
   if (
-    definition.defaultValue !== undefined &&
-    definition.defaultValue !== special
+    defaultValue !== undefined &&
+    !Array.isArray(defaultValue) &&
+    defaultValue !== special
   ) {
-    return definition.defaultValue;
+    return defaultValue;
   }
   if (definition.type === "integer" || definition.type === "number") {
     const minimum = definition.minimum ?? 0;
     if (minimum !== special) return minimum;
-    return Math.min(minimum + 1, definition.maximum ?? minimum + 1);
+    return minimum + 1;
   }
   return "";
 }
@@ -42,10 +43,9 @@ export function SpecialValueControl({
   specialValue,
   value,
 }: SpecialValueControlProps) {
-  const { t } = useTranslation("options");
-  const labels = t("specialValues", { returnObjects: true });
+  const labels = useOptionTranslations();
   const active = value === specialValue.value;
-  const ordinaryValue = useRef<OptionValue | undefined>(
+  const ordinaryValue = useRef<ScalarOptionValue | undefined>(
     active || Array.isArray(value) ? undefined : value,
   );
   if (!active && !Array.isArray(value)) ordinaryValue.current = value;
@@ -56,11 +56,7 @@ export function SpecialValueControl({
         checked={active}
         classNames={{ label: classes.specialCheckboxLabel }}
         disabled={definition.readOnly}
-        label={translationText(
-          labels,
-          specialValue.meaning,
-          specialValue.meaning,
-        )}
+        label={labels.specialValueLabel(specialValue.meaning)}
         onChange={(event) => {
           onChange(
             event.currentTarget.checked

@@ -30,10 +30,3 @@
   border-top: 1px solid var(--mantine-color-default-border);
   background: var(--mantine-color-body);
 }
-
-@media (max-width: 48em) {
-  .scroller,
-  .actions {
-    padding-inline: var(--mantine-spacing-md);
-  }
-}

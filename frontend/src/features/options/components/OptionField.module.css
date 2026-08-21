@@ -73,21 +73,6 @@
   width: 300px;
 }
 
-[data-boolean] .control {
+.control[data-size="intrinsic"] {
   justify-self: end;
-}
-
-@media (max-width: 42em) {
-  .root {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--mantine-spacing-sm);
-  }
-
-  .control {
-    width: 100%;
-  }
-
-  [data-boolean] .control {
-    justify-self: start;
-  }
 }

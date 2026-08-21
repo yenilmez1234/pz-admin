@@ -2,7 +2,7 @@ import { CloseButton, Text, TextInput, UnstyledButton } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { OptionCategory } from "../catalog";
-import { translationText } from "../lib/translationLookup";
+import { useOptionTranslations } from "../hooks/useOptionTranslations";
 import classes from "./OptionsNavigation.module.css";
 
 interface OptionsNavigationProps {
@@ -23,7 +23,7 @@ export function OptionsNavigation({
   searching,
 }: OptionsNavigationProps) {
   const { t } = useTranslation("options");
-  const categoryTranslations = t("categories", { returnObjects: true });
+  const labels = useOptionTranslations();
 
   return (
     <div className={classes.root}>
@@ -43,8 +43,8 @@ export function OptionsNavigation({
               onCategoryChange(category.id);
             }}
           >
-            <span>
-              {translationText(categoryTranslations, category.id, category.id)}
+            <span className={classes.label}>
+              {labels.categoryLabel(category.id)}
             </span>
             <Text component="span" className={classes.count}>
               {category.sections.reduce(
