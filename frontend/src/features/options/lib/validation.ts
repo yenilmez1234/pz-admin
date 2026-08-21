@@ -1,5 +1,5 @@
 import type { OptionDefinition } from "../catalog";
-import { serializeOptionValue, type OptionFormValues } from "./values";
+import { serializeOptionValue, type OptionFormValues } from "./optionValues";
 
 export type OptionValidationIssue =
   | { type: "invalidChoice" }
@@ -10,6 +10,52 @@ export type OptionValidationIssue =
   | { type: "number" }
   | { type: "required" };
 
+export function validateOptionValue(
+  definition: OptionDefinition,
+  values: OptionFormValues,
+): OptionValidationIssue | undefined {
+  if (definition.readOnly) return undefined;
+  const value = values[definition.name];
+
+  if (definition.required && (value === "" || value === undefined)) {
+    return { type: "required" };
+  }
+
+  if (definition.choices) {
+    const allowed = new Set(
+      definition.choices.map((choice) => serializeOptionValue(choice.value)),
+    );
+    const selected = Array.isArray(value)
+      ? value
+      : [serializeOptionValue(value)];
+    return selected.some((choice) => !allowed.has(choice))
+      ? { type: "invalidChoice" }
+      : undefined;
+  }
+
+  if (definition.type === "integer" || definition.type === "number") {
+    if (typeof value !== "number" || !Number.isFinite(value)) {
+      return { type: "number" };
+    }
+    if (definition.type === "integer" && !Number.isInteger(value)) {
+      return { type: "integer" };
+    }
+    if (definition.minimum !== undefined && value < definition.minimum) {
+      return { type: "minimum", value: definition.minimum };
+    }
+    if (definition.maximum !== undefined && value > definition.maximum) {
+      return { type: "maximum", value: definition.maximum };
+    }
+  } else if (
+    typeof value === "string" &&
+    definition.maximumLength !== undefined &&
+    value.length > definition.maximumLength
+  ) {
+    return { type: "maximumLength", value: definition.maximumLength };
+  }
+  return undefined;
+}
+
 export function validateOptionValues(
   definitions: readonly OptionDefinition[],
   values: OptionFormValues,
@@ -17,62 +63,8 @@ export function validateOptionValues(
   const issues: Record<string, OptionValidationIssue> = {};
 
   for (const definition of definitions) {
-    if (definition.readOnly) continue;
-    const value = values[definition.name];
-
-    if (
-      definition.specialValue?.meaning === "useSpawnRegions" &&
-      value === ""
-    ) {
-      issues[definition.name] = { type: "required" };
-      continue;
-    }
-
-    if (definition.choices) {
-      const allowed = new Set(
-        definition.choices.map((choice) => serializeOptionValue(choice.value)),
-      );
-      const selected = Array.isArray(value)
-        ? value
-        : [serializeOptionValue(value)];
-      if (selected.some((choice) => !allowed.has(choice))) {
-        issues[definition.name] = { type: "invalidChoice" };
-      }
-      continue;
-    }
-
-    if (definition.type === "integer" || definition.type === "number") {
-      if (typeof value !== "number" || !Number.isFinite(value)) {
-        issues[definition.name] = { type: "number" };
-      } else if (definition.type === "integer" && !Number.isInteger(value)) {
-        issues[definition.name] = { type: "integer" };
-      } else if (
-        definition.minimum !== undefined &&
-        value < definition.minimum
-      ) {
-        issues[definition.name] = {
-          type: "minimum",
-          value: definition.minimum,
-        };
-      } else if (
-        definition.maximum !== undefined &&
-        value > definition.maximum
-      ) {
-        issues[definition.name] = {
-          type: "maximum",
-          value: definition.maximum,
-        };
-      }
-    } else if (
-      typeof value === "string" &&
-      definition.maximumLength !== undefined &&
-      value.length > definition.maximumLength
-    ) {
-      issues[definition.name] = {
-        type: "maximumLength",
-        value: definition.maximumLength,
-      };
-    }
+    const issue = validateOptionValue(definition, values);
+    if (issue) issues[definition.name] = issue;
   }
 
   return issues;

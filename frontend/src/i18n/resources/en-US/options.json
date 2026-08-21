@@ -37,7 +37,9 @@
     "numericRange": "Minimum {{minimum}}, maximum {{maximum}}",
     "numericRange_minimum": "Minimum {{minimum}}",
     "numericRange_maximum": "Maximum {{maximum}}",
-    "requirement": "Applies when {{option}} is {{value}}."
+    "requirement": "Applies when {{option}} is {{value}}.",
+    "writeOnly": "Write only",
+    "writeOnlyDescription": "The server does not return the current value. Enter a value only when you want to replace it."
   },
   "values": {
     "enabled": "enabled",
@@ -415,6 +417,18 @@
     "DiscordEnable": {
       "label": "Discord chat integration",
       "description": "Connects global text chat to a configured Discord channel."
+    },
+    "DiscordToken": {
+      "label": "Bot token",
+      "description": "The access token for the Discord bot."
+    },
+    "DiscordChannel": {
+      "label": "Channel name",
+      "description": "The Discord channel name used by the integration."
+    },
+    "DiscordChannelID": {
+      "label": "Channel ID",
+      "description": "An optional Discord channel ID to use when the channel name does not work."
     },
     "Map": {
       "label": "Maps",

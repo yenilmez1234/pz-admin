@@ -1,16 +1,16 @@
-import { useDeferredValue, useEffect, useState } from "react";
 import { CloseButton, Text, TextInput, UnstyledButton } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { OptionCategory } from "../catalog";
-import { translationText } from "../lib/translations";
+import { translationText } from "../lib/translationLookup";
 import classes from "./OptionsNavigation.module.css";
 
 interface OptionsNavigationProps {
   activeCategory: string;
   categories: readonly OptionCategory[];
   onCategoryChange: (category: string) => void;
-  onSearchChange: (query: string) => void;
+  onQueryChange: (query: string) => void;
+  query: string;
   searching: boolean;
 }
 
@@ -18,17 +18,12 @@ export function OptionsNavigation({
   activeCategory,
   categories,
   onCategoryChange,
-  onSearchChange,
+  onQueryChange,
+  query,
   searching,
 }: OptionsNavigationProps) {
   const { t } = useTranslation("options");
-  const [query, setQuery] = useState("");
-  const deferredQuery = useDeferredValue(query.trim());
   const categoryTranslations = t("categories", { returnObjects: true });
-
-  useEffect(() => {
-    onSearchChange(deferredQuery);
-  }, [deferredQuery, onSearchChange]);
 
   return (
     <div className={classes.root}>
@@ -44,7 +39,7 @@ export function OptionsNavigation({
               !searching && category.id === activeCategory ? true : undefined
             }
             onClick={() => {
-              setQuery("");
+              onQueryChange("");
               onCategoryChange(category.id);
             }}
           >
@@ -71,12 +66,12 @@ export function OptionsNavigation({
             <CloseButton
               aria-label={t("navigation.clearSearch")}
               size="sm"
-              onClick={() => setQuery("")}
+              onClick={() => onQueryChange("")}
             />
           ) : null
         }
         value={query}
-        onChange={(event) => setQuery(event.currentTarget.value)}
+        onChange={(event) => onQueryChange(event.currentTarget.value)}
       />
     </div>
   );

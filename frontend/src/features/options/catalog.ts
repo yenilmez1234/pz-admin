@@ -6,7 +6,6 @@ export type OptionType = "boolean" | "integer" | "number" | "string" | "text";
 
 export interface OptionChoice {
   id: string;
-  requirements?: OptionRequirement[];
   value: OptionValue;
 }
 
@@ -31,7 +30,6 @@ export interface OptionSpecialValue {
 export interface OptionDefinition {
   choices?: OptionChoice[];
   defaultValue?: OptionValue;
-  dynamicDefault?: boolean;
   editor?: "items" | "message";
   maximum?: number;
   maximumLength?: number;
@@ -39,9 +37,12 @@ export interface OptionDefinition {
   multiple?: boolean;
   name: string;
   readOnly?: boolean;
+  required?: boolean;
   requirements?: OptionRequirement[];
+  secret?: boolean;
   specialValue?: OptionSpecialValue;
   type: OptionType;
+  writeOnly?: boolean;
 }
 
 export interface OptionCategory {
@@ -186,11 +187,7 @@ const build41Options = {
       { id: "yell", value: "y" },
       { id: "safehouse", value: "sh" },
       { id: "faction", value: "f" },
-      {
-        id: "global",
-        value: "all",
-        requirements: [{ option: "GlobalChat", equals: true }],
-      },
+      { id: "global", value: "all" },
     ],
   },
   ClientActionLogs: {
@@ -234,6 +231,22 @@ const build41Options = {
   DisableRadioStaff: { type: "boolean", defaultValue: false },
   DisableSafehouseWhenPlayerConnected: { type: "boolean", defaultValue: false },
   DiscordEnable: { type: "boolean", defaultValue: false },
+  DiscordToken: {
+    type: "string",
+    requirements: [{ option: "DiscordEnable", equals: true }],
+    secret: true,
+    writeOnly: true,
+  },
+  DiscordChannel: {
+    type: "string",
+    requirements: [{ option: "DiscordEnable", equals: true }],
+    writeOnly: true,
+  },
+  DiscordChannelID: {
+    type: "string",
+    requirements: [{ option: "DiscordEnable", equals: true }],
+    writeOnly: true,
+  },
   DisplayUserName: { type: "boolean", defaultValue: true },
   DoLuaChecksum: { type: "boolean", defaultValue: true },
   DropOffWhiteListAfterDeath: {
@@ -369,7 +382,6 @@ const build41Options = {
   RemovePlayerCorpsesOnCorpseRemoval: { type: "boolean", defaultValue: false },
   ResetID: {
     type: "integer",
-    dynamicDefault: true,
     minimum: 0,
     maximum: 2147483647,
     readOnly: true,
@@ -427,7 +439,7 @@ const build41Options = {
     maximum: 2147483647,
     specialValue: { value: 0, meaning: "disabled" },
   },
-  ServerPlayerID: { type: "string", dynamicDefault: true, readOnly: true },
+  ServerPlayerID: { type: "string", readOnly: true },
   ServerWelcomeMessage: {
     type: "text",
     defaultValue:
@@ -459,6 +471,7 @@ const build41Options = {
   SpawnPoint: {
     type: "string",
     defaultValue: "0,0,0",
+    required: true,
     specialValue: { value: "0,0,0", meaning: "useSpawnRegions" },
   },
   SpeedLimit: { type: "number", defaultValue: 70, minimum: 10, maximum: 150 },
@@ -682,6 +695,9 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "DisableRadioInvisible",
             // External chat integration.
             "DiscordEnable",
+            "DiscordToken",
+            "DiscordChannel",
+            "DiscordChannelID",
           ]),
         },
       ],

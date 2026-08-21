@@ -3,9 +3,9 @@ import type { UseFormReturnType } from "@mantine/form";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { OptionDefinition } from "../catalog";
-import type { OptionFormUpdates } from "../lib/formUpdates";
-import { useOptionFormUpdates } from "../lib/formUpdates";
-import type { OptionFormValues } from "../lib/values";
+import type { OptionFormEvents } from "../hooks/useOptionFormEvents";
+import { useFormSummaryUpdates } from "../hooks/useOptionFormEvents";
+import type { OptionFormValues } from "../lib/optionValues";
 import { validateOptionValues } from "../lib/validation";
 
 interface OptionsActionsProps {
@@ -13,7 +13,7 @@ interface OptionsActionsProps {
   form: UseFormReturnType<OptionFormValues>;
   onReset: () => void;
   saving: boolean;
-  updates: OptionFormUpdates;
+  events: OptionFormEvents;
 }
 
 export function OptionsActions({
@@ -21,10 +21,10 @@ export function OptionsActions({
   form,
   onReset,
   saving,
-  updates,
+  events,
 }: OptionsActionsProps) {
   const { t } = useTranslation("options");
-  useOptionFormUpdates(updates);
+  useFormSummaryUpdates(events);
   const dirtyCount = definitions.reduce(
     (count, definition) => count + Number(form.isDirty(definition.name)),
     0,

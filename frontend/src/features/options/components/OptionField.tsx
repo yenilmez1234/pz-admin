@@ -1,36 +1,24 @@
-import { useId, useMemo, useRef, type ReactNode } from "react";
-import {
-  ActionIcon,
-  Badge,
-  Checkbox,
-  Group,
-  MultiSelect,
-  NumberInput,
-  Select,
-  Stack,
-  Switch,
-  Text,
-  Textarea,
-  TextInput,
-  Tooltip,
-} from "@mantine/core";
+import { useId, useMemo } from "react";
+import { ActionIcon, Badge, Group, Stack, Text, Tooltip } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
 import { IconRestore } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { OptionDefinition, OptionValue } from "../catalog";
-import { unmetRequirements } from "../lib/catalog";
-import { nestedTranslationText, translationText } from "../lib/translations";
-import { serializeOptionValue, type OptionFormValues } from "../lib/values";
+import type { OptionFormEvents } from "../hooks/useOptionFormEvents";
+import { useOptionValueUpdates } from "../hooks/useOptionFormEvents";
+import { unmetRequirements } from "../lib/catalogQueries";
+import type { OptionFormValue, OptionFormValues } from "../lib/optionValues";
+import { nestedTranslationText } from "../lib/translationLookup";
 import type { OptionValidationIssue } from "../lib/validation";
-import { validateOptionValues } from "../lib/validation";
-import type { OptionFormUpdates } from "../lib/formUpdates";
-import { useOptionDependencies } from "../lib/formUpdates";
+import { validateOptionValue } from "../lib/validation";
 import classes from "./OptionField.module.css";
+import { OptionInput, optionControlSize } from "./OptionInput";
+import { SpecialValueControl } from "./SpecialValueControl";
 
 interface OptionFieldProps {
   definition: OptionDefinition;
   form: UseFormReturnType<OptionFormValues>;
-  updates: OptionFormUpdates;
+  events: OptionFormEvents;
 }
 
 function expectedValueLabel(
@@ -43,40 +31,9 @@ function expectedValueLabel(
   return String(value);
 }
 
-function controlSize(definition: OptionDefinition) {
-  if (definition.type === "boolean") return "intrinsic";
-  if (definition.type === "integer" || definition.type === "number") {
-    return "compact";
-  }
-  if (definition.choices && !definition.multiple) return "medium";
-  if (
-    definition.type === "string" &&
-    definition.maximumLength !== undefined &&
-    definition.maximumLength <= 24
-  ) {
-    return "medium";
-  }
-  return "wide";
-}
-
-function ordinaryValue(definition: OptionDefinition): OptionValue {
-  const special = definition.specialValue?.value;
-  if (
-    definition.defaultValue !== undefined &&
-    definition.defaultValue !== special
-  ) {
-    return definition.defaultValue;
-  }
-  if (definition.type === "integer" || definition.type === "number") {
-    const minimum = definition.minimum ?? 0;
-    if (minimum !== special) return minimum;
-    return Math.min(minimum + 1, definition.maximum ?? minimum + 1);
-  }
-  return "";
-}
-
-function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
+function OptionFieldComponent({ definition, events, form }: OptionFieldProps) {
   const id = useId();
+  // An uncontrolled field rerenders only for values that affect its derived UI.
   const dependencies = useMemo(
     () => [
       ...(definition.specialValue ? [definition.name] : []),
@@ -84,10 +41,9 @@ function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
     ],
     [definition],
   );
-  useOptionDependencies(updates, dependencies);
+  useOptionValueUpdates(events, dependencies);
   const { t } = useTranslation("options");
   const fields = t("fields", { returnObjects: true });
-  const specialValues = t("specialValues", { returnObjects: true });
   const label = nestedTranslationText(
     fields,
     definition.name,
@@ -105,12 +61,8 @@ function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
   const specialActive =
     definition.specialValue !== undefined &&
     value === definition.specialValue.value;
-  const ordinaryValueRef = useRef<OptionValue | undefined>(
-    specialActive || Array.isArray(value) ? undefined : value,
-  );
-  if (!specialActive && !Array.isArray(value)) ordinaryValueRef.current = value;
   const validationIssue: OptionValidationIssue | undefined =
-    validateOptionValues([definition], values)[definition.name];
+    validateOptionValue(definition, values);
   const validationError = validationIssue
     ? t(`validation.${validationIssue.type}`, {
         value: "value" in validationIssue ? validationIssue.value : undefined,
@@ -125,22 +77,13 @@ function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
     !definition.readOnly &&
     definition.defaultValue !== undefined &&
     value !== definition.defaultValue;
-  const controlProps = {
-    "aria-describedby": descriptionId,
-    "aria-invalid": Boolean(error),
-    "aria-labelledby": labelId,
-    autoComplete: "off",
-    disabled: definition.readOnly || specialActive,
-    id,
-    name: definition.name,
-  };
-  let control: ReactNode;
-  const setValue = (nextValue: OptionValue | string[]) => {
+  const setValue = (nextValue: OptionFormValue) => {
+    // Keep typing in the DOM; the targeted event updates only dependent UI.
     form.setFieldValue(definition.name, nextValue, { forceUpdate: false });
     if (form.errors[definition.name]) {
       form.clearFieldError(definition.name);
     }
-    updates.notify(definition.name);
+    events.notify(definition.name);
   };
   const restoreCatalogDefault = () => {
     const defaultValue = definition.defaultValue;
@@ -148,172 +91,33 @@ function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
 
     form.setFieldValue(definition.name, defaultValue);
     form.clearFieldError(definition.name);
-    updates.notify(definition.name);
+    events.notify(definition.name);
   };
 
-  if (definition.type === "boolean") {
-    control = (
-      <Switch
-        {...controlProps}
-        key={form.key(definition.name)}
-        defaultChecked={value === true}
-        onChange={(event) => setValue(event.currentTarget.checked)}
-      />
-    );
-  } else if (definition.choices && definition.multiple) {
-    control = (
-      <MultiSelect
-        {...controlProps}
-        key={form.key(definition.name)}
-        clearable
-        data={definition.choices.map((choice) => ({
-          label: nestedTranslationText(
-            fields,
-            definition.name,
-            `choices.${choice.id}`,
-            choice.id,
-          ),
-          value: serializeOptionValue(choice.value),
-        }))}
-        defaultValue={Array.isArray(value) ? value : []}
-        onChange={setValue}
-      />
-    );
-  } else if (definition.choices) {
-    control = (
-      <Select
-        {...controlProps}
-        key={form.key(definition.name)}
-        allowDeselect={false}
-        data={definition.choices.map((choice) => ({
-          label: nestedTranslationText(
-            fields,
-            definition.name,
-            `choices.${choice.id}`,
-            choice.id,
-          ),
-          value: serializeOptionValue(choice.value),
-        }))}
-        defaultValue={value === undefined ? null : serializeOptionValue(value)}
-        onChange={(nextValue) => {
-          const choice = definition.choices?.find(
-            (candidate) => serializeOptionValue(candidate.value) === nextValue,
-          );
-          if (choice) {
-            setValue(choice.value);
-          }
-        }}
-      />
-    );
-  } else if (definition.type === "integer" || definition.type === "number") {
-    const displayedMaximum =
-      definition.maximum === 2_147_483_647 ? undefined : definition.maximum;
-    control = (
-      <Stack gap={2}>
-        <NumberInput
-          {...controlProps}
-          key={form.key(definition.name)}
-          allowDecimal={definition.type === "number"}
-          clampBehavior="blur"
-          max={definition.maximum}
-          min={definition.minimum}
-          {...(definition.specialValue
-            ? { value: typeof value === "number" ? value : "" }
-            : { defaultValue: typeof value === "number" ? value : "" })}
-          onChange={setValue}
-        />
-        {definition.minimum !== undefined || displayedMaximum !== undefined ? (
-          <Text
-            aria-label={t("field.numericRange", {
-              context:
-                definition.minimum === undefined
-                  ? "maximum"
-                  : displayedMaximum === undefined
-                    ? "minimum"
-                    : undefined,
-              maximum: displayedMaximum,
-              minimum: definition.minimum,
-            })}
-            c="dimmed"
-            size="xs"
-            ta="center"
-          >
-            {definition.minimum !== undefined && displayedMaximum !== undefined
-              ? `${definition.minimum}–${displayedMaximum}`
-              : definition.minimum !== undefined
-                ? `≥ ${definition.minimum}`
-                : `≤ ${displayedMaximum}`}
-          </Text>
-        ) : null}
-      </Stack>
-    );
-  } else if (definition.type === "text" || definition.editor === "message") {
-    const escapesLineBreaks = definition.editor !== "message";
-    control = (
-      <Textarea
-        {...controlProps}
-        key={form.key(definition.name)}
-        autosize
-        maxLength={definition.maximumLength}
-        maxRows={10}
-        minRows={3}
-        defaultValue={
-          typeof value === "string" && escapesLineBreaks
-            ? value.split("\\n").join("\n")
-            : typeof value === "string"
-              ? value
-              : ""
-        }
-        onChange={(event) =>
-          setValue(
-            escapesLineBreaks
-              ? event.currentTarget.value.split("\n").join("\\n")
-              : event.currentTarget.value,
-          )
-        }
-      />
-    );
-  } else {
-    control = (
-      <TextInput
-        {...controlProps}
-        key={form.key(definition.name)}
-        maxLength={definition.maximumLength}
-        {...(definition.specialValue
-          ? { value: typeof value === "string" ? value : "" }
-          : { defaultValue: typeof value === "string" ? value : "" })}
-        onChange={(event) => setValue(event.currentTarget.value)}
-      />
-    );
-  }
+  let control = (
+    <OptionInput
+      definition={definition}
+      descriptionId={descriptionId}
+      disabled={definition.readOnly || specialActive}
+      error={error}
+      inputId={id}
+      inputKey={form.key(definition.name)}
+      labelId={labelId}
+      onChange={setValue}
+      value={value}
+    />
+  );
 
   if (definition.specialValue) {
-    const specialValue = definition.specialValue;
     control = (
-      <div className={classes.specialControl}>
-        <Checkbox
-          checked={specialActive}
-          classNames={{ label: classes.specialCheckboxLabel }}
-          disabled={definition.readOnly}
-          label={translationText(
-            specialValues,
-            specialValue.meaning,
-            specialValue.meaning,
-          )}
-          onChange={(event) => {
-            if (event.currentTarget.checked) {
-              if (!specialActive && !Array.isArray(value)) {
-                ordinaryValueRef.current = value;
-              }
-              setValue(specialValue.value);
-            } else {
-              setValue(ordinaryValueRef.current ?? ordinaryValue(definition));
-            }
-          }}
-          size="xs"
-        />
-        <div className={classes.specialValue}>{control}</div>
-      </div>
+      <SpecialValueControl
+        definition={definition}
+        onChange={setValue}
+        specialValue={definition.specialValue}
+        value={value}
+      >
+        {control}
+      </SpecialValueControl>
     );
   }
 
@@ -346,6 +150,13 @@ function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
               {t("field.notInEffect")}
             </Badge>
           ) : null}
+          {definition.writeOnly ? (
+            <Tooltip label={t("field.writeOnlyDescription")}>
+              <Badge color="gray" size="xs" variant="light">
+                {t("field.writeOnly")}
+              </Badge>
+            </Tooltip>
+          ) : null}
         </Group>
         {description ? (
           <Text c="dimmed" size="xs">
@@ -377,7 +188,7 @@ function OptionFieldComponent({ definition, form, updates }: OptionFieldProps) {
       </Stack>
       <div
         className={classes.control}
-        data-size={controlSize(definition)}
+        data-size={optionControlSize(definition)}
         data-special={definition.specialValue ? true : undefined}
       >
         {control}

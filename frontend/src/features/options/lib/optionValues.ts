@@ -1,8 +1,9 @@
 import type { OptionDefinition, OptionValue } from "../catalog";
 
-export type OptionFormValue = OptionValue | string[];
+export type OptionFormValue = OptionValue | string[] | undefined;
 export type OptionFormValues = Record<string, OptionFormValue>;
 
+/** Converts the string-only RCON representation into a value suitable for its editor. */
 export function parseOptionValue(
   definition: OptionDefinition,
   rawValue: string,
@@ -33,6 +34,7 @@ export function parseOptionValue(
 
 export function serializeOptionValue(value: OptionFormValue): string {
   if (Array.isArray(value)) return value.join(",");
+  if (value === undefined) return "";
   return String(value);
 }
 
@@ -45,6 +47,10 @@ export function optionValues(
     const rawValue = rawValues[definition.name];
     if (rawValue !== undefined) {
       values[definition.name] = parseOptionValue(definition, rawValue);
+    } else if (definition.writeOnly) {
+      // Preserve "untouched" separately from an explicitly entered empty
+      // string, which allows a private server value to be cleared.
+      values[definition.name] = undefined;
     }
   }
   return values;

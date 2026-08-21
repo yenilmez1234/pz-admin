@@ -1,24 +1,24 @@
 import { Paper, Stack, Title } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
 import { useTranslation } from "react-i18next";
-import type { OptionSectionEntry } from "../lib/catalog";
-import { translationText } from "../lib/translations";
-import type { OptionFormValues } from "../lib/values";
-import type { OptionFormUpdates } from "../lib/formUpdates";
+import type { OptionFormEvents } from "../hooks/useOptionFormEvents";
+import type { OptionSectionEntry } from "../lib/catalogQueries";
+import type { OptionFormValues } from "../lib/optionValues";
+import { translationText } from "../lib/translationLookup";
 import { OptionField } from "./OptionField";
 
 interface OptionsSectionProps {
   entry: OptionSectionEntry;
   form: UseFormReturnType<OptionFormValues>;
   showCategory: boolean;
-  updates: OptionFormUpdates;
+  events: OptionFormEvents;
 }
 
 export function OptionsSection({
   entry,
   form,
   showCategory,
-  updates,
+  events,
 }: OptionsSectionProps) {
   const { t } = useTranslation("options");
   const categories = t("categories", { returnObjects: true });
@@ -43,7 +43,7 @@ export function OptionsSection({
             key={definition.name}
             definition={definition}
             form={form}
-            updates={updates}
+            events={events}
           />
         ))}
       </Paper>

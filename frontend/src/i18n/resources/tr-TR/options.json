@@ -37,7 +37,9 @@
     "numericRange": "Minimum {{minimum}}, maksimum {{maximum}}",
     "numericRange_minimum": "Minimum {{minimum}}",
     "numericRange_maximum": "Maksimum {{maximum}}",
-    "requirement": "{{option}} {{value}} olduğunda uygulanır."
+    "requirement": "{{option}} {{value}} olduğunda uygulanır.",
+    "writeOnly": "Yalnızca yazılabilir",
+    "writeOnlyDescription": "Sunucu mevcut değeri döndürmez. Yalnızca değiştirmek istediğinizde bir değer girin."
   },
   "values": {
     "enabled": "etkin",
@@ -415,6 +417,18 @@
     "DiscordEnable": {
       "label": "Discord sohbet entegrasyonu",
       "description": "Genel metin sohbetini yapılandırılmış bir Discord kanalına bağlar."
+    },
+    "DiscordToken": {
+      "label": "Bot jetonu",
+      "description": "Discord botunun erişim jetonu."
+    },
+    "DiscordChannel": {
+      "label": "Kanal adı",
+      "description": "Entegrasyonun kullandığı Discord kanalının adı."
+    },
+    "DiscordChannelID": {
+      "label": "Kanal kimliği",
+      "description": "Kanal adı çalışmadığında kullanılabilecek isteğe bağlı Discord kanal kimliği."
     },
     "Map": {
       "label": "Haritalar",

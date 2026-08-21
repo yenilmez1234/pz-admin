@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Alert, Box, Button, Skeleton, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconAlertCircle } from "@tabler/icons-react";
@@ -13,116 +13,29 @@ import { OptionsSection } from "./components/OptionsSection";
 import { OptionsActions } from "./components/OptionsActions";
 import { SearchResultsSentinel } from "./components/SearchResultsSentinel";
 import { useOptionsEditor } from "./hooks/useOptionsEditor";
-import { optionSections } from "./lib/catalog";
-import { nestedTranslationText, translationText } from "./lib/translations";
+import { useOptionsSearch } from "./hooks/useOptionsSearch";
+import { optionSections } from "./lib/catalogQueries";
 import classes from "./OptionsPage.module.css";
 
-const searchResultBatchSize = 20;
-
 export function OptionsPage() {
-  const { i18n, t } = useTranslation("options");
+  const { t } = useTranslation("options");
   const { profile } = useSession();
   const build =
-    profile && isGameBuild(profile.version) ? profile.version : "41";
+    profile && isGameBuild(profile.version) ? profile.version : "42";
   const editor = useOptionsEditor(optionCatalogs[build]);
+  const search = useOptionsSearch(editor.categories);
   const [requestedCategory, setRequestedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [visibleSearchResults, setVisibleSearchResults] = useState(
-    searchResultBatchSize,
-  );
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const locale = i18n.resolvedLanguage;
   const activeCategory =
     editor.categories.find((category) => category.id === requestedCategory) ??
     editor.categories[0];
-  const searchIndex = useMemo(() => {
-    const normalize = (value: string) =>
-      locale ? value.toLocaleLowerCase(locale) : value.toLocaleLowerCase();
-    const categoryTranslations = t("categories", { returnObjects: true });
-    const sectionTranslations = t("sections", { returnObjects: true });
-    const fieldTranslations = t("fields", { returnObjects: true });
-    return editor.categories.flatMap((category) => {
-      const categoryText = translationText(
-        categoryTranslations,
-        category.id,
-        category.id,
-      );
-      return category.sections.flatMap((section) => {
-        const sectionText = translationText(
-          sectionTranslations,
-          section.id,
-          section.id,
-        );
-        return section.options.map((definition) => {
-          const label = nestedTranslationText(
-            fieldTranslations,
-            definition.name,
-            "label",
-            definition.name,
-          );
-          const description = nestedTranslationText(
-            fieldTranslations,
-            definition.name,
-            "description",
-            "",
-          );
-          return {
-            definition,
-            text: normalize(
-              `${definition.name} ${categoryText} ${sectionText} ${label} ${description}`,
-            ),
-          };
-        });
-      });
-    });
-  }, [editor.categories, locale, t]);
-  const searchResult = useMemo(() => {
-    if (!searchQuery) return null;
-
-    const query = locale
-      ? searchQuery.toLocaleLowerCase(locale)
-      : searchQuery.toLocaleLowerCase();
-    const matches = searchIndex.filter((entry) => entry.text.includes(query));
-    const visibleNames = new Set(
-      matches
-        .slice(0, visibleSearchResults)
-        .map((entry) => entry.definition.name),
-    );
-    const categories = editor.categories.flatMap((category) => {
-      const sections = category.sections.flatMap((section) => {
-        const options = section.options.filter((definition) =>
-          visibleNames.has(definition.name),
-        );
-        return options.length > 0 ? [{ ...section, options }] : [];
-      });
-      return sections.length > 0 ? [{ ...category, sections }] : [];
-    });
-
-    return { categories, total: matches.length };
-  }, [
-    editor.categories,
-    locale,
-    searchIndex,
-    searchQuery,
-    visibleSearchResults,
-  ]);
-  const handleSearchChange = useCallback((query: string) => {
-    setSearchQuery(query);
-    setVisibleSearchResults(searchResultBatchSize);
-  }, []);
-  const showMoreSearchResults = useCallback(() => {
-    setVisibleSearchResults((current) => current + searchResultBatchSize);
-  }, []);
-  const visibleCategories = useMemo(
-    () => searchResult?.categories ?? (activeCategory ? [activeCategory] : []),
-    [activeCategory, searchResult],
-  );
-  const sections = useMemo(
-    () => optionSections(visibleCategories),
-    [visibleCategories],
-  );
+  const visibleCategories =
+    search.result?.categories ?? (activeCategory ? [activeCategory] : []);
+  const sections = optionSections(visibleCategories);
 
   useLayoutEffect(() => {
+    // Category content replaces the current list; retaining its scroll offset
+    // would open the next category at an arbitrary position.
     scrollerRef.current?.scrollTo({ top: 0 });
   }, [activeCategory?.id]);
 
@@ -235,8 +148,9 @@ export function OptionsPage() {
           activeCategory={activeCategory?.id ?? ""}
           categories={editor.categories}
           onCategoryChange={setRequestedCategory}
-          onSearchChange={handleSearchChange}
-          searching={Boolean(searchQuery)}
+          onQueryChange={search.changeQuery}
+          query={search.query}
+          searching={search.searching}
         />
 
         <div className={classes.content}>
@@ -252,11 +166,11 @@ export function OptionsPage() {
                       index === 0 ||
                       sections[index - 1]?.category.id !== entry.category.id
                     }
-                    updates={editor.updates}
+                    events={editor.events}
                   />
                 ))}
-                {searchResult && visibleSearchResults < searchResult.total ? (
-                  <SearchResultsSentinel onVisible={showMoreSearchResults} />
+                {search.result && search.visibleCount < search.result.total ? (
+                  <SearchResultsSentinel onVisible={search.showMore} />
                 ) : null}
               </Stack>
             ) : (
@@ -271,7 +185,7 @@ export function OptionsPage() {
               form={editor.form}
               onReset={() => editor.reset()}
               saving={editor.saving}
-              updates={editor.updates}
+              events={editor.events}
             />
           </div>
         </div>

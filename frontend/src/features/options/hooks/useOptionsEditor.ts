@@ -2,22 +2,49 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "@mantine/form";
 import { List, Update } from "@bindings/internal/options/service";
 import type { UpdateResult } from "@bindings/internal/options/models";
-import type { OptionCategory } from "../catalog";
+import type { OptionCategory, OptionDefinition } from "../catalog";
 import {
   availableOptionCategories,
   flattenOptionDefinitions,
-} from "../lib/catalog";
+} from "../lib/catalogQueries";
 import {
   optionValues,
   serializeOptionValue,
   type OptionFormValues,
-} from "../lib/values";
+} from "../lib/optionValues";
 import { validateOptionValues } from "../lib/validation";
-import { createOptionFormUpdates } from "../lib/formUpdates";
+import { createOptionFormEvents } from "./useOptionFormEvents";
 
 interface SaveOutcome {
   refreshed: boolean;
   result: UpdateResult;
+}
+
+function readCatalog(
+  catalog: readonly OptionCategory[],
+  rawValues: Record<string, string | undefined>,
+) {
+  const categories = availableOptionCategories(catalog, rawValues);
+  const definitions = flattenOptionDefinitions(categories);
+  return {
+    categories,
+    definitions,
+    values: optionValues(definitions, rawValues),
+  };
+}
+
+function changedValues(
+  definitions: readonly OptionDefinition[],
+  values: OptionFormValues,
+  isDirty: (name: string) => boolean,
+) {
+  const changes: Record<string, string> = {};
+  for (const definition of definitions) {
+    if (isDirty(definition.name)) {
+      changes[definition.name] = serializeOptionValue(values[definition.name]);
+    }
+  }
+  return changes;
 }
 
 export function useOptionsEditor(catalog: readonly OptionCategory[]) {
@@ -25,12 +52,13 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
   const [loadError, setLoadError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [updates] = useState(createOptionFormUpdates);
+  const [events] = useState(createOptionFormEvents);
   const definitions = useMemo(
     () => flattenOptionDefinitions(categories),
     [categories],
   );
   const form = useForm<OptionFormValues>({
+    // Over a hundred controlled inputs made typing noticeably block the UI.
     mode: "uncontrolled",
     initialValues: {},
   });
@@ -41,21 +69,19 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
     setLoadError(null);
     try {
       const rawValues = await List();
-      const nextCategories = availableOptionCategories(catalog, rawValues);
-      const nextDefinitions = flattenOptionDefinitions(nextCategories);
-      const values = optionValues(nextDefinitions, rawValues);
-      setCategories(nextCategories);
-      setInitialValues(values);
-      setValues(values);
-      resetDirty(values);
+      const loaded = readCatalog(catalog, rawValues);
+      setCategories(loaded.categories);
+      setInitialValues(loaded.values);
+      setValues(loaded.values);
+      resetDirty(loaded.values);
       clearErrors();
-      updates.notify();
+      events.notify();
     } catch (error) {
       setLoadError(error);
     } finally {
       setLoading(false);
     }
-  }, [catalog, clearErrors, resetDirty, setInitialValues, setValues, updates]);
+  }, [catalog, clearErrors, events, resetDirty, setInitialValues, setValues]);
 
   useEffect(() => {
     void load();
@@ -68,15 +94,8 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
     ) {
       return null;
     }
-    const changes: Record<string, string> = {};
     const values = form.getValues();
-    for (const definition of definitions) {
-      if (form.isDirty(definition.name)) {
-        changes[definition.name] = serializeOptionValue(
-          values[definition.name],
-        );
-      }
-    }
+    const changes = changedValues(definitions, values, form.isDirty);
     if (Object.keys(changes).length === 0) return null;
 
     setSaving(true);
@@ -86,18 +105,19 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
       let refreshed = false;
       try {
         const rawValues = await List();
-        const nextCategories = availableOptionCategories(catalog, rawValues);
-        const nextDefinitions = flattenOptionDefinitions(nextCategories);
-        const refreshedValues = optionValues(nextDefinitions, rawValues);
-        const displayedValues = { ...refreshedValues };
+        const loaded = readCatalog(catalog, rawValues);
+        const displayedValues = { ...loaded.values };
+
+        // Successful changes adopt the server value. Failed changes stay in
+        // the form so the user can correct and retry them.
         for (const name of Object.keys(result.failed)) {
           displayedValues[name] = values[name];
         }
-        setCategories(nextCategories);
-        form.setInitialValues(refreshedValues);
+        setCategories(loaded.categories);
+        form.setInitialValues(loaded.values);
         form.setValues(displayedValues);
-        form.resetDirty(refreshedValues);
-        updates.notify();
+        form.resetDirty(loaded.values);
+        events.notify();
         refreshed = true;
       } catch {
         // Keep local edits dirty when the authoritative state cannot be reloaded.
@@ -118,10 +138,10 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
     loading,
     reset() {
       form.reset();
-      updates.notify();
+      events.notify();
     },
     save,
     saving,
-    updates,
+    events,
   };
 }

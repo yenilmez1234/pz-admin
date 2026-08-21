@@ -2,6 +2,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/** Reads a dynamic translation path and falls back when the resource is incomplete. */
 export function translationText(
   translations: unknown,
   key: string,
