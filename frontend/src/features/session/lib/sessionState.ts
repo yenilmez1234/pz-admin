@@ -1,4 +1,5 @@
 import type { Profile } from "@bindings/internal/profile/models";
+import type { Snapshot } from "@bindings/internal/session/models";
 
 export type SessionState =
   | "initializing"
@@ -24,9 +25,9 @@ export const initialSessionData: SessionData = {
 };
 
 type SessionAction =
-  | { type: "initializing"; profile?: Profile }
+  | { type: "initializing" }
   | { type: "connecting"; profile: Profile }
-  | { type: "connected"; features: string[]; profile: Profile }
+  | { type: "connected"; snapshot: Snapshot }
   | { type: "disconnecting" }
   | { type: "disconnected" }
   | { type: "failed"; error: string; clearProfile?: boolean };
@@ -44,7 +45,6 @@ export function sessionReducer(
       return {
         ...current,
         initializationError: null,
-        profile: action.profile ?? current.profile,
         state: "initializing",
       };
     case "connecting":
@@ -56,9 +56,9 @@ export function sessionReducer(
       };
     case "connected":
       return {
-        features: new Set(action.features),
+        features: new Set(action.snapshot.features),
         initializationError: null,
-        profile: action.profile,
+        profile: action.snapshot.profile,
         state: "connected",
       };
     case "disconnecting":

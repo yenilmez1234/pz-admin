@@ -7,7 +7,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/beyenilmez/pz-admin/internal/command"
+	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 	"github.com/google/uuid"
 )
 
@@ -17,6 +20,8 @@ func (e actionExecutor) ExecuteCommand(_ context.Context, command string) (strin
 	return e(command)
 }
 
+func (e actionExecutor) Close() {}
+
 func newActionService(t *testing.T, execute actionExecutor) (*Service, profile.Profile, Player) {
 	t.Helper()
 	store := openStore(t)
@@ -25,7 +30,18 @@ func newActionService(t *testing.T, execute actionExecutor) (*Service, profile.P
 	if err != nil {
 		t.Fatal(err)
 	}
-	return &Service{store: store, activeProfile: p, executor: execute}, p, players[0]
+	return &Service{store: store, active: session.NewState(p, execute)}, p, players[0]
+}
+
+func setBuild(service *Service, version string) {
+	state := service.active
+	state.Profile.Version = version
+	executor, ok := state.Channel.(connection.CommandExecutor)
+	if !ok {
+		panic("test action service has no command executor")
+	}
+	state.CommandClient = command.NewClient(executor, version)
+	service.active = state
 }
 
 func TestSetAccessLevelDoesNotInferGodMode(t *testing.T) {
@@ -141,7 +157,7 @@ func TestAddUserCreatesWhitelistedPlayerWithKnownDefaults(t *testing.T) {
 				}
 				return "User Bob created with the password secret", nil
 			})
-			service.activeProfile.Version = test.build
+			setBuild(service, test.build)
 
 			if err := service.AddUser(context.Background(), "Bob", "secret"); err != nil {
 				t.Fatal(err)
@@ -230,7 +246,7 @@ func TestBuild42TeleportUsesTeleportPlayer(t *testing.T) {
 		}
 		return "teleported Alice to Bob", nil
 	})
-	service.activeProfile.Version = "42"
+	setBuild(service, "42")
 	players, err := service.store.Merge(p.ID, []Observation{{Username: "Bob"}}, time.Now().UTC())
 	if err != nil {
 		t.Fatal(err)
@@ -398,7 +414,7 @@ func TestBuild42BanAndRoleTransitions(t *testing.T) {
 		responses = responses[1:]
 		return response, nil
 	})
-	service.activeProfile.Version = "42"
+	setBuild(service, "42")
 
 	if _, err := service.Ban(context.Background(), []string{player.ID}, "", false); err != nil {
 		t.Fatal(err)
@@ -497,7 +513,7 @@ func TestBuild42GodModeUsesGodModePlayer(t *testing.T) {
 		}
 		return "User Alice is now invincible.", nil
 	})
-	service.activeProfile.Version = "42"
+	setBuild(service, "42")
 
 	if _, err := service.SetGodMode(context.Background(), []string{player.ID}, true); err != nil {
 		t.Fatal(err)
@@ -525,7 +541,7 @@ func TestBuild42SetNoClipRecordsState(t *testing.T) {
 		responses = responses[1:]
 		return response, nil
 	})
-	service.activeProfile.Version = "42"
+	setBuild(service, "42")
 
 	if _, err := service.SetNoClip(context.Background(), []string{player.ID}, true); err != nil {
 		t.Fatal(err)
@@ -559,7 +575,7 @@ func TestBuild42SetInvisibleRecordsState(t *testing.T) {
 		responses = responses[1:]
 		return response, nil
 	})
-	service.activeProfile.Version = "42"
+	setBuild(service, "42")
 
 	if _, err := service.SetInvisible(context.Background(), []string{player.ID}, true); err != nil {
 		t.Fatal(err)

@@ -7,8 +7,7 @@ import (
 	"sync"
 
 	"github.com/beyenilmez/pz-admin/internal/command"
-	"github.com/beyenilmez/pz-admin/internal/connection"
-	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 )
 
 // UpdateResult describes every outcome of a batch update. Command failures are
@@ -21,7 +20,7 @@ type UpdateResult struct {
 // Service is the Wails boundary for options on the active server.
 type Service struct {
 	mu     sync.RWMutex
-	client *command.Client
+	active session.State
 }
 
 // NewService creates an options service that starts disconnected.
@@ -32,16 +31,11 @@ func NewService() *Service {
 // SessionChanged follows the command capability of the active session.
 //
 //wails:ignore
-func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel) {
+func (s *Service) SessionChanged(state session.State) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	s.client = nil
-	executor, ok := channel.(connection.CommandExecutor)
-	if channel == nil || !ok {
-		return
-	}
-	s.client = command.NewClient(executor, p.Version)
+	s.active = state
 }
 
 // List returns the current server option values.
@@ -78,8 +72,8 @@ func (s *Service) Update(ctx context.Context, changes map[string]string) (Update
 func (s *Service) activeClient() (*command.Client, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	if s.client == nil {
+	if s.active.CommandClient == nil {
 		return nil, errors.New("options: connection does not support server options")
 	}
-	return s.client, nil
+	return s.active.CommandClient, nil
 }

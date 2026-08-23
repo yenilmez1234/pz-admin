@@ -10,9 +10,7 @@ import (
 	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/appdata"
-	"github.com/beyenilmez/pz-admin/internal/command"
-	"github.com/beyenilmez/pz-admin/internal/connection"
-	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
@@ -30,8 +28,7 @@ type Service struct {
 	mu            sync.Mutex
 	pollCancel    context.CancelFunc
 	pollWG        sync.WaitGroup
-	activeProfile profile.Profile
-	executor      connection.CommandExecutor
+	active        session.State
 	closed        bool
 }
 
@@ -60,8 +57,7 @@ func (s *Service) ServiceShutdown() error {
 	s.mu.Lock()
 	s.closed = true
 	s.stopPollingLocked()
-	s.activeProfile = profile.Profile{}
-	s.executor = nil
+	s.active = session.State{}
 	s.mu.Unlock()
 	s.pollWG.Wait()
 	return nil
@@ -70,28 +66,21 @@ func (s *Service) ServiceShutdown() error {
 // SessionChanged starts or stops polling to match the active session.
 //
 //wails:ignore
-func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel) {
+func (s *Service) SessionChanged(state session.State) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	s.stopPollingLocked()
-	s.activeProfile = profile.Profile{}
-	s.executor = nil
-	if s.closed || channel == nil {
+	s.active = session.State{}
+	if s.closed || !state.IsConnected() {
 		return
 	}
-	s.activeProfile = p
-	executor, ok := channel.(connection.CommandExecutor)
-	if !ok {
-		slog.Warn("player: active channel cannot execute commands", "profile", p.ID)
-		return
-	}
-	s.executor = executor
+	s.active = state
 
 	ctx, cancel := context.WithCancel(context.Background())
 	s.pollCancel = cancel
 	s.pollWG.Add(1)
-	go s.poll(ctx, p, channel)
+	go s.poll(ctx, state)
 }
 
 // List returns all known players for a server profile.
@@ -144,10 +133,10 @@ func (s *Service) stopPollingLocked() {
 	}
 }
 
-func (s *Service) poll(ctx context.Context, p profile.Profile, channel connection.Channel) {
+func (s *Service) poll(ctx context.Context, state session.State) {
 	defer s.pollWG.Done()
 
-	s.refresh(ctx, p, channel)
+	s.refresh(ctx, state)
 	ticker := time.NewTicker(pollInterval)
 	defer ticker.Stop()
 	for {
@@ -155,24 +144,24 @@ func (s *Service) poll(ctx context.Context, p profile.Profile, channel connectio
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			s.refresh(ctx, p, channel)
+			s.refresh(ctx, state)
 		}
 	}
 }
 
-func (s *Service) refresh(ctx context.Context, p profile.Profile, channel connection.Channel) {
-	observations, err := observePlayers(ctx, p, channel)
+func (s *Service) refresh(ctx context.Context, state session.State) {
+	observations, err := observePlayers(ctx, state)
 	if err != nil {
 		if !errors.Is(err, context.Canceled) {
-			slog.Warn("player refresh failed", "profile", p.ID, "err", err)
+			slog.Warn("player refresh failed", "profile", state.Profile.ID, "err", err)
 		}
 		return
 	}
 	if ctx.Err() != nil {
 		return
 	}
-	if _, err := s.merge(p.ID, observations, time.Now().UTC()); err != nil {
-		slog.Warn("player merge failed", "profile", p.ID, "err", err)
+	if _, err := s.merge(state.Profile.ID, observations, time.Now().UTC()); err != nil {
+		slog.Warn("player merge failed", "profile", state.Profile.ID, "err", err)
 	}
 }
 
@@ -191,13 +180,12 @@ func (s *Service) emitUpdate(profileID string, players []Player) {
 	}
 }
 
-func observePlayers(ctx context.Context, p profile.Profile, channel connection.Channel) ([]Observation, error) {
-	executor, ok := channel.(connection.CommandExecutor)
-	if !ok {
-		return nil, errors.New("player: active channel cannot provide players")
+func observePlayers(ctx context.Context, state session.State) ([]Observation, error) {
+	if state.CommandClient == nil {
+		return nil, errors.New("player: active session cannot provide players")
 	}
 
-	names, err := command.NewClient(executor, p.Version).Players(ctx)
+	names, err := state.CommandClient.Players(ctx)
 	if err != nil {
 		return nil, err
 	}

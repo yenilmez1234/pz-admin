@@ -9,14 +9,12 @@ import (
 	"sync"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
-	"github.com/beyenilmez/pz-admin/internal/feature"
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 func init() {
-	application.RegisterEvent[profile.Profile]("session:connected")
-	application.RegisterEvent[application.Void]("session:disconnected")
+	application.RegisterEvent[Snapshot]("session:changed")
 }
 
 // Service is the Wails v3 boundary for the active server session.
@@ -25,15 +23,13 @@ type Service struct {
 	observers []Observer
 
 	mu       sync.Mutex
-	channel  connection.Channel
-	current  profile.Profile
-	features feature.Set
+	active   State
 }
 
 // Observer receives initialized-session changes. A nil channel means the
 // session disconnected. Implementations must return quickly.
 type Observer interface {
-	SessionChanged(profile.Profile, connection.Channel)
+	SessionChanged(State)
 }
 
 // NewService creates a session service wired to the given profile service and
@@ -60,7 +56,7 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if s.channel != nil {
+	if s.active.Channel != nil {
 		return errors.New("session: already connected")
 	}
 
@@ -85,28 +81,22 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 		p.Version = version
 	}
 
-	s.channel = channel
-	s.current = p
-	s.features = resolveFeatures(p, channel)
-	s.notify(p, channel)
+	s.active = NewState(p, channel)
+	s.notify(s.active)
 	return nil
 }
 
 // Disconnect closes the active channel. Idempotent.
 func (s *Service) Disconnect() error {
 	s.mu.Lock()
-	if s.channel == nil {
-		s.current = profile.Profile{}
-		s.features = nil
+	if s.active.Channel == nil {
 		s.mu.Unlock()
 		return nil
 	}
-	s.channel.Close()
-	s.channel = nil
-	s.current = profile.Profile{}
-	s.features = nil
+	s.active.Channel.Close()
+	s.active = State{}
 	s.mu.Unlock()
-	s.notify(profile.Profile{}, nil)
+	s.notify(State{})
 	return nil
 }
 
@@ -114,10 +104,10 @@ func (s *Service) Disconnect() error {
 func (s *Service) Profile() (profile.Profile, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.channel == nil {
+	if s.active.Channel == nil {
 		return profile.Profile{}, false
 	}
-	return s.current, true
+	return s.active.Profile, true
 }
 
 // Features returns the application features available through the active
@@ -125,42 +115,38 @@ func (s *Service) Profile() (profile.Profile, bool) {
 func (s *Service) Features() []string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.channel == nil {
+	if s.active.Channel == nil {
 		return []string{}
 	}
 
-	ids := s.features.Values()
-	features := make([]string, len(ids))
-	for i, id := range ids {
-		features[i] = string(id)
-	}
-	return features
+	return append([]string(nil), s.active.Features...)
+}
+
+// Snapshot returns the complete serializable state of the active session.
+func (s *Service) Snapshot() Snapshot {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.active.Snapshot
 }
 
 func (s *Service) handleDisconnect(profileID string, channel connection.Channel) {
 	s.mu.Lock()
-	if s.channel == nil || s.channel != channel || s.current.ID != profileID {
+	if s.active.Channel == nil || s.active.Channel != channel || s.active.Profile.ID != profileID {
 		s.mu.Unlock()
 		return
 	}
-	s.channel = nil
-	s.current = profile.Profile{}
-	s.features = nil
+	s.active = State{}
 	s.mu.Unlock()
-	s.notify(profile.Profile{}, nil)
+	s.notify(State{})
 }
 
-func (s *Service) notify(p profile.Profile, channel connection.Channel) {
+func (s *Service) notify(state State) {
 	for _, observer := range s.observers {
 		if observer != nil {
-			observer.SessionChanged(p, channel)
+			observer.SessionChanged(state)
 		}
 	}
 
 	app := application.Get()
-	if channel != nil {
-		app.Event.Emit("session:connected", p)
-	} else {
-		app.Event.Emit("session:disconnected")
-	}
+	app.Event.Emit("session:changed", state.Snapshot)
 }

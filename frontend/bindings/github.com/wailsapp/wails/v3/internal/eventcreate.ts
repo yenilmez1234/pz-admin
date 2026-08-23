@@ -11,17 +11,17 @@ import { Create as $Create } from "@wailsio/runtime";
 import * as player$0 from "../../../../beyenilmez/pz-admin/internal/player/models.js";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as profile$0 from "../../../../beyenilmez/pz-admin/internal/profile/models.js";
+import * as session$0 from "../../../../beyenilmez/pz-admin/internal/session/models.js";
 
 function configure() {
     Object.freeze(Object.assign($Create.Events, {
         "player:updated": $$createType0,
-        "session:connected": $$createType1,
+        "session:changed": $$createType1,
     }));
 }
 
 // Private type creation functions
 const $$createType0 = player$0.Update.createFrom;
-const $$createType1 = profile$0.Profile.createFrom;
+const $$createType1 = session$0.Snapshot.createFrom;
 
 configure();

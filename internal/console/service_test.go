@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 )
 
 type commandChannel struct {
@@ -39,7 +40,7 @@ func TestExecuteUsesConnectedCommandChannel(t *testing.T) {
 	recorded := &recordedCommand{}
 	p := profile.Profile{ID: "profile-id", Version: "42"}
 	service := NewService(recorded.ObserveConsoleCommand)
-	service.SessionChanged(p, channel)
+	service.SessionChanged(session.NewState(p, channel))
 
 	result, err := service.Execute(context.Background(), "  players  ")
 	if err != nil {
@@ -68,7 +69,7 @@ func TestExecuteReturnsChannelError(t *testing.T) {
 	want := errors.New("command failed")
 	channel := &commandChannel{err: want}
 	service := NewService(nil)
-	service.SessionChanged(profile.Profile{}, channel)
+	service.SessionChanged(session.NewState(profile.Profile{}, channel))
 
 	_, err := service.Execute(context.Background(), "players")
 	if !errors.Is(err, want) {
@@ -78,8 +79,8 @@ func TestExecuteReturnsChannelError(t *testing.T) {
 
 func TestDisconnectedSessionClearsCommandChannel(t *testing.T) {
 	service := NewService(nil)
-	service.SessionChanged(profile.Profile{}, &commandChannel{})
-	service.SessionChanged(profile.Profile{}, nil)
+	service.SessionChanged(session.NewState(profile.Profile{}, &commandChannel{}))
+	service.SessionChanged(session.State{})
 
 	_, err := service.Execute(context.Background(), "players")
 	if err == nil {

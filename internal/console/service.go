@@ -9,8 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 )
 
 // Service is the Wails boundary for raw server command execution.
@@ -18,8 +18,7 @@ type Service struct {
 	observer CommandObserver
 
 	mu       sync.Mutex
-	profile  profile.Profile
-	executor connection.CommandExecutor
+	active session.State
 }
 
 // CommandObserver records facts confirmed by raw console responses.
@@ -33,17 +32,11 @@ func NewService(observer CommandObserver) *Service {
 // SessionChanged follows the command capability of the active session.
 //
 //wails:ignore
-func (s *Service) SessionChanged(p profile.Profile, channel connection.Channel) {
+func (s *Service) SessionChanged(state session.State) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	s.profile = profile.Profile{}
-	s.executor = nil
-	if channel == nil {
-		return
-	}
-	s.profile = p
-	s.executor, _ = channel.(connection.CommandExecutor)
+	s.active = state
 }
 
 // Execute runs one raw command through the active server channel.
@@ -54,14 +47,14 @@ func (s *Service) Execute(ctx context.Context, command string) (string, error) {
 	}
 
 	s.mu.Lock()
-	p := s.profile
-	executor := s.executor
+	p := s.active.Profile
+	client := s.active.CommandClient
 	s.mu.Unlock()
-	if executor == nil {
+	if client == nil {
 		return "", errors.New("console: connection does not support executing commands")
 	}
 
-	result, err := executor.ExecuteCommand(ctx, command)
+	result, err := client.Execute(ctx, command)
 	if err != nil {
 		return "", fmt.Errorf("console: execute command: %w", err)
 	}

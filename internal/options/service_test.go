@@ -8,6 +8,7 @@ import (
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 )
 
 type testChannel struct {
@@ -22,7 +23,7 @@ func (c *testChannel) ExecuteCommand(_ context.Context, input string) (string, e
 
 func TestUpdateReportsPartialFailures(t *testing.T) {
 	service := NewService()
-	service.SessionChanged(profile.Profile{Version: "41"}, &testChannel{
+	service.SessionChanged(session.NewState(profile.Profile{ID: "profile-id", Version: "41"}, &testChannel{
 		execute: func(input string) (string, error) {
 			if strings.Contains(input, `"Rejected"`) {
 				return "", errors.New("rejected by server")
@@ -32,7 +33,7 @@ func TestUpdateReportsPartialFailures(t *testing.T) {
 			}
 			return "", errors.New("unexpected command")
 		},
-	})
+	}))
 
 	result, err := service.Update(context.Background(), map[string]string{
 		"Accepted": "true",

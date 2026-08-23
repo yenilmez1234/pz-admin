@@ -15,8 +15,8 @@ import type { Profile } from "@bindings/internal/profile/models";
 import {
   Connect,
   Disconnect,
-  Features as CurrentFeatures,
 } from "@bindings/internal/session/service";
+import type { Snapshot } from "@bindings/internal/session/models";
 import { errorMessage } from "@/shared/lib/errors";
 import { sessionSnapshot } from "./lib/sessionSnapshot";
 import {
@@ -55,16 +55,11 @@ export function SessionProvider({ children }: SessionProviderProps) {
     dispatch({ type: "initializing" });
 
     try {
-      const [[currentProfile, hasProfile], currentFeatures] =
-        await sessionSnapshot();
+      const currentSnapshot = await sessionSnapshot();
       if (eventRevision.current !== revision) return;
 
-      if (hasProfile) {
-        dispatch({
-          type: "connected",
-          features: currentFeatures,
-          profile: currentProfile,
-        });
+      if (currentSnapshot.connected) {
+        dispatch({ type: "connected", snapshot: currentSnapshot });
       } else {
         dispatch({ type: "disconnected" });
       }
@@ -79,48 +74,30 @@ export function SessionProvider({ children }: SessionProviderProps) {
       eventRevision.current += 1;
     };
 
-    const unsubscribeConnected = Events.On(
-      "session:connected",
-      ({ data: connectedProfile }) => {
+    const unsubscribeSessionChanged = Events.On(
+      "session:changed",
+      ({ data: snapshot }: { data: Snapshot }) => {
         markEvent();
-        const revision = eventRevision.current;
-        dispatch({ type: "initializing", profile: connectedProfile });
-
-        async function loadFeatures() {
-          try {
-            const currentFeatures = await CurrentFeatures();
-            if (eventRevision.current !== revision) return;
-            dispatch({
-              type: "connected",
-              features: currentFeatures,
-              profile: connectedProfile,
+        if (!snapshot.connected) {
+          dispatch({ type: "disconnected" });
+          if (!disconnectRequested.current) {
+            notifications.show({
+              color: "red",
+              title: t("connectionLostTitle"),
+              message: t("connectionLostMessage"),
             });
-          } catch (loadError) {
-            if (eventRevision.current !== revision) return;
-            dispatch({ type: "failed", error: errorMessage(loadError) });
           }
+          return;
         }
 
-        void loadFeatures();
+        dispatch({ type: "connected", snapshot });
       },
     );
-    const unsubscribeDisconnected = Events.On("session:disconnected", () => {
-      markEvent();
-      dispatch({ type: "disconnected" });
-      if (!disconnectRequested.current) {
-        notifications.show({
-          color: "red",
-          title: t("connectionLostTitle"),
-          message: t("connectionLostMessage"),
-        });
-      }
-    });
 
     void synchronize();
 
     return () => {
-      unsubscribeConnected();
-      unsubscribeDisconnected();
+      unsubscribeSessionChanged();
     };
   }, [synchronize, t]);
 
@@ -150,7 +127,6 @@ export function SessionProvider({ children }: SessionProviderProps) {
 
     try {
       await Disconnect();
-      dispatch({ type: "disconnected" });
     } catch (disconnectError) {
       await synchronize();
       throw disconnectError;

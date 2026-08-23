@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/command"
-	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 )
 
 // AddLocalUser records a player in local history without changing the server.
@@ -40,15 +40,15 @@ func (s *Service) AddLocalUser(username string) error {
 // AddUser creates a new whitelisted server account and records its known
 // initial state. The password is sent to the server and is not persisted.
 func (s *Service) AddUser(ctx context.Context, username, password string) error {
-	p, executor, err := s.activeConnection()
+	state, err := s.activeConnection()
 	if err != nil {
 		return err
 	}
-	if _, err := command.NewClient(executor, p.Version).AddUser(ctx, username, password); err != nil {
+	if _, err := state.CommandClient.AddUser(ctx, username, password); err != nil {
 		return fmt.Errorf("player: add user: %w", err)
 	}
 
-	_, err = s.merge(p.ID, []Observation{addedUserObservation(p.Version, username)}, time.Now().UTC())
+	_, err = s.merge(state.Profile.ID, []Observation{addedUserObservation(state.Profile.Version, username)}, time.Now().UTC())
 	if err != nil {
 		return fmt.Errorf("player: record added user: %w", err)
 	}
@@ -108,11 +108,11 @@ func (s *Service) CreateHorde(ctx context.Context, playerIDs []string, count int
 
 // Teleport moves each player to the target player.
 func (s *Service) Teleport(ctx context.Context, playerIDs []string, targetPlayerID string) (ActionResult, error) {
-	p, _, err := s.activeConnection()
+	state, err := s.activeConnection()
 	if err != nil {
 		return ActionResult{}, err
 	}
-	target, err := s.findPlayer(p.ID, targetPlayerID)
+	target, err := s.findPlayer(state.Profile.ID, targetPlayerID)
 	if err != nil {
 		return ActionResult{}, err
 	}
@@ -301,15 +301,15 @@ func (s *Service) runPlayerAction(
 	if len(playerIDs) == 0 {
 		return ActionResult{}, errors.New("player: at least one player is required")
 	}
-	p, executor, err := s.activeConnection()
+	state, err := s.activeConnection()
 	if err != nil {
 		return ActionResult{}, err
 	}
-	players, err := s.List(p.ID)
+	players, err := s.List(state.Profile.ID)
 	if err != nil {
 		return ActionResult{}, err
 	}
-	commands := command.NewClient(executor, p.Version)
+	commands := state.CommandClient
 	result := ActionResult{
 		Succeeded: make([]string, 0, len(playerIDs)),
 		Failed:    make([]ActionFailure, 0),
@@ -331,7 +331,7 @@ func (s *Service) runPlayerAction(
 		}
 		if observation != nil {
 			observation.ID = playerID
-			if err := s.Observe(p.ID, *observation); err != nil {
+			if err := s.Observe(state.Profile.ID, *observation); err != nil {
 				result.fail(playerID, fmt.Errorf("%s: %w", actionName, err))
 				continue
 			}
@@ -370,20 +370,20 @@ func (s *Service) findPlayer(profileID, playerID string) (Player, error) {
 	return players[index], nil
 }
 
-func (s *Service) activeConnection() (profile.Profile, connection.CommandExecutor, error) {
+func (s *Service) activeConnection() (session.State, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.executor == nil || s.activeProfile.ID == "" {
-		return profile.Profile{}, nil, errors.New("player: no connected server")
+	if !s.active.IsConnected() {
+		return session.State{}, errors.New("player: no connected server")
 	}
-	return s.activeProfile, s.executor, nil
+	return s.active, nil
 }
 
 func (s *Service) currentProfile() (profile.Profile, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.activeProfile.ID == "" {
+	if s.active.Profile.ID == "" {
 		return profile.Profile{}, errors.New("player: no connected server")
 	}
-	return s.activeProfile, nil
+	return s.active.Profile, nil
 }

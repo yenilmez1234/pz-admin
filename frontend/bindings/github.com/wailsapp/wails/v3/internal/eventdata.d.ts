@@ -10,14 +10,13 @@ import type { Events } from "@wailsio/runtime";
 import type * as player$0 from "../../../../beyenilmez/pz-admin/internal/player/models.js";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import type * as profile$0 from "../../../../beyenilmez/pz-admin/internal/profile/models.js";
+import type * as session$0 from "../../../../beyenilmez/pz-admin/internal/session/models.js";
 
 declare module "@wailsio/runtime" {
     namespace Events {
         interface CustomEvents {
             "player:updated": player$0.Update;
-            "session:connected": profile$0.Profile;
-            "session:disconnected": void;
+            "session:changed": session$0.Snapshot;
             "time": string;
         }
     }

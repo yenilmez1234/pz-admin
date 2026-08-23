@@ -21,6 +21,13 @@ func NewClient(exec connection.CommandExecutor, version string) *Client {
 	return &Client{exec: exec, version: version}
 }
 
+// Execute sends an untyped command through the active server connection.
+// It is intended for console commands that are not represented by a typed
+// wrapper.
+func (c *Client) Execute(ctx context.Context, input string) (string, error) {
+	return c.exec.ExecuteCommand(ctx, input)
+}
+
 // AddItem gives items to a player. Count is optional; 0 means omit.
 func (c *Client) AddItem(ctx context.Context, username, item string, count int) (string, error) {
 	args := map[string]string{"username": username, "item": item}

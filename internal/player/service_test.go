@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/session"
 	"github.com/google/uuid"
 )
 
@@ -32,7 +33,7 @@ func TestConnectedSessionPollsAndMergesImmediately(t *testing.T) {
 
 	p := profile.Profile{ID: uuid.NewString(), Version: "42"}
 	channel := &commandChannel{response: "Players connected (2):\n-Alice\n-Bob"}
-	service.SessionChanged(p, channel)
+	service.SessionChanged(session.NewState(p, channel))
 
 	deadline := time.Now().Add(time.Second)
 	for {

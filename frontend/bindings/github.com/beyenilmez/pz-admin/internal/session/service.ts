@@ -14,6 +14,10 @@ import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Cr
 // @ts-ignore: Unused imports
 import * as profile$0 from "../profile/models.js";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: Unused imports
+import * as $models from "./models.js";
+
 /**
  * Connect looks up the profile and credentials, then opens its configured
  * channel. Connect holds the lock for the entire operation; the frontend shows
@@ -50,6 +54,16 @@ export function Profile(): $CancellablePromise<[profile$0.Profile, boolean]> {
     });
 }
 
+/**
+ * Snapshot returns the complete serializable state of the active session.
+ */
+export function Snapshot(): $CancellablePromise<$models.Snapshot> {
+    return $Call.ByID(2046931653).then(($result: any) => {
+        return $$createType2($result);
+    });
+}
+
 // Private type creation functions
 const $$createType0 = $Create.Array($Create.Any);
 const $$createType1 = profile$0.Profile.createFrom;
+const $$createType2 = $models.Snapshot.createFrom;
