@@ -394,6 +394,7 @@ const build41Options = {
     minimum: 0,
     maximum: 2147483647,
     readOnly: true,
+    dynamicDefault: true,
   },
   SafeHouseRemovalTime: {
     type: "integer",
@@ -448,7 +449,7 @@ const build41Options = {
     maximum: 2147483647,
     specialValue: { value: 0, meaning: "disabled" },
   },
-  ServerPlayerID: { type: "string", readOnly: true },
+  ServerPlayerID: { type: "string", readOnly: true, dynamicDefault: true, },
   ServerWelcomeMessage: {
     type: "string",
     defaultValue:
@@ -715,6 +716,7 @@ export const build42Options = {
     minimum: 0,
     maximum: 2147483647,
     readOnly: true,
+    dynamicDefault: true,
   },
   SafeHouseRemovalTime: {
     type: "integer",
@@ -769,7 +771,7 @@ export const build42Options = {
     maximum: 2147483647,
     specialValue: { value: 0, meaning: "disabled" },
   },
-  ServerPlayerID: { type: "string", readOnly: true },
+  ServerPlayerID: { type: "string", readOnly: true, dynamicDefault: true, },
   ServerWelcomeMessage: {
     type: "string",
     defaultValue:
