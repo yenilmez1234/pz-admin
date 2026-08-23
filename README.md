@@ -71,3 +71,4 @@ podman run --rm -it   --network host   docker.io/outdead/rcon:latest   ./rcon   
 crowdin integration + ci/build system
 general conventions for comments, code style etc.
 android deferred
+options page reloading on each page entry or periodically
