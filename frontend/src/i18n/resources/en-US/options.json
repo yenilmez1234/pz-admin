@@ -667,6 +667,243 @@
     "AntiCheatProtectionType24ThresholdMultiplier": {
       "label": "Anti-cheat protection 24 threshold",
       "description": "Adjusts the threshold for anti-cheat protection type 24."
+    },
+    "AntiCheatChecksum": {
+      "label": "Checksum anti-cheat",
+      "description": "Controls the action taken when checksum validation detects suspicious client data.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatHit": {
+      "label": "Hit anti-cheat",
+      "description": "Controls the action taken when character hit validation detects suspicious damage, distance, or weapon data.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatNoClip": {
+      "label": "No-clip anti-cheat",
+      "description": "Controls the action taken when character movement appears to bypass collision or movement rules.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatPacketException": {
+      "label": "Packet exception anti-cheat",
+      "description": "Controls the action taken when packet validation detects malformed or unexpected packets.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatPermission": {
+      "label": "Permission anti-cheat",
+      "description": "Controls the action taken when player powers or capabilities are invalid.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatPlayer": {
+      "label": "Player anti-cheat",
+      "description": "Controls the action taken when player state or player updates fail anti-cheat validation.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatSafeHouse": {
+      "label": "Safehouse anti-cheat",
+      "description": "Controls the action taken when safehouse ownership, membership, or access fails anti-cheat validation.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatSafety": {
+      "label": "Safety anti-cheat",
+      "description": "Controls the action taken when the player safety system fails anti-cheat validation.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Only log",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatSpeed": {
+      "label": "Speed anti-cheat",
+      "description": "Controls the action taken when character speed fails anti-cheat validation.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "AntiCheatXP": {
+      "label": "XP anti-cheat",
+      "description": "Controls the action taken when player XP updates fail anti-cheat validation.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Log only",
+        "disabled": "Disabled"
+      }
+    },
+    "BadWordListFile": {
+      "label": "Banned word list file",
+      "description": "Path to the file containing prohibited words. Each word must be on a separate line."
+    },
+    "BadWordPolicy": {
+      "label": "Banned word policy",
+      "description": "Action taken when a player uses a prohibited word in chat.",
+      "choices": {
+        "ban": "Ban",
+        "kick": "Kick",
+        "log": "Record violation"
+      }
+    },
+    "BadWordReplacement": {
+      "label": "Banned word replacement",
+      "description": "Symbol or text used to replace prohibited words."
+    },
+    "ChatMessageCharacterLimit": {
+      "label": "Chat message character limit",
+      "description": "Maximum number of characters allowed in a chat message."
+    },
+    "ChatMessageSlowModeTime": {
+      "label": "Chat slow mode time",
+      "description": "Minimum time in seconds between chat messages from the same player."
+    },
+    "DisableScoreboard": {
+      "label": "Disable scoreboard",
+      "description": "Disables the scoreboard for other players."
+    },
+    "HideAdminsInPlayerList": {
+      "label": "Hide admins in player list",
+      "description": "Hides players with the administrator-hide capability from other players' lists."
+    },
+    "HideDisguisedUserName": {
+      "label": "Hide disguised usernames",
+      "description": "Hides the username of disguised players from players who cannot see player statistics."
+    },
+    "DisableBurntTowing": {
+      "label": "Disable burnt vehicle towing",
+      "description": "Disables towing burnt vehicles."
+    },
+    "DisableSafehouseWhenOwnerConnected": {
+      "label": "Protect safehouses only while owners are offline",
+      "description": "Makes a safehouse behave like a normal house while its owner is connected."
+    },
+    "DisableTrailerTowing": {
+      "label": "Disable trailer towing",
+      "description": "Disables towing trailers."
+    },
+    "DisableVehicleTowing": {
+      "label": "Disable vehicle towing",
+      "description": "Disables towing vehicles."
+    },
+    "MaxSafezoneSize": {
+      "label": "Maximum safezone size",
+      "description": "Maximum size allowed for a safezone."
+    },
+    "SafehouseDisableDisguises": {
+      "label": "Disable disguises in safehouses",
+      "description": "Disables player disguises inside safehouses."
+    },
+    "SafehousePreventsLootRespawn": {
+      "label": "Prevent loot respawn in safehouses",
+      "description": "Prevents items from respawning in buildings claimed as safehouses."
+    },
+    "SafetyDisconnectDelay": {
+      "label": "Safety disconnect delay",
+      "description": "Delay in seconds before a disconnected player is removed from the server."
+    },
+    "MultiplayerStatisticsPeriod": {
+      "label": "Multiplayer statistics update period",
+      "description": "Sets how often multiplayer statistics are updated, in seconds. Statistics are disabled when set to 0."
+    },
+    "PVPLogToolChat": {
+      "label": "Log PVP to admin chat",
+      "description": "PVP events are logged to admin chat."
+    },
+    "PVPLogToolFile": {
+      "label": "Log PVP to file",
+      "description": "PVP events are logged to a file."
+    },
+    "Seed": {
+      "label": "World generation seed",
+      "description": "The seed used to generate the world.<br>To change it, enter a new value and delete map_worldgen.bin from the save directory."
+    },
+    "ShowCoordinates": {
+      "label": "Show coordinates",
+      "description": "Shows player coordinates in the lower-right corner."
+    },
+    "SwitchZombiesOwnershipEachUpdate": {
+      "label": "Switch zombie ownership each update",
+      "description": "Switches zombie network ownership between eligible players on each update."
+    },
+    "UltraSpeedDoesnotAffectToAnimals": {
+      "label": "Ultra-speed does not affect animals",
+      "description": "Prevents ultra-speed from affecting animals."
+    },
+    "UsePhysicsHitReaction": {
+      "label": "Use physics hit reactions",
+      "description": "Enables physics-based hit reactions for characters."
+    },
+    "UsernameDisguises": {
+      "label": "Allow username disguises",
+      "description": "Allows players to use username disguises."
+    },
+    "War": {
+      "label": "Enable war",
+      "description": "Allows safehouse wars between players."
+    },
+    "WarDuration": {
+      "label": "War duration",
+      "description": "Duration of a war in seconds."
+    },
+    "WarSafehouseHitPoints": {
+      "label": "Safehouse war hit points",
+      "description": "Number of hits a safehouse can take during a war. A value of 0 prevents the safehouse from being destroyed by war attacks."
+    },
+    "WarStartDelay": {
+      "label": "War start delay",
+      "description": "Time in seconds before an accepted war starts."
+    },
+    "WebhookAddress": {
+      "label": "Webhook address",
+      "description": "Slack incoming webhook URL."
+    },
+    "AnnounceAnimalDeath": {
+      "label": "Announce animal deaths",
+      "description": "Displays a global message in chat whenever an animal dies."
+    },
+    "GoodWordListFile": {
+      "label": "Allowed word list file",
+      "description": "Path to the file containing words that should be allowed even if they contain a banned word. Each word must be on a separate line."
+    },
+    "MaxPacketsPerSecond": {
+      "label": "Maximum packets per second",
+      "description": "Sets the limit for processing network packets from each client on the server."
     }
   }
 }

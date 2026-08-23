@@ -667,6 +667,243 @@
     "AntiCheatProtectionType24ThresholdMultiplier": {
       "label": "Hile koruması 24 eşiği",
       "description": "24 numaralı hile korumasının eşiğini ayarlar."
+    },
+    "AntiCheatChecksum": {
+      "label": "Checksum hile koruması",
+      "description": "Checksum doğrulaması şüpheli istemci verileri tespit ettiğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatHit": {
+      "label": "Vuruş hile koruması",
+      "description": "Karakter vuruşu, hasarı, mesafesi veya silah verileri şüpheli olduğunda uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatNoClip": {
+      "label": "No-clip hile koruması",
+      "description": "Karakter hareketi çarpışma veya hareket kurallarını aşıyor gibi göründüğünde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatPacketException": {
+      "label": "Paket istisnası hile koruması",
+      "description": "Paket doğrulaması hatalı veya beklenmeyen paketler tespit ettiğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatPermission": {
+      "label": "İzin hile koruması",
+      "description": "Oyuncu güçleri veya yetenekleri geçersiz olduğunda uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatPlayer": {
+      "label": "Oyuncu hile koruması",
+      "description": "Oyuncu durumu veya güncellemeleri hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatSafeHouse": {
+      "label": "Güvenli ev hile koruması",
+      "description": "Güvenli ev sahipliği, üyeliği veya erişimi doğrulamadan geçemediğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatSafety": {
+      "label": "Güvenlik sistemi hile koruması",
+      "description": "Oyuncu güvenlik sistemi hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatSpeed": {
+      "label": "Hız hile koruması",
+      "description": "Karakter hızı hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "AntiCheatXP": {
+      "label": "XP hile koruması",
+      "description": "Oyuncu XP güncellemeleri hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "Sadece kaydet",
+        "disabled": "Devre dışı"
+      }
+    },
+    "BadWordListFile": {
+      "label": "Yasaklı kelime listesi dosyası",
+      "description": "Yasaklanacak kelimeleri içeren dosyanın yolu. Her kelime ayrı bir satırda olmalıdır."
+    },
+    "BadWordPolicy": {
+      "label": "Yasaklı kelime politikası",
+      "description": "Bir oyuncu sohbette yasaklı kelime kullandığında uygulanacak işlem.",
+      "choices": {
+        "ban": "Yasakla",
+        "kick": "At",
+        "log": "İhlali kaydet"
+      }
+    },
+    "BadWordReplacement": {
+      "label": "Yasaklı kelime yerine koyma metni",
+      "description": "Yasaklı kelimelerin yerine kullanılacak sembol veya metin."
+    },
+    "ChatMessageCharacterLimit": {
+      "label": "Sohbet mesajı karakter sınırı",
+      "description": "Bir sohbet mesajında izin verilen maksimum karakter sayısı."
+    },
+    "ChatMessageSlowModeTime": {
+      "label": "Sohbet yavaş mod süresi",
+      "description": "Aynı oyuncunun sohbet mesajları arasındaki minimum süre, saniye cinsinden."
+    },
+    "DisableScoreboard": {
+      "label": "Skor tablosunu devre dışı bırak",
+      "description": "Diğer oyuncular için skor tablosunu devre dışı bırakır."
+    },
+    "HideAdminsInPlayerList": {
+      "label": "Yöneticileri oyuncu listesinde gizle",
+      "description": "Yönetici gizleme yeteneğine sahip oyuncuları diğer oyuncuların listelerinde gizler."
+    },
+    "HideDisguisedUserName": {
+      "label": "Kılık değiştirmiş kullanıcı adlarını gizle",
+      "description": "Oyuncu istatistiklerini görme yetkisi olmayan oyuncular için kılık değiştirmiş oyuncuların kullanıcı adını gizler."
+    },
+    "DisableBurntTowing": {
+      "label": "Yanmış araç çekmeyi devre dışı bırak",
+      "description": "Yanmış araçların çekilmesini devre dışı bırakır."
+    },
+    "DisableSafehouseWhenOwnerConnected": {
+      "label": "Güvenli evleri yalnızca sahipleri çevrim dışıyken koru",
+      "description": "Güvenli ev sahibinin bağlantısı varken güvenli evin normal bir ev gibi davranmasını sağlar."
+    },
+    "DisableTrailerTowing": {
+      "label": "Römork çekmeyi devre dışı bırak",
+      "description": "Römorkların çekilmesini devre dışı bırakır."
+    },
+    "DisableVehicleTowing": {
+      "label": "Araç çekmeyi devre dışı bırak",
+      "description": "Araçların çekilmesini devre dışı bırakır."
+    },
+    "MaxSafezoneSize": {
+      "label": "Maksimum güvenli bölge boyutu",
+      "description": "Bir güvenli bölge için izin verilen maksimum boyut."
+    },
+    "SafehouseDisableDisguises": {
+      "label": "Güvenli evlerde kılık değiştirmeyi devre dışı bırak",
+      "description": "Güvenli evlerin içinde oyuncu kılık değiştirmelerini devre dışı bırakır."
+    },
+    "SafehousePreventsLootRespawn": {
+      "label": "Güvenli evlerde ganimet yenilenmesini engelle",
+      "description": "Güvenli ev olarak sahiplenilen binalarda eşyaların yeniden oluşmasını engeller."
+    },
+    "SafetyDisconnectDelay": {
+      "label": "Güvenlik bağlantı kesme gecikmesi",
+      "description": "Bağlantısı kesilen oyuncunun sunucudan çıkarılmasından önce beklenecek saniye."
+    },
+    "MultiplayerStatisticsPeriod": {
+      "label": "Çok oyunculu istatistik güncelleme aralığı",
+      "description": "Çok oyunculu istatistiklerin saniye cinsinden ne sıklıkla güncelleneceğini belirler. 0 değerinde istatistikler devre dışı bırakılır."
+    },
+    "PVPLogToolChat": {
+      "label": "PVP'yi yönetici sohbetine kaydet",
+      "description": "PVP olaylarını yönetici sohbetine kaydeder."
+    },
+    "PVPLogToolFile": {
+      "label": "PVP'yi dosyaya kaydet",
+      "description": "PVP olaylarını bir dosyaya kaydeder."
+    },
+    "Seed": {
+      "label": "Dünya oluşturma tohumu",
+      "description": "Dünyayı oluşturmak için kullanılan tohum.<br>Değiştirmek için yeni bir değer girin ve kayıt dizinindeki map_worldgen.bin dosyasını silin."
+    },
+    "ShowCoordinates": {
+      "label": "Koordinatları göster",
+      "description": "Oyuncu koordinatlarını sağ alt köşede gösterir."
+    },
+    "SwitchZombiesOwnershipEachUpdate": {
+      "label": "Her güncellemede zombi sahipliğini değiştir",
+      "description": "Her güncellemede zombilerin ağ sahipliğini uygun oyuncular arasında değiştirir."
+    },
+    "UltraSpeedDoesnotAffectToAnimals": {
+      "label": "Ultra hız hayvanları etkilemez",
+      "description": "Ultra hızın hayvanları etkilemesini önler."
+    },
+    "UsePhysicsHitReaction": {
+      "label": "Fizik tabanlı darbe tepkilerini kullan",
+      "description": "Karakterler için fizik tabanlı darbe tepkilerini etkinleştirir."
+    },
+    "UsernameDisguises": {
+      "label": "Kullanıcı adı kılık değiştirmelerine izin ver",
+      "description": "Oyuncuların kullanıcı adlarını gizlemesine izin verir."
+    },
+    "War": {
+      "label": "Savaşı etkinleştir",
+      "description": "Oyuncular arasında güvenli ev savaşlarına izin verir."
+    },
+    "WarDuration": {
+      "label": "Savaş süresi",
+      "description": "Savaşın saniye cinsinden süresi."
+    },
+    "WarSafehouseHitPoints": {
+      "label": "Güvenli ev savaş dayanıklılığı",
+      "description": "Bir güvenli evin savaş sırasında dayanabileceği saldırı sayısıdır. 0 değeri, güvenli evin savaş saldırılarıyla yok edilmesini engeller."
+    },
+    "WarStartDelay": {
+      "label": "Savaş başlangıç gecikmesi",
+      "description": "Kabul edilen bir savaşın başlamasından önceki saniye cinsinden süre."
+    },
+    "WebhookAddress": {
+      "label": "Webhook adresi",
+      "description": "Slack gelen webhook URL adresi."
+    },
+    "AnnounceAnimalDeath": {
+      "label": "Hayvan ölümlerini duyur",
+      "description": "Her hayvan öldüğünde sohbette genel bir mesaj gösterir."
+    },
+    "GoodWordListFile": {
+      "label": "İzin verilen kelime listesi dosyası",
+      "description": "Küfür içerse bile izin verilmesi gereken kelimelerin listesini içeren dosyanın yolu. Her kelime ayrı bir satırda olmalıdır."
+    },
+    "MaxPacketsPerSecond": {
+      "label": "Saniye başına maksimum paket sayısı",
+      "description": "Sunucuda her istemciden gelen ağ paketlerinin işlenmesi için sınırı belirler."
     }
   }
 }

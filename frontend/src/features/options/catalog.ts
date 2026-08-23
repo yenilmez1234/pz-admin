@@ -526,6 +526,13 @@ const build41Options = {
   server_browser_announced_ip: { type: "string", defaultValue: "" },
 } satisfies Record<string, OptionMetadata>;
 
+const antiCheatPolicyChoices: OptionChoice[] = [
+  { id: "ban", value: 1 },
+  { id: "kick", value: 2 },
+  { id: "log", value: 3 },
+  { id: "disabled", value: 4 },
+];
+
 export const build42Options = {
   // ------ Unchanged options from B41 ------
   AdminSafehouse: { type: "boolean", defaultValue: false },
@@ -870,8 +877,38 @@ export const build42Options = {
   },
   SteamScoreboard: { type: "boolean", defaultValue: false },
 
-  // ------ New options ------
-  // Write only
+  // ------ Others ------
+  AnnounceAnimalDeath: { type: "boolean", defaultValue: false },
+  AntiCheatChecksum: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatHit: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatNoClip: { type: "integer", defaultValue: 4, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatPacketException: { type: "integer", defaultValue: 4, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatPermission: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatPlayer: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatSafeHouse: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatSafety: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatSpeed: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatXP: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  BadWordListFile: { type: "string", defaultValue: "" },
+  BadWordPolicy: {
+    type: "integer",
+    defaultValue: 3,
+    minimum: 1,
+    maximum: 3,
+    choices: [
+      { id: "ban", value: 1 },
+      { id: "kick", value: 2 },
+      { id: "log", value: 3 },
+    ],
+  },
+  BadWordReplacement: { type: "string", defaultValue: "[HIDDEN]", maximumLength: 16 },
+  ChatMessageCharacterLimit: { type: "integer", defaultValue: 200, minimum: 64, maximum: 1024 },
+  ChatMessageSlowModeTime: { type: "integer", defaultValue: 3, minimum: 1, maximum: 30 },
+  DisableBurntTowing: { type: "boolean", defaultValue: false },
+  DisableSafehouseWhenOwnerConnected: { type: "boolean", defaultValue: false },
+  DisableScoreboard: { type: "boolean", defaultValue: false },
+  DisableTrailerTowing: { type: "boolean", defaultValue: false },
+  DisableVehicleTowing: { type: "boolean", defaultValue: false },
   DiscordChatChannel: {
     type: "string",
     requirements: [{ option: "DiscordEnable", equals: true }],
@@ -887,8 +924,71 @@ export const build42Options = {
     requirements: [{ option: "DiscordEnable", equals: true }],
     writeOnly: true,
   },
-
-  // Others
+  GoodWordListFile: { type: "string", defaultValue: "" },
+  HideAdminsInPlayerList: { type: "boolean", defaultValue: false },
+  HideDisguisedUserName: {
+    type: "boolean",
+    defaultValue: false,
+    requirements: [{ option: "UsernameDisguises", equals: true }],
+  },
+  MaxPacketsPerSecond: { type: "integer", defaultValue: 300, minimum: 100, maximum: 1000 },
+  MaxSafezoneSize: { type: "integer", defaultValue: 20000, minimum: 0, maximum: 2147483647 },
+  MultiplayerStatisticsPeriod: {
+    type: "integer",
+    defaultValue: 1,
+    minimum: 0,
+    maximum: 10,
+    specialValue: { value: 0, meaning: "disabled" },
+  },
+  PVPLogToolChat: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "PVP", equals: true }],
+  },
+  PVPLogToolFile: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "PVP", equals: true }],
+  },
+  SafehouseDisableDisguises: { type: "boolean", defaultValue: true },
+  SafehousePreventsLootRespawn: { type: "boolean", defaultValue: true },
+  SafetyDisconnectDelay: {
+    type: "integer",
+    defaultValue: 60,
+    minimum: 0,
+    maximum: 60,
+    specialValue: { value: 0, meaning: "instant" },
+  },
+  Seed: { type: "string", defaultValue: "" },
+  ShowCoordinates: { type: "boolean", defaultValue: false },
+  SwitchZombiesOwnershipEachUpdate: { type: "boolean", defaultValue: false },
+  UltraSpeedDoesnotAffectToAnimals: { type: "boolean", defaultValue: false },
+  UsePhysicsHitReaction: { type: "boolean", defaultValue: false },
+  UsernameDisguises: { type: "boolean", defaultValue: false },
+  War: { type: "boolean", defaultValue: false },
+  WarDuration: {
+    type: "integer",
+    defaultValue: 3600,
+    minimum: 60,
+    maximum: 2147483647,
+    requirements: [{ option: "War", equals: true }],
+  },
+  WarSafehouseHitPoints: {
+    type: "integer",
+    defaultValue: 3,
+    minimum: 0,
+    maximum: 2147483647,
+    requirements: [{ option: "War", equals: true }],
+    specialValue: { value: 0, meaning: "unlimited" },
+  },
+  WarStartDelay: {
+    type: "integer",
+    defaultValue: 600,
+    minimum: 60,
+    maximum: 2147483647,
+    requirements: [{ option: "War", equals: true }],
+  },
+  WebhookAddress: { type: "string", defaultValue: "", writeOnly: true },
 
 } satisfies Record<string, OptionMetadata>;
 function selectOptions<T extends Record<string, OptionMetadata>>(
