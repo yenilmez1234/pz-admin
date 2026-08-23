@@ -237,7 +237,7 @@
     },
     "SteamScoreboard": {
       "label": "Steam identity visibility",
-      "description": "Controls who can see Steam usernames and avatars in the player list.",
+      "description": "Controls whether Steam usernames and avatars appear in the player list.",
       "choices": {
         "everyone": "Everyone",
         "administrators": "Administrators only",
@@ -334,7 +334,7 @@
     },
     "KnockedDownAllowed": {
       "label": "Allow knockdowns",
-      "description": "Allows players to be knocked down."
+      "description": "Controls whether players can be knocked down."
     },
     "SneakModeHideFromOtherPlayers": {
       "label": "Sneaking hides players",
@@ -430,6 +430,18 @@
       "label": "Channel ID",
       "description": "An optional Discord channel ID to use when the channel name does not work."
     },
+    "DiscordChatChannel": {
+      "label": "Discord chat channel",
+      "description": "The Discord chat channel name."
+    },
+    "DiscordLogChannel": {
+      "label": "Discord logs channel",
+      "description": "The Discord logs channel name."
+    },
+    "DiscordCommandChannel": {
+      "label": "Discord commands channel",
+      "description": "The Discord commands channel name."
+    },
     "Map": {
       "label": "Maps",
       "description": "Semicolon-separated map folder names loaded by the server."
@@ -448,6 +460,7 @@
       "choices": {
         "hidden": "Hidden",
         "factionAndSafehouseMembers": "Faction and safehouse members",
+        "friendsAndNearbyPlayers": "Friends and nearby players",
         "everyone": "Everyone"
       }
     },

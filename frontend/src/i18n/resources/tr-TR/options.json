@@ -237,7 +237,7 @@
     },
     "SteamScoreboard": {
       "label": "Steam kimliği görünürlüğü",
-      "description": "Oyuncu listesinde Steam kullanıcı adlarını ve avatarlarını kimlerin görebileceğini belirler.",
+      "description": "Steam kullanıcı adlarının ve avatarlarının oyuncu listesinde gösterilip gösterilmeyeceğini belirler.",
       "choices": {
         "everyone": "Herkes",
         "administrators": "Yalnızca yöneticiler",
@@ -334,7 +334,7 @@
     },
     "KnockedDownAllowed": {
       "label": "Devrilmeye izin ver",
-      "description": "Oyuncuların devrilmesine izin verir."
+      "description": "Oyuncuların devrilip devrilemeyeceğini belirler."
     },
     "SneakModeHideFromOtherPlayers": {
       "label": "Gizlice hareket ederken saklan",
@@ -430,6 +430,18 @@
       "label": "Kanal kimliği",
       "description": "Kanal adı çalışmadığında kullanılabilecek isteğe bağlı Discord kanal kimliği."
     },
+    "DiscordChatChannel": {
+      "label": "Discord sohbet kanalı",
+      "description": "Discord sohbet kanalının adı."
+    },
+    "DiscordLogChannel": {
+      "label": "Discord günlük kanalı",
+      "description": "Discord günlük kanalının adı."
+    },
+    "DiscordCommandChannel": {
+      "label": "Discord komut kanalı",
+      "description": "Discord komut kanalının adı."
+    },
     "Map": {
       "label": "Haritalar",
       "description": "Sunucunun yüklediği, noktalı virgülle ayrılmış harita klasörü adları."
@@ -448,6 +460,7 @@
       "choices": {
         "hidden": "Gizli",
         "factionAndSafehouseMembers": "Grup ve güvenli ev üyeleri",
+        "friendsAndNearbyPlayers": "Arkadaşlar ve yakındaki oyuncular",
         "everyone": "Herkes"
       }
     },

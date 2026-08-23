@@ -1,4 +1,6 @@
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import zombie.config.BooleanConfigOption;
@@ -6,7 +8,6 @@ import zombie.config.ConfigOption;
 import zombie.config.DoubleConfigOption;
 import zombie.config.IntegerConfigOption;
 import zombie.config.StringConfigOption;
-import zombie.core.Rand;
 import zombie.network.ServerOptions;
 
 public final class ExtractServerOptions {
@@ -17,7 +18,7 @@ public final class ExtractServerOptions {
     public static void main(String[] args) throws ReflectiveOperationException {
         // ServerPlayerID has a random default, so the game's option constructor
         // requires its normal random-number generator to be initialized.
-        Rand.init();
+        initializeRandom();
         ServerOptions serverOptions = ServerOptions.instance;
 
         for (String name : serverOptions.getPublicOptions()) {
@@ -31,6 +32,22 @@ public final class ExtractServerOptions {
                     number(metadata.minimum),
                     number(metadata.maximum),
                     number(metadata.maximumLength));
+        }
+    }
+
+    private static void initializeRandom() throws ReflectiveOperationException {
+        for (String className : new String[] {"zombie.core.Rand", "zombie.core.random.RandStandard"}) {
+            try {
+                Class<?> rand = Class.forName(className);
+                Method init = rand.getMethod("init");
+                Object target = Modifier.isStatic(init.getModifiers())
+                        ? null
+                        : rand.getField("INSTANCE").get(null);
+                init.invoke(target);
+                return;
+            } catch (ClassNotFoundException | NoSuchMethodException ignored) {
+                // The random class moved between Build 41 and Build 42.
+            }
         }
     }
 

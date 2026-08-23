@@ -68,17 +68,17 @@ async function findGameClassDirectory(gameDirectory) {
   ];
 
   for (const candidate of candidates) {
-    if (
-      await isFile(
-        path.join(candidate, "zombie", "network", "ServerOptions.class"),
-      )
-    ) {
+    const hasLooseClasses = await isFile(
+      path.join(candidate, "zombie", "network", "ServerOptions.class"),
+    );
+    const hasGameJar = await isFile(path.join(candidate, "projectzomboid.jar"));
+    if (hasLooseClasses || hasGameJar) {
       return candidate;
     }
   }
 
   throw new Error(
-    `Could not find zombie${path.sep}network${path.sep}ServerOptions.class inside ${gameDirectory}`,
+    `Could not find Project Zomboid classes inside ${gameDirectory}`,
   );
 }
 
