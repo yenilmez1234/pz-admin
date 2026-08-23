@@ -68,3 +68,6 @@ podman run --rm -it   --network host   docker.io/outdead/rcon:latest   ./rcon   
 - [ ] Add Crowdin support for community translations.
 - [ ] Audit Build 41 and Build 42 differences to ensure Build 41 does not accidentally lose supported features.
 - [ ] Minimize the code surface required to support a new game version such as Build 43, particularly by removing scattered build-specific conditionals where declarative version definitions would be clearer.
+crowdin integration + ci/build system
+general conventions for comments, code style etc.
+android deferred
