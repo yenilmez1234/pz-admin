@@ -26,10 +26,20 @@
     "chatAndVoice": "Sohbet ve ses",
     "modsAndWorkshop": "Modlar ve Workshop",
     "savingAndBackups": "Kaydetme ve yedekler",
+    "internalIdentifiers": "Dahili kimlikler",
     "loginAndPerformance": "Giriş ve performans",
     "loggingAndDiagnostics": "Günlükler ve tanılama",
     "protections": "Korumalar",
-    "antiCheat": "Hile koruması"
+    "antiCheat": "Hile koruması",
+    "integrations": "Entegrasyonlar",
+    "vehicles": "Araçlar",
+    "admissionAndQueue": "Kabul ve sıra",
+    "connectionQuality": "Bağlantı kalitesi",
+    "timeAndSleep": "Zaman ve uyku",
+    "spawningAndRespawn": "Doğma ve yeniden doğma",
+    "identityAndVisibility": "Kimlik ve görünürlük",
+    "playerBehavior": "Oyuncu davranışı",
+    "performanceAndSimulation": "Performans ve simülasyon"
   },
   "field": {
     "notInEffect": "Şu an etkisiz",
@@ -104,7 +114,7 @@
       "description": "Oyuncuların güvenli ev talep etmeden önce hayatta kalması gereken oyun içi gün sayısı."
     },
     "SafeHouseRemovalTime": {
-      "label": "Etkin olmama süresi",
+      "label": "Etkin olmayan güvenli evi kaldırma süresi",
       "description": "Belirtilen gerçek dünya saati boyunca hiçbir üyesi tarafından ziyaret edilmeyen güvenli evi kaldırır."
     },
     "DisableSafehouseWhenPlayerConnected": {
@@ -173,7 +183,7 @@
     },
     "DropOffWhiteListAfterDeath": {
       "label": "Ölümden sonra hesabı kaldır",
-      "description": "Normal oyuncunun beyaz liste hesabını ölümden sonra kaldırarak kapalı sunucuda başka bir karakter oluşturmasını engeller."
+      "description": "Normal oyuncunun beyaz liste hesabını ölümden sonra kaldırarak başka bir karakter oluşturmasını engeller."
     },
     "AllowNonAsciiUsername": {
       "label": "ASCII dışı kullanıcı adları",
@@ -379,15 +389,15 @@
       "description": "Oyuncuların sesli sohbet kullanarak iletişim kurmasına izin verir."
     },
     "Voice3D": {
-      "label": "Yönlü sesli sohbet",
+      "label": "3D ses",
       "description": "Sesli sohbeti konuşmacının konumuna göre konumlandırır."
     },
     "VoiceMinDistance": {
-      "label": "Tam ses mesafesi",
+      "label": "Tam ses menzili",
       "description": "Sesli sohbetin tam ses seviyesinde duyulduğu karo cinsinden mesafe."
     },
     "VoiceMaxDistance": {
-      "label": "Azami ses mesafesi",
+      "label": "Azami ses menzili",
       "description": "Sesli sohbetin duyulabildiği karo cinsinden azami mesafe."
     },
     "DisableRadioStaff": {
@@ -795,7 +805,7 @@
     },
     "DisableScoreboard": {
       "label": "Skor tablosunu devre dışı bırak",
-      "description": "Diğer oyuncular için skor tablosunu devre dışı bırakır."
+      "description": "Oyuncu listesinde herkese yalnızca kendisini gösterir."
     },
     "HideAdminsInPlayerList": {
       "label": "Yöneticileri oyuncu listesinde gizle",
@@ -810,8 +820,8 @@
       "description": "Yanmış araçların çekilmesini devre dışı bırakır."
     },
     "DisableSafehouseWhenOwnerConnected": {
-      "label": "Güvenli evleri yalnızca sahipleri çevrim dışıyken koru",
-      "description": "Güvenli ev sahibinin bağlantısı varken güvenli evin normal bir ev gibi davranmasını sağlar."
+      "label": "Üyeler çevrim içiyken korumayı kapat",
+      "description": "Güvenli ev sahibi veya üyelerinden biri bağlıyken korumayı devre dışı bırakır."
     },
     "DisableTrailerTowing": {
       "label": "Römork çekmeyi devre dışı bırak",
@@ -851,7 +861,7 @@
     },
     "Seed": {
       "label": "Dünya oluşturma tohumu",
-      "description": "Dünyayı oluşturmak için kullanılan tohum.<br>Değiştirmek için yeni bir değer girin ve kayıt dizinindeki map_worldgen.bin dosyasını silin."
+      "description": "Dünya üretiminde kullanılan tohum değeri. Değişikliğin uygulanması için yeni değeri girdikten sonra kayıt klasöründeki map_worldgen.bin dosyasını silin."
     },
     "ShowCoordinates": {
       "label": "Koordinatları göster",
@@ -890,7 +900,7 @@
       "description": "Kabul edilen bir savaşın başlamasından önceki saniye cinsinden süre."
     },
     "WebhookAddress": {
-      "label": "Webhook adresi",
+      "label": "Slack gelen webhook URL'si",
       "description": "Slack gelen webhook URL adresi."
     },
     "AnnounceAnimalDeath": {

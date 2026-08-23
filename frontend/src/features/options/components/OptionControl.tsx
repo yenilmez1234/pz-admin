@@ -6,10 +6,10 @@ import { OptionInput, type OptionInputProps } from "./OptionInput";
 
 export function optionControlSize(definition: OptionDefinition) {
   if (definition.type === "boolean") return "intrinsic";
+  if (definition.choices && !definition.multiple) return "medium";
   if (definition.type === "integer" || definition.type === "number") {
     return "compact";
   }
-  if (definition.choices && !definition.multiple) return "medium";
   if (
     definition.type === "string" &&
     definition.maximumLength !== undefined &&

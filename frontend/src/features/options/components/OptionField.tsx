@@ -66,6 +66,7 @@ function OptionFieldComponent({
   const descriptionId = `${id}-description`;
   const canRestoreDefault =
     !definition.readOnly &&
+    !definition.dynamicDefault &&
     definition.defaultValue !== undefined &&
     !optionValuesEqual(value, definition.defaultValue);
   const setValue = (nextValue: OptionFormValue) => {

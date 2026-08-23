@@ -31,6 +31,7 @@ export interface OptionSpecialValue {
 export interface OptionDefinition {
   choices?: OptionChoice[];
   defaultValue?: OptionValue;
+  dynamicDefault?: boolean;
   editor?: "items" | "message";
   maximum?: number;
   maximumBytes?: number;
@@ -950,7 +951,11 @@ export const build42Options = {
     defaultValue: true,
     requirements: [{ option: "PVP", equals: true }],
   },
-  SafehouseDisableDisguises: { type: "boolean", defaultValue: true },
+  SafehouseDisableDisguises: {
+    type: "boolean",
+    defaultValue: true,
+    requirements: [{ option: "UsernameDisguises", equals: true }],
+  },
   SafehousePreventsLootRespawn: { type: "boolean", defaultValue: true },
   SafetyDisconnectDelay: {
     type: "integer",
@@ -959,7 +964,7 @@ export const build42Options = {
     maximum: 60,
     specialValue: { value: 0, meaning: "instant" },
   },
-  Seed: { type: "string", defaultValue: "" },
+  Seed: { type: "string", defaultValue: "", dynamicDefault: true },
   ShowCoordinates: { type: "boolean", defaultValue: false },
   SwitchZombiesOwnershipEachUpdate: { type: "boolean", defaultValue: false },
   UltraSpeedDoesnotAffectToAnimals: { type: "boolean", defaultValue: false },
@@ -988,7 +993,7 @@ export const build42Options = {
     maximum: 2147483647,
     requirements: [{ option: "War", equals: true }],
   },
-  WebhookAddress: { type: "string", defaultValue: "", writeOnly: true },
+  WebhookAddress: { type: "string", defaultValue: "" },
 
 } satisfies Record<string, OptionMetadata>;
 function selectOptions<T extends Record<string, OptionMetadata>>(
@@ -1000,6 +1005,9 @@ function selectOptions<T extends Record<string, OptionMetadata>>(
 
 const b41 = (names: readonly (keyof typeof build41Options)[]) =>
   selectOptions(build41Options, names);
+
+const b42 = (names: readonly (keyof typeof build42Options)[]) =>
+  selectOptions(build42Options, names);
 
 export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
   "41": [
@@ -1023,8 +1031,8 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "Open",
             "MaxPlayers",
             // Account creation, limits, and lifecycle.
-            "AutoCreateUserInWhiteList",
             "MaxAccountsPerUser",
+            "AutoCreateUserInWhiteList",
             "DropOffWhiteListAfterDeath",
             // Username compatibility and additional local players.
             "AllowNonAsciiUsername",
@@ -1043,9 +1051,30 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
           ]),
         },
         {
+          id: "admissionAndQueue",
+          options: b41([
+            "DenyLoginOnOverloadedServer",
+            "LoginQueueEnabled",
+            "LoginQueueConnectTimeout",
+          ]),
+        },
+        {
+          id: "connectionQuality",
+          options: b41(["PingLimit"]),
+        },
+        {
           id: "modsAndWorkshop",
           // Workshop content first, followed by the mod IDs loaded by the server.
           options: b41(["WorkshopItems", "Mods"]),
+        },
+        {
+          id: "integrations",
+          options: b41([
+            "DiscordEnable",
+            "DiscordToken",
+            "DiscordChannel",
+            "DiscordChannelID",
+          ]),
         },
       ],
     },
@@ -1053,27 +1082,41 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       id: "gameplay",
       sections: [
         {
-          id: "players",
+          id: "spawningAndRespawn",
           options: b41([
-            // World time and sleeping behavior.
-            "PauseEmpty",
-            "SleepAllowed",
-            "SleepNeeded",
-            "FastForwardMultiplier",
-            // Respawn locations for local and Remote Play players.
+            "SpawnItems",
+            "SpawnPoint",
             "PlayerRespawnWithSelf",
             "PlayerRespawnWithOther",
-            // Player identity and visibility in-game and in player lists.
+          ]),
+        },
+        {
+          id: "identityAndVisibility",
+          options: b41([
             "DisplayUserName",
             "ShowFirstAndLastName",
             "MouseOverToSeeDisplayName",
             "SteamScoreboard",
-            // Reading speed.
-            "MinutesPerPage",
-            // New-player location, starting inventory, and map visibility.
-            "SpawnPoint",
-            "SpawnItems",
             "MapRemotePlayerVisibility",
+            "SneakModeHideFromOtherPlayers",
+            "HidePlayersBehindYou",
+          ]),
+        },
+        {
+          id: "playerBehavior",
+          options: b41([
+            "MinutesPerPage",
+            "PlayerBumpPlayer",
+            "KnockedDownAllowed",
+          ]),
+        },
+        {
+          id: "timeAndSleep",
+          options: b41([
+            "PauseEmpty",
+            "SleepAllowed",
+            "SleepNeeded",
+            "FastForwardMultiplier",
           ]),
         },
         {
@@ -1085,10 +1128,11 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "BloodSplatLifespanDays",
             "RemovePlayerCorpsesOnCorpseRemoval",
             "TrashDeleteAll",
-            // Vehicle behavior.
-            "SpeedLimit",
-            "CarEngineAttractionModifier",
           ]),
+        },
+        {
+          id: "vehicles",
+          options: b41(["SpeedLimit", "CarEngineAttractionModifier"]),
         },
         {
           id: "lootAndConstruction",
@@ -1117,11 +1161,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "PVPFirearmDamageModifier",
             "PVPMeleeDamageModifier",
             "PVPMeleeWhileHitReaction",
-            // Player collisions and visibility.
-            "PlayerBumpPlayer",
-            "KnockedDownAllowed",
-            "SneakModeHideFromOtherPlayers",
-            "HidePlayersBehindYou",
           ]),
         },
       ],
@@ -1142,9 +1181,9 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "SafeHouseRemovalTime",
             "DisableSafehouseWhenPlayerConnected",
             // Protections governing non-members and environmental damage.
-            "SafehouseAllowFire",
             "SafehouseAllowTrepass",
             "SafehouseAllowLoot",
+            "SafehouseAllowFire",
           ]),
         },
         {
@@ -1176,11 +1215,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
             "DisableRadioOverseer",
             "DisableRadioGM",
             "DisableRadioInvisible",
-            // External chat integration.
-            "DiscordEnable",
-            "DiscordToken",
-            "DiscordChannel",
-            "DiscordChannelID",
           ]),
         },
       ],
@@ -1190,30 +1224,22 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       sections: [
         {
           id: "savingAndBackups",
-          // World saving first, then backup triggers and retention, followed by generated IDs.
+          // World saving first, then backup triggers and retention.
           options: b41([
             "SaveWorldEveryMinutes",
             "BackupsOnStart",
             "BackupsOnVersionChange",
             "BackupsPeriod",
             "BackupsCount",
-            "ResetID",
-            "ServerPlayerID",
-          ]),
-        },
-        {
-          id: "loginAndPerformance",
-          // Admission controls first, followed by connection-quality limits.
-          options: b41([
-            "DenyLoginOnOverloadedServer",
-            "LoginQueueEnabled",
-            "LoginQueueConnectTimeout",
-            "PingLimit",
           ]),
         },
         {
           id: "loggingAndDiagnostics",
           options: b41(["PerkLogs", "ClientActionLogs", "ClientCommandFilter"]),
+        },
+        {
+          id: "internalIdentifiers",
+          options: b41(["ResetID", "ServerPlayerID"]),
         },
       ],
     },
@@ -1265,5 +1291,280 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       ],
     },
   ],
-  "42": [],
+  "42": [
+    {
+      id: "server",
+      sections: [
+        {
+          id: "identityAndListing",
+          options: b42([
+            "PublicName",
+            "PublicDescription",
+            "ServerWelcomeMessage",
+            "Public",
+          ]),
+        },
+        {
+          id: "accessAndCapacity",
+          options: b42([
+            "Open",
+            "MaxPlayers",
+            "MaxAccountsPerUser",
+            "DropOffWhiteListAfterDeath",
+            "AllowNonAsciiUsername",
+            "AllowCoop",
+          ]),
+        },
+        {
+          id: "networkAndConnection",
+          options: b42([
+            "DefaultPort",
+            "UDPPort",
+            "UPnP",
+            "server_browser_announced_ip",
+          ]),
+        },
+        {
+          id: "admissionAndQueue",
+          options: b42([
+            "DenyLoginOnOverloadedServer",
+            "LoginQueueEnabled",
+            "LoginQueueConnectTimeout",
+          ]),
+        },
+        {
+          id: "connectionQuality",
+          options: b42(["PingLimit", "MaxPacketsPerSecond"]),
+        },
+        {
+          id: "modsAndWorkshop",
+          options: b42(["WorkshopItems", "Mods"]),
+        },
+        {
+          id: "integrations",
+          options: b42([
+            "DiscordEnable",
+            "DiscordToken",
+            "DiscordChatChannel",
+            "DiscordCommandChannel",
+            "DiscordLogChannel",
+            "WebhookAddress",
+          ]),
+        },
+      ],
+    },
+    {
+      id: "gameplay",
+      sections: [
+        {
+          id: "spawningAndRespawn",
+          options: b42([
+            "SpawnItems",
+            "SpawnPoint",
+            "PlayerRespawnWithSelf",
+            "PlayerRespawnWithOther",
+          ]),
+        },
+        {
+          id: "identityAndVisibility",
+          options: b42([
+            "DisplayUserName",
+            "ShowFirstAndLastName",
+            "MouseOverToSeeDisplayName",
+            "SteamScoreboard",
+            "DisableScoreboard",
+            "UsernameDisguises",
+            "HideDisguisedUserName",
+            "HideAdminsInPlayerList",
+            "MapRemotePlayerVisibility",
+            "SneakModeHideFromOtherPlayers",
+            "HidePlayersBehindYou",
+          ]),
+        },
+        {
+          id: "playerBehavior",
+          options: b42([
+            "PlayerBumpPlayer",
+            "KnockedDownAllowed",
+            "UsePhysicsHitReaction",
+          ]),
+        },
+        {
+          id: "timeAndSleep",
+          options: b42([
+            "PauseEmpty",
+            "SleepAllowed",
+            "SleepNeeded",
+            "FastForwardMultiplier",
+            "UltraSpeedDoesnotAffectToAnimals",
+          ]),
+        },
+        {
+          id: "world",
+          options: b42([
+            "Map",
+            "Seed",
+            "ShowCoordinates",
+            "NoFire",
+            "BloodSplatLifespanDays",
+            "RemovePlayerCorpsesOnCorpseRemoval",
+            "TrashDeleteAll",
+          ]),
+        },
+        {
+          id: "vehicles",
+          options: b42([
+            "SpeedLimit",
+            "CarEngineAttractionModifier",
+            "DisableVehicleTowing",
+            "DisableTrailerTowing",
+            "DisableBurntTowing",
+          ]),
+        },
+        {
+          id: "lootAndConstruction",
+          options: b42([
+            "ItemNumbersLimitPerContainer",
+            "AllowDestructionBySledgehammer",
+            "SledgehammerOnlyInSafehouse",
+          ]),
+        },
+        {
+          id: "pvpAndSafety",
+          options: b42([
+            "PVP",
+            "SafetySystem",
+            "ShowSafety",
+            "SafetyToggleTimer",
+            "SafetyCooldownTimer",
+            "SafetyDisconnectDelay",
+            "PVPFirearmDamageModifier",
+            "PVPMeleeDamageModifier",
+            "PVPMeleeWhileHitReaction",
+            "PVPLogToolChat",
+            "PVPLogToolFile",
+          ]),
+        },
+      ],
+    },
+    {
+      id: "communities",
+      sections: [
+        {
+          id: "safehouses",
+          options: b42([
+            "PlayerSafehouse",
+            "AdminSafehouse",
+            "SafehouseDaySurvivedToClaim",
+            "SafehouseAllowNonResidential",
+            "MaxSafezoneSize",
+            "SafehouseAllowRespawn",
+            "SafeHouseRemovalTime",
+            "DisableSafehouseWhenOwnerConnected",
+            "SafehouseAllowTrepass",
+            "SafehouseAllowLoot",
+            "SafehouseAllowFire",
+            "SafehousePreventsLootRespawn",
+            "SafehouseDisableDisguises",
+            "War",
+            "WarStartDelay",
+            "WarDuration",
+            "WarSafehouseHitPoints",
+          ]),
+        },
+        {
+          id: "factions",
+          options: b42([
+            "Faction",
+            "FactionDaySurvivedToCreate",
+            "FactionPlayersRequiredForTag",
+          ]),
+        },
+        {
+          id: "chatAndVoice",
+          options: b42([
+            "GlobalChat",
+            "ChatStreams",
+            "AnnounceDeath",
+            "AnnounceAnimalDeath",
+            "BanKickGlobalSound",
+            "ChatMessageCharacterLimit",
+            "ChatMessageSlowModeTime",
+            "BadWordListFile",
+            "GoodWordListFile",
+            "BadWordPolicy",
+            "BadWordReplacement",
+            "VoiceEnable",
+            "Voice3D",
+            "VoiceMinDistance",
+            "VoiceMaxDistance",
+            "DisableRadioStaff",
+            "DisableRadioAdmin",
+            "DisableRadioModerator",
+            "DisableRadioOverseer",
+            "DisableRadioGM",
+            "DisableRadioInvisible",
+          ]),
+        },
+      ],
+    },
+    {
+      id: "operations",
+      sections: [
+        {
+          id: "savingAndBackups",
+          options: b42([
+            "SaveWorldEveryMinutes",
+            "BackupsOnStart",
+            "BackupsOnVersionChange",
+            "BackupsPeriod",
+            "BackupsCount",
+          ]),
+        },
+        {
+          id: "loggingAndDiagnostics",
+          options: b42([
+            "PerkLogs",
+            "ClientActionLogs",
+            "ClientCommandFilter",
+          ]),
+        },
+        {
+          id: "performanceAndSimulation",
+          options: b42([
+            "MultiplayerStatisticsPeriod",
+            "SwitchZombiesOwnershipEachUpdate",
+          ]),
+        },
+        {
+          id: "internalIdentifiers",
+          options: b42(["ResetID", "ServerPlayerID"]),
+        },
+      ],
+    },
+    {
+      id: "security",
+      sections: [
+        {
+          id: "protections",
+          options: b42(["SteamVAC", "DoLuaChecksum"]),
+        },
+        {
+          id: "antiCheat",
+          options: b42([
+            "AntiCheatChecksum",
+            "AntiCheatHit",
+            "AntiCheatNoClip",
+            "AntiCheatPacketException",
+            "AntiCheatPermission",
+            "AntiCheatPlayer",
+            "AntiCheatSafeHouse",
+            "AntiCheatSafety",
+            "AntiCheatSpeed",
+            "AntiCheatXP",
+          ]),
+        },
+      ],
+    },
+  ],
 };

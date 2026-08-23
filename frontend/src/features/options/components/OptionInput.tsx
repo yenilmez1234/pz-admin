@@ -104,7 +104,9 @@ export function OptionInput({
           clampBehavior="blur"
           max={definition.maximum}
           min={definition.minimum}
-          value={typeof value === "number" ? value : ""}
+          value={
+            typeof value === "number" || typeof value === "string" ? value : ""
+          }
           onChange={onChange}
         />
         {definition.minimum !== undefined || displayedMaximum !== undefined ? (

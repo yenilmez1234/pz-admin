@@ -26,10 +26,20 @@
     "chatAndVoice": "Chat and voice",
     "modsAndWorkshop": "Mods and Workshop",
     "savingAndBackups": "Saving and backups",
+    "internalIdentifiers": "Internal identifiers",
     "loginAndPerformance": "Login and performance",
     "loggingAndDiagnostics": "Logging and diagnostics",
     "protections": "Protections",
-    "antiCheat": "Anti-cheat"
+    "antiCheat": "Anti-cheat",
+    "integrations": "Integrations",
+    "vehicles": "Vehicles",
+    "admissionAndQueue": "Admission and queue",
+    "connectionQuality": "Connection quality",
+    "timeAndSleep": "Time and sleep",
+    "spawningAndRespawn": "Spawning and respawn",
+    "identityAndVisibility": "Identity and visibility",
+    "playerBehavior": "Player behavior",
+    "performanceAndSimulation": "Performance and simulation"
   },
   "field": {
     "notInEffect": "Not in effect",
@@ -104,7 +114,7 @@
       "description": "Number of in-game days a player must survive before claiming a safehouse."
     },
     "SafeHouseRemovalTime": {
-      "label": "Inactive removal period",
+      "label": "Inactive safehouse removal time",
       "description": "Removes a safehouse when none of its members have visited it for the specified number of real-world hours."
     },
     "DisableSafehouseWhenPlayerConnected": {
@@ -173,7 +183,7 @@
     },
     "DropOffWhiteListAfterDeath": {
       "label": "Remove account after death",
-      "description": "Removes a regular player's whitelist account after death, preventing them from creating another character on a closed server."
+      "description": "Removes a regular player's whitelist account after death, preventing them from creating another character."
     },
     "AllowNonAsciiUsername": {
       "label": "Non-ASCII usernames",
@@ -379,15 +389,15 @@
       "description": "Allows players to communicate using voice chat."
     },
     "Voice3D": {
-      "label": "Directional voice audio",
+      "label": "3D voice",
       "description": "Positions voice chat audio according to the speaker's location."
     },
     "VoiceMinDistance": {
-      "label": "Full-volume distance",
+      "label": "Full-volume range",
       "description": "Distance in tiles within which voice chat is heard at full volume."
     },
     "VoiceMaxDistance": {
-      "label": "Maximum voice distance",
+      "label": "Maximum voice range",
       "description": "Maximum distance in tiles at which voice chat can be heard."
     },
     "DisableRadioStaff": {
@@ -795,7 +805,7 @@
     },
     "DisableScoreboard": {
       "label": "Disable scoreboard",
-      "description": "Disables the scoreboard for other players."
+      "description": "Shows players only their own entry in the player list."
     },
     "HideAdminsInPlayerList": {
       "label": "Hide admins in player list",
@@ -810,8 +820,8 @@
       "description": "Disables towing burnt vehicles."
     },
     "DisableSafehouseWhenOwnerConnected": {
-      "label": "Protect safehouses only while owners are offline",
-      "description": "Makes a safehouse behave like a normal house while its owner is connected."
+      "label": "Disable protection while members are online",
+      "description": "Disables safehouse protection while its owner or any member is connected."
     },
     "DisableTrailerTowing": {
       "label": "Disable trailer towing",
@@ -851,7 +861,7 @@
     },
     "Seed": {
       "label": "World generation seed",
-      "description": "The seed used to generate the world.<br>To change it, enter a new value and delete map_worldgen.bin from the save directory."
+      "description": "The seed used to generate the world. To apply a new value, delete map_worldgen.bin from the save directory after changing it."
     },
     "ShowCoordinates": {
       "label": "Show coordinates",
@@ -890,7 +900,7 @@
       "description": "Time in seconds before an accepted war starts."
     },
     "WebhookAddress": {
-      "label": "Webhook address",
+      "label": "Slack incoming webhook URL",
       "description": "Slack incoming webhook URL."
     },
     "AnnounceAnimalDeath": {
