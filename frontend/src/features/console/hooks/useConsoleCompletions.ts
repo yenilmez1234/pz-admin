@@ -7,6 +7,7 @@ import { loadVehicleCatalog } from "@/features/vehicles/catalog";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
 import { canonicalLanguage, defaultLanguage } from "@/i18n/locales";
 import { usePlayers } from "@/features/players/PlayersProvider";
+import { optionCatalogs } from "@/features/options/catalog";
 import { consoleCatalog, localConsoleCommandNames } from "../lib/catalog";
 import type {
   ConsoleCompletionSource,
@@ -147,6 +148,13 @@ export function useConsoleCompletions(
   }, [collator, players]);
   const catalogCompletions = useMemo(() => {
     const staticValues = build ? consoleCatalog(build).values : undefined;
+    const optionNames = build
+      ? optionCatalogs[build].flatMap((category) =>
+          category.sections.flatMap((section) =>
+            section.options.map((option) => option.name),
+          ),
+        )
+      : emptyValues;
 
     return {
       accessLevels: sorted(staticValues?.accessLevels ?? emptyValues, collator),
@@ -162,6 +170,8 @@ export function useConsoleCompletions(
         build ? loadedValues(loaded.items, build, language) : emptyValues,
         collator,
       ),
+      optionNames: sorted(optionNames, collator),
+      optionValues: emptyValues,
       skills: sorted(
         build ? loadedValues(loaded.skills, build, language) : emptyValues,
         collator,

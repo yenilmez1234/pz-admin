@@ -29,7 +29,10 @@ export const build41ConsoleCommands = [
   { name: "unbanid" },
   { name: "banuser", completions: { 0: "players" } },
   { name: "unbanuser", completions: { 0: "players" } },
-  { name: "changeoption" },
+  {
+    name: "changeoption",
+    completions: { 0: "optionNames", 1: "optionValues" },
+  },
   { name: "chopper" },
   { name: "createhorde", completions: { 1: "onlinePlayers" } },
   {

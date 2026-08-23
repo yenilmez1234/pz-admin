@@ -4,6 +4,8 @@ export interface ConsoleCompletionValues {
   commands: readonly string[];
   items: readonly string[];
   onlinePlayers: readonly string[];
+  optionNames: readonly string[];
+  optionValues: readonly string[];
   players: readonly string[];
   skills: readonly string[];
   vehicles: readonly string[];

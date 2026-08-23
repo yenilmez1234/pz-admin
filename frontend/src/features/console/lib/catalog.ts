@@ -1,4 +1,5 @@
 import type { GameBuild } from "@/features/game/types";
+import { optionCatalogs } from "@/features/options/catalog";
 import { build41ConsoleCatalog } from "./catalogs/41";
 import { build42ConsoleCatalog } from "./catalogs/42";
 import { rankedConsoleSuggestions } from "./matching";
@@ -45,6 +46,7 @@ export interface ConsoleSuggestions {
 interface ConsoleCompletionContext {
   activeToken: string;
   anchorPosition: number;
+  argumentValues: readonly string[];
   commandPosition: boolean;
   quote: '"' | "'" | null;
   replacementEnd: number;
@@ -156,6 +158,7 @@ function completionContext(
       ? input.slice(activeToken.contentStart, queryEnd)
       : "",
     anchorPosition: activeToken?.contentStart ?? caret,
+    argumentValues: precedingTokens.slice(1).map((token) => token.value),
     commandPosition: precedingTokens.length === 0,
     quote: activeToken?.quote ?? null,
     replacementEnd,
@@ -165,6 +168,27 @@ function completionContext(
         ? null
         : (command?.completions?.[precedingTokens.length - 1] ?? null),
   };
+}
+
+function optionValueSuggestions(
+  build: GameBuild | undefined,
+  optionName: string | undefined,
+) {
+  if (!build || !optionName) return [];
+
+  const normalizedName = optionName.toLowerCase();
+  const definition = optionCatalogs[build]
+    .flatMap((category) => category.sections)
+    .flatMap((section) => section.options)
+    .find((option) => option.name.toLowerCase() === normalizedName);
+  if (!definition) return [];
+
+  if (definition.choices) {
+    return definition.choices.map((choice) => String(choice.value));
+  }
+  if (definition.type === "boolean") return ["true", "false"];
+  if (definition.specialValue) return [String(definition.specialValue.value)];
+  return [];
 }
 
 export function consoleCompletionSource(
@@ -188,9 +212,11 @@ export function consoleSuggestions(
       : build
         ? commandNames[build]
         : localConsoleCommandNames
-    : context.source
-      ? completionValues[context.source]
-      : [];
+    : context.source === "optionValues"
+      ? optionValueSuggestions(build, context.argumentValues[0])
+      : context.source
+        ? completionValues[context.source]
+        : [];
   const matches = rankedConsoleSuggestions(
     candidates,
     context.activeToken,
