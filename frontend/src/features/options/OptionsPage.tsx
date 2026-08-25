@@ -1,5 +1,5 @@
 import { Activity, useLayoutEffect, useRef, useState } from "react";
-import { Alert, Box, Button, Skeleton, Stack, Text } from "@mantine/core";
+import { Alert, Box, Button, Group, Skeleton, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,64 @@ import { OptionsActions } from "./components/OptionsActions";
 import { useOptionsEditor } from "./hooks/useOptionsEditor";
 import { useOptionsSearch } from "./hooks/useOptionsSearch";
 import classes from "./OptionsPage.module.css";
+
+const skeletonCategories = [88, 104, 92, 116, 96];
+const skeletonControls = [112, 220, 112, 300, 220, 112];
+
+function OptionsPageSkeleton() {
+  return (
+    <PageContainer contentWidth="wide" h="100%" px={0}>
+      <div className={classes.root} aria-busy="true">
+        <div className={classes.skeletonNavigation} aria-hidden="true">
+          <div className={classes.skeletonCategories}>
+            {skeletonCategories.map((width) => (
+              <Skeleton h={34} key={width} w={width} />
+            ))}
+          </div>
+          <Skeleton className={classes.skeletonSearch} h={36} />
+        </div>
+
+        <div className={classes.content} aria-hidden="true">
+          <div className={classes.scroller}>
+            <Stack gap="xl">
+              {[0, 1].map((section) => (
+                <Stack gap="sm" key={section}>
+                  <Stack gap={5}>
+                    {section === 0 ? <Skeleton h={22} w={180} /> : null}
+                    <Skeleton h={18} w={130 + section * 35} />
+                  </Stack>
+                  <div className={classes.skeletonSection}>
+                    {skeletonControls
+                      .slice(section * 3, section * 3 + 3)
+                      .map((controlWidth, row) => (
+                        <div
+                          className={classes.skeletonOptionRow}
+                          key={`${section}-${row}`}
+                        >
+                          <Stack flex={1} gap={6}>
+                            <Skeleton h={14} w={`${32 + row * 9}%`} />
+                            <Skeleton h={10} w={`${58 + row * 8}%`} />
+                          </Stack>
+                          <Skeleton h={36} w={controlWidth} />
+                        </div>
+                      ))}
+                  </div>
+                </Stack>
+              ))}
+            </Stack>
+          </div>
+          <div className={classes.actions}>
+            <Skeleton h={14} w={120} />
+            <Group gap="sm" ml="auto">
+              <Skeleton h={32} w={76} />
+              <Skeleton h={32} w={92} />
+            </Group>
+          </div>
+        </div>
+      </div>
+    </PageContainer>
+  );
+}
 
 export function OptionsPage() {
   const { t } = useTranslation("options");
@@ -88,14 +146,7 @@ export function OptionsPage() {
   }
 
   if (editor.loading) {
-    return (
-      <Stack p="xl" gap="lg" aria-busy="true">
-        <Skeleton height={34} width="35%" />
-        <Skeleton height={76} />
-        <Skeleton height={76} />
-        <Skeleton height={76} />
-      </Stack>
-    );
+    return <OptionsPageSkeleton />;
   }
 
   if (editor.loadError) {

@@ -106,13 +106,19 @@ export const VehicleResultsList = memo(function VehicleResultsList({
                   <Grid align="center" gap="md">
                     <Grid.Col span={{ base: 12, sm: 6 }}>
                       <Group gap={0} wrap="nowrap">
-                        <Skeleton
-                          height={76}
+                        <Box
+                          h={76}
                           ms="calc(-1 * var(--mantine-spacing-md))"
                           my="calc(-1 * var(--mantine-spacing-sm))"
-                          width={120}
-                        />
-                        <Stack gap={6} flex={1}>
+                          style={{
+                            display: "flex",
+                            flex: "0 0 120px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <Skeleton h="100%" radius={0} w="100%" />
+                        </Box>
+                        <Stack gap={6} flex={1} miw={0}>
                           <Skeleton height={16} width="65%" />
                           <Skeleton height={13} width="45%" />
                         </Stack>

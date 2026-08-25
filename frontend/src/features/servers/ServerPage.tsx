@@ -1,4 +1,4 @@
-import { SimpleGrid, Skeleton } from "@mantine/core";
+import { Group, SimpleGrid, Skeleton, Stack } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { useSession } from "@/features/session/SessionProvider";
@@ -17,11 +17,17 @@ export function ServerPage() {
         aria-busy="true"
         aria-label={t("loadingLabel")}
       >
-        <SimpleGrid minColWidth={260}>
-          <Skeleton height={112} />
-          <Skeleton height={112} />
-          <Skeleton height={112} />
-        </SimpleGrid>
+        <Stack gap="lg">
+          <Group justify="space-between" align="center" aria-hidden="true">
+            <Skeleton h={42} w={190} />
+            <Skeleton h={36} w={122} />
+          </Group>
+          <SimpleGrid minColWidth={260} aria-hidden="true">
+            <Skeleton height={112} />
+            <Skeleton height={112} />
+            <Skeleton height={112} />
+          </SimpleGrid>
+        </Stack>
       </PageContainer>
     );
   }
