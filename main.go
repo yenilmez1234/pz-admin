@@ -15,6 +15,7 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/options"
 	"github.com/beyenilmez/pz-admin/internal/player"
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/serveraction"
 	"github.com/beyenilmez/pz-admin/internal/session"
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
@@ -90,7 +91,8 @@ func run() error {
 	profileSvc := profile.NewService(playerSvc)
 	consoleSvc := console.NewService(playerSvc.ObserveConsoleCommand)
 	optionsSvc := options.NewService()
-	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc, optionsSvc)
+	serverActionSvc := serveraction.NewService()
+	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc, optionsSvc, serverActionSvc)
 
 	app := application.New(application.Options{
 		Name:        "pz-admin",
@@ -102,6 +104,7 @@ func run() error {
 			application.NewService(optionsSvc),
 			application.NewService(playerSvc),
 			application.NewService(profileSvc),
+			application.NewService(serverActionSvc),
 			application.NewService(sessionSvc),
 		},
 		Assets: application.AssetOptions{

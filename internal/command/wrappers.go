@@ -370,6 +370,26 @@ func (c *Client) ReloadOptions(ctx context.Context) (string, error) {
 	return res.(string), nil
 }
 
+// ReloadLua reloads a loaded Lua file matching the supplied path suffix.
+func (c *Client) ReloadLua(ctx context.Context, file string) (string, error) {
+	res, err := Execute(ctx, c.exec, "reloadlua", c.version, map[string]string{
+		"file": file,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
+// ReloadAllLua reloads all loaded Lua files. It is available in Build 42.
+func (c *Client) ReloadAllLua(ctx context.Context) (string, error) {
+	res, err := Execute(ctx, c.exec, "reloadalllua", c.version, nil)
+	if err != nil {
+		return "", err
+	}
+	return res.(string), nil
+}
+
 // RemoveUserFromWhitelist removes a user from the whitelist.
 func (c *Client) RemoveUserFromWhitelist(ctx context.Context, username string) (string, error) {
 	res, err := Execute(ctx, c.exec, "removeuserfromwhitelist", c.version, map[string]string{

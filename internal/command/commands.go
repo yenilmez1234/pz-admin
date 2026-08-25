@@ -514,6 +514,24 @@ var definitions = []Definition{
 		},
 	},
 
+	// reloadLua reloads a loaded Lua file matching the supplied path suffix.
+	//
+	// Usage: /reloadlua "file"
+	{
+		Name:       "reloadlua",
+		MinVersion: "41",
+		MaxVersion: "42",
+		Params: []Param{
+			{Name: "file", Type: TypeString, Required: true},
+		},
+		Parse: func(raw string, _ map[string]string) (any, error) {
+			if strings.TrimSpace(raw) == "Lua file reloaded" {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
 	// reloadOptions reloads server options (ServerOptions.ini) and sends them
 	// to clients.
 	//
@@ -1086,6 +1104,21 @@ var definitions = []Definition{
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
 			if raw == fmt.Sprintf("Safehouse %s released", args["safehouse"]) {
+				return raw, nil
+			}
+			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
+		},
+	},
+
+	// reloadAllLua reloads all loaded Lua files.
+	//
+	// Usage: /reloadalllua
+	{
+		Name:       "reloadalllua",
+		MinVersion: "42",
+		MaxVersion: "42",
+		Parse: func(raw string, _ map[string]string) (any, error) {
+			if strings.TrimSpace(raw) == "Lua files reloaded" {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
