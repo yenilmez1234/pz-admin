@@ -5,6 +5,7 @@ import messages from "./resources/en-US/messages.json";
 import options from "./resources/en-US/options.json";
 import players from "./resources/en-US/players.json";
 import servers from "./resources/en-US/servers.json";
+import serverActions from "./resources/en-US/serverActions.json";
 import session from "./resources/en-US/session.json";
 import settings from "./resources/en-US/settings.json";
 import shell from "./resources/en-US/shell.json";
@@ -25,6 +26,7 @@ export const defaultResources = {
   options,
   players,
   servers,
+  serverActions,
   session,
   settings,
   shell,

@@ -6,6 +6,7 @@
   "options": true,
   "players": true,
   "servers": true,
+  "serverActions": true,
   "session": true,
   "settings": true,
   "shell": true,

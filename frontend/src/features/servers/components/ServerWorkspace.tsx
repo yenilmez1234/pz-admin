@@ -1,7 +1,12 @@
 import type { ReactNode } from "react";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
-import { IconAdjustments, IconTerminal2, IconUsers } from "@tabler/icons-react";
+import {
+  IconAdjustments,
+  IconBolt,
+  IconTerminal2,
+  IconUsers,
+} from "@tabler/icons-react";
 import {
   SectionNavigation,
   SectionNavigationPanel,
@@ -12,10 +17,11 @@ import { errorMessage } from "@/shared/lib/errors";
 import { ConsolePage } from "@/features/console/ConsolePage";
 import { PlayersPage } from "@/features/players/PlayersPage";
 import { OptionsPage } from "@/features/options/OptionsPage";
+import { ServerActionsPage } from "@/features/server-actions/ServerActionsPage";
 import { ServerConnectionFooter } from "./ServerConnectionFooter";
 import { usePersistentNavigation } from "@/shared/hooks/usePersistentNavigation";
 
-type ServerWorkspacePage = "players" | "options" | "console";
+type ServerWorkspacePage = "players" | "options" | "serverActions" | "console";
 
 export function ServerWorkspace() {
   const { t } = useTranslation(["servers", "session"]);
@@ -31,6 +37,11 @@ export function ServerWorkspace() {
       value: "options",
       label: t("workspace.options"),
       icon: <IconAdjustments size={16} aria-hidden="true" />,
+    },
+    {
+      value: "serverActions",
+      label: t("workspace.serverActions"),
+      icon: <IconBolt size={16} aria-hidden="true" />,
     },
     {
       value: "console",
@@ -79,6 +90,9 @@ export function ServerWorkspace() {
       </SectionNavigationPanel>
       <SectionNavigationPanel page="options" scrollable={false}>
         {navigation.isVisited("options") ? <OptionsPage /> : null}
+      </SectionNavigationPanel>
+      <SectionNavigationPanel page="serverActions">
+        {navigation.isVisited("serverActions") ? <ServerActionsPage /> : null}
       </SectionNavigationPanel>
       <SectionNavigationPanel page="console">
         {navigation.isVisited("console") ? <ConsolePage /> : null}

@@ -1,0 +1,64 @@
+{
+  "page": { "title": "Sunucu İşlemleri" },
+  "sections": {
+    "weather": "Hava Durumu",
+    "events": "Dünya Olayları",
+    "reload": "Yeniden Yükleme Komutları"
+  },
+  "actions": {
+    "saveWorld": "Dünyayı Kaydet",
+    "stopServer": "Sunucuyu Durdur",
+    "sendMessage": "Mesaj Gönder",
+    "startRain": "Yağmuru Başlat",
+    "startStorm": "Fırtına Başlat",
+    "stopRain": "Yağmuru Durdur",
+    "stopWeather": "Hava Olayını Durdur",
+    "helicopter": "Helikopter",
+    "gunshot": "Silah Sesi",
+    "lightning": "Yıldırım",
+    "thunder": "Gök Gürültüsü",
+    "reloadOptions": "Seçenekleri Yeniden Yükle",
+    "reloadLua": "Lua Dosyasını Yeniden Yükle",
+    "reloadFile": "Dosyayı Yeniden Yükle",
+    "reloadAllLua": "Tüm Lua Dosyalarını Yeniden Yükle"
+  },
+  "descriptions": {
+    "startRain": "Yağmuru başlatır. Yoğunluk isteğe bağlıdır ve 1-100 arasında olmalıdır.",
+    "startStorm": "Fırtınayı başlatır. Süre isteğe bağlıdır ve oyun saati cinsindendir.",
+    "events": "Seçilen olayı rastgele belirlenen çevrim içi bir oyuncuya yönelik tetikler.",
+    "reloadOptions": "Sunucu seçeneklerini dosyadan yeniden yükler.",
+    "reloadLua": "Yolu girilen değerle biten ilk yüklü Lua dosyasını yeniden yükler.",
+    "reloadAllLua": "Yüklü tüm Lua dosyalarını yeniden yükler."
+  },
+  "fields": {
+    "intensity": "Yoğunluk",
+    "duration": "Süre",
+    "luaFile": "Dosya adı veya yol sonu"
+  },
+  "events": { "onlinePlayers": "Çevrim içi oyuncular:", "noPlayers": "Yok" },
+  "dialogs": {
+    "messageTitle": "Sunucu Mesajı Gönder",
+    "stopTitle": "Sunucuyu Durdur",
+    "stopDescription": "Dünyayı kaydeder, tüm oyuncuların bağlantısını keser ve sunucuyu durdurur."
+  },
+  "notifications": {
+    "successTitle": "İşlem tamamlandı",
+    "failureTitle": "İşlem başarısız"
+  },
+  "success": {
+    "worldSaved": "Dünya kaydedildi.",
+    "messageSent": "Mesaj çevrim içi tüm oyunculara gönderildi.",
+    "rainStarted": "Yağmur başlatıldı.",
+    "rainStopped": "Yağmur durduruldu.",
+    "stormStarted": "Fırtına başlatıldı.",
+    "weatherStopped": "Tüm hava olayları durduruldu.",
+    "helicopter": "Rastgele bir çevrim içi oyuncu için helikopter olayı tetiklendi.",
+    "gunshot": "Rastgele bir çevrim içi oyuncunun yakınında silah sesi tetiklendi.",
+    "lightning": "{{target}} oyuncusuna yıldırım düştü.",
+    "thunder": "{{target}} oyuncusunun yakınında gök gürültüsü tetiklendi.",
+    "optionsReloaded": "Sunucu seçenekleri dosyadan yeniden yüklendi.",
+    "luaReloaded": "Lua dosyası yeniden yüklendi.",
+    "allLuaReloaded": "Yüklü tüm Lua dosyaları yeniden yüklendi.",
+    "serverStopped": "Sunucu durduruldu."
+  }
+}

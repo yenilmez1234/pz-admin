@@ -1,0 +1,64 @@
+{
+  "page": { "title": "Server Actions" },
+  "sections": {
+    "weather": "Weather",
+    "events": "World Events",
+    "reload": "Reload Commands"
+  },
+  "actions": {
+    "saveWorld": "Save World",
+    "stopServer": "Stop Server",
+    "sendMessage": "Send Message",
+    "startRain": "Start Rain",
+    "startStorm": "Start Storm",
+    "stopRain": "Stop Rain",
+    "stopWeather": "Stop Weather",
+    "helicopter": "Helicopter",
+    "gunshot": "Gunshot",
+    "lightning": "Lightning",
+    "thunder": "Thunder",
+    "reloadOptions": "Reload Options",
+    "reloadLua": "Reload Lua File",
+    "reloadFile": "Reload File",
+    "reloadAllLua": "Reload All Lua Files"
+  },
+  "descriptions": {
+    "startRain": "Starts rain. Intensity is optional and ranges from 1 to 100.",
+    "startStorm": "Starts a storm. Duration is optional and measured in game hours.",
+    "events": "Targets a randomly selected online player with the chosen event.",
+    "reloadOptions": "Reloads the server options from disk.",
+    "reloadLua": "Reloads the first loaded Lua file whose path ends with the entered value.",
+    "reloadAllLua": "Reloads all currently loaded Lua files."
+  },
+  "fields": {
+    "intensity": "Intensity",
+    "duration": "Duration (game hours)",
+    "luaFile": "File name or path ending"
+  },
+  "events": { "onlinePlayers": "Online players:", "noPlayers": "None" },
+  "dialogs": {
+    "messageTitle": "Send Server Message",
+    "stopTitle": "Stop Server",
+    "stopDescription": "This saves the world, disconnects all players, and stops the server."
+  },
+  "notifications": {
+    "successTitle": "Action completed",
+    "failureTitle": "Action failed"
+  },
+  "success": {
+    "worldSaved": "World saved.",
+    "messageSent": "Message sent to all online players.",
+    "rainStarted": "Rain started.",
+    "rainStopped": "Rain stopped.",
+    "stormStarted": "Storm started.",
+    "weatherStopped": "All weather effects stopped.",
+    "helicopter": "Helicopter event triggered for a random online player.",
+    "gunshot": "Gunshot triggered near a random online player.",
+    "lightning": "Lightning struck {{target}}.",
+    "thunder": "Thunder triggered near {{target}}.",
+    "optionsReloaded": "Server options reloaded from disk.",
+    "luaReloaded": "Lua file reloaded.",
+    "allLuaReloaded": "All loaded Lua files reloaded.",
+    "serverStopped": "Server stopped."
+  }
+}

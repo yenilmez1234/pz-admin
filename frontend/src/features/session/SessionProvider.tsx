@@ -12,10 +12,7 @@ import { Events } from "@wailsio/runtime";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
 import type { Profile } from "@bindings/internal/profile/models";
-import {
-  Connect,
-  Disconnect,
-} from "@bindings/internal/session/service";
+import { Connect, Disconnect } from "@bindings/internal/session/service";
 import type { Snapshot } from "@bindings/internal/session/models";
 import { errorMessage } from "@/shared/lib/errors";
 import { sessionSnapshot } from "./lib/sessionSnapshot";

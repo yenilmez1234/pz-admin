@@ -1,4 +1,6 @@
 import type { GameBuild } from "@/features/game/types";
+import { MAXIMUM_RCON_COMMAND_BYTES } from "@/shared/lib/rcon";
+import { utf8ByteLength } from "@/shared/lib/text";
 
 export type ScalarOptionValue = boolean | number | string;
 export type OptionValue = ScalarOptionValue | string[];
@@ -60,10 +62,11 @@ export interface OptionSection {
 
 type OptionMetadata = Omit<OptionDefinition, "name">;
 
-const maximumRconCommandBytes = 4096;
-
 function changeOptionValueByteLimit(name: string) {
-  return maximumRconCommandBytes - `changeoption "${name}" ""`.length;
+  return (
+    MAXIMUM_RCON_COMMAND_BYTES -
+    utf8ByteLength(`changeoption "${name}" ""`)
+  );
 }
 
 const build41Options = {
@@ -449,7 +452,7 @@ const build41Options = {
     maximum: 2147483647,
     specialValue: { value: 0, meaning: "disabled" },
   },
-  ServerPlayerID: { type: "string", readOnly: true, dynamicDefault: true, },
+  ServerPlayerID: { type: "string", readOnly: true, dynamicDefault: true },
   ServerWelcomeMessage: {
     type: "string",
     defaultValue:
@@ -771,7 +774,7 @@ export const build42Options = {
     maximum: 2147483647,
     specialValue: { value: 0, meaning: "disabled" },
   },
-  ServerPlayerID: { type: "string", readOnly: true, dynamicDefault: true, },
+  ServerPlayerID: { type: "string", readOnly: true, dynamicDefault: true },
   ServerWelcomeMessage: {
     type: "string",
     defaultValue:
@@ -882,16 +885,76 @@ export const build42Options = {
 
   // ------ Others ------
   AnnounceAnimalDeath: { type: "boolean", defaultValue: false },
-  AntiCheatChecksum: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatHit: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatNoClip: { type: "integer", defaultValue: 4, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatPacketException: { type: "integer", defaultValue: 4, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatPermission: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatPlayer: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatSafeHouse: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatSafety: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatSpeed: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
-  AntiCheatXP: { type: "integer", defaultValue: 2, minimum: 1, maximum: 4, choices: antiCheatPolicyChoices },
+  AntiCheatChecksum: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatHit: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatNoClip: {
+    type: "integer",
+    defaultValue: 4,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatPacketException: {
+    type: "integer",
+    defaultValue: 4,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatPermission: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatPlayer: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatSafeHouse: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatSafety: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatSpeed: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
+  AntiCheatXP: {
+    type: "integer",
+    defaultValue: 2,
+    minimum: 1,
+    maximum: 4,
+    choices: antiCheatPolicyChoices,
+  },
   BadWordListFile: { type: "string", defaultValue: "" },
   BadWordPolicy: {
     type: "integer",
@@ -904,9 +967,23 @@ export const build42Options = {
       { id: "log", value: 3 },
     ],
   },
-  BadWordReplacement: { type: "string", defaultValue: "[HIDDEN]", maximumLength: 16 },
-  ChatMessageCharacterLimit: { type: "integer", defaultValue: 200, minimum: 64, maximum: 1024 },
-  ChatMessageSlowModeTime: { type: "integer", defaultValue: 3, minimum: 1, maximum: 30 },
+  BadWordReplacement: {
+    type: "string",
+    defaultValue: "[HIDDEN]",
+    maximumLength: 16,
+  },
+  ChatMessageCharacterLimit: {
+    type: "integer",
+    defaultValue: 200,
+    minimum: 64,
+    maximum: 1024,
+  },
+  ChatMessageSlowModeTime: {
+    type: "integer",
+    defaultValue: 3,
+    minimum: 1,
+    maximum: 30,
+  },
   DisableBurntTowing: { type: "boolean", defaultValue: false },
   DisableSafehouseWhenOwnerConnected: { type: "boolean", defaultValue: false },
   DisableScoreboard: { type: "boolean", defaultValue: false },
@@ -934,8 +1011,18 @@ export const build42Options = {
     defaultValue: false,
     requirements: [{ option: "UsernameDisguises", equals: true }],
   },
-  MaxPacketsPerSecond: { type: "integer", defaultValue: 300, minimum: 100, maximum: 1000 },
-  MaxSafezoneSize: { type: "integer", defaultValue: 20000, minimum: 0, maximum: 2147483647 },
+  MaxPacketsPerSecond: {
+    type: "integer",
+    defaultValue: 300,
+    minimum: 100,
+    maximum: 1000,
+  },
+  MaxSafezoneSize: {
+    type: "integer",
+    defaultValue: 20000,
+    minimum: 0,
+    maximum: 2147483647,
+  },
   MultiplayerStatisticsPeriod: {
     type: "integer",
     defaultValue: 1,
@@ -996,7 +1083,6 @@ export const build42Options = {
     requirements: [{ option: "War", equals: true }],
   },
   WebhookAddress: { type: "string", defaultValue: "" },
-
 } satisfies Record<string, OptionMetadata>;
 function selectOptions<T extends Record<string, OptionMetadata>>(
   definitions: T,
@@ -1525,11 +1611,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         },
         {
           id: "loggingAndDiagnostics",
-          options: b42([
-            "PerkLogs",
-            "ClientActionLogs",
-            "ClientCommandFilter",
-          ]),
+          options: b42(["PerkLogs", "ClientActionLogs", "ClientCommandFilter"]),
         },
         {
           id: "performanceAndSimulation",

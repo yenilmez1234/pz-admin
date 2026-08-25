@@ -49,9 +49,10 @@
     "title": "Delete Server"
   },
   "workspace": {
-    "navigationLabel": "Server pages",
+    "navigationLabel": "Server Navigation",
     "console": "Console",
     "options": "Options",
-    "players": "Players"
+    "players": "Players",
+    "serverActions": "Server Actions"
   }
 }
