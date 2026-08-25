@@ -338,6 +338,7 @@ var definitions = []Definition{
 		Name:       "chopper",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionTriggerHelicopter,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Chopper launched" {
 				return raw, nil
@@ -402,6 +403,7 @@ var definitions = []Definition{
 		Name:       "gunshot",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionTriggerGunshot,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Gunshot fired" {
 				return raw, nil
@@ -506,6 +508,7 @@ var definitions = []Definition{
 		Name:       "quit",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionStopServer,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Quit" {
 				return raw, nil
@@ -521,6 +524,7 @@ var definitions = []Definition{
 		Name:       "reloadlua",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionReloadLua,
 		Params: []Param{
 			{Name: "file", Type: TypeString, Required: true},
 		},
@@ -540,6 +544,7 @@ var definitions = []Definition{
 		Name:       "reloadoptions",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionReloadOptions,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Options reloaded" {
 				return raw, nil
@@ -578,6 +583,7 @@ var definitions = []Definition{
 		Name:       "save",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionSaveWorld,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "World saved" {
 				return raw, nil
@@ -593,6 +599,7 @@ var definitions = []Definition{
 		Name:       "servermsg",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionSendMessage,
 		Params: []Param{
 			{Name: "message", Type: TypeString, Required: true},
 		},
@@ -664,6 +671,7 @@ var definitions = []Definition{
 		Name:       "startrain",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionStartRain,
 		Params: []Param{
 			{Name: "intensity", Type: TypeInt, Required: false},
 		},
@@ -684,6 +692,7 @@ var definitions = []Definition{
 		Name:       "startstorm",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionStartStorm,
 		Params: []Param{
 			{Name: "duration", Type: TypeInt, Required: false},
 		},
@@ -702,6 +711,7 @@ var definitions = []Definition{
 		Name:       "stoprain",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionStopRain,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Rain stopped" {
 				return raw, nil
@@ -717,6 +727,7 @@ var definitions = []Definition{
 		Name:       "stopweather",
 		MinVersion: "41",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionStopWeather,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Weather stopped" {
 				return raw, nil
@@ -1117,6 +1128,7 @@ var definitions = []Definition{
 		Name:       "reloadalllua",
 		MinVersion: "42",
 		MaxVersion: "42",
+		Feature:    feature.ServerActionReloadAllLua,
 		Parse: func(raw string, _ map[string]string) (any, error) {
 			if strings.TrimSpace(raw) == "Lua files reloaded" {
 				return raw, nil

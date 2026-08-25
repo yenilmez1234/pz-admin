@@ -11,6 +11,19 @@ type ID string
 const (
 	ConsoleExecuteCommand ID = "console.command.execute"
 
+	ServerActionReloadAllLua      ID = "serverAction.reloadAllLua"
+	ServerActionReloadLua         ID = "serverAction.reloadLua"
+	ServerActionReloadOptions     ID = "serverAction.reloadOptions"
+	ServerActionSaveWorld         ID = "serverAction.saveWorld"
+	ServerActionSendMessage       ID = "serverAction.sendMessage"
+	ServerActionStartRain         ID = "serverAction.startRain"
+	ServerActionStartStorm        ID = "serverAction.startStorm"
+	ServerActionStopRain          ID = "serverAction.stopRain"
+	ServerActionStopServer        ID = "serverAction.stopServer"
+	ServerActionStopWeather       ID = "serverAction.stopWeather"
+	ServerActionTriggerGunshot    ID = "serverAction.triggerGunshot"
+	ServerActionTriggerHelicopter ID = "serverAction.triggerHelicopter"
+
 	PlayerAddItems              ID = "player.addItems"
 	PlayerAddUser               ID = "player.addUser"
 	PlayerSpawnVehicle          ID = "player.spawnVehicle"
