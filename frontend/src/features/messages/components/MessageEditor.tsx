@@ -70,7 +70,7 @@ export function MessageEditor({
           <RichTextEditor.ClearFormatting />
         </RichTextEditor.ControlsGroup>
 
-        <MessageColorControl build={build} />
+        <MessageColorControl />
         <MessageSizeControl build={build} />
 
         <RichTextEditor.ControlsGroup>

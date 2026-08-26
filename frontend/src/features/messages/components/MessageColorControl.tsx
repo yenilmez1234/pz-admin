@@ -5,14 +5,9 @@ import {
 } from "@mantine/tiptap";
 import { useTranslation } from "react-i18next";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
-import type { GameBuild } from "@/features/game/types";
 import { messageColorSwatches } from "@/features/messages/lib/messageEditorConfig";
 
-interface MessageColorControlProps {
-  build: GameBuild;
-}
-
-export function MessageColorControl({ build }: MessageColorControlProps) {
+export function MessageColorControl() {
   const { t } = useTranslation("messages");
   const { editor } = useRichTextEditorContext();
   const color = editor?.getAttributes("textStyle").color as
@@ -24,12 +19,14 @@ export function MessageColorControl({ build }: MessageColorControlProps) {
       <Popover.Target>
         <RichTextEditor.Control
           aria-label={t("editor.color")}
+          p={0}
+          style={{ overflow: "hidden" }}
           title={t("editor.color")}
         >
           <ColorSwatch
             color={color ?? defaultGameMessageColor}
-            radius={5}
-            size={16}
+            radius={0}
+            size="100%"
             withShadow
           />
         </RichTextEditor.Control>
@@ -43,7 +40,7 @@ export function MessageColorControl({ build }: MessageColorControlProps) {
             hueLabel={t("editor.colorPicker.hue")}
             onChange={(value) => editor?.chain().focus().setColor(value).run()}
             saturationLabel={t("editor.colorPicker.saturation")}
-            swatches={messageColorSwatches[build]}
+            swatches={messageColorSwatches}
             swatchesPerRow={9}
             value={color ?? defaultGameMessageColor}
           />
