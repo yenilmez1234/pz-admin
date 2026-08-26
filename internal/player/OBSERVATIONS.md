@@ -55,9 +55,14 @@ is the built-in `user` role.
 - The account is not banned.
 
 The command is creation-only: it fails rather than modifying an existing
-account. A successful response therefore identifies a genuinely new player,
-for which initializing God Mode, Invisible, No Clip, and Voice Banned to false
-is the correct application behavior. This question is resolved.
+whitelist account. However, a successful response does not prove that the
+username has no existing character save. A B42 live-server test confirmed that
+removing a username from the whitelist and adding it again preserved both the
+old character and its enabled God Mode, Invisible/Ghost Mode, and No Clip.
+
+Consequently, `adduser` may safely observe the newly created account's role and
+ban state, but it must not initialize character powers to false unless the
+application independently knows that no prior character exists.
 
 ## Whitelist removal
 
@@ -67,10 +72,41 @@ it does not toggle a whitelist boolean.
 B42 also calls `WorldMapVisitedServer.deleteUser`, deleting visited-map data
 for the username.
 
+B42 does not delete the serialized character from `players.db`. A live-server
+test confirmed that re-adding the same username restored the existing
+character with its powers intact.
+
+Further B42 tests with an open server established that removing an online
+player from the whitelist does not disconnect them. Removing an offline player
+behaves equivalently. In both cases the username could reconnect without a
+manual `adduser`, the existing character and powers were retained, and the
+account role was reset to the default user role.
+
+The open-server setting is relevant to the ability to reconnect without manual
+account recreation; it does not change the observed fact that whitelist
+removal itself neither disconnects the live player nor deletes character data.
+A closed server should be tested separately only if its login/account-creation
+behavior matters to the application.
+
 The application models whitelist membership only as an observation signal.
 `Whitelisted=false` deletes the matching local player during store merge. The
 persisted `Player` model intentionally has no `Whitelisted` field. Typed player
 actions and recognized raw-console responses use the same observation path.
+
+Hard local deletion is an accepted simplicity tradeoff even though the game
+retains the character save. It can lose cached powers and history if the same
+username is later re-added, but it does not affect game data. To avoid replacing
+that lost knowledge with incorrect values, `adduser` must leave character-power
+fields unknown rather than initializing them to false. An archive/tombstone
+model could preserve the cache later if this edge case becomes important.
+
+For an online removal, hard deletion means the next successful `players` poll
+recreates the still-connected username as a fresh local record with a new ID
+and without the deleted cached metadata. This behavior is accepted instead of
+adding tombstones. To avoid waiting for the normal 15-second poll, the typed
+removal action should invoke the service's existing `refresh(ctx, state)` once
+after the whole batch when at least one removal succeeded. It must not refresh
+once per player. Raw console removals will continue to rely on normal polling.
 
 ## Ban and unban
 
@@ -114,10 +150,18 @@ live feature fields should not be synthesized as false from this command.
 
 ### Build 42 live-feature persistence
 
-A live-server test confirmed that God Mode, Invisible/Ghost Mode, and No Clip
-remain enabled after the player is banned, unbanned, and reconnects. Ban and
-unban observations must therefore preserve these feature values rather than
-setting them to false.
+Live-server tests confirmed that God Mode, Invisible/Ghost Mode, and No Clip
+remain enabled after the player is banned, unbanned, and reconnects, and also
+survive a full server restart. They are durable saved-player state in B42, not
+merely live-session flags. Ban and unban observations must therefore preserve
+these feature values rather than setting them to false.
+
+Directly assigning the B42 `banned` role with `setaccesslevel` was tested
+separately and did not preserve the three powers: God Mode,
+Invisible/Ghost Mode, and No Clip were disabled. This differs from `banuser`,
+which preserves them. Observations must follow the command path used rather
+than deriving all effects solely from the resulting `banned` role.
+The command also disconnects the online player immediately.
 
 ## Explicit live-player toggles
 
@@ -148,9 +192,33 @@ observes the requested value.
 ### Voice ban
 
 `voiceban` calls `VoiceManager.VMServerBan` with the live player's online ID.
-The result is a safe observation for the current live player session. It is
-not a demonstrated persistent account property, so retaining it across
-disconnect/reconnect requires further verification.
+`VMServerBan` immediately delegates to the native
+`RakVoice.SetVoiceBan(onlineId, value)`. There is no Java-side account field,
+database write, or player-save serialization for the voice ban. Closing a
+voice connection delegates to native `RakVoice.CloseVoiceChannel`.
+
+The result is a safe observation for the current live player session and must
+not be treated as durable account or character state. A server restart cannot
+restore it from the game's Java/database persistence paths. Whether the native
+voice layer retains a ban across a disconnect and channel recreation cannot be
+proved from Java bytecode alone.
+
+## Character death and powers
+
+B42 stores powers in `PlayerCheats`. Its `save` method writes every enabled
+`CheatType` ordinal into the serialized character data, and `load` restores
+that set. This explains the confirmed reconnect and server-restart
+persistence of God Mode, Invisible/Ghost Mode, and No Clip for the same
+character.
+
+A newly constructed character initializes `PlayerCheats` with an empty
+`EnumSet`. The multiplayer player database stores serialized data and an
+`isDead` marker per username, world, and player index; a replacement character
+is saved back with its own newly serialized data. The code therefore indicates
+that powers belong to the character save rather than the account and should
+start disabled on a genuinely new post-death character. This is a code-path
+inference; an end-to-end death/respawn test remains useful if a reliable test
+method becomes available.
 
 ## Role changes in Build 41
 
@@ -204,6 +272,37 @@ For an online player, `GameServer.changeRole` compares the old and new roles:
 - Losing `ToggleInvisibleHimself` disables Invisible/Ghost Mode.
 - If both roles have a capability, the corresponding live state is preserved.
 
+A live-server test confirmed that changing an online player from the built-in
+`user` role to `observer` enables God Mode, Invisible/Ghost Mode, and No Clip.
+The built-in observer role therefore grants all three corresponding toggle
+capabilities in the tested B42 version.
+
+The reverse transition was also tested: changing the online player from
+`observer` back to `user` disabled God Mode, Invisible/Ghost Mode, and No Clip.
+This confirms that losing those capabilities forcibly disables the associated
+saved-player powers.
+
+A transition from `observer` to `gm` was tested after manually disabling only
+Invisible. Invisible remained disabled while God Mode and No Clip remained
+enabled. When both old and new roles possess a capability, B42 preserves the
+associated power's current value rather than forcing it on.
+
+Assigning `observer` while the player was offline was also tested. After
+reconnecting, God Mode, Invisible/Ghost Mode, and No Clip all remained
+disabled. Offline role changes update the persisted role only; login does not
+apply the online role-transition power side effects.
+
+The same held when assigning `admin` to a disconnected player whose current
+role was `banned`: the account role changed, but none of the three powers were
+enabled on reconnect. Offline capability gain does not apply power side
+effects even for the built-in admin role.
+
+The reverse offline transition was tested with all three powers enabled:
+changing the disconnected player from `observer` to `user` preserved God Mode,
+Invisible/Ghost Mode, and No Clip after reconnect. An offline demotion can
+therefore leave a regular user with enabled powers that their role may not let
+them toggle. Offline role-change observations must preserve all power fields.
+
 Although the role-change path calls the Ghost Mode setter, that setter changes
 the same state exposed as Invisible. B42 role changes can therefore affect the
 application's stored `Invisible` value.
@@ -233,8 +332,9 @@ Invisible, or No Clip first. Those values should not be synthesized as false
 as direct command effects.
 
 Build 42 preserves God Mode, Invisible/Ghost Mode, and No Clip across the
-disconnect caused by banning and the subsequent reconnect. Equivalent B41
-behavior and other lifecycle transitions have not yet been established.
+disconnect caused by banning, the subsequent reconnect, and a full server
+restart. Equivalent B41 behavior and other lifecycle transitions have not yet
+been established.
 
 ## Current polling limitations
 
@@ -278,12 +378,21 @@ An explicit invalidation mask is an equivalent design.
 
 ## Recommended follow-up
 
-1. Correct B41 ban observation so it preserves access level and does not set
+Repeat the B42 live-server matrix on B41 when it is installed: ban/unban,
+reconnect, server restart, online role/access-level gain and loss, transitions
+between staff levels, and offline access-level changes. Do not generalize the
+B42 lifecycle results to B41.
+
+1. Stop assigning character-power defaults from `adduser`; a newly created
+   account may reconnect to an existing character save.
+2. Correct B41 ban observation so it preserves access level and does not set
    live features to false.
-2. Stop setting B42 live feature fields to false as a ban side effect.
-3. Add observation invalidation for role changes and lifecycle transitions.
-4. Decide whether successful complete `players` responses should establish
+3. Stop setting B42 live feature fields to false as a ban side effect.
+4. Add observation invalidation for role changes and lifecycle transitions.
+5. Decide whether successful complete `players` responses should establish
    offline state for known players omitted from the response.
-5. Verify B41 feature persistence and whether either build behaves differently
-   across ordinary disconnects, character save/load, death, or server restart.
-6. Verify VoiceManager cleanup/reassignment behavior across reconnects.
+6. Verify B41 feature persistence and whether either build behaves differently
+   across character death or respawn. B42 persistence across reconnect and
+   server restart is confirmed.
+7. Verify native VoiceManager cleanup/reassignment behavior across reconnects
+   if a second voice client becomes available.
