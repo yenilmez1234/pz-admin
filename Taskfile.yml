@@ -19,6 +19,20 @@ includes:
   android: ./build/android/Taskfile.yml
 
 tasks:
+  version:set:
+    summary: Sets the application version and regenerates platform metadata
+    requires:
+      vars: [VERSION]
+    cmds:
+      - node ./scripts/sync-version.mjs "{{.VERSION}}"
+      - task: common:update:build-assets
+
+  version:sync:
+    summary: Regenerates platform metadata from the VERSION file
+    cmds:
+      - node ./scripts/sync-version.mjs
+      - task: common:update:build-assets
+
   build:
     summary: Builds the application
     cmds:

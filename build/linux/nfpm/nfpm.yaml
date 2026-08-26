@@ -6,12 +6,12 @@
 name: "pz-admin"
 arch: ${GOARCH}
 platform: "linux"
-version: "0.1.0"
+version: "2.0.0"
 section: "default"
 priority: "extra"
 maintainer: ${GIT_COMMITTER_NAME} <${GIT_COMMITTER_EMAIL}>
-description: "A pz-admin application"
-vendor: "My Company"
+description: "Project Zomboid server administration tool"
+vendor: "Bedirhan Yenilmez"
 homepage: "https://wails.io"
 license: "MIT"
 release: "1"
