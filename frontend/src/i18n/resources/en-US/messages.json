@@ -8,6 +8,11 @@
   "editor": {
     "color": "Text color",
     "size": "Text size",
+    "alignments": {
+      "left": "Align left",
+      "center": "Align center",
+      "right": "Align right"
+    },
     "sizes": {
       "small": "Small",
       "medium": "Medium",

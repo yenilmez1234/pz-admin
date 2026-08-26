@@ -1,4 +1,5 @@
 import { Color } from "@tiptap/extension-color";
+import TextAlign from "@tiptap/extension-text-align";
 import { FontSize, TextStyle } from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import type { GameBuild } from "@/features/game/types";
@@ -24,6 +25,10 @@ export const messageEditorExtensions = [
   TextStyle,
   Color,
   FontSize,
+  TextAlign.configure({
+    alignments: ["left", "center", "right"],
+    types: ["paragraph"],
+  }),
 ];
 
 export const messageColorSwatches: Record<GameBuild, string[]> = {

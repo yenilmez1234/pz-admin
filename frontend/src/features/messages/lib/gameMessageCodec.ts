@@ -8,6 +8,7 @@ import { createEmptyMessageDocument } from "@/features/messages/lib/messageDocum
 import type { GameBuild } from "@/features/game/types";
 import type {
   MessageDocument,
+  MessageAlignment,
   MessageParagraph,
   MessageSize,
   MessageText,
@@ -44,6 +45,7 @@ export const gameMessageFontMetrics: Record<GameBuild, GameMessageFontMetrics> =
 };
 
 interface FormatState {
+  alignment?: MessageAlignment;
   color?: string;
   size?: MessageSize;
 }
@@ -69,6 +71,12 @@ const formattingTokens: FormattingToken[] = [
     pattern: /^SIZE:(small|medium|large)$/,
     apply(match, state) {
       state.size = match[1] as MessageSize;
+    },
+  },
+  {
+    pattern: /^(LEFT|CENTRE|RIGHT)$/,
+    apply(match, state) {
+      state.alignment = gameTokenToAlignment(match[1]);
     },
   },
   {
@@ -117,13 +125,20 @@ export function serializeGameMessage(
   build: GameBuild,
 ): string {
   const format = createDefaultFormat();
+  let alignment: MessageAlignment = "left";
 
   return document.content
-    .map((paragraph) =>
-      (paragraph.content ?? [])
-        .map((text) => serializeText(text, format, build))
-        .join(""),
-    )
+    .map((paragraph) => {
+      const nextAlignment = paragraph.attrs?.textAlign ?? "left";
+      const alignmentToken = encodeAlignmentTransition(alignment, nextAlignment);
+      alignment = nextAlignment;
+      return (
+        alignmentToken +
+        (paragraph.content ?? [])
+          .map((text) => serializeText(text, format, build))
+          .join("")
+      );
+    })
     .join(LINE_TOKEN);
 }
 
@@ -150,14 +165,18 @@ function applyToken(
   build: GameBuild,
 ) {
   if (token === "LINE") {
-    paragraphs.push(createParagraph());
+    paragraphs.push(createParagraph(format.alignment));
     return;
   }
 
   for (const definition of formattingTokens) {
     const match = token.match(definition.pattern);
     if (!match) continue;
+    const previousAlignment = format.alignment;
     definition.apply(match, format, build);
+    if (format.alignment !== previousAlignment) {
+      setParagraphAlignment(currentParagraph(paragraphs), format.alignment);
+    }
     return;
   }
 }
@@ -179,8 +198,11 @@ function appendText(
   });
 }
 
-function createParagraph(): MessageParagraph {
-  return { type: "paragraph" };
+function createParagraph(alignment?: MessageAlignment): MessageParagraph {
+  return {
+    type: "paragraph",
+    ...(alignment ? { attrs: { textAlign: alignment } } : {}),
+  };
 }
 
 function currentParagraph(
@@ -217,6 +239,15 @@ function encodeFormatTransition(
     tokens.push(`<SIZE:${next.size}>`);
   }
   return tokens.length > 0 ? ` ${tokens.join(" ")} ` : "";
+}
+
+function encodeAlignmentTransition(
+  current: MessageAlignment,
+  next: MessageAlignment,
+): string {
+  if (current === next) return "";
+  const token = next === "center" ? "CENTRE" : next.toUpperCase();
+  return ` <${token}> `;
 }
 
 function findTextStyle(text: MessageText): MessageTextStyle | undefined {
@@ -262,4 +293,17 @@ function fontSizeToMessageSize(
     if (value === fontSize) return size as MessageSize;
   }
   return defaultGameMessageSize;
+}
+
+function gameTokenToAlignment(token: string): MessageAlignment {
+  return token === "CENTRE"
+    ? "center"
+    : (token.toLowerCase() as MessageAlignment);
+}
+
+function setParagraphAlignment(
+  paragraph: MessageParagraph,
+  alignment: MessageAlignment | undefined,
+) {
+  paragraph.attrs = alignment ? { textAlign: alignment } : undefined;
 }

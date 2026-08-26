@@ -8,6 +8,11 @@
   "editor": {
     "color": "Metin rengi",
     "size": "Metin boyutu",
+    "alignments": {
+      "left": "Sola hizala",
+      "center": "Ortala",
+      "right": "Sağa hizala"
+    },
     "sizes": {
       "small": "Küçük",
       "medium": "Orta",

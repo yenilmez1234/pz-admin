@@ -1,6 +1,7 @@
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import type { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
 import { messageEditorExtensions } from "@/features/messages/lib/messageEditorConfig";
@@ -26,6 +27,7 @@ export function MessageEditor({
   onChange,
   sanitizePastedText,
 }: MessageEditorProps) {
+  const { t } = useTranslation("messages");
   const editor = useEditor({
     shouldRerenderOnTransaction: true,
     extensions: messageEditorExtensions,
@@ -48,6 +50,11 @@ export function MessageEditor({
       classNames={{ content: classes.content, root: classes.root }}
       data-game-build={build}
       editor={editor}
+      labels={{
+        alignCenterControlLabel: t("editor.alignments.center"),
+        alignLeftControlLabel: t("editor.alignments.left"),
+        alignRightControlLabel: t("editor.alignments.right"),
+      }}
       styles={{
         content: {
           caretColor,
@@ -65,6 +72,11 @@ export function MessageEditor({
 
         <MessageColorControl build={build} />
         <MessageSizeControl build={build} />
+
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.AlignLeft />
+          <RichTextEditor.AlignCenter />
+        </RichTextEditor.ControlsGroup>
 
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Undo />

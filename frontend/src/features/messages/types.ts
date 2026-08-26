@@ -5,6 +5,9 @@ export interface MessageDocument {
 
 export interface MessageParagraph {
   type: "paragraph";
+  attrs?: {
+    textAlign?: MessageAlignment;
+  };
   content?: MessageText[];
 }
 
@@ -25,4 +28,5 @@ export interface MessageTextStyle {
 }
 
 export type MessageMark = MessageTextStyleMark;
+export type MessageAlignment = "left" | "center" | "right";
 export type MessageSize = "small" | "medium" | "large";
