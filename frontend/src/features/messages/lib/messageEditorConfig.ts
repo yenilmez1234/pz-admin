@@ -1,6 +1,7 @@
 import { Color } from "@tiptap/extension-color";
 import { FontSize, TextStyle } from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
+import type { GameBuild } from "@/features/game/types";
 import { defaultGameMessageColor } from "./gameMessageColors";
 
 export const messageEditorExtensions = [
@@ -25,14 +26,27 @@ export const messageEditorExtensions = [
   FontSize,
 ];
 
-export const messageColorSwatches = [
-  "#ffffff",
-  "#ff8033",
-  "#e6cc1a",
-  "#b3e6b3",
-  "#33b3ff",
-  defaultGameMessageColor,
-  "#b399ff",
-  "#ff80b3",
-  "#ff8080",
-];
+export const messageColorSwatches: Record<GameBuild, string[]> = {
+  "41": [
+    "#ffffe0", // LightYellow
+    "#ffa500", // Orange
+    "#ffff00", // Yellow
+    "#00ff00", // Lime
+    "#00ffff", // Cyan
+    defaultGameMessageColor,
+    "#0000ff", // Blue
+    "#ff00ff", // Magenta
+    "#ff0000", // Red
+  ],
+  "42": [
+    "#ffffff", // White
+    "#ffa500", // Orange
+    "#ffff00", // Yellow
+    "#00ff00", // Lime
+    "#00ffff", // Cyan
+    defaultGameMessageColor,
+    "#0000ff", // Blue
+    "#ff00ff", // Magenta
+    "#ff0000", // Red
+  ],
+};

@@ -5,9 +5,14 @@ import {
 } from "@mantine/tiptap";
 import { useTranslation } from "react-i18next";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
+import type { GameBuild } from "@/features/game/types";
 import { messageColorSwatches } from "@/features/messages/lib/messageEditorConfig";
 
-export function MessageColorControl() {
+interface MessageColorControlProps {
+  build: GameBuild;
+}
+
+export function MessageColorControl({ build }: MessageColorControlProps) {
   const { t } = useTranslation("messages");
   const { editor } = useRichTextEditorContext();
   const color = editor?.getAttributes("textStyle").color as
@@ -38,7 +43,7 @@ export function MessageColorControl() {
             hueLabel={t("editor.colorPicker.hue")}
             onChange={(value) => editor?.chain().focus().setColor(value).run()}
             saturationLabel={t("editor.colorPicker.saturation")}
-            swatches={messageColorSwatches}
+            swatches={messageColorSwatches[build]}
             swatchesPerRow={9}
             value={color ?? defaultGameMessageColor}
           />
