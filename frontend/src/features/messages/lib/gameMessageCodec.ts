@@ -1,3 +1,5 @@
+import { convertHsvaTo, isColorValid, parseColor } from "@mantine/core";
+
 import { createEmptyMessageDocument } from "@/features/messages/lib/messageDocument";
 import type { GameBuild } from "@/features/game/types";
 import type {
@@ -263,7 +265,10 @@ function gameRgbToHex(red: string, green: string, blue: string): string {
 }
 
 function hexToGameRgb(color: string): string {
-  const hex = color.replace("#", "");
+  const normalizedColor = isColorValid(color)
+    ? convertHsvaTo("hex", parseColor(color))
+    : defaultGameMessageColor;
+  const hex = normalizedColor.replace("#", "");
   return HEX_CHANNEL_OFFSETS.map((offset) =>
     Number.parseInt(hex.slice(offset, offset + 2), 16),
   )
