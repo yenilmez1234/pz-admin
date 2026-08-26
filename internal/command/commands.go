@@ -27,6 +27,9 @@ func usernameEchoes(username string) []string {
 }
 
 func optionValueMatches(requested, actual string) bool {
+  requested = strings.TrimSpace(requested)
+  actual = strings.TrimSpace(actual)
+
 	if requested == actual {
 		return true
 	}

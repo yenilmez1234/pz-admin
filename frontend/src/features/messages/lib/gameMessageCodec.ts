@@ -1,5 +1,9 @@
-import { convertHsvaTo, isColorValid, parseColor } from "@mantine/core";
-
+import {
+  decodeGameMessageRgb,
+  defaultGameMessageColor,
+  encodeGameMessageColorToken,
+  getGameMessageNamedColor,
+} from "@/features/messages/lib/gameMessageColors";
 import { createEmptyMessageDocument } from "@/features/messages/lib/messageDocument";
 import type { GameBuild } from "@/features/game/types";
 import type {
@@ -12,15 +16,11 @@ import type {
 
 // Game format
 
-export const defaultGameMessageColor = "#0080ff";
-
 export const defaultGameMessageSize: MessageSize = "medium";
 const LINE_TOKEN = " <LINE> ";
 const TOKEN_PATTERN = / ?<([^<>]+)> ?/g;
 const FORBIDDEN_CHARACTER_PATTERN = /[<>"\0]/;
 const ALL_FORBIDDEN_CHARACTERS_PATTERN = /[<>"\0]/g;
-const HEX_CHANNEL_OFFSETS = [0, 2, 4] as const;
-
 interface GameMessageFontMetrics {
   family: string;
   lineHeights: Record<MessageSize, string>;
@@ -55,20 +55,27 @@ interface ResolvedFormat {
 
 interface FormattingToken {
   pattern: RegExp;
-  apply(match: RegExpMatchArray, state: FormatState): void;
+  apply(match: RegExpMatchArray, state: FormatState, build: GameBuild): void;
 }
 
 const formattingTokens: FormattingToken[] = [
   {
     pattern: /^RGB:([\d.]+),([\d.]+),([\d.]+)$/,
     apply(match, state) {
-      state.color = gameRgbToHex(match[1], match[2], match[3]);
+      state.color = decodeGameMessageRgb(match[1], match[2], match[3]);
     },
   },
   {
     pattern: /^SIZE:(small|medium|large)$/,
     apply(match, state) {
       state.size = match[1] as MessageSize;
+    },
+  },
+  {
+    pattern: /^([A-Za-z_]+)$/,
+    apply(match, state, build) {
+      const color = getGameMessageNamedColor(build, match[1]);
+      if (color) state.color = color;
     },
   },
 ];
@@ -92,7 +99,7 @@ export function parseGameMessage(
       format,
       build,
     );
-    applyToken(tokenMatch[1], paragraphs, format);
+    applyToken(tokenMatch[1], paragraphs, format, build);
     textStart = tokenMatch.index + tokenMatch[0].length;
   }
 
@@ -140,6 +147,7 @@ function applyToken(
   token: string,
   paragraphs: MessageParagraph[],
   format: FormatState,
+  build: GameBuild,
 ) {
   if (token === "LINE") {
     paragraphs.push(createParagraph());
@@ -149,7 +157,7 @@ function applyToken(
   for (const definition of formattingTokens) {
     const match = token.match(definition.pattern);
     if (!match) continue;
-    definition.apply(match, format);
+    definition.apply(match, format, build);
     return;
   }
 }
@@ -189,7 +197,7 @@ function serializeText(
   build: GameBuild,
 ): string {
   const next = resolveTextFormat(findTextStyle(text), build);
-  const prefix = encodeFormatTransition(current, next);
+  const prefix = encodeFormatTransition(current, next, build);
 
   current.color = next.color;
   current.size = next.size;
@@ -199,10 +207,11 @@ function serializeText(
 function encodeFormatTransition(
   current: ResolvedFormat,
   next: ResolvedFormat,
+  build: GameBuild,
 ): string {
   const tokens: string[] = [];
   if (next.color !== current.color) {
-    tokens.push(`<RGB:${hexToGameRgb(next.color)}>`);
+    tokens.push(encodeGameMessageColorToken(next.color, build));
   }
   if (next.size !== current.size) {
     tokens.push(`<SIZE:${next.size}>`);
@@ -253,38 +262,4 @@ function fontSizeToMessageSize(
     if (value === fontSize) return size as MessageSize;
   }
   return defaultGameMessageSize;
-}
-
-// Color conversion
-
-function gameRgbToHex(red: string, green: string, blue: string): string {
-  const channels = [red, green, blue].map((channel) =>
-    Math.round(clamp(Number.parseFloat(channel), 0, 1) * 255),
-  );
-  return `#${channels.map(toHexChannel).join("")}`;
-}
-
-function hexToGameRgb(color: string): string {
-  const normalizedColor = isColorValid(color)
-    ? convertHsvaTo("hex", parseColor(color))
-    : defaultGameMessageColor;
-  const hex = normalizedColor.replace("#", "");
-  return HEX_CHANNEL_OFFSETS.map((offset) =>
-    Number.parseInt(hex.slice(offset, offset + 2), 16),
-  )
-    .map((channel) => formatGameChannel(channel / 255))
-    .join(",");
-}
-
-function toHexChannel(channel: number): string {
-  return channel.toString(16).padStart(2, "0");
-}
-
-function formatGameChannel(channel: number): string {
-  return Number(channel.toFixed(2)).toString();
-}
-
-function clamp(value: number, minimum: number, maximum: number): number {
-  if (!Number.isFinite(value)) return minimum;
-  return Math.min(Math.max(value, minimum), maximum);
 }

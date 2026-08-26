@@ -4,7 +4,7 @@ import {
   useRichTextEditorContext,
 } from "@mantine/tiptap";
 import { useTranslation } from "react-i18next";
-import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageCodec";
+import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
 import { messageColorSwatches } from "@/features/messages/lib/messageEditorConfig";
 
 export function MessageColorControl() {

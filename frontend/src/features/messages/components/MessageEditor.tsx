@@ -2,7 +2,7 @@ import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import type { CSSProperties } from "react";
 import type { GameBuild } from "@/features/game/types";
-import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageCodec";
+import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
 import { messageEditorExtensions } from "@/features/messages/lib/messageEditorConfig";
 import type { MessageDocument } from "@/features/messages/types";
 import { MessageColorControl } from "./MessageColorControl";
