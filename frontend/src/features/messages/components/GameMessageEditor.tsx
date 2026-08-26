@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import {
-  containsForbiddenGameMessageCharacters,
+  isGameMessageTextAllowed,
   parseGameMessage,
   sanitizeGameMessageText,
   serializeGameMessage,
@@ -21,7 +21,7 @@ export function GameMessageEditor({
   return (
     <MessageEditor
       initialDocument={parseGameMessage(value)}
-      isTextAllowed={(text) => !containsForbiddenGameMessageCharacters(text)}
+      isTextAllowed={isGameMessageTextAllowed}
       maxHeight={maxHeight}
       onChange={(document) => onChange(serializeGameMessage(document))}
       sanitizePastedText={sanitizeGameMessageText}

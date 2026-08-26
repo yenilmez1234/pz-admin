@@ -14,12 +14,15 @@ export interface MessageText {
   marks?: MessageMark[];
 }
 
-export interface MessageMark {
+export interface MessageTextStyleMark {
   type: "textStyle";
-  attrs: {
-    color?: string;
-    fontSize?: string;
-  };
+  attrs: MessageTextStyle;
 }
 
+export interface MessageTextStyle {
+  color?: string;
+  fontSize?: string;
+}
+
+export type MessageMark = MessageTextStyleMark;
 export type MessageSize = "small" | "medium" | "large";
