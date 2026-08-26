@@ -34,9 +34,9 @@ export const messageEditorExtensions = [
 export const messageColorSwatches: Record<GameBuild, string[]> = {
   "41": [
     "#ffffe0", // LightYellow
-    "#ffa500", // Orange
+    "#e64d00", // Orange
     "#ffff00", // Yellow
-    "#00ff00", // Lime
+    "#00ff00", // Green
     "#00ffff", // Cyan
     defaultGameMessageColor,
     "#0000ff", // Blue
@@ -45,9 +45,9 @@ export const messageColorSwatches: Record<GameBuild, string[]> = {
   ],
   "42": [
     "#ffffff", // White
-    "#ffa500", // Orange
+    "#e64d00", // Orange
     "#ffff00", // Yellow
-    "#00ff00", // Lime
+    "#00ff00", // Green
     "#00ffff", // Cyan
     defaultGameMessageColor,
     "#0000ff", // Blue
