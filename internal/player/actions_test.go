@@ -127,8 +127,7 @@ func TestAddLocalUserCreatesPlayerWithUnknownState(t *testing.T) {
 		created.Invisible != nil ||
 		created.NoClip != nil ||
 		created.Banned != nil ||
-		created.VoiceBanned != nil ||
-		created.Whitelisted != nil {
+		created.VoiceBanned != nil {
 		t.Fatalf("local user has known server state: %#v", created)
 	}
 }
@@ -191,9 +190,6 @@ func TestAddUserCreatesWhitelistedPlayerWithKnownDefaults(t *testing.T) {
 					t.Errorf("%s = %v, want false", name, value)
 				}
 			}
-			if created.Whitelisted == nil || !*created.Whitelisted {
-				t.Errorf("Whitelisted = %v, want true", created.Whitelisted)
-			}
 		})
 	}
 }
@@ -216,8 +212,8 @@ func TestAddUserRecreatesKnownServerAccount(t *testing.T) {
 	if players[0].ID != player.ID {
 		t.Fatalf("player ID = %q, want existing ID %q", players[0].ID, player.ID)
 	}
-	if players[0].Whitelisted == nil || !*players[0].Whitelisted {
-		t.Fatalf("Whitelisted = %v, want true", players[0].Whitelisted)
+	if players[0].AccessLevel == nil || *players[0].AccessLevel != "none" {
+		t.Fatalf("AccessLevel = %v, want none", players[0].AccessLevel)
 	}
 }
 
@@ -387,18 +383,11 @@ func TestModerationActionsRecordKnownState(t *testing.T) {
 	if _, err := service.SetAccessLevel(context.Background(), []string{player.ID}, "moderator"); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := service.RemoveFromWhitelist(context.Background(), []string{player.ID}, false); err != nil {
+	if _, err := service.RemoveFromWhitelist(context.Background(), []string{player.ID}); err != nil {
 		t.Fatal(err)
 	}
-	removed := getPlayer(t, service, p.ID)
-	if got := removed.Whitelisted; got == nil || *got {
-		t.Fatalf("Whitelisted = %v, want false", got)
-	}
-	if got := removed.AccessLevel; got == nil || *got != "moderator" {
-		t.Fatalf("AccessLevel = %v, want unchanged moderator", got)
-	}
-	if got := removed.GodMode; got == nil || *got {
-		t.Fatalf("GodMode = %v, want unchanged false", got)
+	if players, err := service.List(p.ID); err != nil || len(players) != 0 {
+		t.Fatalf("List() = %#v, %v; want no players", players, err)
 	}
 }
 
@@ -458,12 +447,12 @@ func TestBuild42BanAndRoleTransitions(t *testing.T) {
 	}
 }
 
-func TestRemoveFromWhitelistCanDeleteLocalPlayer(t *testing.T) {
+func TestRemoveFromWhitelistDeletesLocalPlayer(t *testing.T) {
 	service, p, player := newActionService(t, func(string) (string, error) {
 		return "User Alice removed from white list", nil
 	})
 
-	if _, err := service.RemoveFromWhitelist(context.Background(), []string{player.ID}, true); err != nil {
+	if _, err := service.RemoveFromWhitelist(context.Background(), []string{player.ID}); err != nil {
 		t.Fatal(err)
 	}
 	players, err := service.List(p.ID)

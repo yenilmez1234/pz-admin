@@ -66,10 +66,10 @@ export function unban(targets: Player[]) {
   });
 }
 
-export function removeFromWhitelist(targets: Player[], deleteLocal: boolean) {
+export function removeFromWhitelist(targets: Player[]) {
   return executePlayerAction({
     targets,
-    execute: (playerIds) => RemoveFromWhitelist(playerIds, deleteLocal),
+    execute: (playerIds) => RemoveFromWhitelist(playerIds),
     partialFailurePath: "notifications.removeFromWhitelist",
     resultPath: "notifications.removeFromWhitelist",
   });

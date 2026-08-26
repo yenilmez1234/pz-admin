@@ -116,7 +116,6 @@
       "title_other": "Kick Players"
     },
     "removeFromWhitelist": {
-      "deleteLocalLabel": "Also permanently delete from the local player list",
       "description_one": "Remove {{username}} from the server whitelist?",
       "description_other": "Remove {{count}} players from the server whitelist?",
       "title_one": "Remove from Whitelist",

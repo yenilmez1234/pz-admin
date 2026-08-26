@@ -14,7 +14,6 @@ type Player struct {
 	NoClip             *bool     `json:"noClip,omitempty"`
 	Banned             *bool     `json:"banned,omitempty"`
 	VoiceBanned        *bool     `json:"voiceBanned,omitempty"`
-	Whitelisted        *bool     `json:"whitelisted,omitempty"`
 	FirstSeenAt        time.Time `json:"firstSeenAt"`
 	LastSeenOnlineAt   time.Time `json:"lastSeenOnlineAt"`
 	LastKnownOfflineAt time.Time `json:"lastKnownOfflineAt"`

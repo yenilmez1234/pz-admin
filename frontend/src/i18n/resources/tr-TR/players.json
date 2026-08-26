@@ -116,7 +116,6 @@
       "title_other": "Oyuncuları At"
     },
     "removeFromWhitelist": {
-      "deleteLocalLabel": "Yerel oyuncu listesinden de kalıcı olarak sil",
       "description_one": "{{username}} sunucu beyaz listesinden kaldırılsın mı?",
       "description_other": "{{count}} oyuncu sunucu beyaz listesinden kaldırılsın mı?",
       "title_one": "Beyaz Listeden Kaldır",

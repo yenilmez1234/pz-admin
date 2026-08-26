@@ -110,7 +110,6 @@ export class Player {
     "noClip"?: boolean | null;
     "banned"?: boolean | null;
     "voiceBanned"?: boolean | null;
-    "whitelisted"?: boolean | null;
     "firstSeenAt": Date;
     "lastSeenOnlineAt": Date;
     "lastKnownOfflineAt": Date;
@@ -140,18 +139,18 @@ export class Player {
      * Creates a new Player instance from a string or object.
      */
     static createFrom($$source: any = {}): Player {
+        const $$createField8_0 = $Create.DateFromTime;
         const $$createField9_0 = $Create.DateFromTime;
         const $$createField10_0 = $Create.DateFromTime;
-        const $$createField11_0 = $Create.DateFromTime;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("firstSeenAt" in $$parsedSource) {
-            $$parsedSource["firstSeenAt"] = $$createField9_0($$parsedSource["firstSeenAt"]);
+            $$parsedSource["firstSeenAt"] = $$createField8_0($$parsedSource["firstSeenAt"]);
         }
         if ("lastSeenOnlineAt" in $$parsedSource) {
-            $$parsedSource["lastSeenOnlineAt"] = $$createField10_0($$parsedSource["lastSeenOnlineAt"]);
+            $$parsedSource["lastSeenOnlineAt"] = $$createField9_0($$parsedSource["lastSeenOnlineAt"]);
         }
         if ("lastKnownOfflineAt" in $$parsedSource) {
-            $$parsedSource["lastKnownOfflineAt"] = $$createField11_0($$parsedSource["lastKnownOfflineAt"]);
+            $$parsedSource["lastKnownOfflineAt"] = $$createField10_0($$parsedSource["lastKnownOfflineAt"]);
         }
         return new Player($$parsedSource as Partial<Player>);
     }

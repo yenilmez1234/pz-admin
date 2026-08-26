@@ -89,6 +89,13 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 				updated[index].ID = observation.ID
 			}
 		}
+		if observation.Whitelisted != nil && !*observation.Whitelisted {
+			if index != -1 {
+				updated = slices.Delete(updated, index, index+1)
+				changed = true
+			}
+			continue
+		}
 		if index == -1 {
 			if observation.Username == "" {
 				// An ID-only observation for an unknown player
@@ -242,7 +249,6 @@ func mergeObservation(player *Player, observation Observation, observedAt time.T
 	mergeKnown(&player.NoClip, observation.NoClip)
 	mergeKnown(&player.Banned, observation.Banned)
 	mergeKnown(&player.VoiceBanned, observation.VoiceBanned)
-	mergeKnown(&player.Whitelisted, observation.Whitelisted)
 }
 
 func mergeKnown[T any](current **T, observed *T) {

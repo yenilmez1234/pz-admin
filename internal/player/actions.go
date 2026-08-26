@@ -264,30 +264,16 @@ func (s *Service) SetPassword(ctx context.Context, playerIDs []string, password 
 	})
 }
 
-// RemoveFromWhitelist removes each player's account from the whitelist. When
-// deleteLocal is true, successfully removed players are also deleted from the
-// local player history.
-func (s *Service) RemoveFromWhitelist(ctx context.Context, playerIDs []string, deleteLocal bool) (ActionResult, error) {
-	p, err := s.currentProfile()
-	if err != nil {
-		return ActionResult{}, err
-	}
-	result, err := s.runPlayerAction(ctx, playerIDs, "remove from whitelist", func(commands *command.Client, player Player) (*Observation, error) {
+// RemoveFromWhitelist removes each player's account from the whitelist and
+// deletes successfully removed players from the local player history.
+func (s *Service) RemoveFromWhitelist(ctx context.Context, playerIDs []string) (ActionResult, error) {
+	return s.runPlayerAction(ctx, playerIDs, "remove from whitelist", func(commands *command.Client, player Player) (*Observation, error) {
 		if _, err := commands.RemoveUserFromWhitelist(ctx, player.Username); err != nil {
 			return nil, err
 		}
 		observation := whitelistedObservation(false)
 		return &observation, nil
 	})
-	if err != nil || !deleteLocal || len(result.Succeeded) == 0 {
-		return result, err
-	}
-	players, err := s.store.DeletePlayers(p.ID, result.Succeeded)
-	if err != nil {
-		return result, fmt.Errorf("player: delete local records: %w", err)
-	}
-	s.emitUpdate(p.ID, players)
-	return result, nil
 }
 
 type playerAction func(*command.Client, Player) (*Observation, error)

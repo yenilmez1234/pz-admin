@@ -62,13 +62,11 @@ func TestStoreMergeCreatesAndUpdatesPlayer(t *testing.T) {
 	lastOnline := firstSeen.Add(15 * time.Second)
 	invisible := true
 	noClip := true
-	whitelisted := true
 	players, err = store.Merge(profileID, []Observation{{
-		Username:    "Alice",
-		Online:      &online,
-		Invisible:   &invisible,
-		NoClip:      &noClip,
-		Whitelisted: &whitelisted,
+		Username:  "Alice",
+		Online:    &online,
+		Invisible: &invisible,
+		NoClip:    &noClip,
 	}}, lastOnline)
 	if err != nil {
 		t.Fatal(err)
@@ -92,10 +90,6 @@ func TestStoreMergeCreatesAndUpdatesPlayer(t *testing.T) {
 	if updated.NoClip == nil || !*updated.NoClip {
 		t.Fatalf("Merge() no clip = %#v, want true", updated.NoClip)
 	}
-	if updated.Whitelisted == nil || !*updated.Whitelisted {
-		t.Fatalf("Merge() whitelisted = %#v, want true", updated.Whitelisted)
-	}
-
 	reopened, err := Open(store.dir)
 	if err != nil {
 		t.Fatal(err)
@@ -192,16 +186,16 @@ func TestStoreUpdatesKnownPlayerByIDWithoutObservingPresence(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	whitelisted := true
+	banned := true
 	players, err = store.Merge(profileID, []Observation{{
-		ID:          players[0].ID,
-		Whitelisted: &whitelisted,
+		ID:     players[0].ID,
+		Banned: &banned,
 	}}, observedAt.Add(15*time.Second))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if players[0].Whitelisted == nil || !*players[0].Whitelisted {
-		t.Fatalf("ID update Whitelisted = %#v, want true", players[0].Whitelisted)
+	if players[0].Banned == nil || !*players[0].Banned {
+		t.Fatalf("ID update Banned = %#v, want true", players[0].Banned)
 	}
 	if !players[0].LastSeenOnlineAt.Equal(observedAt) {
 		t.Fatalf("ID update LastSeenOnlineAt = %v, want %v", players[0].LastSeenOnlineAt, observedAt)
@@ -349,15 +343,15 @@ func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
 	}
 
 	// Later observations by the stable ID match the same record.
-	whitelisted := true
+	banned := true
 	players, err = store.Merge(profileID, []Observation{{
-		ID:          stableID,
-		Whitelisted: &whitelisted,
+		ID:     stableID,
+		Banned: &banned,
 	}}, observedAt.Add(30*time.Second))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(players) != 1 || players[0].Whitelisted == nil {
+	if len(players) != 1 || players[0].Banned == nil {
 		t.Fatalf("Merge() after ID adoption = %#v", players)
 	}
 }

@@ -106,12 +106,11 @@ export function List(profileID: string): $CancellablePromise<$models.Player[]> {
 }
 
 /**
- * RemoveFromWhitelist removes each player's account from the whitelist. When
- * deleteLocal is true, successfully removed players are also deleted from the
- * local player history.
+ * RemoveFromWhitelist removes each player's account from the whitelist and
+ * deletes successfully removed players from the local player history.
  */
-export function RemoveFromWhitelist(playerIDs: string[], deleteLocal: boolean): $CancellablePromise<$models.ActionResult> {
-    return $Call.ByID(2770138531, playerIDs, deleteLocal).then(($result: any) => {
+export function RemoveFromWhitelist(playerIDs: string[]): $CancellablePromise<$models.ActionResult> {
+    return $Call.ByID(2770138531, playerIDs).then(($result: any) => {
         return $$createType0($result);
     });
 }
