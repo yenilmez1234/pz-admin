@@ -125,9 +125,9 @@ export function serializeGameMessage(
   build: GameBuild,
 ): string {
   const format = createDefaultFormat();
-  let alignment: MessageAlignment = "left";
+  let alignment: MessageAlignment | undefined;
 
-  return document.content
+  const message = document.content
     .map((paragraph) => {
       const nextAlignment = paragraph.attrs?.textAlign ?? "left";
       const alignmentToken = encodeAlignmentTransition(alignment, nextAlignment);
@@ -140,6 +140,8 @@ export function serializeGameMessage(
       );
     })
     .join(LINE_TOKEN);
+
+  return alignment === "left" ? message : `${message} <LEFT> `;
 }
 
 export function containsForbiddenGameMessageCharacters(
@@ -242,7 +244,7 @@ function encodeFormatTransition(
 }
 
 function encodeAlignmentTransition(
-  current: MessageAlignment,
+  current: MessageAlignment | undefined,
   next: MessageAlignment,
 ): string {
   if (current === next) return "";
