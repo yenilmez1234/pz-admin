@@ -25,6 +25,14 @@ const SPACE_TOKEN = " <SPACE> ";
 const TOKEN_PATTERN = / *<([^<>]+)> */g;
 const FORBIDDEN_CHARACTER_PATTERN = /[<>"\0]/;
 const ALL_FORBIDDEN_CHARACTERS_PATTERN = /[<>"\0]/g;
+const FORMAT_PRESETS = {
+  H1: { alignment: "center", color: "#ffffff", size: "large" },
+  H2: { alignment: "left", color: "#cccccc", size: "medium" },
+  TEXT: { alignment: "left", color: "#b3b3b3", size: "medium" },
+} as const satisfies Record<
+  string,
+  { alignment: MessageAlignment; color: string; size: MessageSize }
+>;
 interface GameMessageFontMetrics {
   family: string;
   lineHeights: Record<MessageSize, string>;
@@ -69,6 +77,15 @@ interface FormattingToken {
 }
 
 const formattingTokens: FormattingToken[] = [
+  {
+    pattern: /^(H1|H2|TEXT)$/,
+    apply(match, state) {
+      const preset = FORMAT_PRESETS[match[1] as keyof typeof FORMAT_PRESETS];
+      state.alignment = preset.alignment;
+      state.color = preset.color;
+      state.size = preset.size;
+    },
+  },
   {
     pattern: /^PUSHRGB:([\d.]+),([\d.]+),([\d.]+)$/,
     apply(match, state) {
@@ -184,10 +201,26 @@ export function serializeGameMessage(
     .join(BR_TOKEN);
 
   const alignedMessage = alignment === "left" ? message : `${message} <LEFT> `;
-  return alignedMessage
+  return optimizeFormatPresets(alignedMessage)
     .replace(/> +</g, "> <")
     .replace(/^ +(?=<)/, "")
     .replace(/(>) +$/, "$1");
+}
+
+function optimizeFormatPresets(message: string): string {
+  return message
+    .replace(
+      /<CENTRE> +<RGB:1,1,1> +<SIZE:large>/g,
+      "<H1>",
+    )
+    .replace(
+      /<LEFT> +<RGB:0\.8,0\.8,0\.8> +<SIZE:medium>/g,
+      "<H2>",
+    )
+    .replace(
+      /<LEFT> +<RGB:0\.7,0\.7,0\.7> +<SIZE:medium>/g,
+      "<TEXT>",
+    );
 }
 
 export function containsForbiddenGameMessageCharacters(
