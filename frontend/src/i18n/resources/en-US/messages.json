@@ -6,10 +6,7 @@
     "title": "Edit Message"
   },
   "editor": {
-    "label": "Message",
-    "lineLabel": "Message line {{line}}",
-    "placeholder": "Write a message…",
-    "changeLineColor": "Change the color of line {{line}}",
+    "color": "Text color",
     "useDefaultColor": "Use Default Color",
     "colorPicker": {
       "hue": "Hue",
@@ -25,7 +22,6 @@
   },
   "actions": {
     "apply": "Apply",
-    "clear": "Clear",
     "copy": "Copy Formatted Message",
     "copied": "Copied",
     "edit": "Edit Message"

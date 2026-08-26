@@ -6,10 +6,7 @@
     "title": "Mesajı Düzenle"
   },
   "editor": {
-    "label": "Mesaj",
-    "lineLabel": "Mesaj satırı {{line}}",
-    "placeholder": "Bir mesaj yazın…",
-    "changeLineColor": "{{line}}. satırın rengini değiştir",
+    "color": "Metin rengi",
     "useDefaultColor": "Varsayılan Rengi Kullan",
     "colorPicker": {
       "hue": "Renk tonu",
@@ -25,7 +22,6 @@
   },
   "actions": {
     "apply": "Uygula",
-    "clear": "Temizle",
     "copy": "Biçimlendirilmiş Mesajı Kopyala",
     "copied": "Kopyalandı",
     "edit": "Mesajı Düzenle"

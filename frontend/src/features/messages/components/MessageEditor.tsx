@@ -1,86 +1,94 @@
-import { Button, Group, Text, Textarea } from "@mantine/core";
-import { useId, type CSSProperties } from "react";
-import { useTranslation } from "react-i18next";
-import {
-  defaultMessageColor,
-  MessageLineColorControl,
-} from "@/features/messages/components/MessageLineColorControl";
-import { useMessageEditor } from "@/features/messages/hooks/useMessageEditor";
-import { createEmptyMessage } from "@/features/messages/lib/messageDocument";
+import { RichTextEditor } from "@mantine/tiptap";
+import { Color } from "@tiptap/extension-color";
+import { FontSize, TextStyle } from "@tiptap/extension-text-style";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import type { CSSProperties } from "react";
+import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageCodec";
 import type { MessageDocument } from "@/features/messages/types";
+import { MessageColorControl } from "./MessageColorControl";
 import classes from "./MessageEditor.module.css";
 
 interface MessageEditorProps {
-  document: MessageDocument;
+  initialDocument: MessageDocument;
+  isTextAllowed?: (value: string) => boolean;
   maxHeight?: CSSProperties["maxHeight"];
   onChange: (document: MessageDocument) => void;
+  sanitizePastedText?: (value: string) => string;
 }
 
 export function MessageEditor({
-  document,
+  initialDocument,
+  isTextAllowed,
   maxHeight,
   onChange,
+  sanitizePastedText,
 }: MessageEditorProps) {
-  const { t } = useTranslation("messages");
-  const labelId = useId();
-  const editor = useMessageEditor(document, onChange);
-  const isEmpty =
-    document.lines.length === 1 &&
-    document.lines[0].text === "" &&
-    document.lines[0].color === null;
+  const editor = useEditor({
+    shouldRerenderOnTransaction: true,
+    extensions: [
+      StarterKit.configure({
+        blockquote: false,
+        bold: false,
+        bulletList: false,
+        code: false,
+        codeBlock: false,
+        hardBreak: false,
+        heading: false,
+        horizontalRule: false,
+        italic: false,
+        link: false,
+        listItem: false,
+        orderedList: false,
+        strike: false,
+        underline: false,
+      }),
+      TextStyle,
+      Color,
+      FontSize,
+    ],
+    content: initialDocument,
+    editorProps: {
+      handleTextInput: (_view, _from, _to, text) =>
+        isTextAllowed ? !isTextAllowed(text) : false,
+      transformPastedText: (text) => sanitizePastedText?.(text) ?? text,
+    },
+    onUpdate: ({ editor: currentEditor }) => {
+      onChange(currentEditor.getJSON() as MessageDocument);
+    },
+  });
+  const caretColor =
+    (editor?.getAttributes("textStyle").color as string | undefined) ??
+    defaultGameMessageColor;
 
   return (
-    <div className={classes.root}>
-      <Group justify="space-between">
-        <Text fw={500} id={labelId} size="sm">
-          {t("editor.label")}
-        </Text>
-        <Button
-          color="gray"
-          disabled={isEmpty}
-          onClick={() => onChange(createEmptyMessage())}
-          size="compact-xs"
-          variant="subtle"
-        >
-          {t("actions.clear")}
-        </Button>
-      </Group>
-      <fieldset
-        aria-labelledby={labelId}
-        className={classes.editor}
-        style={{ maxHeight }}
-      >
-        {document.lines.map((line, lineIndex) => (
-          <div className={classes.line} key={line.id}>
-            <MessageLineColorControl
-              color={line.color}
-              lineNumber={lineIndex + 1}
-              onChange={(color) => editor.setLineColor(lineIndex, color)}
-            />
-            <Textarea
-              aria-label={t("editor.lineLabel", { line: lineIndex + 1 })}
-              autoComplete="off"
-              autosize
-              classNames={{ input: classes.lineInput }}
-              minRows={1}
-              name={`message-line-${lineIndex + 1}`}
-              onChange={(event) => editor.handleLineChange(lineIndex, event)}
-              onKeyDown={(event) => editor.handleLineKeyDown(lineIndex, event)}
-              onPointerDown={editor.resetVerticalCaret}
-              placeholder={
-                document.lines.length === 1
-                  ? t("editor.placeholder")
-                  : undefined
-              }
-              ref={(input) => editor.registerInput(line.id, input)}
-              spellCheck
-              styles={{ input: { color: line.color ?? defaultMessageColor } }}
-              value={line.text}
-              variant="unstyled"
-            />
-          </div>
-        ))}
-      </fieldset>
-    </div>
+    <RichTextEditor
+      classNames={{ content: classes.content, root: classes.root }}
+      editor={editor}
+      styles={{
+        content: {
+          caretColor,
+          color: defaultGameMessageColor,
+          maxHeight,
+          minHeight: "14rem",
+          overflowY: "auto",
+        },
+      }}
+    >
+      <RichTextEditor.Toolbar sticky>
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.ClearFormatting />
+        </RichTextEditor.ControlsGroup>
+
+        <MessageColorControl />
+
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Undo />
+          <RichTextEditor.Redo />
+        </RichTextEditor.ControlsGroup>
+      </RichTextEditor.Toolbar>
+
+      <RichTextEditor.Content />
+    </RichTextEditor>
   );
 }

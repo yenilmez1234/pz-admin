@@ -1,15 +1,10 @@
+import { Button, ColorPicker, ColorSwatch, Popover, Stack } from "@mantine/core";
 import {
-  Button,
-  ColorPicker,
-  ColorSwatch,
-  Popover,
-  Stack,
-  UnstyledButton,
-} from "@mantine/core";
+  RichTextEditor,
+  useRichTextEditorContext,
+} from "@mantine/tiptap";
 import { useTranslation } from "react-i18next";
-import classes from "./MessageEditor.module.css";
-
-export const defaultMessageColor = "#077ef5";
+import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageCodec";
 
 const colorSwatches = [
   "#ffffff",
@@ -17,45 +12,33 @@ const colorSwatches = [
   "#e6cc1a",
   "#b3e6b3",
   "#33b3ff",
-  defaultMessageColor,
+  defaultGameMessageColor,
   "#b399ff",
   "#ff80b3",
   "#ff8080",
 ];
 
-interface MessageLineColorControlProps {
-  color: string | null;
-  lineNumber: number;
-  onChange: (color: string | null) => void;
-}
-
-export function MessageLineColorControl({
-  color,
-  lineNumber,
-  onChange,
-}: MessageLineColorControlProps) {
+export function MessageColorControl() {
   const { t } = useTranslation("messages");
-
-  function handleColorChange(nextColor: string) {
-    onChange(
-      nextColor.toLowerCase() === defaultMessageColor ? null : nextColor,
-    );
-  }
+  const { editor } = useRichTextEditorContext();
+  const color = editor?.getAttributes("textStyle").color as
+    | string
+    | undefined;
 
   return (
     <Popover position="bottom-start" shadow="md" width={220}>
       <Popover.Target>
-        <UnstyledButton
-          aria-label={t("editor.changeLineColor", { line: lineNumber })}
-          className={classes.colorButton}
+        <RichTextEditor.Control
+          aria-label={t("editor.color")}
+          title={t("editor.color")}
         >
           <ColorSwatch
-            color={color ?? defaultMessageColor}
+            color={color ?? defaultGameMessageColor}
             radius={5}
             size={16}
             withShadow
           />
-        </UnstyledButton>
+        </RichTextEditor.Control>
       </Popover.Target>
       <Popover.Dropdown>
         <Stack gap="sm">
@@ -64,15 +47,15 @@ export function MessageLineColorControl({
             format="hex"
             fullWidth
             hueLabel={t("editor.colorPicker.hue")}
-            onChange={handleColorChange}
+            onChange={(value) => editor?.chain().focus().setColor(value).run()}
             saturationLabel={t("editor.colorPicker.saturation")}
             swatches={colorSwatches}
             swatchesPerRow={9}
-            value={color ?? defaultMessageColor}
+            value={color ?? defaultGameMessageColor}
           />
           <Button
             disabled={!color}
-            onClick={() => onChange(null)}
+            onClick={() => editor?.chain().focus().unsetColor().run()}
             size="xs"
             variant="default"
           >

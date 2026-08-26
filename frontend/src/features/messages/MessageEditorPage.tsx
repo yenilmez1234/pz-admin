@@ -1,24 +1,15 @@
 import { Button, CopyButton, Group, Stack, Title } from "@mantine/core";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
-import { MessageEditor } from "@/features/messages/components/MessageEditor";
-import {
-  createEmptyMessage,
-  serializeMessage,
-} from "@/features/messages/lib/messageDocument";
-import type { MessageDocument } from "@/features/messages/types";
+import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import classes from "./MessageEditorPage.module.css";
 
 export function MessageEditorPage() {
   const { t } = useTranslation("messages");
-  const [document, setDocument] = useState<MessageDocument>(createEmptyMessage);
-  const formattedMessage = useMemo(
-    () => serializeMessage(document),
-    [document],
-  );
+  const [message, setMessage] = useState("");
 
   return (
     <PageContainer
@@ -30,18 +21,18 @@ export function MessageEditorPage() {
       <Stack gap="md" style={{ flex: 1, minHeight: 0 }}>
         <Title order={1}>{t("page.title")}</Title>
 
-        <MessageEditor document={document} onChange={setDocument} />
+        <GameMessageEditor onChange={setMessage} value={message} />
 
-        <FormattedMessagePreview value={formattedMessage} />
+        <FormattedMessagePreview value={message} />
 
         <Group justify="flex-start">
-          <CopyButton value={formattedMessage} timeout={2000}>
+          <CopyButton value={message} timeout={2000}>
             {({ copied, copy }) => (
               <Button
                 aria-label={copied ? t("actions.copied") : t("actions.copy")}
                 className={classes.copyButton}
                 data-copied={copied || undefined}
-                disabled={!formattedMessage}
+                disabled={!message}
                 leftSection={
                   copied ? (
                     <IconCheck aria-hidden="true" size={16} />

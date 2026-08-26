@@ -3,15 +3,9 @@ import { Button, Group, Modal, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import {
-  createEmptyMessage,
-  parseMessage,
-  serializeMessage,
-} from "../lib/messageDocument";
-import type { MessageDocument } from "../types";
 import { utf8ByteLength } from "@/shared/lib/text";
 import { FormattedMessagePreview } from "./FormattedMessagePreview";
-import { MessageEditor } from "./MessageEditor";
+import { GameMessageEditor } from "./GameMessageEditor";
 
 interface MessageEditorDialogProps {
   descriptionId?: string;
@@ -35,18 +29,17 @@ export function MessageEditorDialog({
 }: MessageEditorDialogProps) {
   const { t } = useTranslation(["messages", "common"]);
   const [opened, modal] = useDisclosure(false);
-  const [draft, setDraft] = useState<MessageDocument>(createEmptyMessage);
-  const formattedDraft = serializeMessage(draft);
+  const [draft, setDraft] = useState("");
   const overLimit =
-    maxBytes !== undefined && utf8ByteLength(formattedDraft) > maxBytes;
+    maxBytes !== undefined && utf8ByteLength(draft) > maxBytes;
 
   function openEditor() {
-    setDraft(parseMessage(value));
+    setDraft(value);
     modal.open();
   }
 
   function applyChanges() {
-    onChange(formattedDraft);
+    onChange(draft);
     modal.close();
   }
 
@@ -74,12 +67,12 @@ export function MessageEditorDialog({
         title={t("dialog.title", { ns: "messages" })}
       >
         <Stack gap="md">
-          <MessageEditor
-            document={draft}
+          <GameMessageEditor
             maxHeight="min(22rem, 40vh)"
             onChange={setDraft}
+            value={draft}
           />
-          <FormattedMessagePreview maxBytes={maxBytes} value={formattedDraft} />
+          <FormattedMessagePreview maxBytes={maxBytes} value={draft} />
           <Group justify="flex-end">
             <Button onClick={modal.close} variant="default">
               {t("actions.cancel", { ns: "common" })}

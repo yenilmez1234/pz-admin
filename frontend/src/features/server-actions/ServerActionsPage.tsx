@@ -30,11 +30,7 @@ import {
   TriggerThunder,
 } from "@bindings/internal/serveraction/service";
 import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
-import { MessageEditor } from "@/features/messages/components/MessageEditor";
-import {
-  createEmptyMessage,
-  serializeMessage,
-} from "@/features/messages/lib/messageDocument";
+import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
 import { usePlayers } from "@/features/players/PlayersProvider";
 import { isOnline } from "@/features/players/status";
 import { useSession } from "@/features/session/SessionProvider";
@@ -92,14 +88,14 @@ export function ServerActionsPage() {
   const { supports } = useSession();
   const { pending, run } = useServerAction();
   const [dialog, setDialog] = useState<DialogName | null>(null);
-  const [message, setMessage] = useState(createEmptyMessage);
+  const [message, setMessage] = useState("");
   const [rainIntensity, setRainIntensity] = useState<string | number>("");
   const [stormDuration, setStormDuration] = useState<string | number>("");
   const [luaFile, setLuaFile] = useState("");
   const onlinePlayers = players.filter(isOnline);
   const playerNames = onlinePlayers.map((player) => player.username).join(", ");
   const busy = pending !== null;
-  const serializedMessage = serializeMessage(message);
+  const serializedMessage = message;
   const messageEmpty = serializedMessage.trim().length === 0;
   const messageTooLong =
     utf8ByteLength(serializedMessage) > SERVER_MESSAGE_MAX_BYTES;
@@ -450,17 +446,17 @@ export function ServerActionsPage() {
               () => SendMessage(serializedMessage),
               t("success.messageSent"),
               () => {
-                setMessage(createEmptyMessage());
+                setMessage("");
                 setDialog(null);
               },
             )
           }
         >
           <Stack gap="md">
-            <MessageEditor
-              document={message}
+            <GameMessageEditor
               maxHeight="min(22rem, 40vh)"
               onChange={setMessage}
+              value={message}
             />
             <FormattedMessagePreview
               maxBytes={SERVER_MESSAGE_MAX_BYTES}
