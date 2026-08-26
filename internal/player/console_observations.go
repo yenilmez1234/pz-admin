@@ -62,7 +62,7 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^(?:godmode|godmodeplayer|godmod|godmodplayer)\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+-(?:true|false)$`),
+		input: regexp.MustCompile(`(?i)^(?:godmode|godmodeplayer|godmod|godmodplayer)\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+-(?:true|false))?$`),
 		responses: []consoleResponseRule{
 			observationResponse(`^User (?P<username>.+?) is now invincible\.?$`, func(string) Observation {
 				return godModeObservation(true)
@@ -73,7 +73,7 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^invisibleplayer\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+-(?:true|false)$`),
+		input: regexp.MustCompile(`(?i)^invisibleplayer\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+-(?:true|false))?$`),
 		responses: []consoleResponseRule{
 			observationResponse(`^User (?P<username>.+?) is now invisible\.?$`, func(string) Observation {
 				return invisibleObservation(true)
@@ -84,7 +84,7 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^noclip\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+-(?:true|false)$`),
+		input: regexp.MustCompile(`(?i)^noclip\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+-(?:true|false))?$`),
 		responses: []consoleResponseRule{
 			observationResponse(`^User (?P<username>.+?) won't collide\.?$`, func(string) Observation {
 				return noClipObservation(true)
@@ -153,7 +153,7 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^voiceban\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+-(?:true|false)$`),
+		input: regexp.MustCompile(`(?i)^voiceban\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+-(?:true|false))?$`),
 		responses: []consoleResponseRule{
 			observationResponse(`^User (?P<username>.+?) voice is banned\.?$`, func(string) Observation {
 				return voiceBannedObservation(true)
