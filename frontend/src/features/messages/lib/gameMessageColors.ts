@@ -55,6 +55,10 @@ export function encodeGameMessageColorToken(
     : rgbToken;
 }
 
+export function encodeGameMessagePushColorToken(color: string): string {
+  return `<PUSHRGB:${encodeGameMessageRgb(normalizeColor(color))}>`;
+}
+
 function getClosestNamedColor(color: string): { color: string; name: string } {
   let closest = { color: namedColors.Red, name: "Red" };
   let closestDistance = Number.POSITIVE_INFINITY;

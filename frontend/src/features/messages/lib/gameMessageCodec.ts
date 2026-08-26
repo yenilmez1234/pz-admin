@@ -2,6 +2,7 @@ import {
   decodeGameMessageRgb,
   defaultGameMessageColor,
   encodeGameMessageColorToken,
+  encodeGameMessagePushColorToken,
   getGameMessageNamedColor,
 } from "@/features/messages/lib/gameMessageColors";
 import { createEmptyMessageDocument } from "@/features/messages/lib/messageDocument";
@@ -20,7 +21,8 @@ import type {
 export const defaultGameMessageSize: MessageSize = "medium";
 const LINE_TOKEN = " <LINE> ";
 const BR_TOKEN = " <BR> ";
-const TOKEN_PATTERN = / ?<([^<>]+)> ?/g;
+const SPACE_TOKEN = " <SPACE> ";
+const TOKEN_PATTERN = / *<([^<>]+)> */g;
 const FORBIDDEN_CHARACTER_PATTERN = /[<>"\0]/;
 const ALL_FORBIDDEN_CHARACTERS_PATTERN = /[<>"\0]/g;
 interface GameMessageFontMetrics {
@@ -48,6 +50,7 @@ export const gameMessageFontMetrics: Record<GameBuild, GameMessageFontMetrics> =
 interface FormatState {
   alignment?: MessageAlignment;
   color?: string;
+  colorStack?: (string | undefined)[];
   size?: MessageSize;
 }
 
@@ -56,12 +59,30 @@ interface ResolvedFormat {
   size: MessageSize;
 }
 
+interface SerializationState extends ResolvedFormat {
+  colorStack: string[];
+}
+
 interface FormattingToken {
   pattern: RegExp;
   apply(match: RegExpMatchArray, state: FormatState, build: GameBuild): void;
 }
 
 const formattingTokens: FormattingToken[] = [
+  {
+    pattern: /^PUSHRGB:([\d.]+),([\d.]+),([\d.]+)$/,
+    apply(match, state) {
+      state.colorStack ??= [];
+      state.colorStack.push(state.color);
+      state.color = decodeGameMessageRgb(match[1], match[2], match[3]);
+    },
+  },
+  {
+    pattern: /^POPRGB$/,
+    apply(_match, state) {
+      if (state.colorStack?.length) state.color = state.colorStack.pop();
+    },
+  },
   {
     pattern: /^RGB:([\d.]+),([\d.]+),([\d.]+)$/,
     apply(match, state) {
@@ -127,6 +148,14 @@ export function serializeGameMessage(
 ): string {
   const format = createDefaultFormat();
   let alignment: MessageAlignment | undefined;
+  const texts = document.content.flatMap((paragraph) => paragraph.content ?? []);
+  const values = normalizeMessageText(document.content);
+  const serializedTexts = texts.filter((text) => values.get(text));
+  if (serializedTexts.length === 0) return "";
+
+  const remainingColors = serializedTexts.map(
+    (text) => resolveTextFormat(findTextStyle(text), build).color,
+  );
 
   const message = document.content
     .map((paragraph) => {
@@ -136,7 +165,17 @@ export function serializeGameMessage(
       return (
         alignmentToken +
         (paragraph.content ?? [])
-          .map((text) => serializeText(text, format, build))
+          .map((text) =>
+            values.get(text)
+              ? serializeText(
+                  text,
+                  values.get(text)!,
+                  format,
+                  build,
+                  remainingColors,
+                )
+              : "",
+          )
           .join("")
       );
     })
@@ -144,7 +183,11 @@ export function serializeGameMessage(
     .split(LINE_TOKEN + LINE_TOKEN)
     .join(BR_TOKEN);
 
-  return alignment === "left" ? message : `${message} <LEFT> `;
+  const alignedMessage = alignment === "left" ? message : `${message} <LEFT> `;
+  return alignedMessage
+    .replace(/> +</g, "> <")
+    .replace(/^ +(?=<)/, "")
+    .replace(/(>) +$/, "$1");
 }
 
 export function containsForbiddenGameMessageCharacters(
@@ -179,6 +222,11 @@ function applyToken(
       createParagraph(format.alignment),
       createParagraph(format.alignment),
     );
+    return;
+  }
+
+  if (token === "SPACE") {
+    appendText(currentParagraph(paragraphs), " ", format, build);
     return;
   }
 
@@ -228,30 +276,96 @@ function currentParagraph(
 
 function serializeText(
   text: MessageText,
-  current: ResolvedFormat,
+  value: string,
+  current: SerializationState,
   build: GameBuild,
+  remainingColors: string[],
 ): string {
   const next = resolveTextFormat(findTextStyle(text), build);
-  const prefix = encodeFormatTransition(current, next, build);
+  remainingColors.shift();
+  const prefix = encodeFormatTransition(
+    current,
+    next,
+    build,
+    remainingColors,
+  );
 
   current.color = next.color;
   current.size = next.size;
-  return prefix + sanitizeGameMessageText(text.text);
+  return prefix + encodeBoundarySpaces(value);
+}
+
+function normalizeMessageText(
+  paragraphs: MessageParagraph[],
+): Map<MessageText, string> {
+  const values = new Map<MessageText, string>();
+
+  for (const paragraph of paragraphs) {
+    const texts = paragraph.content ?? [];
+    for (const text of texts) {
+      values.set(text, sanitizeGameMessageText(text.text));
+    }
+
+    for (const text of texts) {
+      const value = values.get(text)!.trimStart();
+      values.set(text, value);
+      if (value) break;
+    }
+
+    for (let index = texts.length - 1; index >= 0; index -= 1) {
+      const text = texts[index];
+      const value = values.get(text)!.trimEnd();
+      values.set(text, value);
+      if (value) break;
+    }
+  }
+
+  return values;
 }
 
 function encodeFormatTransition(
-  current: ResolvedFormat,
+  current: SerializationState,
   next: ResolvedFormat,
   build: GameBuild,
+  remainingColors: string[],
 ): string {
   const tokens: string[] = [];
   if (next.color !== current.color) {
-    tokens.push(encodeGameMessageColorToken(next.color, build));
+    tokens.push(encodeColorTransition(current, next.color, build, remainingColors));
   }
   if (next.size !== current.size) {
     tokens.push(`<SIZE:${next.size}>`);
   }
   return tokens.length > 0 ? ` ${tokens.join(" ")} ` : "";
+}
+
+function encodeColorTransition(
+  current: SerializationState,
+  nextColor: string,
+  build: GameBuild,
+  remainingColors: string[],
+): string {
+  const directToken = encodeGameMessageColorToken(nextColor, build);
+  const stackedColor = current.colorStack[current.colorStack.length - 1];
+
+  if (stackedColor === nextColor && "<POPRGB>".length < directToken.length) {
+    current.colorStack.pop();
+    return "<POPRGB>";
+  }
+
+  const returnToken = encodeGameMessageColorToken(current.color, build);
+  const pushToken = encodeGameMessagePushColorToken(nextColor);
+  const returnsToCurrentColor = remainingColors.includes(current.color);
+  if (
+    returnsToCurrentColor &&
+    pushToken.length + "<POPRGB>".length <
+      directToken.length + returnToken.length
+  ) {
+    current.colorStack.push(current.color);
+    return pushToken;
+  }
+
+  return directToken;
 }
 
 function encodeAlignmentTransition(
@@ -269,8 +383,29 @@ function findTextStyle(text: MessageText): MessageTextStyle | undefined {
 
 // Format mapping
 
-function createDefaultFormat(): ResolvedFormat {
-  return { color: defaultGameMessageColor, size: defaultGameMessageSize };
+function createDefaultFormat(): SerializationState {
+  return {
+    color: defaultGameMessageColor,
+    colorStack: [],
+    size: defaultGameMessageSize,
+  };
+}
+
+function encodeBoundarySpaces(text: string): string {
+  const leadingSpaces = text.length - text.trimStart().length;
+  if (leadingSpaces === text.length) {
+    return SPACE_TOKEN.repeat(leadingSpaces);
+  }
+
+  const trailingSpaces = text.length - text.trimEnd().length;
+  const contentEnd = Math.max(leadingSpaces, text.length - trailingSpaces);
+  const content = text.slice(leadingSpaces, contentEnd);
+
+  return (
+    SPACE_TOKEN.repeat(leadingSpaces) +
+    content +
+    SPACE_TOKEN.repeat(trailingSpaces)
+  );
 }
 
 function formatToTextStyle(
