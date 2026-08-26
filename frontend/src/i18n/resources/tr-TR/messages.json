@@ -7,6 +7,12 @@
   },
   "editor": {
     "color": "Metin rengi",
+    "size": "Metin boyutu",
+    "sizes": {
+      "small": "Küçük",
+      "medium": "Orta",
+      "large": "Büyük"
+    },
     "useDefaultColor": "Varsayılan Rengi Kullan",
     "colorPicker": {
       "hue": "Renk tonu",

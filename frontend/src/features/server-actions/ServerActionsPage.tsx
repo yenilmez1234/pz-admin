@@ -31,6 +31,7 @@ import {
 } from "@bindings/internal/serveraction/service";
 import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
 import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
+import { isGameBuild } from "@/features/game/types";
 import { usePlayers } from "@/features/players/PlayersProvider";
 import { isOnline } from "@/features/players/status";
 import { useSession } from "@/features/session/SessionProvider";
@@ -85,7 +86,8 @@ function DialogActions({
 export function ServerActionsPage() {
   const { t } = useTranslation(["serverActions", "common"]);
   const { players } = usePlayers();
-  const { supports } = useSession();
+  const { profile, supports } = useSession();
+  const build = profile && isGameBuild(profile.version) ? profile.version : "42";
   const { pending, run } = useServerAction();
   const [dialog, setDialog] = useState<DialogName | null>(null);
   const [message, setMessage] = useState("");
@@ -454,6 +456,7 @@ export function ServerActionsPage() {
         >
           <Stack gap="md">
             <GameMessageEditor
+              build={build}
               maxHeight="min(22rem, 40vh)"
               onChange={setMessage}
               value={message}

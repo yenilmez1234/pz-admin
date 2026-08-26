@@ -1,13 +1,16 @@
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import type { CSSProperties } from "react";
+import type { GameBuild } from "@/features/game/types";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageCodec";
 import { messageEditorExtensions } from "@/features/messages/lib/messageEditorConfig";
 import type { MessageDocument } from "@/features/messages/types";
 import { MessageColorControl } from "./MessageColorControl";
+import { MessageSizeControl } from "./MessageSizeControl";
 import classes from "./MessageEditor.module.css";
 
 interface MessageEditorProps {
+  build: GameBuild;
   initialDocument: MessageDocument;
   isTextAllowed?: (value: string) => boolean;
   maxHeight?: CSSProperties["maxHeight"];
@@ -16,6 +19,7 @@ interface MessageEditorProps {
 }
 
 export function MessageEditor({
+  build,
   initialDocument,
   isTextAllowed,
   maxHeight,
@@ -42,6 +46,7 @@ export function MessageEditor({
   return (
     <RichTextEditor
       classNames={{ content: classes.content, root: classes.root }}
+      data-game-build={build}
       editor={editor}
       styles={{
         content: {
@@ -59,6 +64,7 @@ export function MessageEditor({
         </RichTextEditor.ControlsGroup>
 
         <MessageColorControl />
+        <MessageSizeControl build={build} />
 
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Undo />

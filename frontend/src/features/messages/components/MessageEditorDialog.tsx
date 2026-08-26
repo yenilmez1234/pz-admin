@@ -3,11 +3,13 @@ import { Button, Group, Modal, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
+import type { GameBuild } from "@/features/game/types";
 import { utf8ByteLength } from "@/shared/lib/text";
 import { FormattedMessagePreview } from "./FormattedMessagePreview";
 import { GameMessageEditor } from "./GameMessageEditor";
 
 interface MessageEditorDialogProps {
+  build: GameBuild;
   descriptionId?: string;
   disabled?: boolean;
   invalid?: boolean;
@@ -19,6 +21,7 @@ interface MessageEditorDialogProps {
 
 /** Edits a serialized game message without exposing its document model to callers. */
 export function MessageEditorDialog({
+  build,
   descriptionId,
   disabled,
   invalid,
@@ -68,6 +71,7 @@ export function MessageEditorDialog({
       >
         <Stack gap="md">
           <GameMessageEditor
+            build={build}
             maxHeight="min(22rem, 40vh)"
             onChange={setDraft}
             value={draft}

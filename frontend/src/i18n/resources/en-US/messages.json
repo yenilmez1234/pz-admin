@@ -7,6 +7,12 @@
   },
   "editor": {
     "color": "Text color",
+    "size": "Text size",
+    "sizes": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
     "useDefaultColor": "Use Default Color",
     "colorPicker": {
       "hue": "Hue",

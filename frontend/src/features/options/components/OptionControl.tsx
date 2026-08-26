@@ -43,6 +43,7 @@ export function OptionControl({ build, ...props }: OptionControlProps) {
   if (props.definition.editor === "message") {
     return (
       <MessageEditorDialog
+        build={build}
         descriptionId={props.descriptionId}
         disabled={props.disabled}
         invalid={Boolean(props.error)}
