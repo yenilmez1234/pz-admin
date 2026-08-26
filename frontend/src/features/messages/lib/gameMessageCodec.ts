@@ -19,6 +19,7 @@ import type {
 
 export const defaultGameMessageSize: MessageSize = "medium";
 const LINE_TOKEN = " <LINE> ";
+const BR_TOKEN = " <BR> ";
 const TOKEN_PATTERN = / ?<([^<>]+)> ?/g;
 const FORBIDDEN_CHARACTER_PATTERN = /[<>"\0]/;
 const ALL_FORBIDDEN_CHARACTERS_PATTERN = /[<>"\0]/g;
@@ -139,7 +140,9 @@ export function serializeGameMessage(
           .join("")
       );
     })
-    .join(LINE_TOKEN);
+    .join(LINE_TOKEN)
+    .split(LINE_TOKEN + LINE_TOKEN)
+    .join(BR_TOKEN);
 
   return alignment === "left" ? message : `${message} <LEFT> `;
 }
@@ -168,6 +171,14 @@ function applyToken(
 ) {
   if (token === "LINE") {
     paragraphs.push(createParagraph(format.alignment));
+    return;
+  }
+
+  if (token === "BR") {
+    paragraphs.push(
+      createParagraph(format.alignment),
+      createParagraph(format.alignment),
+    );
     return;
   }
 
