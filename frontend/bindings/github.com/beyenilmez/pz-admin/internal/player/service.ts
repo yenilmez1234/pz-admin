@@ -116,8 +116,7 @@ export function RemoveFromWhitelist(playerIDs: string[]): $CancellablePromise<$m
 }
 
 /**
- * SetAccessLevel changes the server access level of each player. Access-level
- * permissions are configurable, so no other player state is inferred.
+ * SetAccessLevel changes the server access level of each player.
  */
 export function SetAccessLevel(playerIDs: string[], level: string): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(2866151286, playerIDs, level).then(($result: any) => {
@@ -127,7 +126,6 @@ export function SetAccessLevel(playerIDs: string[], level: string): $Cancellable
 
 /**
  * SetGodMode enables or disables god mode for each player.
- * TODO: Verify whether Build 41 also changes invisibility before recording it.
  */
 export function SetGodMode(playerIDs: string[], enabled: boolean): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(288807347, playerIDs, enabled).then(($result: any) => {

@@ -194,7 +194,6 @@ func (s *Service) Unban(ctx context.Context, playerIDs []string) (ActionResult, 
 }
 
 // SetGodMode enables or disables god mode for each player.
-// TODO: Verify whether Build 41 also changes invisibility before recording it.
 func (s *Service) SetGodMode(ctx context.Context, playerIDs []string, enabled bool) (ActionResult, error) {
 	return s.runPlayerAction(ctx, playerIDs, "set god mode", func(commands *command.Client, player Player) (*Observation, error) {
 		_, err := commands.SetGodMode(ctx, player.Username, enabled)
