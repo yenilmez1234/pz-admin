@@ -2,7 +2,7 @@ package player
 
 import "strings"
 
-func isB41StaffAccess(accessLevel string) bool {
+func isStaffAccess(accessLevel string) bool {
 	switch strings.ToLower(accessLevel) {
 	case "observer", "gm", "overseer", "moderator", "admin":
 		return true
@@ -23,10 +23,13 @@ func isB42RegularAccess(accessLevel string) bool {
 // addedUserObservation uses false defaults for the common case of a genuinely
 // new player.
 func addedUserObservation(build, username string) Observation {
-	accessLevel := "none"
-	if build != "41" {
-		accessLevel = "user"
+	if build == "41" {
+		return newPlayerObservation(username, "none")
 	}
+	return newPlayerObservation(username, "user")
+}
+
+func newPlayerObservation(username, accessLevel string) Observation {
 	return Observation{
 		Username:    username,
 		AccessLevel: Known(accessLevel),
@@ -39,12 +42,16 @@ func addedUserObservation(build, username string) Observation {
 }
 
 func offlineObservation(build string, accessLevel *string) Observation {
+	if build == "41" {
+		return b41OfflineObservation(accessLevel)
+	}
+	return b42OfflineObservation()
+}
+
+func b41OfflineObservation(accessLevel *string) Observation {
 	observation := Observation{
 		Online:      Known(false),
 		VoiceBanned: Unknown[bool](),
-	}
-	if build != "41" {
-		return observation
 	}
 	if accessLevel == nil {
 		observation.GodMode = Unknown[bool]()
@@ -52,11 +59,18 @@ func offlineObservation(build string, accessLevel *string) Observation {
 		observation.NoClip = Unknown[bool]()
 		return observation
 	}
-	staff := isB41StaffAccess(*accessLevel)
+	staff := isStaffAccess(*accessLevel)
 	observation.GodMode = Known(staff)
 	observation.Invisible = Known(staff)
 	observation.NoClip = Known(false)
 	return observation
+}
+
+func b42OfflineObservation() Observation {
+	return Observation{
+		Online:      Known(false),
+		VoiceBanned: Unknown[bool](),
+	}
 }
 
 func onlineObservation() Observation {
@@ -67,11 +81,22 @@ func onlineObservation() Observation {
 }
 
 func bannedObservation(build string, accessLevel *string) Observation {
-	observation := offlineObservation(build, accessLevel)
-	observation.Banned = Known(true)
-	if build != "41" {
-		observation.AccessLevel = Known("user")
+	if build == "41" {
+		return b41BannedObservation(accessLevel)
 	}
+	return b42BannedObservation()
+}
+
+func b41BannedObservation(accessLevel *string) Observation {
+	observation := b41OfflineObservation(accessLevel)
+	observation.Banned = Known(true)
+	return observation
+}
+
+func b42BannedObservation() Observation {
+	observation := b42OfflineObservation()
+	observation.AccessLevel = Known("user")
+	observation.Banned = Known(true)
 	return observation
 }
 
@@ -100,23 +125,32 @@ func whitelistedObservation(whitelisted bool) Observation {
 }
 
 func accessLevelObservation(build, level string, player *Player) Observation {
-	observation := Observation{AccessLevel: Known(level)}
 	if build == "41" {
-		if strings.EqualFold(level, "none") {
-			observation.GodMode = Known(false)
-			observation.Invisible = Known(false)
-			observation.NoClip = Known(false)
-		} else if isB41StaffAccess(level) {
-			observation.GodMode = Known(true)
-			observation.Invisible = Known(true)
-		}
-		return observation
+		return b41AccessLevelObservation(level)
 	}
+	return b42AccessLevelObservation(level, player)
+}
 
+
+func b41AccessLevelObservation(level string) Observation {
+	observation := Observation{AccessLevel: Known(level)}
+	if strings.EqualFold(level, "none") {
+		observation.GodMode = Known(false)
+		observation.Invisible = Known(false)
+		observation.NoClip = Known(false)
+	} else if isStaffAccess(level) {
+		observation.GodMode = Known(true)
+		observation.Invisible = Known(true)
+	}
+	return observation
+}
+
+func b42AccessLevelObservation(level string, player *Player) Observation {
+	observation := Observation{AccessLevel: Known(level)}
 	observation.Banned = Known(strings.EqualFold(level, "banned"))
 	if player.isOnline() && player.AccessLevel != nil {
-		previousStaff := isB41StaffAccess(*player.AccessLevel)
-		newStaff := isB41StaffAccess(level)
+		previousStaff := isStaffAccess(*player.AccessLevel)
+		newStaff := isStaffAccess(level)
 		switch {
 		case isB42RegularAccess(*player.AccessLevel) && newStaff:
 			observation.GodMode = Known(true)
@@ -129,7 +163,7 @@ func accessLevelObservation(build, level string, player *Player) Observation {
 		}
 	}
 	if strings.EqualFold(level, "banned") {
-		banned := bannedObservation(build, nil)
+		banned := b42BannedObservation()
 		observation.Online = banned.Online
 		observation.AccessLevel = banned.AccessLevel
 		observation.Banned = banned.Banned
