@@ -186,12 +186,33 @@ func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string)
 				continue
 			}
 			observation := response.observe(p.Version, username, namedCaptures(response.output, outputCaptures))
+			if observation.Online.operation == setObservation && !observation.Online.value {
+				accessLevel, err := s.storedAccessLevel(p.ID, username)
+				if err != nil {
+					return err
+				}
+				observation = offlineObservation(p.Version, accessLevel)
+				observation.Username = username
+			}
 			_, err := s.merge(p.ID, []Observation{observation}, time.Now().UTC())
 			return err
 		}
 		return nil
 	}
 	return nil
+}
+
+func (s *Service) storedAccessLevel(profileID, username string) (*string, error) {
+	players, err := s.List(profileID)
+	if err != nil {
+		return nil, err
+	}
+	for _, player := range players {
+		if strings.EqualFold(player.Username, username) {
+			return player.AccessLevel, nil
+		}
+	}
+	return nil, nil
 }
 
 func observationResponse(pattern string, observation func(string) Observation) consoleResponseRule {
