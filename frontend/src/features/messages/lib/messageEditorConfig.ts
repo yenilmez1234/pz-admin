@@ -1,7 +1,7 @@
 import { Color } from "@tiptap/extension-color";
-import TextAlign from "@tiptap/extension-text-align";
+import { TextAlign } from "@tiptap/extension-text-align";
 import { FontSize, TextStyle } from "@tiptap/extension-text-style";
-import StarterKit from "@tiptap/starter-kit";
+import { StarterKit } from "@tiptap/starter-kit";
 import { defaultGameMessageColor } from "./gameMessageColors";
 
 export const messageEditorExtensions = [

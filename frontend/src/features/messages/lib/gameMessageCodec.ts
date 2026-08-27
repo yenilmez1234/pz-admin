@@ -17,6 +17,7 @@ import type {
 } from "@/features/messages/types";
 
 export const defaultGameMessageSize: MessageSize = "medium";
+const MESSAGE_SIZES: readonly MessageSize[] = ["small", "medium", "large"];
 const LINE_TOKEN = " <LINE> ";
 const BR_TOKEN = " <BR> ";
 const SPACE_TOKEN = " <SPACE> ";
@@ -79,7 +80,9 @@ const formattingTokens: FormattingToken[] = [
   {
     pattern: /^(H1|H2|TEXT)$/,
     apply(match, state) {
-      const preset = FORMAT_PRESETS[match[1] as keyof typeof FORMAT_PRESETS];
+      const name = match[1];
+      if (!isFormatPreset(name)) return;
+      const preset = FORMAT_PRESETS[name];
       state.alignment = preset.alignment;
       state.color = preset.color;
       state.size = preset.size;
@@ -108,7 +111,8 @@ const formattingTokens: FormattingToken[] = [
   {
     pattern: /^SIZE:(small|medium|large)$/,
     apply(match, state) {
-      state.size = match[1] as MessageSize;
+      const size = match[1];
+      if (isMessageSize(size)) state.size = size;
     },
   },
   {
@@ -448,18 +452,29 @@ function fontSizeToMessageSize(
   fontSize: string | undefined,
   build: GameBuild,
 ): MessageSize {
-  for (const [size, value] of Object.entries(
-    gameMessageFontMetrics[build].sizes,
-  )) {
-    if (value === fontSize) return size as MessageSize;
+  for (const size of MESSAGE_SIZES) {
+    if (gameMessageFontMetrics[build].sizes[size] === fontSize) return size;
   }
   return defaultGameMessageSize;
 }
 
 function gameTokenToAlignment(token: string): MessageAlignment {
-  return token === "CENTRE"
-    ? "center"
-    : (token.toLowerCase() as MessageAlignment);
+  switch (token) {
+    case "CENTRE":
+      return "center";
+    case "RIGHT":
+      return "right";
+    default:
+      return "left";
+  }
+}
+
+function isFormatPreset(value: string): value is keyof typeof FORMAT_PRESETS {
+  return value === "H1" || value === "H2" || value === "TEXT";
+}
+
+function isMessageSize(value: string): value is MessageSize {
+  return value === "small" || value === "medium" || value === "large";
 }
 
 function setParagraphAlignment(

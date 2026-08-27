@@ -4,7 +4,7 @@ import {
   hasKnownAccessLevel,
   playerAccessLevel,
 } from "./accessLevel";
-import { isOnline } from "../status";
+import { isOnline, playerTimestamp } from "../status";
 
 export type SortColumn = "accessLevel" | "status" | "username";
 export type SortDirection = "asc" | "desc";
@@ -18,7 +18,7 @@ export function lastSeenLabel(
   player: Player,
   relativeTime: Intl.RelativeTimeFormat,
 ) {
-  const lastSeen = player.lastSeenOnlineAt.getTime();
+  const lastSeen = playerTimestamp(player.lastSeenOnlineAt);
   if (lastSeen <= 0) return null;
 
   const elapsed = Date.now() - lastSeen;
@@ -64,8 +64,8 @@ export function filterAndSortPlayers(
         break;
       case "status":
         comparison =
-          firstPlayer.lastSeenOnlineAt.getTime() -
-          secondPlayer.lastSeenOnlineAt.getTime();
+          playerTimestamp(firstPlayer.lastSeenOnlineAt) -
+          playerTimestamp(secondPlayer.lastSeenOnlineAt);
         break;
       case "accessLevel":
         comparison =

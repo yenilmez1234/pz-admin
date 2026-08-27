@@ -45,6 +45,10 @@ type DialogName = "message" | "stop";
 const SERVER_MESSAGE_MAX_BYTES =
   MAXIMUM_RCON_COMMAND_BYTES - utf8ByteLength('servermsg ""');
 
+function valueOrAutomatic(value: string | number) {
+  return typeof value === "number" ? value : 0;
+}
+
 function CommandInfo({
   description,
   title,
@@ -104,10 +108,6 @@ export function ServerActionsPage() {
     if (!busy) setDialog(null);
   }
 
-  function valueOrAutomatic(value: string | number) {
-    return typeof value === "number" ? value : 0;
-  }
-
   function submit(
     event: SyntheticEvent<HTMLFormElement, SubmitEvent>,
     id: string,
@@ -118,6 +118,7 @@ export function ServerActionsPage() {
     event.preventDefault();
     void run(id, operation, successMessage).then((succeeded) => {
       if (succeeded) onSuccess?.();
+      return succeeded;
     });
   }
 

@@ -1,7 +1,11 @@
 import type { Player } from "@bindings/internal/player/models";
 
 export function isOnline(player: Player) {
-  const lastSeen = player.lastSeenOnlineAt.getTime();
-  const lastKnownOffline = player.lastKnownOfflineAt.getTime();
+  const lastSeen = playerTimestamp(player.lastSeenOnlineAt);
+  const lastKnownOffline = playerTimestamp(player.lastKnownOfflineAt);
   return lastSeen > lastKnownOffline;
+}
+
+export function playerTimestamp(value: string) {
+  return Date.parse(value);
 }

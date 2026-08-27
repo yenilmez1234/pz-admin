@@ -5,6 +5,7 @@ import {
   defaultGameMessageSize,
   gameMessageFontMetrics,
 } from "@/features/messages/lib/gameMessageCodec";
+import { readStringAttribute } from "@/features/messages/lib/messageEditorAdapter";
 import type { GameBuild } from "@/features/game/types";
 import type { MessageSize } from "@/features/messages/types";
 
@@ -22,8 +23,9 @@ interface MessageSizeControlProps {
 export function MessageSizeControl({ build }: MessageSizeControlProps) {
   const { t } = useTranslation("messages");
   const { editor } = useRichTextEditorContext();
+  const attributes: unknown = editor?.getAttributes("textStyle");
   const activeSize = getActiveSize(
-    editor?.getAttributes("textStyle").fontSize as string | undefined,
+    readStringAttribute(attributes, "fontSize"),
     build,
   );
 

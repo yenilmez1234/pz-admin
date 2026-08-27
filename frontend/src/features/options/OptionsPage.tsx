@@ -29,8 +29,65 @@ import { useOptionsEditor } from "./hooks/useOptionsEditor";
 import { useOptionsSearch } from "./hooks/useOptionsSearch";
 import classes from "./OptionsPage.module.css";
 
-const skeletonCategoryWidths = [88, 104, 92, 116, 96];
-const skeletonControlWidths = [112, 220, 112, 300, 220, 112];
+const skeletonCategories = [
+  { id: "general", width: 88 },
+  { id: "players", width: 104 },
+  { id: "world", width: 92 },
+  { id: "network", width: 116 },
+  { id: "advanced", width: 96 },
+];
+const skeletonSections = [
+  {
+    headingWidth: 130,
+    id: "primary",
+    showTitle: true,
+    rows: [
+      {
+        controlWidth: 112,
+        descriptionWidth: "58%",
+        id: "first",
+        titleWidth: "32%",
+      },
+      {
+        controlWidth: 220,
+        descriptionWidth: "66%",
+        id: "second",
+        titleWidth: "41%",
+      },
+      {
+        controlWidth: 112,
+        descriptionWidth: "74%",
+        id: "third",
+        titleWidth: "50%",
+      },
+    ],
+  },
+  {
+    headingWidth: 165,
+    id: "secondary",
+    showTitle: false,
+    rows: [
+      {
+        controlWidth: 300,
+        descriptionWidth: "58%",
+        id: "first",
+        titleWidth: "32%",
+      },
+      {
+        controlWidth: 220,
+        descriptionWidth: "66%",
+        id: "second",
+        titleWidth: "41%",
+      },
+      {
+        controlWidth: 112,
+        descriptionWidth: "74%",
+        id: "third",
+        titleWidth: "50%",
+      },
+    ],
+  },
+];
 
 function OptionsPageSkeleton() {
   return (
@@ -38,8 +95,8 @@ function OptionsPageSkeleton() {
       <div className={classes.root} aria-busy="true">
         <div className={classes.skeletonNavigation} aria-hidden="true">
           <div className={classes.skeletonCategories}>
-            {skeletonCategoryWidths.map((width) => (
-              <Skeleton h={34} key={width} w={width} />
+            {skeletonCategories.map((category) => (
+              <Skeleton h={34} key={category.id} w={category.width} />
             ))}
           </div>
           <Skeleton className={classes.skeletonSearch} h={36} />
@@ -48,27 +105,22 @@ function OptionsPageSkeleton() {
         <div className={classes.content} aria-hidden="true">
           <div className={classes.scroller}>
             <Stack gap="xl">
-              {[0, 1].map((section) => (
-                <Stack gap="sm" key={section}>
+              {skeletonSections.map((section) => (
+                <Stack gap="sm" key={section.id}>
                   <Stack gap={5}>
-                    {section === 0 ? <Skeleton h={22} w={180} /> : null}
-                    <Skeleton h={18} w={130 + section * 35} />
+                    {section.showTitle ? <Skeleton h={22} w={180} /> : null}
+                    <Skeleton h={18} w={section.headingWidth} />
                   </Stack>
                   <div className={classes.skeletonSection}>
-                    {skeletonControlWidths
-                      .slice(section * 3, section * 3 + 3)
-                      .map((controlWidth, row) => (
-                        <div
-                          className={classes.skeletonOptionRow}
-                          key={`${section}-${row}`}
-                        >
-                          <Stack flex={1} gap={6}>
-                            <Skeleton h={14} w={`${32 + row * 9}%`} />
-                            <Skeleton h={10} w={`${58 + row * 8}%`} />
-                          </Stack>
-                          <Skeleton h={36} w={controlWidth} />
-                        </div>
-                      ))}
+                    {section.rows.map((row) => (
+                      <div className={classes.skeletonOptionRow} key={row.id}>
+                        <Stack flex={1} gap={6}>
+                          <Skeleton h={14} w={row.titleWidth} />
+                          <Skeleton h={10} w={row.descriptionWidth} />
+                        </Stack>
+                        <Skeleton h={36} w={row.controlWidth} />
+                      </div>
+                    ))}
                   </div>
                 </Stack>
               ))}

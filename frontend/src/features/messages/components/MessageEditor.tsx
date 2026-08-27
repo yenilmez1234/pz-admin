@@ -5,6 +5,10 @@ import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
 import { messageEditorExtensions } from "@/features/messages/lib/messageEditorConfig";
+import {
+  readStringAttribute,
+  toMessageDocument,
+} from "@/features/messages/lib/messageEditorAdapter";
 import type { MessageDocument } from "@/features/messages/types";
 import { MessageColorControl } from "./MessageColorControl";
 import { MessageSizeControl } from "./MessageSizeControl";
@@ -38,12 +42,12 @@ export function MessageEditor({
       transformPastedText: (text) => sanitizePastedText?.(text) ?? text,
     },
     onUpdate: ({ editor: currentEditor }) => {
-      onChange(currentEditor.getJSON() as MessageDocument);
+      onChange(toMessageDocument(currentEditor.getJSON()));
     },
   });
+  const attributes: unknown = editor?.getAttributes("textStyle");
   const caretColor =
-    (editor?.getAttributes("textStyle").color as string | undefined) ??
-    defaultGameMessageColor;
+    readStringAttribute(attributes, "color") ?? defaultGameMessageColor;
 
   return (
     <RichTextEditor

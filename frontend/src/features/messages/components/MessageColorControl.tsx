@@ -8,12 +8,14 @@ import {
 import { RichTextEditor, useRichTextEditorContext } from "@mantine/tiptap";
 import { useTranslation } from "react-i18next";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
+import { readStringAttribute } from "@/features/messages/lib/messageEditorAdapter";
 import { messageColorSwatches } from "@/features/messages/lib/messageEditorConfig";
 
 export function MessageColorControl() {
   const { t } = useTranslation("messages");
   const { editor } = useRichTextEditorContext();
-  const color = editor?.getAttributes("textStyle").color as string | undefined;
+  const attributes: unknown = editor?.getAttributes("textStyle");
+  const color = readStringAttribute(attributes, "color");
 
   return (
     <Popover position="bottom-start" shadow="md" width={220}>

@@ -44,9 +44,11 @@ export function encodeGameMessageColorToken(
   const normalizedColor = normalizeColor(color);
   const rgb = encodeGameMessageRgb(normalizedColor);
   const rgbToken = `<RGB:${rgb}>`;
-  const rgbColor = decodeGameMessageRgb(
-    ...(rgb.split(",") as [string, string, string]),
-  );
+  const [red, green, blue] = rgb.split(",");
+  const rgbColor =
+    red !== undefined && green !== undefined && blue !== undefined
+      ? decodeGameMessageRgb(red, green, blue)
+      : normalizedColor;
   const namedColor = getClosestNamedColor(normalizedColor);
   const namedToken = `<${namedColor.name.toUpperCase()}>`;
 
