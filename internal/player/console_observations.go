@@ -9,15 +9,14 @@ import (
 )
 
 type consoleObservationRule struct {
-	input       *regexp.Regexp
-	accessLevel bool
-	responses   []consoleResponseRule
+	input     *regexp.Regexp
+	responses []consoleResponseRule
 }
 
 type consoleResponseRule struct {
 	build   string
 	output  *regexp.Regexp
-	observe func(build, username string, captures map[string]string) Observation
+	observe func(*Service, profile.Profile, string, map[string]string) (Observation, error)
 }
 
 var consoleObservationRules = []consoleObservationRule{
@@ -27,15 +26,15 @@ var consoleObservationRules = []consoleObservationRule{
 			{
 				build:  "41",
 				output: regexp.MustCompile(`^User (?P<username>.+?) created with the password .+$`),
-				observe: func(build, username string, _ map[string]string) Observation {
-					return addedUserObservation(build, username)
+				observe: func(_ *Service, profile profile.Profile, username string, _ map[string]string) (Observation, error) {
+					return addedUserObservation(profile.Version, username), nil
 				},
 			},
 			{
 				build:  "42",
 				output: regexp.MustCompile(`^User (?P<username>.+?) created with password\.?$`),
-				observe: func(build, username string, _ map[string]string) Observation {
-					return addedUserObservation(build, username)
+				observe: func(_ *Service, profile profile.Profile, username string, _ map[string]string) (Observation, error) {
+					return addedUserObservation(profile.Version, username), nil
 				},
 			},
 		},
@@ -43,12 +42,8 @@ var consoleObservationRules = []consoleObservationRule{
 	{
 		input: regexp.MustCompile(`(?i)^banuser\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+.*)?$`),
 		responses: []consoleResponseRule{
-			observationResponse(`^User (?P<username>.+?) is now banned\.?$`, func(build string) Observation {
-				return bannedObservation(build, nil)
-			}),
-			observationResponse(`^System banned user (?P<username>.+?)\.?$`, func(build string) Observation {
-				return bannedObservation(build, nil)
-			}),
+			observationResponseUsingStoredAccessLevel(`^User (?P<username>.+?) is now banned\.?$`, bannedObservation),
+			observationResponseUsingStoredAccessLevel(`^System banned user (?P<username>.+?)\.?$`, bannedObservation),
 		},
 	},
 	{
@@ -61,9 +56,7 @@ var consoleObservationRules = []consoleObservationRule{
 	{
 		input: regexp.MustCompile(`(?i)^kick\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+.*)?$`),
 		responses: []consoleResponseRule{
-			observationResponse(`^User (?P<username>.+?) kicked\.?$`, func(build string) Observation {
-				return offlineObservation(build, nil)
-			}),
+			observationResponseUsingStoredAccessLevel(`^User (?P<username>.+?) kicked\.?$`, offlineObservation),
 		},
 	},
 	{
@@ -108,54 +101,43 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input:       regexp.MustCompile(`(?i)^setaccesslevel\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+(?:"[^"]+"|'[^']+'|\S+)$`),
-		accessLevel: true,
+		input: regexp.MustCompile(`(?i)^setaccesslevel\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+(?:"[^"]+"|'[^']+'|\S+)$`),
 		responses: []consoleResponseRule{
 			{
 				output: regexp.MustCompile(`^User (?P<username>.+?) is now (?P<accessLevel>\S+)\.?$`),
-				observe: func(build, username string, captures map[string]string) Observation {
+				observe: func(service *Service, profile profile.Profile, username string, captures map[string]string) (Observation, error) {
 					level := strings.TrimSuffix(captures["accessLevel"], ".")
-					observation := accessLevelObservation(build, level, nil)
-					observation.Username = username
-					return observation
+					return service.observeAccessLevel(profile, username, level)
 				},
 			},
 			{
 				build:  "41",
 				output: regexp.MustCompile(`^User (?P<username>.+?) no longer has access level\.?$`),
-				observe: func(build, username string, _ map[string]string) Observation {
-					observation := accessLevelObservation(build, "none", nil)
-					observation.Username = username
-					return observation
+				observe: func(service *Service, profile profile.Profile, username string, _ map[string]string) (Observation, error) {
+					return service.observeAccessLevel(profile, username, "none")
 				},
 			},
 		},
 	},
 	{
-		input:       regexp.MustCompile(`(?i)^grantadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
-		accessLevel: true,
+		input: regexp.MustCompile(`(?i)^grantadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
 		responses: []consoleResponseRule{
 			{
 				output: regexp.MustCompile(`^User (?P<username>.+?) is now admin\.?$`),
-				observe: func(build, username string, _ map[string]string) Observation {
-					observation := accessLevelObservation(build, "admin", nil)
-					observation.Username = username
-					return observation
+				observe: func(service *Service, profile profile.Profile, username string, _ map[string]string) (Observation, error) {
+					return service.observeAccessLevel(profile, username, "admin")
 				},
 			},
 		},
 	},
 	{
-		input:       regexp.MustCompile(`(?i)^removeadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
-		accessLevel: true,
+		input: regexp.MustCompile(`(?i)^removeadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
 		responses: []consoleResponseRule{
 			{
 				build:  "41",
 				output: regexp.MustCompile(`^User (?P<username>.+?) no longer has access level\.?$`),
-				observe: func(build, username string, _ map[string]string) Observation {
-					observation := accessLevelObservation(build, "none", nil)
-					observation.Username = username
-					return observation
+				observe: func(service *Service, profile profile.Profile, username string, _ map[string]string) (Observation, error) {
+					return service.observeAccessLevel(profile, username, "none")
 				},
 			},
 		},
@@ -193,41 +175,16 @@ func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string)
 				username != namedCapture(response.output, outputCaptures, "username") {
 				continue
 			}
-			observation := response.observe(p.Version, username, namedCaptures(response.output, outputCaptures))
-			if observation.Online.operation == setObservation && !observation.Online.value {
-				accessLevel, err := s.storedAccessLevel(p.ID, username)
-				if err != nil {
-					return err
-				}
-				offline := offlineObservation(p.Version, accessLevel)
-				observation.Online = offline.Online
-				observation.GodMode = offline.GodMode
-				observation.Invisible = offline.Invisible
-				observation.NoClip = offline.NoClip
-				observation.VoiceBanned = offline.VoiceBanned
+			observation, err := response.observe(s, p, username, namedCaptures(response.output, outputCaptures))
+			if err != nil {
+				return err
 			}
-			if rule.accessLevel {
-				player, err := s.storedPlayer(p.ID, username)
-				if err != nil {
-					return err
-				}
-				observation = accessLevelObservation(p.Version, observation.AccessLevel.value, player)
-				observation.Username = username
-			}
-			_, err := s.merge(p.ID, []Observation{observation}, time.Now().UTC())
+			_, err = s.merge(p.ID, []Observation{observation}, time.Now().UTC())
 			return err
 		}
 		return nil
 	}
 	return nil
-}
-
-func (s *Service) storedAccessLevel(profileID, username string) (*string, error) {
-	player, err := s.storedPlayer(profileID, username)
-	if err != nil || player == nil {
-		return nil, err
-	}
-	return player.AccessLevel, nil
 }
 
 func (s *Service) storedPlayer(profileID, username string) (*Player, error) {
@@ -244,13 +201,55 @@ func (s *Service) storedPlayer(profileID, username string) (*Player, error) {
 	return nil, nil
 }
 
+func (s *Service) storedAccessLevel(profileID, username string) (*string, error) {
+	player, err := s.storedPlayer(profileID, username)
+	if err != nil || player == nil {
+		return nil, err
+	}
+	return player.AccessLevel, nil
+}
+
 func observationResponse(pattern string, observation func(string) Observation) consoleResponseRule {
 	return consoleResponseRule{
 		output: regexp.MustCompile(pattern),
-		observe: func(build, username string, _ map[string]string) Observation {
-			result := observation(build)
+		observe: func(_ *Service, profile profile.Profile, username string, _ map[string]string) (Observation, error) {
+			result := observation(profile.Version)
 			result.Username = username
-			return result
+			return result, nil
+		},
+	}
+}
+
+func (s *Service) observeAccessLevel(profile profile.Profile, username, accessLevel string) (Observation, error) {
+	player, err := s.storedPlayer(profile.ID, username)
+	if err != nil {
+		return Observation{}, err
+	}
+	observation := accessLevelObservation(profile.Version, accessLevel, player)
+	observation.Username = username
+	return observation, nil
+}
+
+func observationResponseUsingStoredAccessLevel(
+	pattern string,
+	create func(build string, accessLevel *string) Observation,
+) consoleResponseRule {
+	return consoleResponseRule{
+		output: regexp.MustCompile(pattern),
+		observe: func(
+			service *Service,
+			profile profile.Profile,
+			username string,
+			_ map[string]string,
+		) (Observation, error) {
+			accessLevel, err := service.storedAccessLevel(profile.ID, username)
+			if err != nil {
+				return Observation{}, err
+			}
+
+			observation := create(profile.Version, accessLevel)
+			observation.Username = username
+			return observation, nil
 		},
 	}
 }
