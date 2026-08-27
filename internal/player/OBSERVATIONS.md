@@ -72,6 +72,17 @@ it does not toggle a whitelist boolean.
 B42 also calls `WorldMapVisitedServer.deleteUser`, deleting visited-map data
 for the username.
 
+A B41 open-server runtime test confirmed that removing an online `gm` player
+from the whitelist does not disconnect them and does not immediately change
+their live access level or powers. After the player manually disconnected and
+reconnected, their access level was reset to the regular default and God Mode
+and Invisible were no longer enabled. The reset is a reconnect/account-login
+effect, not a direct live-player side effect of the removal command.
+
+Removing the `gm` account while the player was already offline produced the
+same result on reconnect: default regular access with God Mode and Invisible
+disabled.
+
 B42 does not delete the serialized character from `players.db`. A live-server
 test confirmed that re-adding the same username restored the existing
 character with its powers intact.
@@ -165,6 +176,12 @@ The command also disconnects the online player immediately.
 
 ## Explicit live-player toggles
 
+Runtime testing confirmed that B41 exposes God Mode through RCON, but No Clip
+is not available through RCON and the B41 Invisible command does not work
+through RCON. B41 persistence tests must therefore obtain or inspect those
+states through role/access-level effects or in-game administration rather than
+assuming all three explicit commands are remotely callable.
+
 ### God Mode
 
 B41 `godmode` and B42 `godmodeplayer` call only the corresponding God Mode
@@ -173,6 +190,11 @@ separate Invisible or No Clip flags.
 
 An explicit successful state-setting command safely observes the requested
 God Mode value.
+
+A B41 live-server test confirmed that God Mode is disabled after an ordinary
+disconnect and reconnect. Unlike B42's serialized `PlayerCheats`, B41 God Mode
+must be treated as live-session state and invalidated or reset when the player
+disconnects.
 
 ### Invisible
 
@@ -241,8 +263,47 @@ Changing between staff access levels forces God Mode and Invisible on while
 preserving No Clip. Assigning `none` while the previous level is already
 `none` does not necessarily reset No Clip through the staff-to-user branch.
 
+Runtime testing confirmed the staff-to-staff case: after God Mode and
+Invisible were manually disabled, changing the online player from `gm` to
+`moderator` re-enabled both, while No Clip remained unchanged.
+
+Assigning the same `gm` access level again after manually disabling God Mode
+and Invisible also re-enabled both. B41 applies the staff power side effects on
+every successful staff-level assignment; the access-level value does not need
+to change.
+
+Runtime testing also confirmed the staff-to-regular cleanup: with No Clip
+enabled independently, changing the online player from staff access to `none`
+disabled God Mode, Invisible/Ghost Mode, and No Clip. B41 staff assignment
+never enables No Clip, but removal of staff access forcibly disables it.
+
 For an offline account, only the database access level changes. There is no
 live `IsoPlayer` to mutate.
+
+Runtime testing adds an important lifecycle result: assigning the built-in
+`gm` access level to an online regular player enabled God Mode and
+Invisible/Ghost Mode, but did not enable No Clip. After disconnecting and
+reconnecting with the persisted `gm` access level, God Mode and Invisible were
+enabled again. Returning the online player to `none` disabled the role-provided
+powers. Assigning `gm` while the player was offline also caused God Mode and
+Invisible, but not No Clip, to be enabled when they subsequently connected.
+
+Since an explicit B41 God Mode toggle does not survive reconnect for a regular
+player, staff access is applying these powers during login rather than the
+explicit God Mode value persisting as ordinary character state. No Clip is
+never enabled automatically by B41 access-level assignment; the staff-to-none
+path can still force an independently enabled No Clip state off.
+
+This was confirmed directly by disabling the powers while the player had `gm`
+access and then reconnecting: God Mode and Invisible were enabled again, while
+No Clip remained disabled. B41 preserves the access level, not the live power
+values; login derives the two automatic staff powers from that access level.
+
+A live ban/unban test also confirmed that banning `test` with `gm` access set
+only the separate database `banned` flag and preserved `accesslevel=gm`.
+Unbanning cleared the flag while retaining `gm`. On reconnect, God Mode and
+Invisible were reapplied because of `gm`; they were not persisted by the ban
+cycle. No Clip remained disabled.
 
 Consequences for observations:
 
