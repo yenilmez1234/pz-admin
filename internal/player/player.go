@@ -19,19 +19,44 @@ type Player struct {
 	LastKnownOfflineAt time.Time `json:"lastKnownOfflineAt"`
 }
 
-// Observation contains facts reported by a player data source. Nil fields are
-// unknown and therefore do not overwrite previously known values.
+type observationOperation uint8
+
+const (
+	preserveObservation observationOperation = iota
+	setObservation
+	clearObservation
+)
+
+// ObservationValue describes how one stored value should change. Its zero
+// value preserves existing state.
+type ObservationValue[T any] struct {
+	operation observationOperation
+	value     T
+}
+
+// Known replaces a stored value with value.
+func Known[T any](value T) ObservationValue[T] {
+	return ObservationValue[T]{operation: setObservation, value: value}
+}
+
+// Unknown clears a stored value when it can no longer be observed reliably.
+func Unknown[T any]() ObservationValue[T] {
+	return ObservationValue[T]{operation: clearObservation}
+}
+
+// Observation contains changes reported by a player data source. Omitted
+// values preserve existing state.
 type Observation struct {
 	ID          string
 	Username    string
-	Online      *bool
-	AccessLevel *string
-	GodMode     *bool
-	Invisible   *bool
-	NoClip      *bool
-	Banned      *bool
-	VoiceBanned *bool
-	Whitelisted *bool
+	Online      ObservationValue[bool]
+	AccessLevel ObservationValue[string]
+	GodMode     ObservationValue[bool]
+	Invisible   ObservationValue[bool]
+	NoClip      ObservationValue[bool]
+	Banned      ObservationValue[bool]
+	VoiceBanned ObservationValue[bool]
+	Delete      bool
 }
 
 // ActionResult reports the outcome of a player action for each requested ID.

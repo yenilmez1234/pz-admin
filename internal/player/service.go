@@ -189,14 +189,12 @@ func observePlayers(ctx context.Context, state session.State) ([]Observation, er
 	if err != nil {
 		return nil, err
 	}
-	online := true
-	banned := false
 	observations := make([]Observation, 0, len(names))
 	for _, username := range names {
 		observations = append(observations, Observation{
 			Username: username,
-			Online:   &online,
-			Banned:   &banned,
+			Online:   Known(true),
+			Banned:   Known(false),
 		})
 	}
 	return observations, nil

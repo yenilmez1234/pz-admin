@@ -49,7 +49,7 @@ func TestSetAccessLevelDoesNotInferGodMode(t *testing.T) {
 		return "User Alice is now moderator", nil
 	})
 	disabled := false
-	if err := service.Observe(p.ID, Observation{ID: player.ID, GodMode: &disabled}); err != nil {
+	if err := service.Observe(p.ID, Observation{ID: player.ID, GodMode: Known(disabled)}); err != nil {
 		t.Fatal(err)
 	}
 

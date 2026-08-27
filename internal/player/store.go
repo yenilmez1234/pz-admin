@@ -89,7 +89,7 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 				updated[index].ID = observation.ID
 			}
 		}
-		if observation.Whitelisted != nil && !*observation.Whitelisted {
+		if observation.Delete {
 			if index != -1 {
 				updated = slices.Delete(updated, index, index+1)
 				changed = true
@@ -236,11 +236,12 @@ func mergeObservation(player *Player, observation Observation, observedAt time.T
 	if observation.Username != "" {
 		player.Username = observation.Username
 	}
-	if observation.Online != nil && *observation.Online {
-		player.LastSeenOnlineAt = observedAt
-	}
-	if observation.Online != nil && !*observation.Online {
-		player.LastKnownOfflineAt = observedAt
+	if observation.Online.operation == setObservation {
+		if observation.Online.value {
+			player.LastSeenOnlineAt = observedAt
+		} else {
+			player.LastKnownOfflineAt = observedAt
+		}
 	}
 
 	mergeKnown(&player.AccessLevel, observation.AccessLevel)
@@ -251,9 +252,13 @@ func mergeObservation(player *Player, observation Observation, observedAt time.T
 	mergeKnown(&player.VoiceBanned, observation.VoiceBanned)
 }
 
-func mergeKnown[T any](current **T, observed *T) {
-	if observed != nil {
-		value := *observed
+
+func mergeKnown[T any](current **T, observed ObservationValue[T]) {
+	switch observed.operation {
+	case setObservation:
+		value := observed.value
 		*current = &value
+	case clearObservation:
+		*current = nil
 	}
 }

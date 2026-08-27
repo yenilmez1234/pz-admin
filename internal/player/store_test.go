@@ -41,9 +41,9 @@ func TestStoreMergeCreatesAndUpdatesPlayer(t *testing.T) {
 
 	players, err := store.Merge(profileID, []Observation{{
 		Username:    "Alice",
-		Online:      &online,
-		AccessLevel: &accessLevel,
-		GodMode:     &godMode,
+		Online: Known(online),
+		AccessLevel: Known(accessLevel),
+		GodMode: Known(godMode),
 	}}, firstSeen)
 	if err != nil {
 		t.Fatal(err)
@@ -64,9 +64,9 @@ func TestStoreMergeCreatesAndUpdatesPlayer(t *testing.T) {
 	noClip := true
 	players, err = store.Merge(profileID, []Observation{{
 		Username:  "Alice",
-		Online:    &online,
-		Invisible: &invisible,
-		NoClip:    &noClip,
+		Online: Known(online),
+		Invisible: Known(invisible),
+		NoClip: Known(noClip),
 	}}, lastOnline)
 	if err != nil {
 		t.Fatal(err)
@@ -136,8 +136,8 @@ func TestStoreMergesOfflinePlayerWithoutChangingLastOnline(t *testing.T) {
 
 	players, err := store.Merge(profileID, []Observation{{
 		Username:    "Alice",
-		Online:      &offline,
-		AccessLevel: &accessLevel,
+		Online: Known(offline),
+		AccessLevel: Known(accessLevel),
 	}}, firstSeen)
 	if err != nil {
 		t.Fatal(err)
@@ -150,7 +150,7 @@ func TestStoreMergesOfflinePlayerWithoutChangingLastOnline(t *testing.T) {
 	}
 
 	lastOnline := firstSeen.Add(15 * time.Second)
-	players, err = store.Merge(profileID, []Observation{{Username: "Alice", Online: &online}}, lastOnline)
+	players, err = store.Merge(profileID, []Observation{{Username: "Alice", Online: Known(online)}}, lastOnline)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -158,8 +158,8 @@ func TestStoreMergesOfflinePlayerWithoutChangingLastOnline(t *testing.T) {
 	invisible := true
 	players, err = store.Merge(profileID, []Observation{{
 		Username:  "Alice",
-		Online:    &offline,
-		Invisible: &invisible,
+		Online: Known(offline),
+		Invisible: Known(invisible),
 	}}, lastOnline.Add(15*time.Second))
 	if err != nil {
 		t.Fatal(err)
@@ -182,14 +182,14 @@ func TestStoreUpdatesKnownPlayerByIDWithoutObservingPresence(t *testing.T) {
 	observedAt := time.Now().UTC()
 	online := true
 
-	players, err := store.Merge(profileID, []Observation{{Username: "Alice", Online: &online}}, observedAt)
+	players, err := store.Merge(profileID, []Observation{{Username: "Alice", Online: Known(online)}}, observedAt)
 	if err != nil {
 		t.Fatal(err)
 	}
 	banned := true
 	players, err = store.Merge(profileID, []Observation{{
 		ID:     players[0].ID,
-		Banned: &banned,
+		Banned: Known(banned),
 	}}, observedAt.Add(15*time.Second))
 	if err != nil {
 		t.Fatal(err)
@@ -210,7 +210,7 @@ func TestStoreUnknownObservationsDoNotAbortTheBatch(t *testing.T) {
 
 	if _, err := store.Merge(profileID, []Observation{{
 		Username: "Alice",
-		Online:   &online,
+		Online: Known(online),
 	}}, observedAt); err != nil {
 		t.Fatal(err)
 	}
@@ -225,7 +225,7 @@ func TestStoreUnknownObservationsDoNotAbortTheBatch(t *testing.T) {
 		{},
 		{ID: uuid.NewString()},
 		{ID: charlieID, Username: "Charlie"},
-		{Username: "Alice", Banned: &banned},
+		{Username: "Alice", Banned: Known(banned)},
 		{Username: "Bob"},
 	}, observedAt.Add(15*time.Second))
 	if err != nil {
@@ -289,7 +289,7 @@ func TestStorePropagatesRenameOnIDMatch(t *testing.T) {
 	online := true
 	players, err = store.Merge(profileID, []Observation{{
 		Username: "Alicia",
-		Online:   &online,
+		Online: Known(online),
 	}}, observedAt.Add(30*time.Second))
 	if err != nil {
 		t.Fatal(err)
@@ -310,7 +310,7 @@ func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
 
 	players, err := store.Merge(profileID, []Observation{{
 		Username: "Alice",
-		Online:   &online,
+		Online: Known(online),
 	}}, observedAt)
 	if err != nil {
 		t.Fatal(err)
@@ -324,7 +324,7 @@ func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
 	players, err = store.Merge(profileID, []Observation{{
 		ID:          stableID,
 		Username:    "Alice",
-		AccessLevel: &accessLevel,
+		AccessLevel: Known(accessLevel),
 	}}, observedAt.Add(15*time.Second))
 	if err != nil {
 		t.Fatal(err)
@@ -346,7 +346,7 @@ func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
 	banned := true
 	players, err = store.Merge(profileID, []Observation{{
 		ID:     stableID,
-		Banned: &banned,
+		Banned: Known(banned),
 	}}, observedAt.Add(30*time.Second))
 	if err != nil {
 		t.Fatal(err)

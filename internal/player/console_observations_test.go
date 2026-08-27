@@ -59,7 +59,7 @@ func TestObserveConsoleUnbanUsesKnownBuildConsequences(t *testing.T) {
 	banned := true
 	accessLevel := "banned"
 	if _, err := store.Merge(p.ID, []Observation{
-		{Username: "Alice", Banned: &banned, AccessLevel: &accessLevel},
+		{Username: "Alice", Banned: Known(banned), AccessLevel: Known(accessLevel)},
 	}, time.Now().UTC()); err != nil {
 		t.Fatal(err)
 	}

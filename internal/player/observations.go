@@ -7,78 +7,69 @@ func addedUserObservation(build, username string) Observation {
 	if build != "41" {
 		accessLevel = "user"
 	}
-	disabled := false
-	whitelisted := true
 	return Observation{
 		Username:    username,
-		AccessLevel: &accessLevel,
-		GodMode:     &disabled,
-		Invisible:   &disabled,
-		NoClip:      &disabled,
-		Banned:      &disabled,
-		VoiceBanned: &disabled,
-		Whitelisted: &whitelisted,
+		AccessLevel: Known(accessLevel),
+		GodMode:     Known(false),
+		Invisible:   Known(false),
+		NoClip:      Known(false),
+		Banned:      Known(false),
+		VoiceBanned: Known(false),
 	}
 }
 
 func offlineObservation() Observation {
-	online := false
-	return Observation{Online: &online}
+	return Observation{Online: Known(false)}
 }
 
 func bannedObservation(build string) Observation {
-	banned := true
-	disabled := false
-	online := false
 	accessLevel := "banned"
 	if build == "41" {
 		accessLevel = "none"
 	}
 	return Observation{
-		Online:      &online,
-		AccessLevel: &accessLevel,
-		GodMode:     &disabled,
-		Invisible:   &disabled,
-		NoClip:      &disabled,
-		Banned:      &banned,
+		Online:      Known(false),
+		AccessLevel: Known(accessLevel),
+		GodMode:     Known(false),
+		Invisible:   Known(false),
+		NoClip:      Known(false),
+		Banned:      Known(true),
 	}
 }
 
 func unbannedObservation(build string) Observation {
-	banned := false
-	observation := Observation{Banned: &banned}
+	observation := Observation{Banned: Known(false)}
 	if build != "41" {
 		accessLevel := "user"
-		observation.AccessLevel = &accessLevel
+		observation.AccessLevel = Known(accessLevel)
 	}
 	return observation
 }
 
 func godModeObservation(enabled bool) Observation {
-	return Observation{GodMode: &enabled}
+	return Observation{GodMode: Known(enabled)}
 }
 
 func invisibleObservation(enabled bool) Observation {
-	return Observation{Invisible: &enabled}
+	return Observation{Invisible: Known(enabled)}
 }
 
 func noClipObservation(enabled bool) Observation {
-	return Observation{NoClip: &enabled}
+	return Observation{NoClip: Known(enabled)}
 }
 
 func voiceBannedObservation(banned bool) Observation {
-	return Observation{VoiceBanned: &banned}
+	return Observation{VoiceBanned: Known(banned)}
 }
 
 func whitelistedObservation(whitelisted bool) Observation {
-	return Observation{Whitelisted: &whitelisted}
+	return Observation{Delete: !whitelisted}
 }
 
 func accessLevelObservation(build, level string) Observation {
-	observation := Observation{AccessLevel: &level}
+	observation := Observation{AccessLevel: Known(level)}
 	if build != "41" {
-		banned := strings.EqualFold(level, "banned")
-		observation.Banned = &banned
+		observation.Banned = Known(strings.EqualFold(level, "banned"))
 	}
 	return observation
 }
