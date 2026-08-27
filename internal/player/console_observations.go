@@ -42,8 +42,12 @@ var consoleObservationRules = []consoleObservationRule{
 	{
 		input: regexp.MustCompile(`(?i)^banuser\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+.*)?$`),
 		responses: []consoleResponseRule{
-			observationResponse(`^User (?P<username>.+?) is now banned\.?$`, bannedObservation),
-			observationResponse(`^System banned user (?P<username>.+?)\.?$`, bannedObservation),
+			observationResponse(`^User (?P<username>.+?) is now banned\.?$`, func(build string) Observation {
+				return bannedObservation(build, nil)
+			}),
+			observationResponse(`^System banned user (?P<username>.+?)\.?$`, func(build string) Observation {
+				return bannedObservation(build, nil)
+			}),
 		},
 	},
 	{
@@ -191,8 +195,12 @@ func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string)
 				if err != nil {
 					return err
 				}
-				observation = offlineObservation(p.Version, accessLevel)
-				observation.Username = username
+				offline := offlineObservation(p.Version, accessLevel)
+				observation.Online = offline.Online
+				observation.GodMode = offline.GodMode
+				observation.Invisible = offline.Invisible
+				observation.NoClip = offline.NoClip
+				observation.VoiceBanned = offline.VoiceBanned
 			}
 			_, err := s.merge(p.ID, []Observation{observation}, time.Now().UTC())
 			return err

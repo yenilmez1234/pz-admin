@@ -57,28 +57,17 @@ func onlineObservation() Observation {
 	}
 }
 
-func bannedObservation(build string) Observation {
-	accessLevel := "banned"
-	if build == "41" {
-		accessLevel = "none"
-	}
-	return Observation{
-		Online:      Known(false),
-		AccessLevel: Known(accessLevel),
-		GodMode:     Known(false),
-		Invisible:   Known(false),
-		NoClip:      Known(false),
-		Banned:      Known(true),
-	}
-}
-
-func unbannedObservation(build string) Observation {
-	observation := Observation{Banned: Known(false)}
+func bannedObservation(build string, accessLevel *string) Observation {
+	observation := offlineObservation(build, accessLevel)
+	observation.Banned = Known(true)
 	if build != "41" {
-		accessLevel := "user"
-		observation.AccessLevel = Known(accessLevel)
+		observation.AccessLevel = Known("user")
 	}
 	return observation
+}
+
+func unbannedObservation(string) Observation {
+	return Observation{Banned: Known(false)}
 }
 
 func godModeObservation(enabled bool) Observation {

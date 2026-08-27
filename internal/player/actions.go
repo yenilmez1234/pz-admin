@@ -173,7 +173,7 @@ func (s *Service) Ban(ctx context.Context, playerIDs []string, reason string, ba
 		if _, err := commands.BanUser(ctx, player.Username, reason, banIP); err != nil {
 			return nil, err
 		}
-		observation := bannedObservation(p.Version)
+		observation := bannedObservation(p.Version, player.AccessLevel)
 		return &observation, nil
 	})
 }
