@@ -1,36 +1,37 @@
 import { useRef } from "react";
 
 export function useCommandHistory() {
-  const commands = useRef<string[]>([]);
-  const edits = useRef(new Map<number, string>());
-  const index = useRef(0);
-  const draft = useRef("");
+  const commandsRef = useRef<string[]>([]);
+  const editsRef = useRef(new Map<number, string>());
+  const indexRef = useRef(0);
+  const draftRef = useRef("");
 
   function record(command: string) {
-    commands.current.push(command);
-    edits.current.clear();
-    index.current = commands.current.length;
-    draft.current = "";
+    commandsRef.current.push(command);
+    editsRef.current.clear();
+    indexRef.current = commandsRef.current.length;
+    draftRef.current = "";
   }
 
   function update(value: string) {
-    if (index.current === commands.current.length) {
-      draft.current = value;
+    if (indexRef.current === commandsRef.current.length) {
+      draftRef.current = value;
     } else {
-      edits.current.set(index.current, value);
+      editsRef.current.set(indexRef.current, value);
     }
   }
 
   function navigate(direction: -1 | 1) {
-    if (commands.current.length === 0) return null;
+    if (commandsRef.current.length === 0) return null;
 
-    index.current = Math.min(
-      commands.current.length,
-      Math.max(0, index.current + direction),
+    indexRef.current = Math.min(
+      commandsRef.current.length,
+      Math.max(0, indexRef.current + direction),
     );
-    return index.current === commands.current.length
-      ? draft.current
-      : (edits.current.get(index.current) ?? commands.current[index.current]);
+    return indexRef.current === commandsRef.current.length
+      ? draftRef.current
+      : (editsRef.current.get(indexRef.current) ??
+          commandsRef.current[indexRef.current]);
   }
 
   return { navigate, record, update };

@@ -7,7 +7,7 @@ import type {
 } from "../catalog";
 import { useOptionTranslations } from "./useOptionTranslations";
 
-function normalized(value: string, locale: string | undefined) {
+function normalizeSearchText(value: string, locale: string | undefined) {
   return locale ? value.toLocaleLowerCase(locale) : value.toLocaleLowerCase();
 }
 
@@ -30,7 +30,7 @@ export function useOptionsSearch(categories: readonly OptionCategory[]) {
             category,
             definition,
             section,
-            text: normalized(
+            text: normalizeSearchText(
               [
                 definition.name,
                 categoryLabel,
@@ -50,7 +50,7 @@ export function useOptionsSearch(categories: readonly OptionCategory[]) {
   const results = useMemo(() => {
     if (!deferredQuery) return null;
 
-    const normalizedQuery = normalized(deferredQuery, locale);
+    const normalizedQuery = normalizeSearchText(deferredQuery, locale);
     const matches = new Map<
       OptionCategory,
       Map<OptionSection, OptionDefinition[]>

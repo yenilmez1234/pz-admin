@@ -19,23 +19,23 @@ func TestValidate(t *testing.T) {
 		{"invalid language", Config{Theme: ThemeSystem, Language: "xx-YY"}, ErrInvalidLanguage, "xx-YY"},
 		{"both fields invalid", Config{Theme: "blue", Language: "xx-YY"}, ErrInvalidTheme, "blue"},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			err := tt.cfg.Validate()
-			if tt.wantErr == nil {
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			err := test.cfg.Validate()
+			if test.wantErr == nil {
 				if err != nil {
 					t.Fatalf("Validate() = %v, want nil", err)
 				}
 				return
 			}
 			if err == nil {
-				t.Fatalf("Validate() = nil, want error matching %v", tt.wantErr)
+				t.Fatalf("Validate() = nil, want error matching %v", test.wantErr)
 			}
-			if !errors.Is(err, tt.wantErr) {
-				t.Errorf("errors.Is(err, %v) = false, got err = %v", tt.wantErr, err)
+			if !errors.Is(err, test.wantErr) {
+				t.Errorf("errors.Is(err, %v) = false, got err = %v", test.wantErr, err)
 			}
-			if !strings.Contains(err.Error(), tt.wantMsgContains) {
-				t.Errorf("error message %q does not contain %q", err.Error(), tt.wantMsgContains)
+			if !strings.Contains(err.Error(), test.wantMsgContains) {
+				t.Errorf("error message %q does not contain %q", err.Error(), test.wantMsgContains)
 			}
 		})
 	}

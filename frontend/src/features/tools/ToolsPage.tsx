@@ -15,7 +15,7 @@ type ToolsPageName = "messages" | "items" | "vehicles";
 export function ToolsPage() {
   const { t } = useTranslation("tools");
   const navigation = usePersistentNavigation<ToolsPageName>("messages");
-  const pages = [
+  const navigationItems = [
     {
       value: "messages",
       label: t("navigation.messages"),
@@ -40,7 +40,7 @@ export function ToolsPage() {
   return (
     <SectionNavigation
       activePage={navigation.activePage}
-      items={pages}
+      items={navigationItems}
       label={t("navigation.accessibleLabel")}
       onPageChange={navigation.changePage}
     >

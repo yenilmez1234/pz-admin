@@ -3,7 +3,6 @@ import type { OptionDefinition, OptionValue } from "../catalog";
 export type OptionFormValue = OptionValue | undefined;
 export type OptionFormValues = Record<string, OptionFormValue>;
 
-/** Multi-select values are sets; their order does not make an option dirty. */
 export function optionValuesEqual(
   value: OptionFormValue,
   expected: OptionFormValue,
@@ -20,7 +19,6 @@ export function optionValuesEqual(
   );
 }
 
-/** Converts the string-only RCON representation into a value suitable for its editor. */
 function parseServerValue(
   definition: OptionDefinition,
   rawValue: string,
@@ -49,14 +47,12 @@ function parseServerValue(
   return rawValue;
 }
 
-/** Converts a typed editor value back to the string expected by RCON. */
 export function formatServerValue(value: OptionFormValue): string {
   if (Array.isArray(value)) return value.join(",");
   if (value === undefined) return "";
   return String(value);
 }
 
-/** Builds the initial form values from a `showoptions` response. */
 export function createFormValues(
   definitions: readonly OptionDefinition[],
   rawValues: Record<string, string | undefined>,

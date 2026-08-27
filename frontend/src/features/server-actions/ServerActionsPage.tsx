@@ -62,19 +62,21 @@ function CommandInfo({
   );
 }
 
+interface DialogActionsProps {
+  busy: boolean;
+  children: ReactNode;
+  onClose: () => void;
+}
+
 function DialogActions({
   busy,
   children,
-  close,
-}: {
-  busy: boolean;
-  children: ReactNode;
-  close: () => void;
-}) {
+  onClose,
+}: DialogActionsProps) {
   const { t } = useTranslation("common");
   return (
     <Group className={classes.dialogActions} gap="xs" justify="flex-end">
-      <Button disabled={busy} onClick={close} type="button" variant="default">
+      <Button disabled={busy} onClick={onClose} type="button" variant="default">
         {t("actions.cancel")}
       </Button>
       {children}
@@ -465,7 +467,7 @@ export function ServerActionsPage() {
               maxBytes={SERVER_MESSAGE_MAX_BYTES}
               value={serializedMessage}
             />
-            <DialogActions busy={busy} close={closeDialog}>
+            <DialogActions busy={busy} onClose={closeDialog}>
               <Button
                 disabled={messageEmpty || messageTooLong}
                 loading={pending === "message"}
@@ -493,7 +495,7 @@ export function ServerActionsPage() {
         >
           <Stack gap="sm">
             <Text size="sm">{t("dialogs.stopDescription")}</Text>
-            <DialogActions busy={busy} close={closeDialog}>
+            <DialogActions busy={busy} onClose={closeDialog}>
               <Button color="red" loading={pending === "stop"} type="submit">
                 {t("actions.stopServer")}
               </Button>

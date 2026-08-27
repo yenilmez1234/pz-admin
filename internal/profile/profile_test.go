@@ -92,9 +92,9 @@ func TestSaveValidation(t *testing.T) {
 		{"no port", Profile{ConnectionType: connection.TypeRCON, Name: "n", Host: "h"}},
 		{"unsupported connection type", Profile{ConnectionType: "unknown", Name: "n", Host: "h", Port: 1}},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if _, err := s.Save(tt.p); err == nil {
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if _, err := s.Save(test.p); err == nil {
 				t.Error("expected error, got nil")
 			}
 		})

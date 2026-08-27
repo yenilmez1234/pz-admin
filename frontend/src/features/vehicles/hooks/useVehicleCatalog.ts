@@ -26,21 +26,24 @@ export function useVehicleCatalog(build: GameBuild): VehicleCatalogResult {
   const { i18n } = useTranslation();
   const language = canonicalLanguage(i18n.language);
   const [state, setState] = useState(initialState);
-  const [revision, setRevision] = useState(0);
-  const reload = useCallback(() => setRevision((current) => current + 1), []);
+  const [reloadRevision, setReloadRevision] = useState(0);
+  const reload = useCallback(
+    () => setReloadRevision((revision) => revision + 1),
+    [],
+  );
 
   useEffect(() => {
-    let current = true;
+    let active = true;
     setState(initialState);
 
     async function loadCatalog() {
       try {
         const loadedCatalog = await loadVehicleCatalog(build, language);
-        if (current) {
+        if (active) {
           setState({ catalog: loadedCatalog, error: null, loading: false });
         }
       } catch (loadError) {
-        if (current) {
+        if (active) {
           setState({
             catalog: null,
             error: errorMessage(loadError),
@@ -53,9 +56,9 @@ export function useVehicleCatalog(build: GameBuild): VehicleCatalogResult {
     void loadCatalog();
 
     return () => {
-      current = false;
+      active = false;
     };
-  }, [build, language, revision]);
+  }, [build, language, reloadRevision]);
 
   if (
     state.catalog &&

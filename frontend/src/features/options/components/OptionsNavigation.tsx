@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { CloseButton, Text, TextInput, UnstyledButton } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
@@ -25,6 +26,15 @@ export function OptionsNavigation({
   const { t } = useTranslation("options");
   const labels = useOptionTranslations();
 
+  function handleCategoryChange(category: OptionCategory) {
+    onQueryChange("");
+    onCategoryChange(category.id);
+  }
+
+  function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
+    onQueryChange(event.currentTarget.value);
+  }
+
   return (
     <div className={classes.root}>
       <nav aria-label={t("navigation.label")} className={classes.categories}>
@@ -38,10 +48,7 @@ export function OptionsNavigation({
             data-active={
               !searching && category.id === activeCategory ? true : undefined
             }
-            onClick={() => {
-              onQueryChange("");
-              onCategoryChange(category.id);
-            }}
+            onClick={() => handleCategoryChange(category)}
           >
             <span className={classes.label}>
               {labels.categoryLabel(category.id)}
@@ -71,7 +78,7 @@ export function OptionsNavigation({
           ) : null
         }
         value={query}
-        onChange={(event) => onQueryChange(event.currentTarget.value)}
+        onChange={handleSearchChange}
       />
     </div>
   );

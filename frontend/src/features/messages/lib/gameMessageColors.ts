@@ -1,5 +1,4 @@
 import { convertHsvaTo, isColorValid, parseColor } from "@mantine/core";
-
 import type { GameBuild } from "@/features/game/types";
 
 export const defaultGameMessageColor = "#0080ff";
@@ -48,11 +47,11 @@ export function encodeGameMessageColorToken(
   const rgbColor = decodeGameMessageRgb(
     ...(rgb.split(",") as [string, string, string]),
   );
-  const named = getClosestNamedColor(normalizedColor);
-  const namedToken = `<${named.name.toUpperCase()}>`;
+  const namedColor = getClosestNamedColor(normalizedColor);
+  const namedToken = `<${namedColor.name.toUpperCase()}>`;
 
   return namedToken.length < rgbToken.length &&
-    colorDistance(named.color, normalizedColor) <=
+    colorDistance(namedColor.color, normalizedColor) <=
       colorDistance(rgbColor, normalizedColor)
     ? namedToken
     : rgbToken;

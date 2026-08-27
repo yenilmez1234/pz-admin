@@ -40,7 +40,7 @@ func NewService(profiles *profile.Service, observers ...Observer) *Service {
 
 // ServiceStartup is a no-op: the connection is established later via
 // Connect, not at application startup.
-func (s *Service) ServiceStartup(ctx context.Context, opts application.ServiceOptions) error {
+func (s *Service) ServiceStartup(ctx context.Context, options application.ServiceOptions) error {
 	return nil
 }
 

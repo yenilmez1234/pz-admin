@@ -17,10 +17,10 @@ func TestChannelAddr(t *testing.T) {
 		{name: "ipv6 loopback", host: "::1", port: 27015, want: "[::1]:27015"},
 		{name: "ipv6", host: "2001:db8::7", port: 16261, want: "[2001:db8::7]:16261"},
 	}
-	for _, tt := range tests {
-		got := channelAddr(profile.Profile{Host: tt.host, Port: tt.port})
-		if got != tt.want {
-			t.Errorf("%s: channelAddr() = %q, want %q", tt.name, got, tt.want)
+	for _, test := range tests {
+		got := channelAddr(profile.Profile{Host: test.host, Port: test.port})
+		if got != test.want {
+			t.Errorf("%s: channelAddr() = %q, want %q", test.name, got, test.want)
 		}
 	}
 }

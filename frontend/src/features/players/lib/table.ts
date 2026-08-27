@@ -45,30 +45,41 @@ export function filterAndSortPlayers(
   const filteredPlayers = players.filter((player) =>
     player.username.toLocaleLowerCase(language).includes(query),
   );
-  filteredPlayers.sort((a, b) => {
+  filteredPlayers.sort((firstPlayer, secondPlayer) => {
     if (sorting.column === "accessLevel") {
-      const aUnknown = !hasKnownAccessLevel(playerAccessLevel(a));
-      const bUnknown = !hasKnownAccessLevel(playerAccessLevel(b));
-      if (aUnknown !== bUnknown) return aUnknown ? 1 : -1;
+      const firstUnknown = !hasKnownAccessLevel(
+        playerAccessLevel(firstPlayer),
+      );
+      const secondUnknown = !hasKnownAccessLevel(
+        playerAccessLevel(secondPlayer),
+      );
+      if (firstUnknown !== secondUnknown) return firstUnknown ? 1 : -1;
     }
 
     let comparison: number;
     switch (sorting.column) {
       case "username":
-        comparison = a.username.localeCompare(b.username, language);
+        comparison = firstPlayer.username.localeCompare(
+          secondPlayer.username,
+          language,
+        );
         break;
       case "status":
         comparison =
-          a.lastSeenOnlineAt.getTime() - b.lastSeenOnlineAt.getTime();
+          firstPlayer.lastSeenOnlineAt.getTime() -
+          secondPlayer.lastSeenOnlineAt.getTime();
         break;
       case "accessLevel":
         comparison =
-          accessLevelRank(playerAccessLevel(a)) -
-          accessLevelRank(playerAccessLevel(b));
+          accessLevelRank(playerAccessLevel(firstPlayer)) -
+          accessLevelRank(playerAccessLevel(secondPlayer));
         break;
     }
     if (comparison === 0) {
-      comparison = a.username.localeCompare(b.username, language);
+      comparison = firstPlayer.username.localeCompare(
+        secondPlayer.username,
+        language,
+      );
     }
     return comparison * direction;
   });

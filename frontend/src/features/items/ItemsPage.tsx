@@ -27,8 +27,8 @@ export function ItemsPage() {
   const { catalog, error, loading, reload } = useItemCatalog(build, language);
   const selection = useItemSelection();
 
-  function handleBuildChange(nextBuild: string) {
-    if (isGameBuild(nextBuild)) setBuild(nextBuild);
+  function handleBuildChange(value: string) {
+    if (isGameBuild(value)) setBuild(value);
   }
 
   return (

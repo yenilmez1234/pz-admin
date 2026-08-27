@@ -89,9 +89,9 @@ func TestServiceStartupReplacesBadConfig(t *testing.T) {
 		{"corrupt JSON", []byte("not json")},
 		{"invalid values", []byte(`{"theme":"blue","language":"en-US"}`)},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			svc := newServiceWithConfig(t, tt.content)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			svc := newServiceWithConfig(t, test.content)
 			startService(t, svc)
 
 			want := defaults()
@@ -103,8 +103,8 @@ func TestServiceStartupReplacesBadConfig(t *testing.T) {
 			if err != nil {
 				t.Fatalf("backup file: %v", err)
 			}
-			if !bytes.Equal(bak, tt.content) {
-				t.Errorf("backup = %q, want %q", string(bak), string(tt.content))
+			if !bytes.Equal(bak, test.content) {
+				t.Errorf("backup = %q, want %q", string(bak), string(test.content))
 			}
 
 			if disk := readDiskConfig(t, configPath(svc)); disk != want {
@@ -129,13 +129,13 @@ func TestSettersSaveToDisk(t *testing.T) {
 			func(c Config) Config { c.Language = LanguageTrTR; return c },
 		},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
 			svc := newStartedService(t)
-			if err := tt.set(svc); err != nil {
-				t.Fatalf("%s: %v", tt.name, err)
+			if err := test.set(svc); err != nil {
+				t.Fatalf("%s: %v", test.name, err)
 			}
-			want := tt.wantFn(defaults())
+			want := test.wantFn(defaults())
 			if disk := readDiskConfig(t, configPath(svc)); disk != want {
 				t.Errorf("disk = %+v, want %+v", disk, want)
 			}
@@ -155,8 +155,8 @@ func TestSettersRejectInvalidValues(t *testing.T) {
 		{"SetTheme", func(s *Service) error { return s.SetTheme("blue") }, ErrInvalidTheme},
 		{"SetLanguage", func(s *Service) error { return s.SetLanguage("xx-YY") }, ErrInvalidLanguage},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
 			svc := newStartedService(t)
 			want := svc.Config()
 			origData, err := os.ReadFile(configPath(svc))
@@ -164,8 +164,8 @@ func TestSettersRejectInvalidValues(t *testing.T) {
 				t.Fatalf("ReadFile: %v", err)
 			}
 
-			if err := tt.set(svc); !errors.Is(err, tt.wantSentinel) {
-				t.Fatalf("%s = %v, want %v", tt.name, err, tt.wantSentinel)
+			if err := test.set(svc); !errors.Is(err, test.wantSentinel) {
+				t.Fatalf("%s = %v, want %v", test.name, err, test.wantSentinel)
 			}
 			if got := svc.Config(); got != want {
 				t.Errorf("Config() = %+v, want %+v (unchanged)", got, want)

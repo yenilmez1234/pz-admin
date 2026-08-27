@@ -107,7 +107,7 @@ export function useVehicleExplorer(
     [catalog, deferredQuery, language, selectedVehicleIds],
   );
 
-  function changeSort(value: string | null) {
+  function handleSortChange(value: string | null) {
     if (!value || !isSortField(value)) return;
     setSortField(value);
     setSortDirection(value === "name" ? "ascending" : "descending");
@@ -121,7 +121,10 @@ export function useVehicleExplorer(
     setLightbarFilter(null);
   }
 
-  function changeRange(stat: VehicleRangeFilterStat, value: [number, number]) {
+  function handleRangeChange(
+    stat: VehicleRangeFilterStat,
+    value: [number, number],
+  ) {
     const fullRange = catalog?.statRanges[stat];
     setRangeFilters((current) => {
       const next = { ...current };
@@ -146,7 +149,7 @@ export function useVehicleExplorer(
       Object.keys(rangeFilters).length > 0,
     changeHierarchy: setSelectedHierarchy,
     changeLightbar: setLightbarFilter,
-    changeRange,
+    changeRange: handleRangeChange,
     clear: clearFilters,
     hierarchy: useMemo(() => prepareHierarchy(catalog), [catalog]),
     lightbarAvailable: catalog?.lightbarAvailable ?? false,
@@ -157,7 +160,7 @@ export function useVehicleExplorer(
   };
 
   return {
-    changeSort,
+    changeSort: handleSortChange,
     filters,
     searchInputRef,
     setSearch,

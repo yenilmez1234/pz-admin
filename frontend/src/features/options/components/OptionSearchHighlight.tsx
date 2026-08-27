@@ -5,7 +5,6 @@ interface OptionSearchHighlightProps {
   query?: string;
 }
 
-/** Uses one consistent treatment for matched text throughout search results. */
 export function OptionSearchHighlight({
   children,
   query,

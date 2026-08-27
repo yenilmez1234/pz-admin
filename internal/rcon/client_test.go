@@ -15,22 +15,22 @@ import (
 
 const testPassword = "test-password"
 
-func newTestClient(t *testing.T, server *testServer, opts Config) *Client {
+func newTestClient(t *testing.T, server *testServer, options Config) *Client {
 	t.Helper()
-	if opts.Addr == "" {
-		opts.Addr = server.Addr()
+	if options.Addr == "" {
+		options.Addr = server.Addr()
 	}
-	if opts.Password == "" {
-		opts.Password = testPassword
+	if options.Password == "" {
+		options.Password = testPassword
 	}
-	if opts.Timeout == 0 {
-		opts.Timeout = 2 * time.Second
+	if options.Timeout == 0 {
+		options.Timeout = 2 * time.Second
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	client, err := Connect(ctx, opts)
+	client, err := Connect(ctx, options)
 	if err != nil {
-		t.Fatalf("Connect(%s) error = %v", opts.Addr, err)
+		t.Fatalf("Connect(%s) error = %v", options.Addr, err)
 	}
 	t.Cleanup(client.Close)
 	return client

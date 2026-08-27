@@ -142,7 +142,7 @@ export function ItemEditorDialog({
     0,
   );
 
-  function openEditor() {
+  function handleOpen() {
     setVisited(true);
     modal.open();
   }
@@ -182,7 +182,7 @@ export function ItemEditorDialog({
             aria-invalid={invalid || undefined}
             aria-label={t("editor.edit")}
             disabled={disabled}
-            onClick={openEditor}
+            onClick={handleOpen}
             size={36}
             type="button"
             variant="default"

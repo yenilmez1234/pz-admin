@@ -1,4 +1,10 @@
-import { Activity, useLayoutEffect, useRef, useState } from "react";
+import {
+  Activity,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type SyntheticEvent,
+} from "react";
 import {
   Alert,
   Box,
@@ -11,20 +17,20 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import { useSession } from "@/features/session/SessionProvider";
-import { PageContainer } from "@/shared/layout/PageContainer";
-import { errorMessage } from "@/shared/lib/errors";
 import { isGameBuild, latestGameBuild } from "@/features/game/types";
+import { useSession } from "@/features/session/SessionProvider";
+import { errorMessage } from "@/shared/lib/errors";
+import { PageContainer } from "@/shared/layout/PageContainer";
 import { optionCatalogs } from "./catalog";
+import { OptionsActions } from "./components/OptionsActions";
 import { OptionsNavigation } from "./components/OptionsNavigation";
 import { OptionsSection } from "./components/OptionsSection";
-import { OptionsActions } from "./components/OptionsActions";
 import { useOptionsEditor } from "./hooks/useOptionsEditor";
 import { useOptionsSearch } from "./hooks/useOptionsSearch";
 import classes from "./OptionsPage.module.css";
 
-const skeletonCategories = [88, 104, 92, 116, 96];
-const skeletonControls = [112, 220, 112, 300, 220, 112];
+const skeletonCategoryWidths = [88, 104, 92, 116, 96];
+const skeletonControlWidths = [112, 220, 112, 300, 220, 112];
 
 function OptionsPageSkeleton() {
   return (
@@ -32,7 +38,7 @@ function OptionsPageSkeleton() {
       <div className={classes.root} aria-busy="true">
         <div className={classes.skeletonNavigation} aria-hidden="true">
           <div className={classes.skeletonCategories}>
-            {skeletonCategories.map((width) => (
+            {skeletonCategoryWidths.map((width) => (
               <Skeleton h={34} key={width} w={width} />
             ))}
           </div>
@@ -49,7 +55,7 @@ function OptionsPageSkeleton() {
                     <Skeleton h={18} w={130 + section * 35} />
                   </Stack>
                   <div className={classes.skeletonSection}>
-                    {skeletonControls
+                    {skeletonControlWidths
                       .slice(section * 3, section * 3 + 3)
                       .map((controlWidth, row) => (
                         <div
@@ -153,6 +159,11 @@ export function OptionsPage() {
     }
   }
 
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
+    event.preventDefault();
+    void handleSave();
+  }
+
   if (editor.loading) {
     return <OptionsPageSkeleton />;
   }
@@ -197,10 +208,7 @@ export function OptionsPage() {
       <form
         className={classes.root}
         aria-busy={editor.saving}
-        onSubmit={(event) => {
-          event.preventDefault();
-          void handleSave();
-        }}
+        onSubmit={handleSubmit}
       >
         <OptionsNavigation
           activeCategory={activeCategory?.id ?? ""}

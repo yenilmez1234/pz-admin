@@ -49,7 +49,7 @@ function listPlayers(profileId: string) {
 export function PlayersProvider({ children }: PlayersProviderProps) {
   const { profile, state } = useSession();
   const profileId = state === "connected" ? (profile?.id ?? null) : null;
-  const eventRevision = useRef(0);
+  const eventRevisionRef = useRef(0);
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,21 +57,21 @@ export function PlayersProvider({ children }: PlayersProviderProps) {
   const refresh = useCallback(async () => {
     if (!profileId) return;
 
-    const revision = eventRevision.current;
+    const requestRevision = eventRevisionRef.current;
     setError(null);
     setLoading(true);
 
     try {
       const loadedPlayers = await listPlayers(profileId);
-      // A newer backend event is authoritative over this in-flight snapshot.
-      if (eventRevision.current !== revision) return;
+      // Backend events are authoritative over older in-flight snapshots.
+      if (eventRevisionRef.current !== requestRevision) return;
       setPlayers(loadedPlayers);
     } catch (loadError) {
-      if (eventRevision.current === revision) {
+      if (eventRevisionRef.current === requestRevision) {
         setError(errorMessage(loadError));
       }
     } finally {
-      if (eventRevision.current === revision) setLoading(false);
+      if (eventRevisionRef.current === requestRevision) setLoading(false);
     }
   }, [profileId]);
 
@@ -79,7 +79,7 @@ export function PlayersProvider({ children }: PlayersProviderProps) {
     return Events.On("player:updated", ({ data: update }) => {
       if (update.profileId !== profileId) return;
 
-      eventRevision.current += 1;
+      eventRevisionRef.current += 1;
       setPlayers(update.players.map((player) => Player.createFrom(player)));
       setError(null);
       setLoading(false);
@@ -87,7 +87,7 @@ export function PlayersProvider({ children }: PlayersProviderProps) {
   }, [profileId]);
 
   useEffect(() => {
-    eventRevision.current += 1;
+    eventRevisionRef.current += 1;
     setPlayers([]);
     setError(null);
     setLoading(false);

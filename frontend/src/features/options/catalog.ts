@@ -62,7 +62,7 @@ export interface OptionSection {
 
 type OptionMetadata = Omit<OptionDefinition, "name">;
 
-function changeOptionValueByteLimit(name: string) {
+function getChangeOptionValueByteLimit(name: string) {
   return (
     MAXIMUM_RCON_COMMAND_BYTES - utf8ByteLength(`changeoption "${name}" ""`)
   );
@@ -457,7 +457,7 @@ const build41Options = {
     defaultValue:
       "Welcome to Project Zomboid Multiplayer! <LINE> <LINE> To interact with the Chat panel: press Tab, T, or Enter. <LINE> <LINE> The Tab key will change the target stream of the message. <LINE> <LINE> Global Streams: /all <LINE> Local Streams: /say, /yell <LINE> Special Steams: /whisper, /safehouse, /faction. <LINE> <LINE> Press the Up arrow to cycle through your message history. Click the Gear icon to customize chat. <LINE> <LINE> Happy surviving!",
     editor: "message",
-    maximumBytes: changeOptionValueByteLimit("ServerWelcomeMessage"),
+    maximumBytes: getChangeOptionValueByteLimit("ServerWelcomeMessage"),
   },
   ShowFirstAndLastName: { type: "boolean", defaultValue: false },
   ShowSafety: {
@@ -484,7 +484,7 @@ const build41Options = {
     type: "string",
     defaultValue: "",
     editor: "items",
-    maximumBytes: changeOptionValueByteLimit("SpawnItems"),
+    maximumBytes: getChangeOptionValueByteLimit("SpawnItems"),
   },
   SpawnPoint: {
     type: "string",
@@ -779,7 +779,7 @@ export const build42Options = {
     defaultValue:
       "Welcome to Project Zomboid Multiplayer! <LINE> <LINE> To interact with the Chat panel: press Tab, T, or Enter. <LINE> <LINE> The Tab key will change the target stream of the message. <LINE> <LINE> Global Streams: /all <LINE> Local Streams: /say, /yell <LINE> Special Steams: /whisper, /safehouse, /faction. <LINE> <LINE> Press the Up arrow to cycle through your message history. Click the Gear icon to customize chat. <LINE> <LINE> Happy surviving!",
     editor: "message",
-    maximumBytes: changeOptionValueByteLimit("ServerWelcomeMessage"),
+    maximumBytes: getChangeOptionValueByteLimit("ServerWelcomeMessage"),
   },
   ShowFirstAndLastName: { type: "boolean", defaultValue: false },
   ShowSafety: {
@@ -806,7 +806,7 @@ export const build42Options = {
     type: "string",
     defaultValue: "",
     editor: "items",
-    maximumBytes: changeOptionValueByteLimit("SpawnItems"),
+    maximumBytes: getChangeOptionValueByteLimit("SpawnItems"),
   },
   SpawnPoint: {
     type: "string",

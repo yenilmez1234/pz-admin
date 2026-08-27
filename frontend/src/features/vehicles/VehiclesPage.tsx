@@ -31,14 +31,14 @@ export function VehiclesPage() {
     ? (catalog?.variantsByVehicleId.get(selectedVehicle.id) ?? [])
     : [];
 
-  function handleBuildChange(nextBuild: string) {
-    if (isGameBuild(nextBuild)) {
+  function handleBuildChange(value: string) {
+    if (isGameBuild(value)) {
       setSelectedVehicle(null);
-      setBuild(nextBuild);
+      setBuild(value);
     }
   }
 
-  function returnToBrowser() {
+  function handleBack() {
     if (!selectedVehicle) return;
     const resultId = `vehicle-result-${selectedVehicle.id}`;
     setSelectedVehicle(null);
@@ -49,7 +49,7 @@ export function VehiclesPage() {
     <>
       {selectedVehicle ? (
         <VehicleDetails
-          onBack={returnToBrowser}
+          onBack={handleBack}
           onVehicleChange={setSelectedVehicle}
           vehicle={selectedVehicle}
           variants={vehicleVariants}

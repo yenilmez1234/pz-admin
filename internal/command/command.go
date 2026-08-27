@@ -1,11 +1,5 @@
-// Package command provides a version-aware registry of Project Zomboid
-// RCON commands. Each command is a Definition that describes how to build
-// the RCON string from typed parameters and how to parse the response.
-//
-// Commands are registered once (typically in a register.go or init block)
-// and looked up by name + game version at execution time. The package
-// depends only on connection.CommandExecutor for the actual command round-trip,
-// keeping it decoupled from the transport layer.
+// Package command builds, executes, and parses version-aware Project Zomboid
+// RCON commands without depending on a concrete transport.
 package command
 
 import (
@@ -16,8 +10,7 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/feature"
 )
 
-// ParamType classifies a command parameter. It drives how the default
-// builder formats the value into the RCON command string.
+// ParamType determines how Build formats a command parameter.
 type ParamType string
 
 const (
@@ -57,8 +50,7 @@ type Definition struct {
 	Parse      func(raw string, args map[string]string) (any, error)
 }
 
-// matchesVersion reports whether the given server version falls within
-// d's version range.
+// matchesVersion reports whether version falls within d's inclusive range.
 func (d Definition) matchesVersion(version string) bool {
 	if version < d.MinVersion {
 		return false

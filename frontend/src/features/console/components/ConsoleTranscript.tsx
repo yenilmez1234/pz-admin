@@ -10,26 +10,26 @@ interface ConsoleTranscriptProps {
 
 export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
   const { t } = useTranslation("console");
-  const viewport = useRef<HTMLDivElement>(null);
-  const followLatestOutput = useRef(true);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const followLatestOutputRef = useRef(true);
 
   useEffect(() => {
-    if (entries.length === 0) followLatestOutput.current = true;
-    if (viewport.current && followLatestOutput.current) {
-      viewport.current.scrollTop = viewport.current.scrollHeight;
+    if (entries.length === 0) followLatestOutputRef.current = true;
+    if (viewportRef.current && followLatestOutputRef.current) {
+      viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
     }
   }, [entries]);
 
   return (
     <Box
-      ref={viewport}
+      ref={viewportRef}
       className={classes.transcript}
       role="log"
       aria-live="polite"
       aria-label={t("outputLabel")}
       onScroll={(event) => {
         const element = event.currentTarget;
-        followLatestOutput.current =
+        followLatestOutputRef.current =
           element.scrollHeight - element.scrollTop - element.clientHeight <= 24;
       }}
     >

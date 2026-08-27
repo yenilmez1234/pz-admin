@@ -11,11 +11,11 @@ import (
 	"testing"
 )
 
-func newTestBundle(t *testing.T, opts Options) (*Bundle, *bytes.Buffer, string) {
+func newTestBundle(t *testing.T, options Options) (*Bundle, *bytes.Buffer, string) {
 	t.Helper()
 	var stderr bytes.Buffer
 	dir := t.TempDir()
-	b, err := newLogger(&stderr, dir, opts)
+	b, err := newLogger(&stderr, dir, options)
 	if err != nil {
 		t.Fatalf("newLogger: %v", err)
 	}
@@ -33,20 +33,20 @@ func TestHandlerOpts(t *testing.T) {
 		{"error level", slog.LevelError},
 		{"level var", new(slog.LevelVar)},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			opts := handlerOpts(tt.level)
-			if opts == nil {
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			options := handlerOpts(test.level)
+			if options == nil {
 				t.Fatal("handlerOpts() = nil, want non-nil")
 			}
-			if opts.Level != tt.level {
-				t.Errorf("Level = %v, want %v", opts.Level, tt.level)
+			if options.Level != test.level {
+				t.Errorf("Level = %v, want %v", options.Level, test.level)
 			}
-			if !opts.AddSource {
+			if !options.AddSource {
 				t.Error("AddSource = false, want true")
 			}
 			src := &slog.Source{Function: "f", File: "/x/y/z.go", Line: 1}
-			result := opts.ReplaceAttr(nil, slog.Any(slog.SourceKey, src))
+			result := options.ReplaceAttr(nil, slog.Any(slog.SourceKey, src))
 			if got, ok := result.Value.Any().(*slog.Source); !ok || got.File != "z.go" {
 				t.Error("ReplaceAttr is not shortSource or not shortening file paths")
 			}
@@ -69,11 +69,11 @@ func TestShortSource(t *testing.T) {
 			slog.String(slog.SourceKey, "not a *slog.Source"), slog.String(slog.SourceKey, "not a *slog.Source")},
 		{"source key with nil passes through", slog.Any(slog.SourceKey, nil), slog.Any(slog.SourceKey, nil)},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := shortSource(nil, tt.attr)
-			if !attrEqual(got, tt.want) {
-				t.Errorf("shortSource() = %v, want %v", got, tt.want)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := shortSource(nil, test.attr)
+			if !attrEqual(got, test.want) {
+				t.Errorf("shortSource() = %v, want %v", got, test.want)
 			}
 		})
 	}

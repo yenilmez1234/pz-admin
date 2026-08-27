@@ -20,7 +20,6 @@ export function optionControlSize(definition: OptionDefinition) {
   return "wide";
 }
 
-/** Routes catalogued editors while preserving the generic input fallback. */
 interface OptionControlProps extends OptionInputProps {
   build: GameBuild;
 }

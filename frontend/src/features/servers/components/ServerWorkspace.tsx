@@ -11,15 +11,14 @@ import {
   SectionNavigation,
   SectionNavigationPanel,
 } from "@/shared/layout/SectionNavigation";
-
 import { useSession } from "@/features/session/SessionProvider";
-import { errorMessage } from "@/shared/lib/errors";
 import { ConsolePage } from "@/features/console/ConsolePage";
-import { PlayersPage } from "@/features/players/PlayersPage";
 import { OptionsPage } from "@/features/options/OptionsPage";
+import { PlayersPage } from "@/features/players/PlayersPage";
 import { ServerActionsPage } from "@/features/server-actions/ServerActionsPage";
-import { ServerConnectionFooter } from "./ServerConnectionFooter";
 import { usePersistentNavigation } from "@/shared/hooks/usePersistentNavigation";
+import { errorMessage } from "@/shared/lib/errors";
+import { ServerConnectionFooter } from "./ServerConnectionFooter";
 
 type ServerWorkspacePage = "players" | "options" | "serverActions" | "console";
 
@@ -27,7 +26,7 @@ export function ServerWorkspace() {
   const { t } = useTranslation(["servers", "session"]);
   const navigation = usePersistentNavigation<ServerWorkspacePage>("players");
   const { disconnect, profile, state } = useSession();
-  const pages = [
+  const navigationItems = [
     {
       value: "players",
       label: t("workspace.players"),
@@ -73,7 +72,7 @@ export function ServerWorkspace() {
   return (
     <SectionNavigation
       activePage={navigation.activePage}
-      items={pages}
+      items={navigationItems}
       label={t("workspace.navigationLabel")}
       onPageChange={navigation.changePage}
       sidebarWidth={208}

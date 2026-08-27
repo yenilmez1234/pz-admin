@@ -18,8 +18,8 @@ import type { Profile } from "@bindings/internal/profile/models";
 import { gameBuilds } from "@/features/game/types";
 import { errorMessage } from "@/shared/lib/errors";
 import {
-  initialServerForm,
-  profileFromForm,
+  createInitialServerFormValues,
+  createProfileFromFormValues,
   type ServerFormErrors,
   type ServerFormValues,
 } from "../lib/serverForm";
@@ -42,7 +42,7 @@ export function ServerFormModal({
   const [formError, setFormError] = useState<string | null>(null);
   const form = useForm<ServerFormValues>({
     mode: "controlled",
-    initialValues: initialServerForm(profile),
+    initialValues: createInitialServerFormValues(profile),
     validate: {
       name: isNotEmpty(t("form.validation.nameRequired")),
       host: isNotEmpty(t("form.validation.hostRequired")),
@@ -57,7 +57,7 @@ export function ServerFormModal({
   });
 
   const resetForm = useEffectEvent((nextProfile: Profile | null) => {
-    const values = initialServerForm(nextProfile);
+    const values = createInitialServerFormValues(nextProfile);
     form.setInitialValues(values);
     form.setValues(values);
     form.clearErrors();
@@ -72,7 +72,10 @@ export function ServerFormModal({
   async function handleSubmit(values: ServerFormValues) {
     setFormError(null);
     try {
-      await onSave(profileFromForm(values, profile), values.password);
+      await onSave(
+        createProfileFromFormValues(values, profile),
+        values.password,
+      );
       onClose();
     } catch (saveError) {
       setFormError(

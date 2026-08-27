@@ -43,13 +43,13 @@ export function VehiclePicker({
   const model =
     category && modelIndex !== null ? category.models[modelIndex] : null;
 
-  function reset() {
+  function handleReset() {
     setCategoryIndex(null);
     setModelIndex(null);
     onChange(null);
   }
 
-  function goBack() {
+  function handleBack() {
     if (modelIndex !== null) {
       setModelIndex(null);
       onChange(null);
@@ -59,7 +59,7 @@ export function VehiclePicker({
     setCategoryIndex(null);
   }
 
-  function selectModel(nextModelIndex: number) {
+  function handleModelSelect(nextModelIndex: number) {
     if (!category) return;
     const nextVehicle = defaultVehicle(
       catalog,
@@ -75,7 +75,7 @@ export function VehiclePicker({
     ? category.models.map((categoryModel, index) => ({
         images: modelImages(catalog, categoryModel).slice(0, 4),
         label: categoryModel.name,
-        onClick: () => selectModel(index),
+        onClick: () => handleModelSelect(index),
       }))
     : catalog.hierarchy.map((catalogCategory, index) => ({
         images: categoryImages(catalog, catalogCategory).slice(0, 4),
@@ -92,7 +92,7 @@ export function VehiclePicker({
         <ActionIcon
           aria-label={t("picker.back")}
           disabled={categoryIndex === null}
-          onClick={goBack}
+          onClick={handleBack}
           size="sm"
           variant="default"
         >
@@ -103,7 +103,10 @@ export function VehiclePicker({
           separatorMargin={4}
         >
           {category ? (
-            <UnstyledButton className={classes.breadcrumbLink} onClick={reset}>
+            <UnstyledButton
+              className={classes.breadcrumbLink}
+              onClick={handleReset}
+            >
               {t("picker.root")}
             </UnstyledButton>
           ) : (

@@ -11,7 +11,9 @@ export interface ServerFormValues {
 
 export type ServerFormErrors = Partial<Record<keyof ServerFormValues, string>>;
 
-export function initialServerForm(profile: Profile | null): ServerFormValues {
+export function createInitialServerFormValues(
+  profile: Profile | null,
+): ServerFormValues {
   return {
     name: profile?.name ?? "",
     host: profile?.host ?? "",
@@ -21,7 +23,7 @@ export function initialServerForm(profile: Profile | null): ServerFormValues {
   };
 }
 
-export function profileFromForm(
+export function createProfileFromFormValues(
   values: ServerFormValues,
   currentProfile: Profile | null,
 ) {

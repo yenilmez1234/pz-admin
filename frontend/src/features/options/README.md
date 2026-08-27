@@ -1,6 +1,6 @@
-# Options feature
+# Server options
 
-The feature has three layers:
+The options feature has three layers:
 
 1. `catalog.ts` describes the options available in each game build and their
    category/section order. Metadata and layout are deliberately separate: the

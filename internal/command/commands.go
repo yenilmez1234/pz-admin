@@ -602,14 +602,14 @@ var definitions = []Definition{
 			if strings.TrimSpace(first) != "List of Server Options:" {
 				return nil, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 			}
-			opts := make(map[string]string)
+			options := make(map[string]string)
 			for line := range strings.SplitSeq(rest, "\n") {
 				line = strings.TrimSpace(line)
 				if name, val, ok := strings.Cut(strings.TrimPrefix(line, "* "), "="); ok {
-					opts[name] = val
+					options[name] = val
 				}
 			}
-			return opts, nil
+			return options, nil
 		},
 	},
 

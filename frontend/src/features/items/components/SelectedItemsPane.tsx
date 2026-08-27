@@ -49,7 +49,7 @@ export function SelectedItemsPane({
     });
   }, [selectedItems.length]);
 
-  function addCustomItem() {
+  function handleCustomItemAdd() {
     if (!customId) return;
     selection.add(customId);
     setCustomItemId("");
@@ -82,14 +82,14 @@ export function SelectedItemsPane({
           name="custom-item-id"
           onChange={(event) => setCustomItemId(event.currentTarget.value)}
           onKeyDown={(event) => {
-            if (event.key === "Enter") addCustomItem();
+            if (event.key === "Enter") handleCustomItemAdd();
           }}
           placeholder={t("selection.customItemPlaceholder")}
           rightSection={
             <ActionIcon
               aria-label={t("selection.addCustomItem")}
               disabled={!customId}
-              onClick={addCustomItem}
+              onClick={handleCustomItemAdd}
               size="sm"
               variant="subtle"
             >

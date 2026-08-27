@@ -16,8 +16,6 @@ import type {
   MessageTextStyle,
 } from "@/features/messages/types";
 
-// Game format
-
 export const defaultGameMessageSize: MessageSize = "medium";
 const LINE_TOKEN = " <LINE> ";
 const BR_TOKEN = " <BR> ";
@@ -128,15 +126,13 @@ const formattingTokens: FormattingToken[] = [
   },
 ];
 
-// Public API
-
 export function parseGameMessage(
   value: string,
   build: GameBuild,
 ): MessageDocument {
   if (!value) return createEmptyMessageDocument();
 
-  const format: FormatState = {};
+  const formatState: FormatState = {};
   const paragraphs: MessageParagraph[] = [createParagraph()];
   let textStart = 0;
 
@@ -144,17 +140,17 @@ export function parseGameMessage(
     appendText(
       currentParagraph(paragraphs),
       value.slice(textStart, tokenMatch.index),
-      format,
+      formatState,
       build,
     );
-    applyToken(tokenMatch[1], paragraphs, format, build);
+    applyToken(tokenMatch[1], paragraphs, formatState, build);
     textStart = tokenMatch.index + tokenMatch[0].length;
   }
 
   appendText(
     currentParagraph(paragraphs),
     value.slice(textStart),
-    format,
+    formatState,
     build,
   );
   return { type: "doc", content: paragraphs };
@@ -164,7 +160,7 @@ export function serializeGameMessage(
   document: MessageDocument,
   build: GameBuild,
 ): string {
-  const format = createDefaultFormat();
+  const serializationState = createDefaultFormat();
   let alignment: MessageAlignment | undefined;
   const texts = document.content.flatMap(
     (paragraph) => paragraph.content ?? [],
@@ -193,7 +189,7 @@ export function serializeGameMessage(
               ? serializeText(
                   text,
                   values.get(text)!,
-                  format,
+                  serializationState,
                   build,
                   remainingColors,
                 )
@@ -231,8 +227,6 @@ export function isGameMessageTextAllowed(value: string): boolean {
 export function sanitizeGameMessageText(value: string): string {
   return value.replace(ALL_FORBIDDEN_CHARACTERS_PATTERN, "");
 }
-
-// Parsing
 
 function applyToken(
   token: string,
@@ -297,8 +291,6 @@ function createParagraph(alignment?: MessageAlignment): MessageParagraph {
 function currentParagraph(paragraphs: MessageParagraph[]): MessageParagraph {
   return paragraphs[paragraphs.length - 1];
 }
-
-// Serialization
 
 function serializeText(
   text: MessageText,
@@ -403,8 +395,6 @@ function encodeAlignmentTransition(
 function findTextStyle(text: MessageText): MessageTextStyle | undefined {
   return text.marks?.find((mark) => mark.type === "textStyle")?.attrs;
 }
-
-// Format mapping
 
 function createDefaultFormat(): SerializationState {
   return {

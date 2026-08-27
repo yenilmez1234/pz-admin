@@ -9,8 +9,7 @@ import (
 
 const directoryName = "com.bedirhanyenilmez.pzadmin"
 
-// ConfigDir returns the application's platform-specific configuration
-// directory.
+// ConfigDir returns the application's platform-specific configuration directory.
 func ConfigDir() string {
 	return filepath.Join(xdg.ConfigHome, directoryName)
 }

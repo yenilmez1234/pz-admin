@@ -47,15 +47,15 @@ type Bundle struct {
 //   - rotating file under the XDG state directory (for bug reports)
 //
 // The returned LevelVar changes the file log level at runtime.
-func New(opts Options) (*Bundle, error) {
-	return newLogger(os.Stderr, appdata.StateDir(), opts)
+func New(options Options) (*Bundle, error) {
+	return newLogger(os.Stderr, appdata.StateDir(), options)
 }
 
 // newLogger creates the logger with explicit sinks. stderr receives
 // all output (fixed at Debug); the rotating file lives under stateDir.
-func newLogger(stderr io.Writer, stateDir string, opts Options) (*Bundle, error) {
-	if opts.FileLevel == nil {
-		opts.FileLevel = slog.LevelInfo
+func newLogger(stderr io.Writer, stateDir string, options Options) (*Bundle, error) {
+	if options.FileLevel == nil {
+		options.FileLevel = slog.LevelInfo
 	}
 
 	if err := os.MkdirAll(stateDir, 0o700); err != nil {
@@ -63,7 +63,7 @@ func newLogger(stderr io.Writer, stateDir string, opts Options) (*Bundle, error)
 	}
 
 	levelVar := new(slog.LevelVar)
-	levelVar.Set(opts.FileLevel.Level())
+	levelVar.Set(options.FileLevel.Level())
 
 	logPath := filepath.Join(stateDir, logFileName)
 	lj := &lumberjack.Logger{

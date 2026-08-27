@@ -54,8 +54,7 @@ interface ExecutePlayerActionOptions {
   targets: Player[];
 }
 
-// Player action notifications share one translation shape. Keeping that
-// convention here prevents each backend action from repeating the same wiring.
+// All player action translations use this shared result shape.
 export function executePlayerAction({
   execute,
   partialFailurePath,

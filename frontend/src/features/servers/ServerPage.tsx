@@ -1,7 +1,7 @@
 import { Group, SimpleGrid, Skeleton, Stack } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { PageContainer } from "@/shared/layout/PageContainer";
 import { useSession } from "@/features/session/SessionProvider";
+import { PageContainer } from "@/shared/layout/PageContainer";
 import { ServerWorkspace } from "./components/ServerWorkspace";
 import { ServerProfilesPage } from "./profiles/ServerProfilesPage";
 

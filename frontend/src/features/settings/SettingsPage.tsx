@@ -23,6 +23,7 @@ const languageOptions = locales.map(({ code, nativeName }) => ({
 export function SettingsPage() {
   const { t } = useTranslation("settings");
   const { config, error, loading, setLanguage, setTheme } = useAppConfig();
+
   function handleThemeChange(theme: string) {
     if (isThemeSetting(theme)) void setTheme(theme);
   }

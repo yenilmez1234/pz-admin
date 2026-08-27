@@ -45,7 +45,7 @@ export function useServerProfiles(language?: string) {
     [language, profiles],
   );
 
-  async function save(profile: Profile, password: string) {
+  async function saveProfile(profile: Profile, password: string) {
     setLoadError(null);
     // Save errors are handled by the modal so it can remain open.
     const savedProfile = await Save(profile, password);
@@ -59,7 +59,7 @@ export function useServerProfiles(language?: string) {
     });
   }
 
-  async function remove(profile: Profile) {
+  async function removeProfile(profile: Profile) {
     setLoadError(null);
     // Delete errors are handled by the confirmation modal.
     await Delete(profile.id);
@@ -72,7 +72,7 @@ export function useServerProfiles(language?: string) {
     loadError,
     loading,
     profiles: sortedProfiles,
-    remove,
-    save,
+    remove: removeProfile,
+    save: saveProfile,
   };
 }

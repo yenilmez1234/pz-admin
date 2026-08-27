@@ -163,14 +163,14 @@ func TestBuildQuoting(t *testing.T) {
 		{"single word", "Restart", `servermsg "Restart"`},
 		{"multi word", "Server restarting soon", `servermsg "Server restarting soon"`},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := Build(d, map[string]string{"message": tt.msg})
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got, err := Build(d, map[string]string{"message": test.msg})
 			if err != nil {
 				t.Fatal(err)
 			}
-			if got != tt.want {
-				t.Errorf("got %q, want %q", got, tt.want)
+			if got != test.want {
+				t.Errorf("got %q, want %q", got, test.want)
 			}
 		})
 	}

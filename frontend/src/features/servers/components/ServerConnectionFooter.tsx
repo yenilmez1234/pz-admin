@@ -1,7 +1,6 @@
 import { Button, Stack, Text } from "@mantine/core";
 import { IconPlugOff } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-
 import type { Profile } from "@bindings/internal/profile/models";
 
 type ServerConnectionState = "connected" | "disconnecting";

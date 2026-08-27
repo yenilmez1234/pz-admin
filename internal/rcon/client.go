@@ -49,17 +49,16 @@ type Client struct {
 	onDisconnect func()
 }
 
-// Ensure Client implements the shared connection contracts.
 var (
 	_ connection.Channel         = (*Client)(nil)
 	_ connection.CommandExecutor = (*Client)(nil)
 )
 
-// Connect dials the RCON server once, no retry — the caller retries
+// Connect dials the RCON server once; the caller controls retries
 // by calling Connect again. Authentication failures are permanent and
 // reported as source.ErrAuthentication (wrapped in "rcon: connect").
 // ctx bounds only the initial dial; the Client's lifetime is
-// independent of it — use Close to shut the client down.
+// independent of it. Use Close to shut the client down.
 func Connect(ctx context.Context, config Config) (*Client, error) {
 	config = config.withDefaults()
 	// PZ returns one complete packet per command and can exceed Source's

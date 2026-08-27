@@ -3,7 +3,11 @@ import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import { usePlayerActions } from "../PlayerActionsProvider";
 
-export function PlayerEventMenuItems({ players }: { players: Player[] }) {
+interface PlayerEventMenuItemsProps {
+  players: Player[];
+}
+
+export function PlayerEventMenuItems({ players }: PlayerEventMenuItemsProps) {
   const { t } = useTranslation("players");
   const actions = usePlayerActions();
 

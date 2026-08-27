@@ -19,6 +19,7 @@ export function PlayersWorkspace() {
   const selectedPlayers = players.filter((player) =>
     selectedPlayerIds.has(player.id),
   );
+  const hasSelection = selectedPlayers.length > 0;
 
   return (
     <PageContainer
@@ -33,7 +34,7 @@ export function PlayersWorkspace() {
         h="100%"
         px="xl"
         py="md"
-        pb={selectedPlayers.length > 0 ? 88 : "md"}
+        pb={hasSelection ? 88 : "md"}
         aria-busy={loading}
         style={{ overflowY: "auto" }}
       >
@@ -63,7 +64,7 @@ export function PlayersWorkspace() {
         />
       </Stack>
 
-      {selectedPlayers.length > 0 ? (
+      {hasSelection ? (
         <Box
           bottom="var(--mantine-spacing-md)"
           left="var(--mantine-spacing-md)"

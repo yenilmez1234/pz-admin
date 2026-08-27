@@ -13,6 +13,11 @@ export function ConsoleInput({ executing, onExecute }: ConsoleInputProps) {
   const { t } = useTranslation("console");
   const input = useConsoleInput({ executing, onExecute });
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    input.submit();
+  }
+
   return (
     <Combobox
       store={input.combobox}
@@ -25,10 +30,7 @@ export function ConsoleInput({ executing, onExecute }: ConsoleInputProps) {
       <Box
         component="form"
         className={classes.inputRow}
-        onSubmit={(event) => {
-          event.preventDefault();
-          input.submit();
-        }}
+        onSubmit={handleSubmit}
       >
         <Text className={classes.inputPrompt} aria-hidden="true">
           $

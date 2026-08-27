@@ -35,7 +35,7 @@ function expectedValueLabel(
   return String(value);
 }
 
-function OptionFieldComponent({
+export function OptionField({
   build,
   definition,
   form,
@@ -183,5 +183,3 @@ function OptionFieldComponent({
     </div>
   );
 }
-
-export const OptionField = OptionFieldComponent;

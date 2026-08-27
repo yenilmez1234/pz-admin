@@ -20,7 +20,6 @@ interface SaveOutcome {
   result: UpdateResult;
 }
 
-/** Produces the flat list used by validation and saving from the UI hierarchy. */
 function collectDefinitions(categories: readonly OptionCategory[]) {
   const definitions: OptionDefinition[] = [];
   for (const category of categories) {
@@ -31,7 +30,6 @@ function collectDefinitions(categories: readonly OptionCategory[]) {
   return definitions;
 }
 
-/** Removes catalog entries that the connected server did not report. */
 function supportedCategories(
   catalog: readonly OptionCategory[],
   serverValues: Record<string, string | undefined>,
@@ -66,7 +64,6 @@ function prepareEditorData(
   };
 }
 
-/** Formats only fields whose current value differs from the loaded value. */
 function collectChanges(
   definitions: readonly OptionDefinition[],
   values: OptionFormValues,

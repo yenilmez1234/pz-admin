@@ -6,10 +6,13 @@ interface ProfileDialogState {
   profile: Profile | null;
 }
 
-const closedDialog: ProfileDialogState = { opened: false, profile: null };
+const initialDialogState: ProfileDialogState = {
+  opened: false,
+  profile: null,
+};
 
 export function useProfileDialog() {
-  const [dialog, setDialog] = useState(closedDialog);
+  const [dialog, setDialog] = useState(initialDialogState);
 
   return {
     ...dialog,

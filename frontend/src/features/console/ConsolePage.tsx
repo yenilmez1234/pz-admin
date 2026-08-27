@@ -16,20 +16,20 @@ export function ConsolePage() {
   const [executing, setExecuting] = useState(false);
   const nextEntryId = useRef(0);
 
-  async function executeCommand(command: string) {
-    const normalizedCommand = command.toLowerCase().split(/\s+/);
+  async function handleExecute(command: string) {
+    const commandParts = command.toLowerCase().split(/\s+/);
     if (
-      normalizedCommand.length === 1 &&
-      normalizedCommand[0] === clearConsoleCommand
+      commandParts.length === 1 &&
+      commandParts[0] === clearConsoleCommand
     ) {
       setEntries([]);
       return;
     }
 
     if (
-      normalizedCommand.length === 2 &&
-      normalizedCommand[0] === "help" &&
-      normalizedCommand[1] === clearConsoleCommand
+      commandParts.length === 2 &&
+      commandParts[0] === "help" &&
+      commandParts[1] === clearConsoleCommand
     ) {
       setEntries((current) => [
         ...current,
@@ -76,7 +76,7 @@ export function ConsolePage() {
     <PageContainer contentWidth="fluid" p={0} h="100%" className={classes.page}>
       <Paper className={classes.console} aria-busy={executing}>
         <ConsoleTranscript entries={entries} />
-        <ConsoleInput executing={executing} onExecute={executeCommand} />
+        <ConsoleInput executing={executing} onExecute={handleExecute} />
       </Paper>
     </PageContainer>
   );

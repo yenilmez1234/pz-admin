@@ -23,14 +23,9 @@ import (
 //go:embed VERSION
 var rawVersion string
 
-// buildVersion returns the application version from the VERSION file
-// at the repo root. The file contains a single line like "2.0.0".
+// buildVersion returns the embedded application version.
 func buildVersion() string {
-	v := strings.TrimSpace(rawVersion)
-	if v == "" {
-		return "dev"
-	}
-	return v
+	return strings.TrimSpace(rawVersion)
 }
 
 // Wails uses Go's `embed` package to embed the frontend files into the binary.

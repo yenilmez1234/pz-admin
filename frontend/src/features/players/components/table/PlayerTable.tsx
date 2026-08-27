@@ -59,8 +59,8 @@ export function PlayerTable({
     [language, players, search, sorting],
   );
   const visiblePlayerIds = visiblePlayers.map((player) => player.id);
-  const selectedVisibleCount = visiblePlayerIds.filter((id) =>
-    selectedPlayerIds.has(id),
+  const selectedVisibleCount = visiblePlayerIds.filter((playerId) =>
+    selectedPlayerIds.has(playerId),
   ).length;
   const allVisibleSelected =
     visiblePlayerIds.length > 0 &&
@@ -79,9 +79,9 @@ export function PlayerTable({
   function toggleVisiblePlayers() {
     const next = new Set(selectedPlayerIds);
     if (allVisibleSelected) {
-      visiblePlayerIds.forEach((id) => next.delete(id));
+      visiblePlayerIds.forEach((playerId) => next.delete(playerId));
     } else {
-      visiblePlayerIds.forEach((id) => next.add(id));
+      visiblePlayerIds.forEach((playerId) => next.add(playerId));
     }
     onSelectionChange(next);
   }

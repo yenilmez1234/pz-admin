@@ -1,74 +1,86 @@
-# Welcome to Your New Wails3 Project!
+# PZ Admin
 
-Congratulations on generating your Wails3 application! This README will guide you through the next steps to get your project up and running.
+PZ Admin is a desktop administration client for Project Zomboid dedicated
+servers. It connects to a server over RCON and provides focused interfaces for
+routine administration instead of requiring commands to be entered manually.
 
-## Getting Started
+The application currently supports Project Zomboid Build 41 and Build 42.
 
-1. Navigate to your project directory in the terminal.
+## Features
 
-2. To run your application in development mode, use the following command:
+- Save, stop, and manage a server through common administrative actions.
+- Inspect and edit server options with build-specific metadata and validation.
+- Manage players, access levels, bans, permissions, items, skills, and vehicles.
+- Compose game-formatted server messages with a visual editor.
+- Use an RCON console with command suggestions.
+- Switch between English and Turkish interfaces.
 
-   ```
-   wails3 dev
-   ```
+## Development
 
-   This will start your application and enable hot-reloading for both frontend and backend changes.
+The project uses Go and Wails for the application backend, and React,
+TypeScript, Vite, and Mantine for the frontend. Frontend dependencies are
+managed with pnpm.
 
-3. To build your application for production, use:
+Install the required tools and frontend dependencies, then start the development
+environment:
 
-   ```
-   wails3 build
-   ```
+```sh
+pnpm --dir frontend install
+wails3 dev
+```
 
-   This will create a production-ready executable in the `build` directory.
+Build the application with:
 
-## Exploring Wails3 Features
+```sh
+wails3 build
+```
 
-Now that you have your project set up, it's time to explore the features that Wails3 offers:
+The root `Taskfile.yml` also exposes the development, build, packaging, server,
+container, and version synchronization workflows used by the project:
 
-1. **Check out the examples**: The best way to learn is by example. Visit the `examples` directory in the `v3/examples` directory to see various sample applications.
+```sh
+task --list
+```
 
-2. **Run an example**: To run any of the examples, navigate to the example's directory and use:
+Run the frontend consistency checks with:
 
-   ```
-   go run .
-   ```
+```sh
+pnpm --dir frontend check
+```
 
-   Note: Some examples may be under development during the alpha phase.
+## Repository layout
 
-3. **Explore the documentation**: Visit the [Wails3 documentation](https://v3.wails.io/) for in-depth guides and API references.
+- `internal/` contains backend domain packages and integrations.
+- `frontend/src/` contains the React application and handwritten translations.
+- `frontend/scripts/` contains game-data and translation generation tools.
+- `build/` contains Wails build, packaging, and platform configuration.
+- `scripts/` contains repository-level maintenance tools.
 
-4. **Join the community**: Have questions or want to share your progress? Join the [Wails Discord](https://discord.gg/JDdSxwjhGf) or visit the [Wails discussions on GitHub](https://github.com/wailsapp/wails/discussions).
+See [frontend/src/README.md](frontend/src/README.md) for frontend ownership and
+structure conventions. Generated bindings, translations, and game catalogs
+should be updated through their corresponding generators rather than edited by
+hand.
 
-## Project Structure
+## Game-version data
 
-Take a moment to familiarize yourself with your project structure:
+Project Zomboid builds differ in their commands, option metadata, and runtime
+behavior. Build-specific definitions are intentionally kept explicit where
+behavior must be verified independently. Scripts under `frontend/scripts/`
+extract or assemble reference data from locally installed game files.
 
-- `frontend/`: Contains your frontend code (HTML, CSS, JavaScript/TypeScript)
-- `main.go`: The entry point of your Go backend
-- `app.go`: Define your application structure and methods here
-- `wails.json`: Configuration file for your Wails project
+Do not assume a new game build behaves like the latest supported build. Command
+availability, option metadata, and inferred player-state changes should be
+verified against that build before support is declared.
 
-## Next Steps
+## Translations
 
-1. Modify the frontend in the `frontend/` directory to create your desired UI.
-2. Add backend functionality in `main.go`.
-3. Use `wails3 dev` to see your changes in real-time.
-4. When ready, build your application with `wails3 build`.
+Handwritten UI translations live under
+`frontend/src/i18n/resources/<locale>/`. English is the source locale for key
+parity. Game-derived item and skill translations are generated separately and
+must not be edited manually.
 
-Happy coding with Wails3! If you encounter any issues or have questions, don't hesitate to consult the documentation or reach out to the Wails community.
+After changing handwritten translations, run:
 
-WAILS_MCP=1 wails3 dev
-podman run --rm -it   --network host   docker.io/outdead/rcon:latest   ./rcon   -a 127.0.0.1:27015   -p 12345
-
-## Pre-launch checklist
-
-- [x] Verify player observations more thoroughly, including how role changes affect God Mode, No Clip, and other player state.
-- [x] Fix or replace the RCON library so multipart responses are handled correctly.
-- [ ] Add Crowdin support for community translations.
-- [x] Audit Build 41 and Build 42 differences to ensure Build 41 does not accidentally lose supported features.
-- [meh] Minimize the code surface required to support a new game version such as Build 43, particularly by removing scattered build-specific conditionals where declarative version definitions would be clearer.
-crowdin integration + ci/build system
-general conventions for comments, code style etc.
-android deferred
-options page reloading on each page entry or periodically
+```sh
+pnpm --dir frontend check:translations
+```

@@ -26,19 +26,24 @@ export function useSkillCatalog(
   language: string,
 ): SkillCatalogResult {
   const [state, setState] = useState(initialState);
-  const [revision, setRevision] = useState(0);
-  const reload = useCallback(() => setRevision((current) => current + 1), []);
+  const [reloadRevision, setReloadRevision] = useState(0);
+  const reload = useCallback(
+    () => setReloadRevision((revision) => revision + 1),
+    [],
+  );
 
   useEffect(() => {
-    let current = true;
+    let active = true;
     setState(initialState);
 
     async function loadCatalog() {
       try {
-        const catalog = await loadSkillCatalog(build, language);
-        if (current) setState({ catalog, error: null, loading: false });
+        const loadedCatalog = await loadSkillCatalog(build, language);
+        if (active) {
+          setState({ catalog: loadedCatalog, error: null, loading: false });
+        }
       } catch (loadError) {
-        if (current) {
+        if (active) {
           setState({
             catalog: null,
             error: errorMessage(loadError),
@@ -51,9 +56,9 @@ export function useSkillCatalog(
     void loadCatalog();
 
     return () => {
-      current = false;
+      active = false;
     };
-  }, [build, language, revision]);
+  }, [build, language, reloadRevision]);
 
   const languageTag = canonicalLanguage(language);
   if (
