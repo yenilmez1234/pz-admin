@@ -19,16 +19,16 @@ import * as profile$0 from "../profile/models.js";
 import * as $models from "./models.js";
 
 /**
- * Connect looks up the profile and credentials, then opens its configured
- * channel. Connect holds the lock for the entire operation; the frontend shows
- * a spinner so no other methods are called concurrently.
+ * Connect resolves the profile and credentials, then opens the configured
+ * channel. It serializes the complete connection transition so no caller can
+ * observe a partially initialized session.
  */
 export function Connect(profileID: string): $CancellablePromise<void> {
     return $Call.ByID(1927976385, profileID);
 }
 
 /**
- * Disconnect closes the active channel. Idempotent.
+ * Disconnect closes the active channel. It is safe to call while disconnected.
  */
 export function Disconnect(): $CancellablePromise<void> {
     return $Call.ByID(2905459187);

@@ -60,8 +60,8 @@ export function AddXP(playerIDs: string[], grants: $models.XPGrant[]): $Cancella
 }
 
 /**
- * Ban bans each player by username. Reason is optional; banIP also bans each
- * player's current IP address.
+ * Ban bans each player by username. The reason is optional. When banIP is true,
+ * the command also bans each player's current IP address.
  */
 export function Ban(playerIDs: string[], reason: string, banIP: boolean): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(998818691, playerIDs, reason, banIP).then(($result: any) => {
@@ -125,7 +125,7 @@ export function SetAccessLevel(playerIDs: string[], level: string): $Cancellable
 }
 
 /**
- * SetGodMode enables or disables god mode for each player.
+ * SetGodMode enables or disables God Mode for each player.
  */
 export function SetGodMode(playerIDs: string[], enabled: boolean): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(288807347, playerIDs, enabled).then(($result: any) => {
@@ -143,7 +143,7 @@ export function SetInvisible(playerIDs: string[], enabled: boolean): $Cancellabl
 }
 
 /**
- * SetNoClip enables or disables no-clip mode for each player.
+ * SetNoClip enables or disables No Clip for each player.
  */
 export function SetNoClip(playerIDs: string[], enabled: boolean): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(2237905755, playerIDs, enabled).then(($result: any) => {
@@ -162,7 +162,7 @@ export function SetPassword(playerIDs: string[], password: string): $Cancellable
 }
 
 /**
- * SetVoiceBanned blocks or restores voice communication for each player.
+ * SetVoiceBanned enables or disables the Voice Ban for each player.
  */
 export function SetVoiceBanned(playerIDs: string[], banned: boolean): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(676477740, playerIDs, banned).then(($result: any) => {
@@ -180,7 +180,7 @@ export function Teleport(playerIDs: string[], targetPlayerID: string): $Cancella
 }
 
 /**
- * TeleportToCoordinates moves each player to x,y,z coordinates.
+ * TeleportToCoordinates moves each player to the given x, y, and z coordinates.
  */
 export function TeleportToCoordinates(playerIDs: string[], coordinates: string): $CancellablePromise<$models.ActionResult> {
     return $Call.ByID(1754900303, playerIDs, coordinates).then(($result: any) => {
