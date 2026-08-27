@@ -10,8 +10,7 @@ export function createHorde(targets: Player[], count: number) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => CreateHorde(playerIds, count),
-    partialFailurePath: "notifications.createHorde",
-    resultPath: "notifications.createHorde",
+    successKey: "notifications.createHorde.successMessage",
   });
 }
 
@@ -19,8 +18,7 @@ export function lightning(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Lightning(playerIds),
-    partialFailurePath: "notifications.lightning",
-    resultPath: "notifications.lightning",
+    successKey: "notifications.lightning.successMessage",
   });
 }
 
@@ -28,7 +26,6 @@ export function thunder(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Thunder(playerIds),
-    partialFailurePath: "notifications.thunder",
-    resultPath: "notifications.thunder",
+    successKey: "notifications.thunder.successMessage",
   });
 }

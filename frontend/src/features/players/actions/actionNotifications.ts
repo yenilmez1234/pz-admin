@@ -1,83 +1,95 @@
 import type { ActionResult, Player } from "@bindings/internal/player/models";
+import { notifications } from "@mantine/notifications";
+import type { ParseKeys } from "i18next";
 import i18n from "@/i18n";
-import { runPlayerAction } from "./runPlayerAction";
+import { rootErrorMessage } from "@/shared/lib/errors";
 
 const t = i18n.getFixedT(null, "players");
 
-type ActionResultPath =
-  | "notifications.accessLevel"
-  | "notifications.addXp"
-  | "notifications.ban"
-  | "notifications.createHorde"
-  | "notifications.giveItems"
-  | "notifications.godMode.disable"
-  | "notifications.godMode.enable"
-  | "notifications.invisible.disable"
-  | "notifications.invisible.enable"
-  | "notifications.kick"
-  | "notifications.lightning"
-  | "notifications.noClip.disable"
-  | "notifications.noClip.enable"
-  | "notifications.removeFromWhitelist"
-  | "notifications.setPassword"
-  | "notifications.spawnVehicle"
-  | "notifications.teleport"
-  | "notifications.thunder"
-  | "notifications.unban"
-  | "notifications.voiceBan.apply"
-  | "notifications.voiceBan.remove";
-
-type PartialFailurePath =
-  | "notifications.accessLevel"
-  | "notifications.addXp"
-  | "notifications.ban"
-  | "notifications.createHorde"
-  | "notifications.giveItems"
-  | "notifications.godMode"
-  | "notifications.invisible"
-  | "notifications.kick"
-  | "notifications.lightning"
-  | "notifications.noClip"
-  | "notifications.removeFromWhitelist"
-  | "notifications.setPassword"
-  | "notifications.spawnVehicle"
-  | "notifications.teleport"
-  | "notifications.thunder"
-  | "notifications.unban"
-  | "notifications.voiceBan";
+type PlayerSuccessMessageKey = Extract<
+  ParseKeys<"players">,
+  `notifications.${string}.successMessage`
+>;
 
 interface ExecutePlayerActionOptions {
   execute: (playerIds: string[]) => PromiseLike<ActionResult>;
-  partialFailurePath: PartialFailurePath;
-  resultPath: ActionResultPath;
+  successKey: PlayerSuccessMessageKey;
   successValues?: Record<string, unknown>;
   targets: Player[];
 }
 
-export function executePlayerAction({
+interface ExecutePlayerOperationOptions {
+  execute: () => PromiseLike<void>;
+  successKey: PlayerSuccessMessageKey;
+  successValues?: Record<string, unknown>;
+}
+
+function showFailure(error: unknown) {
+  notifications.show({
+    color: "red",
+    title: t("notifications.result.failureTitle"),
+    message: t("notifications.result.failureMessage", {
+      error: rootErrorMessage(error),
+    }),
+  });
+}
+
+export async function executePlayerOperation({
   execute,
-  partialFailurePath,
-  resultPath,
+  successKey,
+  successValues,
+}: ExecutePlayerOperationOptions) {
+  try {
+    await execute();
+    notifications.show({
+      title: t("notifications.result.successTitle"),
+      message: t(successKey, successValues),
+    });
+    return true;
+  } catch (operationError) {
+    showFailure(operationError);
+    return false;
+  }
+}
+
+export async function executePlayerAction({
+  execute,
+  successKey,
   successValues,
   targets,
 }: ExecutePlayerActionOptions) {
-  return runPlayerAction({
-    targets,
-    execute,
-    successTitle: t(`${resultPath}.successTitle`),
-    successMessage: (successfulTargets) =>
-      t(`${resultPath}.successMessage`, {
-        count: successfulTargets.length,
-        username: successfulTargets[0]?.username,
+  try {
+    const result = await execute(targets.map((player) => player.id));
+    if (result.failed.length > 0) {
+      const firstError = rootErrorMessage(result.failed[0].message);
+      if (result.succeeded.length === 0) {
+        showFailure(firstError);
+      } else {
+        notifications.show({
+          color: "yellow",
+          title: t("notifications.result.partialFailureTitle"),
+          message: t("notifications.result.partialFailureMessage", {
+            error: firstError,
+            failedCount: result.failed.length,
+            succeededCount: result.succeeded.length,
+            totalCount: targets.length,
+          }),
+        });
+      }
+      return false;
+    }
+
+    notifications.show({
+      title: t("notifications.result.successTitle"),
+      message: t(successKey, {
+        count: targets.length,
+        username: targets[0]?.username,
         ...successValues,
       }),
-    failureTitle: t(`${resultPath}.failureTitle`),
-    partialFailureTitle: t(`${partialFailurePath}.partialFailureTitle`),
-    partialFailureMessage: (failedCount, targetCount, error) =>
-      t(`${partialFailurePath}.partialFailureMessage`, {
-        error,
-        failedCount,
-        totalCount: targetCount,
-      }),
-  });
+    });
+    return true;
+  } catch (actionError) {
+    showFailure(actionError);
+    return false;
+  }
 }

@@ -11,8 +11,7 @@ export function spawnVehicle(targets: Player[], vehicle: VehicleCatalogEntry) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => AddVehicle(playerIds, vehicle.id),
-    partialFailurePath: "notifications.spawnVehicle",
-    resultPath: "notifications.spawnVehicle",
+    successKey: "notifications.spawnVehicle.successMessage",
     successValues: { vehicle: vehicle.name },
   });
 }
@@ -21,8 +20,7 @@ export function giveItems(targets: Player[], items: ItemGrant[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => AddItems(playerIds, items),
-    partialFailurePath: "notifications.giveItems",
-    resultPath: "notifications.giveItems",
+    successKey: "notifications.giveItems.successMessage",
   });
 }
 
@@ -30,7 +28,6 @@ export function addXp(targets: Player[], grants: XPGrant[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => AddXP(playerIds, grants),
-    partialFailurePath: "notifications.addXp",
-    resultPath: "notifications.addXp",
+    successKey: "notifications.addXp.successMessage",
   });
 }

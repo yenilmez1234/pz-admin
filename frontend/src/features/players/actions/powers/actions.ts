@@ -10,10 +10,9 @@ export function setGodMode(targets: Player[], enabled: boolean) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetGodMode(playerIds, enabled),
-    partialFailurePath: "notifications.godMode",
-    resultPath: enabled
-      ? "notifications.godMode.enable"
-      : "notifications.godMode.disable",
+    successKey: enabled
+      ? "notifications.godMode.enable.successMessage"
+      : "notifications.godMode.disable.successMessage",
   });
 }
 
@@ -21,10 +20,9 @@ export function setInvisible(targets: Player[], enabled: boolean) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetInvisible(playerIds, enabled),
-    partialFailurePath: "notifications.invisible",
-    resultPath: enabled
-      ? "notifications.invisible.enable"
-      : "notifications.invisible.disable",
+    successKey: enabled
+      ? "notifications.invisible.enable.successMessage"
+      : "notifications.invisible.disable.successMessage",
   });
 }
 
@@ -32,9 +30,8 @@ export function setNoClip(targets: Player[], enabled: boolean) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetNoClip(playerIds, enabled),
-    partialFailurePath: "notifications.noClip",
-    resultPath: enabled
-      ? "notifications.noClip.enable"
-      : "notifications.noClip.disable",
+    successKey: enabled
+      ? "notifications.noClip.enable.successMessage"
+      : "notifications.noClip.disable.successMessage",
   });
 }

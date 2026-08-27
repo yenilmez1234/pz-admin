@@ -9,8 +9,7 @@ export function teleportToPlayer(targets: Player[], targetPlayerId: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Teleport(playerIds, targetPlayerId),
-    partialFailurePath: "notifications.teleport",
-    resultPath: "notifications.teleport",
+    successKey: "notifications.teleport.successMessage",
   });
 }
 
@@ -18,7 +17,6 @@ export function teleportToCoordinates(targets: Player[], coordinates: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => TeleportToCoordinates(playerIds, coordinates),
-    partialFailurePath: "notifications.teleport",
-    resultPath: "notifications.teleport",
+    successKey: "notifications.teleport.successMessage",
   });
 }

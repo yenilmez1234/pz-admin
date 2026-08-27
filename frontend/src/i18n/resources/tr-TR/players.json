@@ -208,182 +208,109 @@
   },
   "notifications": {
     "addServerUser": {
-      "successTitle": "Oyuncu Eklendi",
-      "successMessage": "{{username}} sunucu beyaz listesine eklendi.",
-      "failureTitle": "Oyuncu Eklenemedi"
+      "successMessage": "{{username}} sunucu beyaz listesine eklendi."
     },
     "addLocalPlayer": {
-      "successTitle": "Oyuncu Eklendi",
-      "successMessage": "{{username}} oyuncu listesine eklendi.",
-      "failureTitle": "Oyuncu Eklenemedi"
+      "successMessage": "{{username}} oyuncu listesine eklendi."
     },
     "godMode": {
       "enable": {
-        "successTitle": "Ölümsüzlük Modu Açıldı",
         "successMessage_one": "{{username}} için ölümsüzlük modu açıldı.",
-        "successMessage_other": "{{count}} oyuncu için ölümsüzlük modu açıldı.",
-        "failureTitle": "Ölümsüzlük Modu Açılamadı"
+        "successMessage_other": "{{count}} oyuncu için ölümsüzlük modu açıldı."
       },
       "disable": {
-        "successTitle": "Ölümsüzlük Modu Kapatıldı",
         "successMessage_one": "{{username}} için ölümsüzlük modu kapatıldı.",
-        "successMessage_other": "{{count}} oyuncu için ölümsüzlük modu kapatıldı.",
-        "failureTitle": "Ölümsüzlük Modu Kapatılamadı"
-      },
-      "partialFailureTitle": "Ölümsüzlük Modu Kısmen Güncellendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+        "successMessage_other": "{{count}} oyuncu için ölümsüzlük modu kapatıldı."
+      }
     },
     "noClip": {
       "enable": {
-        "successTitle": "Çarpışmasız Mod Açıldı",
         "successMessage_one": "{{username}} için çarpışmasız mod açıldı.",
-        "successMessage_other": "{{count}} oyuncu için çarpışmasız mod açıldı.",
-        "failureTitle": "Çarpışmasız Mod Açılamadı"
+        "successMessage_other": "{{count}} oyuncu için çarpışmasız mod açıldı."
       },
       "disable": {
-        "successTitle": "Çarpışmasız Mod Kapatıldı",
         "successMessage_one": "{{username}} için çarpışmasız mod kapatıldı.",
-        "successMessage_other": "{{count}} oyuncu için çarpışmasız mod kapatıldı.",
-        "failureTitle": "Çarpışmasız Mod Kapatılamadı"
-      },
-      "partialFailureTitle": "Çarpışmasız Mod Kısmen Güncellendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+        "successMessage_other": "{{count}} oyuncu için çarpışmasız mod kapatıldı."
+      }
     },
     "invisible": {
       "enable": {
-        "successTitle": "Görünmezlik Açıldı",
         "successMessage_one": "{{username}} için görünmezlik açıldı.",
-        "successMessage_other": "{{count}} oyuncu için görünmezlik açıldı.",
-        "failureTitle": "Görünmezlik Açılamadı"
+        "successMessage_other": "{{count}} oyuncu için görünmezlik açıldı."
       },
       "disable": {
-        "successTitle": "Görünmezlik Kapatıldı",
         "successMessage_one": "{{username}} için görünmezlik kapatıldı.",
-        "successMessage_other": "{{count}} oyuncu için görünmezlik kapatıldı.",
-        "failureTitle": "Görünmezlik Kapatılamadı"
-      },
-      "partialFailureTitle": "Görünmezlik Kısmen Güncellendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+        "successMessage_other": "{{count}} oyuncu için görünmezlik kapatıldı."
+      }
     },
     "voiceBan": {
       "apply": {
-        "successTitle": "Ses Yasağı Uygulandı",
         "successMessage_one": "{{username}} için ses yasağı uygulandı.",
-        "successMessage_other": "{{count}} oyuncu için ses yasağı uygulandı.",
-        "failureTitle": "Oyuncuya Ses Yasağı Uygulanamadı"
+        "successMessage_other": "{{count}} oyuncu için ses yasağı uygulandı."
       },
       "remove": {
-        "successTitle": "Ses Yasağı Kaldırıldı",
         "successMessage_one": "{{username}} kullanıcısının ses yasağı kaldırıldı.",
-        "successMessage_other": "{{count}} oyuncunun ses yasağı kaldırıldı.",
-        "failureTitle": "Ses Yasağı Kaldırılamadı"
-      },
-      "partialFailureTitle": "Ses Yasakları Kısmen Güncellendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+        "successMessage_other": "{{count}} oyuncunun ses yasağı kaldırıldı."
+      }
     },
     "accessLevel": {
-      "successTitle": "Rol Güncellendi",
       "successMessage_one": "{{username}} kullanıcısının rolü güncellendi.",
-      "successMessage_other": "{{count}} oyuncunun rolü güncellendi.",
-      "failureTitle": "Rol Ayarlanamadı",
-      "partialFailureTitle": "Roller Kısmen Güncellendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi güncellenemedi: {{error}}"
+      "successMessage_other": "{{count}} oyuncunun rolü güncellendi."
     },
     "setPassword": {
-      "successTitle": "Parola Değiştirildi",
       "successMessage_one": "{{username}} kullanıcısının parolası değiştirildi.",
-      "successMessage_other": "{{count}} oyuncunun parolası değiştirildi.",
-      "failureTitle": "Parola Değiştirilemedi",
-      "partialFailureTitle": "Parolalar Kısmen Değiştirildi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesinin parolası değiştirilemedi: {{error}}"
+      "successMessage_other": "{{count}} oyuncunun parolası değiştirildi."
     },
     "ban": {
-      "successTitle": "Oyuncu Yasaklandı",
       "successMessage_one": "{{username}} yasaklandı.",
-      "successMessage_other": "{{count}} oyuncu yasaklandı.",
-      "failureTitle": "Oyuncu Yasaklanamadı",
-      "partialFailureTitle": "Oyuncular Kısmen Yasaklandı",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi yasaklanamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncu yasaklandı."
     },
     "kick": {
-      "successTitle": "Oyuncu Atıldı",
       "successMessage_one": "{{username}} oyundan atıldı.",
-      "successMessage_other": "{{count}} oyuncu oyundan atıldı.",
-      "failureTitle": "Oyuncu Atılamadı",
-      "partialFailureTitle": "Oyuncular Kısmen Atıldı",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi atılamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncu oyundan atıldı."
     },
     "unban": {
-      "successTitle": "Oyuncunun Yasağı Kaldırıldı",
       "successMessage_one": "{{username}} kullanıcısının yasağı kaldırıldı.",
-      "successMessage_other": "{{count}} oyuncunun yasağı kaldırıldı.",
-      "failureTitle": "Oyuncunun Yasağı Kaldırılamadı",
-      "partialFailureTitle": "Oyuncuların Yasakları Kısmen Kaldırıldı",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesinin yasağı kaldırılamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncunun yasağı kaldırıldı."
     },
     "removeFromWhitelist": {
-      "successTitle": "Beyaz Listeden Kaldırıldı",
       "successMessage_one": "{{username}} beyaz listeden kaldırıldı.",
-      "successMessage_other": "{{count}} oyuncu beyaz listeden kaldırıldı.",
-      "failureTitle": "Beyaz Listeden Kaldırılamadı",
-      "partialFailureTitle": "Oyuncular Kısmen Kaldırıldı",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi kaldırılamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncu beyaz listeden kaldırıldı."
     },
     "teleport": {
-      "successTitle": "Oyuncu Işınlandı",
       "successMessage_one": "{{username}} ışınlandı.",
-      "successMessage_other": "{{count}} oyuncu ışınlandı.",
-      "failureTitle": "Oyuncu Işınlanamadı",
-      "partialFailureTitle": "Oyuncular Kısmen Işınlandı",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi ışınlanamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncu ışınlandı."
     },
     "createHorde": {
-      "successTitle": "Sürü Oluşturuldu",
       "successMessage_one": "{{username}} yakınında bir sürü oluşturuldu.",
-      "successMessage_other": "{{count}} oyuncunun yakınında sürüler oluşturuldu.",
-      "failureTitle": "Sürü Oluşturulamadı",
-      "partialFailureTitle": "Sürüler Kısmen Oluşturuldu",
-      "partialFailureMessage": "{{totalCount}} sürüden {{failedCount}} tanesi oluşturulamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncunun yakınında sürüler oluşturuldu."
     },
     "lightning": {
-      "successTitle": "Yıldırım Düşürüldü",
       "successMessage_one": "{{username}} üzerine yıldırım düşürüldü.",
-      "successMessage_other": "{{count}} oyuncu üzerine yıldırım düşürüldü.",
-      "failureTitle": "Yıldırım Düşürülemedi",
-      "partialFailureTitle": "Yıldırım Kısmen Düşürüldü",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi üzerine yıldırım düşürülemedi: {{error}}"
+      "successMessage_other": "{{count}} oyuncu üzerine yıldırım düşürüldü."
     },
     "thunder": {
-      "successTitle": "Gök Gürültüsü Tetiklendi",
       "successMessage_one": "{{username}} üzerinde gök gürültüsü tetiklendi.",
-      "successMessage_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklendi.",
-      "failureTitle": "Gök Gürültüsü Tetiklenemedi",
-      "partialFailureTitle": "Gök Gürültüsü Kısmen Tetiklendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesi üzerinde gök gürültüsü tetiklenemedi: {{error}}"
+      "successMessage_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklendi."
     },
     "spawnVehicle": {
-      "successTitle": "Araç Oluşturuldu",
       "successMessage_one": "{{username}} yakınında {{vehicle}} oluşturuldu.",
-      "successMessage_other": "{{count}} oyuncunun yakınında {{vehicle}} oluşturuldu.",
-      "failureTitle": "Araç Oluşturulamadı",
-      "partialFailureTitle": "Araç Kısmen Oluşturuldu",
-      "partialFailureMessage": "Araç {{totalCount}} oyuncudan {{failedCount}} tanesinin yakınında oluşturulamadı: {{error}}"
+      "successMessage_other": "{{count}} oyuncunun yakınında {{vehicle}} oluşturuldu."
     },
     "giveItems": {
-      "successTitle": "Eşyalar Verildi",
       "successMessage_one": "Eşyalar {{username}} kullanıcısına verildi.",
-      "successMessage_other": "Eşyalar {{count}} oyuncuya verildi.",
-      "failureTitle": "Eşyalar Verilemedi",
-      "partialFailureTitle": "Eşyalar Kısmen Verildi",
-      "partialFailureMessage": "Eşyalar {{totalCount}} oyuncudan {{failedCount}} tanesine verilemedi: {{error}}"
+      "successMessage_other": "Eşyalar {{count}} oyuncuya verildi."
     },
     "addXp": {
-      "successTitle": "XP Eklendi",
       "successMessage_one": "{{username}} kullanıcısına XP eklendi.",
-      "successMessage_other": "{{count}} oyuncuya XP eklendi.",
-      "failureTitle": "XP Eklenemedi",
-      "partialFailureTitle": "XP Kısmen Eklendi",
-      "partialFailureMessage": "{{totalCount}} oyuncudan {{failedCount}} tanesine XP eklenemedi: {{error}}"
+      "successMessage_other": "{{count}} oyuncuya XP eklendi."
+    },
+    "result": {
+      "successTitle": "İşlem Tamamlandı",
+      "failureTitle": "İşlem Başarısız",
+      "partialFailureTitle": "İşlem Kısmen Tamamlandı",
+      "failureMessage": "İşlem tamamlanamadı: {{error}}",
+      "partialFailureMessage": "İşlem {{totalCount}} oyuncudan {{succeededCount}} tanesi için tamamlandı; {{failedCount}} tanesi başarısız oldu: {{error}}"
     }
   }
 }

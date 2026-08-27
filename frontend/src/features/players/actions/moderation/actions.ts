@@ -14,10 +14,9 @@ export function setVoiceBanned(targets: Player[], banned: boolean) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetVoiceBanned(playerIds, banned),
-    partialFailurePath: "notifications.voiceBan",
-    resultPath: banned
-      ? "notifications.voiceBan.apply"
-      : "notifications.voiceBan.remove",
+    successKey: banned
+      ? "notifications.voiceBan.apply.successMessage"
+      : "notifications.voiceBan.remove.successMessage",
   });
 }
 
@@ -25,8 +24,7 @@ export function setAccessLevel(targets: Player[], accessLevel: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetAccessLevel(playerIds, accessLevel),
-    partialFailurePath: "notifications.accessLevel",
-    resultPath: "notifications.accessLevel",
+    successKey: "notifications.accessLevel.successMessage",
   });
 }
 
@@ -34,8 +32,7 @@ export function setPassword(targets: Player[], password: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetPassword(playerIds, password),
-    partialFailurePath: "notifications.setPassword",
-    resultPath: "notifications.setPassword",
+    successKey: "notifications.setPassword.successMessage",
   });
 }
 
@@ -43,8 +40,7 @@ export function ban(targets: Player[], reason: string, banIP: boolean) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Ban(playerIds, reason, banIP),
-    partialFailurePath: "notifications.ban",
-    resultPath: "notifications.ban",
+    successKey: "notifications.ban.successMessage",
   });
 }
 
@@ -52,8 +48,7 @@ export function kick(targets: Player[], reason: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Kick(playerIds, reason),
-    partialFailurePath: "notifications.kick",
-    resultPath: "notifications.kick",
+    successKey: "notifications.kick.successMessage",
   });
 }
 
@@ -61,8 +56,7 @@ export function unban(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Unban(playerIds),
-    partialFailurePath: "notifications.unban",
-    resultPath: "notifications.unban",
+    successKey: "notifications.unban.successMessage",
   });
 }
 
@@ -70,7 +64,6 @@ export function removeFromWhitelist(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => RemoveFromWhitelist(playerIds),
-    partialFailurePath: "notifications.removeFromWhitelist",
-    resultPath: "notifications.removeFromWhitelist",
+    successKey: "notifications.removeFromWhitelist.successMessage",
   });
 }

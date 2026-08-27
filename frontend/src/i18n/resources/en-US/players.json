@@ -208,182 +208,109 @@
   },
   "notifications": {
     "addServerUser": {
-      "successTitle": "Player Added",
-      "successMessage": "{{username}} was added to the server whitelist.",
-      "failureTitle": "Unable to Add Player"
+      "successMessage": "{{username}} was added to the server whitelist."
     },
     "addLocalPlayer": {
-      "successTitle": "Player Added",
-      "successMessage": "{{username}} was added to the player list.",
-      "failureTitle": "Unable to Add Player"
+      "successMessage": "{{username}} was added to the player list."
     },
     "godMode": {
       "enable": {
-        "successTitle": "God Mode Enabled",
         "successMessage_one": "God mode was enabled for {{username}}.",
-        "successMessage_other": "God mode was enabled for {{count}} players.",
-        "failureTitle": "Unable to Enable God Mode"
+        "successMessage_other": "God mode was enabled for {{count}} players."
       },
       "disable": {
-        "successTitle": "God Mode Disabled",
         "successMessage_one": "God mode was disabled for {{username}}.",
-        "successMessage_other": "God mode was disabled for {{count}} players.",
-        "failureTitle": "Unable to Disable God Mode"
-      },
-      "partialFailureTitle": "God Mode Partially Updated",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be updated: {{error}}"
+        "successMessage_other": "God mode was disabled for {{count}} players."
+      }
     },
     "noClip": {
       "enable": {
-        "successTitle": "No Clip Enabled",
         "successMessage_one": "No clip was enabled for {{username}}.",
-        "successMessage_other": "No clip was enabled for {{count}} players.",
-        "failureTitle": "Unable to Enable No Clip"
+        "successMessage_other": "No clip was enabled for {{count}} players."
       },
       "disable": {
-        "successTitle": "No Clip Disabled",
         "successMessage_one": "No clip was disabled for {{username}}.",
-        "successMessage_other": "No clip was disabled for {{count}} players.",
-        "failureTitle": "Unable to Disable No Clip"
-      },
-      "partialFailureTitle": "No Clip Partially Updated",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be updated: {{error}}"
+        "successMessage_other": "No clip was disabled for {{count}} players."
+      }
     },
     "invisible": {
       "enable": {
-        "successTitle": "Invisibility Enabled",
         "successMessage_one": "Invisibility was enabled for {{username}}.",
-        "successMessage_other": "Invisibility was enabled for {{count}} players.",
-        "failureTitle": "Unable to Enable Invisibility"
+        "successMessage_other": "Invisibility was enabled for {{count}} players."
       },
       "disable": {
-        "successTitle": "Invisibility Disabled",
         "successMessage_one": "Invisibility was disabled for {{username}}.",
-        "successMessage_other": "Invisibility was disabled for {{count}} players.",
-        "failureTitle": "Unable to Disable Invisibility"
-      },
-      "partialFailureTitle": "Invisibility Partially Updated",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be updated: {{error}}"
+        "successMessage_other": "Invisibility was disabled for {{count}} players."
+      }
     },
     "voiceBan": {
       "apply": {
-        "successTitle": "Voice Ban Applied",
         "successMessage_one": "{{username}}'s voice was banned.",
-        "successMessage_other": "Voice was banned for {{count}} players.",
-        "failureTitle": "Unable to Voice Ban Player"
+        "successMessage_other": "Voice was banned for {{count}} players."
       },
       "remove": {
-        "successTitle": "Voice Ban Removed",
         "successMessage_one": "{{username}}'s voice was unbanned.",
-        "successMessage_other": "Voice was unbanned for {{count}} players.",
-        "failureTitle": "Unable to Remove Voice Ban"
-      },
-      "partialFailureTitle": "Voice Bans Partially Updated",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be updated: {{error}}"
+        "successMessage_other": "Voice was unbanned for {{count}} players."
+      }
     },
     "accessLevel": {
-      "successTitle": "Role Updated",
       "successMessage_one": "{{username}}'s role was updated.",
-      "successMessage_other": "Roles were updated for {{count}} players.",
-      "failureTitle": "Unable to Set Role",
-      "partialFailureTitle": "Roles Partially Updated",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be updated: {{error}}"
+      "successMessage_other": "Roles were updated for {{count}} players."
     },
     "setPassword": {
-      "successTitle": "Password Changed",
       "successMessage_one": "{{username}}'s password was changed.",
-      "successMessage_other": "Passwords were changed for {{count}} players.",
-      "failureTitle": "Unable to Change Password",
-      "partialFailureTitle": "Passwords Partially Changed",
-      "partialFailureMessage": "Passwords could not be changed for {{failedCount}} of {{totalCount}} players: {{error}}"
+      "successMessage_other": "Passwords were changed for {{count}} players."
     },
     "ban": {
-      "successTitle": "Player Banned",
       "successMessage_one": "{{username}} was banned.",
-      "successMessage_other": "{{count}} players were banned.",
-      "failureTitle": "Unable to Ban Player",
-      "partialFailureTitle": "Players Partially Banned",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be banned: {{error}}"
+      "successMessage_other": "{{count}} players were banned."
     },
     "kick": {
-      "successTitle": "Player Kicked",
       "successMessage_one": "{{username}} was kicked.",
-      "successMessage_other": "{{count}} players were kicked.",
-      "failureTitle": "Unable to Kick Player",
-      "partialFailureTitle": "Players Partially Kicked",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be kicked: {{error}}"
+      "successMessage_other": "{{count}} players were kicked."
     },
     "unban": {
-      "successTitle": "Player Unbanned",
       "successMessage_one": "{{username}} was unbanned.",
-      "successMessage_other": "{{count}} players were unbanned.",
-      "failureTitle": "Unable to Unban Player",
-      "partialFailureTitle": "Players Partially Unbanned",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be unbanned: {{error}}"
+      "successMessage_other": "{{count}} players were unbanned."
     },
     "removeFromWhitelist": {
-      "successTitle": "Removed from Whitelist",
       "successMessage_one": "{{username}} was removed from the whitelist.",
-      "successMessage_other": "{{count}} players were removed from the whitelist.",
-      "failureTitle": "Unable to Remove from Whitelist",
-      "partialFailureTitle": "Players Partially Removed",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be removed: {{error}}"
+      "successMessage_other": "{{count}} players were removed from the whitelist."
     },
     "teleport": {
-      "successTitle": "Player Teleported",
       "successMessage_one": "{{username}} was teleported.",
-      "successMessage_other": "{{count}} players were teleported.",
-      "failureTitle": "Unable to Teleport Player",
-      "partialFailureTitle": "Players Partially Teleported",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} players could not be teleported: {{error}}"
+      "successMessage_other": "{{count}} players were teleported."
     },
     "createHorde": {
-      "successTitle": "Horde Created",
       "successMessage_one": "A horde was created near {{username}}.",
-      "successMessage_other": "Hordes were created near {{count}} players.",
-      "failureTitle": "Unable to Create Horde",
-      "partialFailureTitle": "Hordes Partially Created",
-      "partialFailureMessage": "{{failedCount}} of {{totalCount}} hordes could not be created: {{error}}"
+      "successMessage_other": "Hordes were created near {{count}} players."
     },
     "lightning": {
-      "successTitle": "Lightning Triggered",
       "successMessage_one": "Lightning was triggered on {{username}}.",
-      "successMessage_other": "Lightning was triggered on {{count}} players.",
-      "failureTitle": "Unable to Trigger Lightning",
-      "partialFailureTitle": "Lightning Partially Triggered",
-      "partialFailureMessage": "Lightning could not be triggered on {{failedCount}} of {{totalCount}} players: {{error}}"
+      "successMessage_other": "Lightning was triggered on {{count}} players."
     },
     "thunder": {
-      "successTitle": "Thunder Triggered",
       "successMessage_one": "Thunder was triggered on {{username}}.",
-      "successMessage_other": "Thunder was triggered on {{count}} players.",
-      "failureTitle": "Unable to Trigger Thunder",
-      "partialFailureTitle": "Thunder Partially Triggered",
-      "partialFailureMessage": "Thunder could not be triggered on {{failedCount}} of {{totalCount}} players: {{error}}"
+      "successMessage_other": "Thunder was triggered on {{count}} players."
     },
     "spawnVehicle": {
-      "successTitle": "Vehicle Spawned",
       "successMessage_one": "{{vehicle}} was spawned near {{username}}.",
-      "successMessage_other": "{{vehicle}} was spawned near {{count}} players.",
-      "failureTitle": "Unable to Spawn Vehicle",
-      "partialFailureTitle": "Vehicle Partially Spawned",
-      "partialFailureMessage": "The vehicle could not be spawned near {{failedCount}} of {{totalCount}} players: {{error}}"
+      "successMessage_other": "{{vehicle}} was spawned near {{count}} players."
     },
     "giveItems": {
-      "successTitle": "Items Given",
       "successMessage_one": "Items were given to {{username}}.",
-      "successMessage_other": "Items were given to {{count}} players.",
-      "failureTitle": "Unable to Give Items",
-      "partialFailureTitle": "Items Partially Given",
-      "partialFailureMessage": "Items could not be given to {{failedCount}} of {{totalCount}} players: {{error}}"
+      "successMessage_other": "Items were given to {{count}} players."
     },
     "addXp": {
-      "successTitle": "XP Added",
       "successMessage_one": "XP was added to {{username}}.",
-      "successMessage_other": "XP was added to {{count}} players.",
-      "failureTitle": "Unable to Add XP",
-      "partialFailureTitle": "XP Partially Added",
-      "partialFailureMessage": "XP could not be added to {{failedCount}} of {{totalCount}} players: {{error}}"
+      "successMessage_other": "XP was added to {{count}} players."
+    },
+    "result": {
+      "successTitle": "Action Completed",
+      "failureTitle": "Action Failed",
+      "partialFailureTitle": "Action Partially Completed",
+      "failureMessage": "The action could not be completed: {{error}}",
+      "partialFailureMessage": "The action succeeded for {{succeededCount}} of {{totalCount}} players. {{failedCount}} failed: {{error}}"
     }
   }
 }

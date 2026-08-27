@@ -1,27 +1,18 @@
 import { AddLocalUser, AddUser } from "@bindings/internal/player/service";
-import i18n from "@/i18n";
-import { runPlayerOperation } from "../runPlayerAction";
-
-const t = i18n.getFixedT(null, "players");
+import { executePlayerOperation } from "../actionNotifications";
 
 export function addServerUser(username: string, password: string) {
-  return runPlayerOperation({
+  return executePlayerOperation({
     execute: () => AddUser(username, password),
-    successTitle: t("notifications.addServerUser.successTitle"),
-    successMessage: t("notifications.addServerUser.successMessage", {
-      username,
-    }),
-    failureTitle: t("notifications.addServerUser.failureTitle"),
+    successKey: "notifications.addServerUser.successMessage",
+    successValues: { username },
   });
 }
 
 export function addLocalPlayer(username: string) {
-  return runPlayerOperation({
+  return executePlayerOperation({
     execute: () => AddLocalUser(username),
-    successTitle: t("notifications.addLocalPlayer.successTitle"),
-    successMessage: t("notifications.addLocalPlayer.successMessage", {
-      username,
-    }),
-    failureTitle: t("notifications.addLocalPlayer.failureTitle"),
+    successKey: "notifications.addLocalPlayer.successMessage",
+    successValues: { username },
   });
 }
