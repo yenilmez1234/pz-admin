@@ -139,12 +139,12 @@ function OptionsPageSkeleton() {
   );
 }
 
-export function OptionsPage() {
+export function OptionsPage({ active }: { active: boolean }) {
   const { t } = useTranslation("options");
   const { profile } = useSession();
   const build =
     profile && isGameBuild(profile.version) ? profile.version : latestGameBuild;
-  const editor = useOptionsEditor(optionCatalogs[build]);
+  const editor = useOptionsEditor(optionCatalogs[build], active);
   const search = useOptionsSearch(editor.categories);
   const [requestedCategory, setRequestedCategory] = useState("");
   const scrollerRef = useRef<HTMLDivElement>(null);

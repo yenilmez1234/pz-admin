@@ -83,7 +83,10 @@ function collectChanges(
   return changes;
 }
 
-export function useOptionsEditor(catalog: readonly OptionCategory[]) {
+export function useOptionsEditor(
+  catalog: readonly OptionCategory[],
+  active: boolean,
+) {
   const [categories, setCategories] = useState<OptionCategory[]>([]);
   const [loadError, setLoadError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
@@ -116,8 +119,8 @@ export function useOptionsEditor(catalog: readonly OptionCategory[]) {
   }, [catalog, clearErrors, resetDirty, setInitialValues, setValues]);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    if (active) void load();
+  }, [active, load]);
 
   async function save(): Promise<SaveOutcome | null> {
     if (

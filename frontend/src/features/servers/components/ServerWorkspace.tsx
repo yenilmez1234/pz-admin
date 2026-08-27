@@ -88,7 +88,9 @@ export function ServerWorkspace() {
         <PlayersPage />
       </SectionNavigationPanel>
       <SectionNavigationPanel page="options" scrollable={false}>
-        {navigation.isVisited("options") ? <OptionsPage /> : null}
+        {navigation.isVisited("options") ? (
+          <OptionsPage active={navigation.activePage === "options"} />
+        ) : null}
       </SectionNavigationPanel>
       <SectionNavigationPanel page="serverActions">
         {navigation.isVisited("serverActions") ? <ServerActionsPage /> : null}
