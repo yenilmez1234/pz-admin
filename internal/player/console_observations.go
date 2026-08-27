@@ -9,8 +9,9 @@ import (
 )
 
 type consoleObservationRule struct {
-	input     *regexp.Regexp
-	responses []consoleResponseRule
+	input       *regexp.Regexp
+	accessLevel bool
+	responses   []consoleResponseRule
 }
 
 type consoleResponseRule struct {
@@ -107,13 +108,14 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^setaccesslevel\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+(?:"[^"]+"|'[^']+'|\S+)$`),
+		input:       regexp.MustCompile(`(?i)^setaccesslevel\s+(?P<username>"[^"]+"|'[^']+'|\S+)\s+(?:"[^"]+"|'[^']+'|\S+)$`),
+		accessLevel: true,
 		responses: []consoleResponseRule{
 			{
 				output: regexp.MustCompile(`^User (?P<username>.+?) is now (?P<accessLevel>\S+)\.?$`),
 				observe: func(build, username string, captures map[string]string) Observation {
 					level := strings.TrimSuffix(captures["accessLevel"], ".")
-					observation := accessLevelObservation(build, level)
+					observation := accessLevelObservation(build, level, nil)
 					observation.Username = username
 					return observation
 				},
@@ -122,7 +124,7 @@ var consoleObservationRules = []consoleObservationRule{
 				build:  "41",
 				output: regexp.MustCompile(`^User (?P<username>.+?) no longer has access level\.?$`),
 				observe: func(build, username string, _ map[string]string) Observation {
-					observation := accessLevelObservation(build, "none")
+					observation := accessLevelObservation(build, "none", nil)
 					observation.Username = username
 					return observation
 				},
@@ -130,12 +132,13 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^grantadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
+		input:       regexp.MustCompile(`(?i)^grantadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
+		accessLevel: true,
 		responses: []consoleResponseRule{
 			{
 				output: regexp.MustCompile(`^User (?P<username>.+?) is now admin\.?$`),
 				observe: func(build, username string, _ map[string]string) Observation {
-					observation := accessLevelObservation(build, "admin")
+					observation := accessLevelObservation(build, "admin", nil)
 					observation.Username = username
 					return observation
 				},
@@ -143,13 +146,14 @@ var consoleObservationRules = []consoleObservationRule{
 		},
 	},
 	{
-		input: regexp.MustCompile(`(?i)^removeadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
+		input:       regexp.MustCompile(`(?i)^removeadmin\s+(?P<username>"[^"]+"|'[^']+'|\S+)$`),
+		accessLevel: true,
 		responses: []consoleResponseRule{
 			{
 				build:  "41",
 				output: regexp.MustCompile(`^User (?P<username>.+?) no longer has access level\.?$`),
 				observe: func(build, username string, _ map[string]string) Observation {
-					observation := accessLevelObservation(build, "none")
+					observation := accessLevelObservation(build, "none", nil)
 					observation.Username = username
 					return observation
 				},
@@ -202,6 +206,14 @@ func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string)
 				observation.NoClip = offline.NoClip
 				observation.VoiceBanned = offline.VoiceBanned
 			}
+			if rule.accessLevel {
+				player, err := s.storedPlayer(p.ID, username)
+				if err != nil {
+					return err
+				}
+				observation = accessLevelObservation(p.Version, observation.AccessLevel.value, player)
+				observation.Username = username
+			}
 			_, err := s.merge(p.ID, []Observation{observation}, time.Now().UTC())
 			return err
 		}
@@ -211,13 +223,22 @@ func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string)
 }
 
 func (s *Service) storedAccessLevel(profileID, username string) (*string, error) {
+	player, err := s.storedPlayer(profileID, username)
+	if err != nil || player == nil {
+		return nil, err
+	}
+	return player.AccessLevel, nil
+}
+
+func (s *Service) storedPlayer(profileID, username string) (*Player, error) {
 	players, err := s.List(profileID)
 	if err != nil {
 		return nil, err
 	}
-	for _, player := range players {
+	for index := range players {
+		player := &players[index]
 		if strings.EqualFold(player.Username, username) {
-			return player.AccessLevel, nil
+			return player, nil
 		}
 	}
 	return nil, nil

@@ -252,7 +252,7 @@ func (s *Service) SetAccessLevel(ctx context.Context, playerIDs []string, level 
 		if _, err := commands.SetAccessLevel(ctx, player.Username, level); err != nil {
 			return nil, err
 		}
-		observation := accessLevelObservation(p.Version, level)
+		observation := accessLevelObservation(p.Version, level, &player)
 		return &observation, nil
 	})
 }

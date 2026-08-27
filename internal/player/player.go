@@ -19,6 +19,12 @@ type Player struct {
 	LastKnownOfflineAt time.Time `json:"lastKnownOfflineAt"`
 }
 
+func (p *Player) isOnline() bool {
+	return p != nil &&
+		!p.LastSeenOnlineAt.IsZero() &&
+		(p.LastKnownOfflineAt.IsZero() || p.LastSeenOnlineAt.After(p.LastKnownOfflineAt))
+}
+
 type observationOperation uint8
 
 const (
