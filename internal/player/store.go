@@ -239,7 +239,7 @@ func mergeObservation(player *Player, observation Observation, observedAt time.T
 	if observation.Online.operation == setObservation {
 		if observation.Online.value {
 			player.LastSeenOnlineAt = observedAt
-		} else {
+		} else if player.LastKnownOfflineAt.IsZero() || player.LastSeenOnlineAt.After(player.LastKnownOfflineAt) {
 			player.LastKnownOfflineAt = observedAt
 		}
 	}

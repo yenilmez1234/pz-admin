@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 
@@ -160,6 +161,23 @@ func (s *Service) refresh(ctx context.Context, state session.State) {
 	if ctx.Err() != nil {
 		return
 	}
+	players, err := s.store.List(state.Profile.ID)
+	if err != nil {
+		slog.Warn("player refresh failed", "profile", state.Profile.ID, "err", err)
+		return
+	}
+	online := make(map[string]struct{}, len(observations))
+	for _, observation := range observations {
+		online[strings.ToLower(observation.Username)] = struct{}{}
+	}
+	for _, player := range players {
+		if _, found := online[strings.ToLower(player.Username)]; found {
+			continue
+		}
+		offline := offlineObservation()
+		offline.ID = player.ID
+		observations = append(observations, offline)
+	}
 	if _, err := s.merge(state.Profile.ID, observations, time.Now().UTC()); err != nil {
 		slog.Warn("player merge failed", "profile", state.Profile.ID, "err", err)
 	}
@@ -191,11 +209,9 @@ func observePlayers(ctx context.Context, state session.State) ([]Observation, er
 	}
 	observations := make([]Observation, 0, len(names))
 	for _, username := range names {
-		observations = append(observations, Observation{
-			Username: username,
-			Online:   Known(true),
-			Banned:   Known(false),
-		})
+		online := onlineObservation()
+		online.Username = username
+		observations = append(observations, online)
 	}
 	return observations, nil
 }

@@ -22,6 +22,13 @@ func offlineObservation() Observation {
 	return Observation{Online: Known(false)}
 }
 
+func onlineObservation() Observation {
+	return Observation{
+		Online: Known(true),
+		Banned: Known(false),
+	}
+}
+
 func bannedObservation(build string) Observation {
 	accessLevel := "banned"
 	if build == "41" {
