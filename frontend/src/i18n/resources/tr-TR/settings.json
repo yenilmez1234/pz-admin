@@ -16,7 +16,7 @@
     "system": "Sistem"
   },
   "language": {
-    "description": "Uygulama tarafından kullanılan dili seçin.",
+    "description": "Uygulama dilini seçin. Eksik çeviriler İngilizce gösterilir.",
     "label": "Görüntüleme Dili"
   }
 }

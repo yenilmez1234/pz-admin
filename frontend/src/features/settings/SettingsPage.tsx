@@ -1,5 +1,6 @@
 import {
   Alert,
+  Badge,
   Group,
   Radio,
   Select,
@@ -14,15 +15,34 @@ import {
   useAppConfig,
 } from "@/features/config/AppConfigProvider";
 import { defaultLanguage, isSupportedLanguage, locales } from "@/i18n/locales";
+import { interfaceTranslationCoverage } from "@/i18n/resources";
 
-const languageOptions = locales.map(({ code, nativeName }) => ({
-  value: code,
-  label: nativeName,
-}));
+const languageCoverage = new Map(
+  locales.map(({ code }) => [code, interfaceTranslationCoverage(code)]),
+);
+const preferredLanguageCoverage = 50;
+const languageOptions = [...locales]
+  .sort(
+    (left, right) =>
+      Number(
+        (languageCoverage.get(right.code) ?? 0) >= preferredLanguageCoverage,
+      ) -
+      Number(
+        (languageCoverage.get(left.code) ?? 0) >= preferredLanguageCoverage,
+      ),
+  )
+  .map(({ code, nativeName }) => ({
+    value: code,
+    label: nativeName,
+  }));
 
 export function SettingsPage() {
-  const { t } = useTranslation("settings");
+  const { i18n, t } = useTranslation("settings");
   const { config, error, loading, setLanguage, setTheme } = useAppConfig();
+  const percentFormatter = new Intl.NumberFormat(
+    i18n.resolvedLanguage ?? defaultLanguage,
+    { style: "percent" },
+  );
 
   function handleThemeChange(theme: string) {
     if (isThemeSetting(theme)) void setTheme(theme);
@@ -86,6 +106,17 @@ export function SettingsPage() {
               allowDeselect={false}
               autoComplete="off"
               name="language"
+              searchable
+              renderOption={({ option }) => (
+                <Group justify="space-between" wrap="nowrap" w="100%">
+                  <span>{option.label}</span>
+                  <Badge variant="default" fw={600} w={54} px="xs">
+                    {percentFormatter.format(
+                      (languageCoverage.get(option.value) ?? 0) / 100,
+                    )}
+                  </Badge>
+                </Group>
+              )}
               onChange={handleLanguageChange}
             />
           </Skeleton>

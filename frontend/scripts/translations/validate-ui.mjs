@@ -8,6 +8,9 @@ const defaultLanguage = "en-US";
 const localeNames = readJson(join(i18nRoot, "locales.json"));
 const namespaceManifest = readJson(join(i18nRoot, "namespaces.json"));
 const supportedLanguages = sortedStrings(Object.keys(localeNames));
+const generatedLanguages = sortedStrings(
+  new Set([...catalogLanguages("items"), ...catalogLanguages("skills")]),
+);
 const resourceLanguages = sortedStrings(
   readdirSync(resourcesRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
@@ -16,12 +19,14 @@ const resourceLanguages = sortedStrings(
 const errors = [];
 
 validateLocaleRegistry();
+validateOrdering("locale registry", Object.keys(localeNames));
 
 compareSets(
-  "locale registry and resource directories",
+  "locale registry and generated catalogs",
   supportedLanguages,
-  resourceLanguages,
+  generatedLanguages,
 );
+rejectUnknown("resource directories", supportedLanguages, resourceLanguages);
 
 const defaultNamespaces = sortedStrings(Object.keys(namespaceManifest));
 compareSets(
@@ -41,7 +46,7 @@ const defaultResources = new Map(
 
 for (const language of supportedLanguages) {
   const namespaces = namespaceFiles(language);
-  compareSets(`${language} namespaces`, defaultNamespaces, namespaces);
+  rejectUnknown(`${language} namespaces`, defaultNamespaces, namespaces);
 
   for (const namespace of defaultNamespaces) {
     if (!namespaces.includes(namespace)) continue;
@@ -51,7 +56,7 @@ for (const language of supportedLanguages) {
       readJson(resourceFile(language, namespace)),
       `${language}:${namespace}`,
     );
-    compareSets(
+    rejectUnknown(
       `${language}:${namespace} keys`,
       sortedStrings(expected.keys()),
       sortedStrings(actual.keys()),
@@ -100,6 +105,19 @@ function resourceFile(language, namespace) {
   return join(resourcesRoot, language, `${namespace}.json`);
 }
 
+function catalogLanguages(catalog) {
+  const root = join(frontendRoot, "src", "data", catalog, "locales");
+  if (!existsSync(root)) return [];
+
+  return readdirSync(root, { withFileTypes: true }).flatMap((build) =>
+    build.isDirectory()
+      ? readdirSync(join(root, build.name))
+          .filter((file) => file.endsWith(".json"))
+          .map((file) => file.slice(0, -5))
+      : [],
+  );
+}
+
 function flatten(value, context, prefix = "", entries = new Map()) {
   for (const [key, child] of Object.entries(value)) {
     const path = prefix ? `${prefix}.${key}` : key;
@@ -132,6 +150,18 @@ function validateLocaleRegistry() {
   }
 }
 
+function validateOrdering(context, values) {
+  const sorted = sortedStrings(values);
+  const firstMismatch = values.findIndex(
+    (value, index) => value !== sorted[index],
+  );
+  if (firstMismatch >= 0) {
+    errors.push(
+      `${context}: ${values[firstMismatch]} must appear after ${sorted[firstMismatch]}`,
+    );
+  }
+}
+
 function interpolationVariables(value) {
   const variables = new Set();
   const pattern = /{{\s*([^,}\s]+)(?:,[^}]*)?}}/g;
@@ -146,6 +176,13 @@ function compareSets(context, expected, actual) {
   const extra = actual.filter((value) => !expectedSet.has(value));
   if (missing.length > 0)
     errors.push(`${context}: missing ${missing.join(", ")}`);
+  if (extra.length > 0)
+    errors.push(`${context}: unexpected ${extra.join(", ")}`);
+}
+
+function rejectUnknown(context, expected, actual) {
+  const expectedSet = new Set(expected);
+  const extra = actual.filter((value) => !expectedSet.has(value));
   if (extra.length > 0)
     errors.push(`${context}: unexpected ${extra.join(", ")}`);
 }

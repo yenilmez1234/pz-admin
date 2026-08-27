@@ -38,6 +38,7 @@ function prepareCatalog(
       translatedItemCategoryName(build, language, rawCategory.id) ??
       rawCategory.name;
     const category: ItemCatalogCategory = {
+      id: rawCategory.id,
       itemCount: rawCategory.items.length,
       name: categoryName,
     };
@@ -46,6 +47,7 @@ function prepareCatalog(
       const item: ItemCatalogEntry = {
         build,
         category: categoryName,
+        categoryId: rawCategory.id,
         defaultName: rawItem.name,
         id: rawItem.id,
         images: rawItem.images,

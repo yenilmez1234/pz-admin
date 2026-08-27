@@ -25,7 +25,7 @@ export function GiveItemsModal({
 }: GiveItemsModalProps) {
   const { i18n, t } = useTranslation(["players", "common"]);
   const { t: itemT } = useTranslation("items");
-  const language = i18n.resolvedLanguage ?? i18n.language;
+  const language = i18n.language;
   const { catalog, error, loading, reload } = useItemCatalog(build, language);
   const selection = useItemSelection();
   const [browserRevision, setBrowserRevision] = useState(0);

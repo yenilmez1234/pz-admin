@@ -68,7 +68,7 @@ func TestServiceStartupCreatesDefaults(t *testing.T) {
 }
 
 func TestServiceStartupLoadsValidFile(t *testing.T) {
-	want := Config{Theme: ThemeDark, Language: LanguageTrTR}
+	want := Config{Theme: ThemeDark, Language: "tr-TR"}
 	raw, err := json.Marshal(want)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
@@ -125,8 +125,8 @@ func TestSettersSaveToDisk(t *testing.T) {
 			func(c Config) Config { c.Theme = ThemeDark; return c },
 		},
 		{
-			"SetLanguage", func(s *Service) error { return s.SetLanguage(LanguageTrTR) },
-			func(c Config) Config { c.Language = LanguageTrTR; return c },
+			"SetLanguage", func(s *Service) error { return s.SetLanguage("tr-TR") },
+			func(c Config) Config { c.Language = "tr-TR"; return c },
 		},
 	}
 	for _, test := range tests {
@@ -153,7 +153,6 @@ func TestSettersRejectInvalidValues(t *testing.T) {
 		wantSentinel error
 	}{
 		{"SetTheme", func(s *Service) error { return s.SetTheme("blue") }, ErrInvalidTheme},
-		{"SetLanguage", func(s *Service) error { return s.SetLanguage("xx-YY") }, ErrInvalidLanguage},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -197,7 +196,7 @@ func TestSetLanguageRollsBackOnWriteFailure(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err := svc.SetLanguage(LanguageTrTR); err == nil {
+	if err := svc.SetLanguage("tr-TR"); err == nil {
 		t.Fatal("SetLanguage: want error, got nil")
 	}
 	if got := svc.Config(); got != want {
@@ -268,7 +267,7 @@ func TestConcurrentUpdates(t *testing.T) {
 			if id%2 == 0 {
 				errs[id] = svc.SetTheme(ThemeDark)
 			} else {
-				errs[id] = svc.SetLanguage(LanguageTrTR)
+				errs[id] = svc.SetLanguage("tr-TR")
 			}
 		})
 	}
@@ -280,7 +279,7 @@ func TestConcurrentUpdates(t *testing.T) {
 	}
 
 	cfg := svc.Config()
-	want := Config{Theme: ThemeDark, Language: LanguageTrTR}
+	want := Config{Theme: ThemeDark, Language: "tr-TR"}
 	if cfg != want {
 		t.Errorf("Config() = %+v, want %+v", cfg, want)
 	}

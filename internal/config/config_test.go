@@ -14,9 +14,9 @@ func TestValidate(t *testing.T) {
 		wantMsgContains string
 	}{
 		{"valid defaults", defaults(), nil, ""},
-		{"valid non-defaults", Config{Theme: ThemeDark, Language: LanguageTrTR}, nil, ""},
-		{"invalid theme", Config{Theme: "blue", Language: LanguageEnUS}, ErrInvalidTheme, "blue"},
-		{"invalid language", Config{Theme: ThemeSystem, Language: "xx-YY"}, ErrInvalidLanguage, "xx-YY"},
+		{"valid non-defaults", Config{Theme: ThemeDark, Language: "tr-TR"}, nil, ""},
+		{"valid generated locale", Config{Theme: ThemeSystem, Language: "fr"}, nil, ""},
+		{"invalid theme", Config{Theme: "blue", Language: "en-US"}, ErrInvalidTheme, "blue"},
 		{"both fields invalid", Config{Theme: "blue", Language: "xx-YY"}, ErrInvalidTheme, "blue"},
 	}
 	for _, test := range tests {

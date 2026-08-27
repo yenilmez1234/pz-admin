@@ -53,7 +53,7 @@ function ItemEditorDialogContent({
   value,
 }: ItemEditorDialogContentProps) {
   const { i18n, t } = useTranslation(["items", "common"]);
-  const language = i18n.resolvedLanguage ?? i18n.language;
+  const language = i18n.language;
   const { catalog, error, loading, reload } = useItemCatalog(build, language);
   const selection = useItemSelection();
   const replaceSelection = selection.replace;

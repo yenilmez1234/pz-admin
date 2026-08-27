@@ -64,9 +64,10 @@ export function createCatalogTranslationLoader({
   ) {
     const languageTag = canonicalLanguage(language);
     const localized = resources.get(`${build}:${languageTag}`)?.[section][id];
-    if (localized !== undefined) return localized;
+    if (localized?.trim()) return localized;
 
-    return resources.get(`${build}:${defaultLanguage}`)?.[section][id] ?? null;
+    const fallback = resources.get(`${build}:${defaultLanguage}`)?.[section][id];
+    return fallback?.trim() ? fallback : null;
   }
 
   return { get, load };

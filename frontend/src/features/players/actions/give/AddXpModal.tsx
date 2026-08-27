@@ -34,7 +34,7 @@ export function AddXpModal({
 }: AddXpModalProps) {
   const { i18n, t } = useTranslation(["players", "common"]);
   const { t: skillT } = useTranslation("skills");
-  const language = i18n.resolvedLanguage ?? i18n.language;
+  const language = i18n.language;
   const { catalog, error, loading, reload } = useSkillCatalog(build, language);
   const selection = useSkillXpSelection();
   const [submitting, setSubmitting] = useState(false);

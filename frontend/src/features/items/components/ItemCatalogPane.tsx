@@ -49,14 +49,14 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
   const itemsByCategory = useMemo(() => {
     const groupedItems = new Map<string, ItemCatalogEntry[]>();
     for (const item of visibleItems) {
-      const items = groupedItems.get(item.category);
+      const items = groupedItems.get(item.categoryId);
       if (items) items.push(item);
-      else groupedItems.set(item.category, [item]);
+      else groupedItems.set(item.categoryId, [item]);
     }
     return groupedItems;
   }, [visibleItems]);
   const visibleCategories = categories.filter(
-    (category) => (itemsByCategory.get(category.name)?.length ?? 0) > 0,
+    (category) => (itemsByCategory.get(category.id)?.length ?? 0) > 0,
   );
 
   return (
@@ -125,10 +125,10 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
               value={expandedCategories}
             >
               {visibleCategories.map((category) => {
-                const items = itemsByCategory.get(category.name) ?? [];
-                const expanded = expandedCategories.includes(category.name);
+                const items = itemsByCategory.get(category.id) ?? [];
+                const expanded = expandedCategories.includes(category.id);
                 return (
-                  <Accordion.Item key={category.name} value={category.name}>
+                  <Accordion.Item key={category.id} value={category.id}>
                     <Accordion.Control>
                       <Group gap="xs" justify="space-between" wrap="nowrap">
                         <Text fw={500} lineClamp={1} size="sm">

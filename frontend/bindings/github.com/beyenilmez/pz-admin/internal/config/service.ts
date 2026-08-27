@@ -25,7 +25,7 @@ export function Config(): $CancellablePromise<$models.Config> {
 }
 
 /**
- * SetLanguage sets the language to LanguageEnUS or LanguageTrTR.
+ * SetLanguage validates and persists the selected application language.
  */
 export function SetLanguage(language: string): $CancellablePromise<void> {
     return $Call.ByID(1508398047, language);

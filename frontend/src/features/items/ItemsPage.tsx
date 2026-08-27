@@ -23,7 +23,7 @@ import { useItemSelection } from "@/features/items/hooks/useItemSelection";
 export function ItemsPage() {
   const { i18n, t } = useTranslation(["items", "common"]);
   const [build, setBuild] = useState<GameBuild>(latestGameBuild);
-  const language = i18n.resolvedLanguage ?? i18n.language;
+  const language = i18n.language;
   const { catalog, error, loading, reload } = useItemCatalog(build, language);
   const selection = useItemSelection();
 

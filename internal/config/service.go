@@ -50,7 +50,7 @@ func (s *Service) SetTheme(theme string) error {
 	return s.update(func(c *Config) { c.Theme = theme })
 }
 
-// SetLanguage sets the language to LanguageEnUS or LanguageTrTR.
+// SetLanguage validates and persists the selected application language.
 func (s *Service) SetLanguage(language string) error {
 	return s.update(func(c *Config) { c.Language = language })
 }

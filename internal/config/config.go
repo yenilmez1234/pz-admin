@@ -22,20 +22,11 @@ const (
 	ThemeLight  = "light"
 )
 
-// Language values.
-const (
-	LanguageEnUS = "en-US"
-	LanguageTrTR = "tr-TR"
-)
-
 var (
-	themeNames    = []string{ThemeSystem, ThemeDark, ThemeLight}
-	languageNames = []string{LanguageEnUS, LanguageTrTR}
+	themeNames = []string{ThemeSystem, ThemeDark, ThemeLight}
 
 	// ErrInvalidTheme identifies an unsupported theme value.
 	ErrInvalidTheme = errors.New("config: invalid theme")
-	// ErrInvalidLanguage identifies an unsupported language value.
-	ErrInvalidLanguage = errors.New("config: invalid language")
 )
 
 // defaults returns the baseline configuration used at startup and during
@@ -43,7 +34,7 @@ var (
 func defaults() Config {
 	return Config{
 		Theme:    ThemeSystem,
-		Language: LanguageEnUS,
+		Language: "en-US",
 	}
 }
 
@@ -53,10 +44,6 @@ func (c Config) Validate() error {
 	if !slices.Contains(themeNames, c.Theme) {
 		return fmt.Errorf("%w: %q must be one of [%s]",
 			ErrInvalidTheme, c.Theme, strings.Join(themeNames, ", "))
-	}
-	if !slices.Contains(languageNames, c.Language) {
-		return fmt.Errorf("%w: %q must be one of [%s]",
-			ErrInvalidLanguage, c.Language, strings.Join(languageNames, ", "))
 	}
 	return nil
 }

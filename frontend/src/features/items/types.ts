@@ -20,6 +20,7 @@ export interface RawItemCatalogEntry {
 export interface ItemCatalogEntry {
   build: GameBuild;
   category: string;
+  categoryId: string;
   defaultName: string;
   id: string;
   images: string[];
@@ -27,6 +28,7 @@ export interface ItemCatalogEntry {
 }
 
 export interface ItemCatalogCategory {
+  id: string;
   itemCount: number;
   name: string;
 }

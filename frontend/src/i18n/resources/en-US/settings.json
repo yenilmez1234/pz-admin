@@ -16,7 +16,7 @@
     "system": "System"
   },
   "language": {
-    "description": "Choose the language used by the application.",
+    "description": "Choose the application language. Missing translations are shown in English.",
     "label": "Display Language"
   }
 }

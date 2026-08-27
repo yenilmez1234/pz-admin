@@ -16,7 +16,11 @@ import {
 } from "@bindings/internal/config/service";
 import { errorMessage } from "@/shared/lib/errors";
 import i18n from "@/i18n";
-import { isSupportedLanguage, type SupportedLanguage } from "@/i18n/locales";
+import {
+  defaultLanguage,
+  isSupportedLanguage,
+  type SupportedLanguage,
+} from "@/i18n/locales";
 
 export type ThemeSetting = "system" | "dark" | "light";
 export type LanguageSetting = SupportedLanguage;
@@ -34,13 +38,15 @@ function appConfigFromBinding(config: {
   language: string;
   theme: string;
 }): AppConfig {
-  if (!isSupportedLanguage(config.language)) {
-    throw new Error(`Unsupported language: ${config.language}`);
-  }
   if (!isThemeSetting(config.theme)) {
     throw new Error(`Unsupported theme: ${config.theme}`);
   }
-  return { language: config.language, theme: config.theme };
+  return {
+    language: isSupportedLanguage(config.language)
+      ? config.language
+      : defaultLanguage,
+    theme: config.theme,
+  };
 }
 
 interface AppConfigContextValue {

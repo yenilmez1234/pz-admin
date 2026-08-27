@@ -6,6 +6,6 @@ export function isOnline(player: Player) {
   return lastSeen > lastKnownOffline;
 }
 
-export function playerTimestamp(value: string) {
-  return Date.parse(value);
+export function playerTimestamp(value: Date) {
+  return value.getTime();
 }

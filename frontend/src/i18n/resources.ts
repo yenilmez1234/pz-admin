@@ -57,3 +57,45 @@ export const resources = Object.entries(translationFiles).reduce<Resource>(
 // The default language is explicit so keys stay type-checked. Other locale
 // directories and their namespaces are registered automatically.
 resources[defaultLanguage] = defaultResources;
+
+export function interfaceTranslationCoverage(language: string) {
+  const languageResources = resources[language];
+  const coverage = countTranslatedStrings(defaultResources, languageResources);
+  return coverage.total === 0
+    ? 0
+    : Math.round((coverage.translated / coverage.total) * 100);
+}
+
+interface TranslationCount {
+  total: number;
+  translated: number;
+}
+
+function countTranslatedStrings(
+  reference: unknown,
+  translation: unknown,
+): TranslationCount {
+  if (typeof reference === "string") {
+    return {
+      total: 1,
+      translated: typeof translation === "string" ? 1 : 0,
+    };
+  }
+  if (!isRecord(reference)) return { total: 0, translated: 0 };
+
+  let total = 0;
+  let translated = 0;
+  for (const [key, value] of Object.entries(reference)) {
+    const child = countTranslatedStrings(
+      value,
+      isRecord(translation) ? translation[key] : undefined,
+    );
+    total += child.total;
+    translated += child.translated;
+  }
+  return { total, translated };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
