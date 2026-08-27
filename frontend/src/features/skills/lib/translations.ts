@@ -1,25 +1,18 @@
 import type { GameBuild } from "@/features/game/types";
 import {
-  createGeneratedTranslationLoader,
-  type GeneratedTranslationModules,
-} from "@/i18n/generatedTranslations";
+  createCatalogTranslationLoader,
+  type CatalogTranslationModules,
+  type CatalogTranslations,
+} from "@/features/game/lib/catalogTranslations";
 
-interface SkillTranslations {
-  categories: Record<string, string>;
-  skills: Record<string, string>;
-}
+const translationModules = import.meta.glob<{ default: CatalogTranslations }>(
+  "../../../data/skills/locales/*/*.json",
+) satisfies CatalogTranslationModules;
 
-type SkillTranslationSection = keyof SkillTranslations;
-
-const translationModules = import.meta.glob<{ default: SkillTranslations }>(
-  "../../../i18n/generated/skills/*/*.json",
-) satisfies GeneratedTranslationModules<SkillTranslations>;
-
-const translations = createGeneratedTranslationLoader({
+const translations = createCatalogTranslationLoader({
   moduleKey: (build: GameBuild, language: string) =>
-    `../../../i18n/generated/skills/${build}/${language}.json`,
+    `../../../data/skills/locales/${build}/${language}.json`,
   modules: translationModules,
-  namespace: (build: GameBuild) => `skills-${build}`,
 });
 
 export function loadSkillTranslations(build: GameBuild, language: string) {
@@ -29,11 +22,10 @@ export function loadSkillTranslations(build: GameBuild, language: string) {
 function translatedName(
   build: GameBuild,
   language: string,
-  section: SkillTranslationSection,
+  section: keyof CatalogTranslations,
   id: string,
 ) {
-  const key = `${section}.${id}`;
-  return translations.get(build, language, key);
+  return translations.get(build, language, section, id);
 }
 
 export function translatedSkillCategoryName(
@@ -49,5 +41,5 @@ export function translatedSkillName(
   language: string,
   skillId: string,
 ) {
-  return translatedName(build, language, "skills", skillId);
+  return translatedName(build, language, "names", skillId);
 }

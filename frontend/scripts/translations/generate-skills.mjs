@@ -99,9 +99,9 @@ async function main() {
   const outputDirectory = path.join(
     frontendRoot,
     "src",
-    "i18n",
-    "generated",
+    "data",
     "skills",
+    "locales",
     args.build,
   );
   await fs.mkdir(outputDirectory, { recursive: true });
@@ -140,7 +140,7 @@ async function main() {
     const formatted = await format(
       JSON.stringify({
         categories: categoryTranslations,
-        skills: skillTranslations,
+        names: skillTranslations,
       }),
       { parser: "json" },
     );

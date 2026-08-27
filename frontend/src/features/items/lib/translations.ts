@@ -1,24 +1,18 @@
 import type { GameBuild } from "@/features/game/types";
 import {
-  createGeneratedTranslationLoader,
-  type GeneratedTranslationModules,
-} from "@/i18n/generatedTranslations";
+  createCatalogTranslationLoader,
+  type CatalogTranslationModules,
+  type CatalogTranslations,
+} from "@/features/game/lib/catalogTranslations";
 
-interface ItemTranslations {
-  category: Record<string, string>;
-  item: Record<string, string>;
-}
+const translationModules = import.meta.glob<{ default: CatalogTranslations }>(
+  "../../../data/items/locales/*/*.json",
+) satisfies CatalogTranslationModules;
 
-type ItemTranslationSection = keyof ItemTranslations;
-const translationModules = import.meta.glob<{ default: ItemTranslations }>(
-  "../../../i18n/generated/items/*/*.json",
-) satisfies GeneratedTranslationModules<ItemTranslations>;
-
-const translations = createGeneratedTranslationLoader({
+const translations = createCatalogTranslationLoader({
   moduleKey: (build: GameBuild, language: string) =>
-    `../../../i18n/generated/items/${build}/${language}.json`,
+    `../../../data/items/locales/${build}/${language}.json`,
   modules: translationModules,
-  namespace: (build: GameBuild) => `items-${build}`,
 });
 
 export function loadItemTranslations(build: GameBuild, language: string) {
@@ -30,7 +24,7 @@ export function translatedItemName(
   language: string,
   itemId: string,
 ) {
-  return translatedName(build, language, "item", itemId);
+  return translatedName(build, language, "names", itemId);
 }
 
 export function translatedItemCategoryName(
@@ -38,14 +32,14 @@ export function translatedItemCategoryName(
   language: string,
   categoryId: string,
 ) {
-  return translatedName(build, language, "category", categoryId);
+  return translatedName(build, language, "categories", categoryId);
 }
 
 function translatedName(
   build: GameBuild,
   language: string,
-  section: ItemTranslationSection,
+  section: keyof CatalogTranslations,
   id: string,
 ) {
-  return translations.getRecordEntry(build, language, section, id);
+  return translations.get(build, language, section, id);
 }

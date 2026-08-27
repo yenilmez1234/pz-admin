@@ -116,9 +116,9 @@ async function main() {
   const outputDirectory = path.join(
     frontendRoot,
     "src",
-    "i18n",
-    "generated",
+    "data",
     "items",
+    "locales",
     args.build,
   );
   await fs.mkdir(outputDirectory, { recursive: true });
@@ -147,23 +147,23 @@ async function main() {
       .filter(([id]) => catalogIds.has(id))
       .map(([id, name]) => ({ id, name }));
     const disambiguatedNames = disambiguateItemNames(translatedEntries);
-    const item = Object.fromEntries(
+    const names = Object.fromEntries(
       translatedEntries.map(({ id }) => [id, disambiguatedNames.get(id)]),
     );
     const availableCategories = usesJsonTranslations
       ? await readJsonCategoryTranslations(languageDirectory)
       : await readLegacyCategoryTranslations(languageDirectory, gameLanguage);
-    const category = Object.fromEntries(
+    const categories = Object.fromEntries(
       Object.entries(availableCategories).filter(([id]) => categoryIds.has(id)),
     );
-    const translations = { category, item };
+    const translations = { categories, names };
     const outputPath = path.join(outputDirectory, `${languageTag}.json`);
     const formatted = await format(JSON.stringify(translations), {
       parser: "json",
     });
     await fs.writeFile(outputPath, formatted);
     console.log(
-      `${languageTag}: ${Object.keys(item).length}/${catalogIds.size} items, ${Object.keys(category).length} categories translated`,
+      `${languageTag}: ${Object.keys(names).length}/${catalogIds.size} items, ${Object.keys(categories).length} categories translated`,
     );
   }
 }
