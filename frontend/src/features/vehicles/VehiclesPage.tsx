@@ -9,7 +9,12 @@ import {
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { GameBuild } from "@/features/game/types";
+import {
+  gameBuilds,
+  isGameBuild,
+  latestGameBuild,
+  type GameBuild,
+} from "@/features/game/types";
 import { VehicleDetails } from "@/features/vehicles/components/details/VehicleDetails";
 import { VehicleExplorer } from "@/features/vehicles/components/explorer/VehicleExplorer";
 import { PageContainer } from "@/shared/layout/PageContainer";
@@ -18,7 +23,7 @@ import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 
 export function VehiclesPage() {
   const { t } = useTranslation(["vehicles", "common"]);
-  const [build, setBuild] = useState<GameBuild>("42");
+  const [build, setBuild] = useState<GameBuild>(latestGameBuild);
   const [selectedVehicle, setSelectedVehicle] =
     useState<VehicleCatalogEntry | null>(null);
   const { catalog, error, loading, reload } = useVehicleCatalog(build);
@@ -27,7 +32,7 @@ export function VehiclesPage() {
     : [];
 
   function handleBuildChange(nextBuild: string) {
-    if (nextBuild === "41" || nextBuild === "42") {
+    if (isGameBuild(nextBuild)) {
       setSelectedVehicle(null);
       setBuild(nextBuild);
     }
@@ -66,16 +71,10 @@ export function VehiclesPage() {
             <Title order={1}>{t("page.title")}</Title>
             <SegmentedControl
               aria-label={t("gameBuild.label", { ns: "common" })}
-              data={[
-                {
-                  label: t("gameBuild.options.41", { ns: "common" }),
-                  value: "41",
-                },
-                {
-                  label: t("gameBuild.options.42", { ns: "common" }),
-                  value: "42",
-                },
-              ]}
+              data={gameBuilds.map((value) => ({
+                label: t(`gameBuild.options.${value}`, { ns: "common" }),
+                value,
+              }))}
               onChange={handleBuildChange}
               value={build}
             />

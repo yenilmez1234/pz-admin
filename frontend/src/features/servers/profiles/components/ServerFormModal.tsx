@@ -15,6 +15,7 @@ import { isInRange, isNotEmpty, isOneOf, useForm } from "@mantine/form";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Profile } from "@bindings/internal/profile/models";
+import { gameBuilds } from "@/features/game/types";
 import { errorMessage } from "@/shared/lib/errors";
 import {
   initialServerForm,
@@ -47,7 +48,7 @@ export function ServerFormModal({
       host: isNotEmpty(t("form.validation.hostRequired")),
       port: isInRange({ min: 1, max: 65535 }, t("form.validation.portRange")),
       version: isOneOf(
-        ["auto", "41", "42"],
+        ["auto", ...gameBuilds],
         t("form.validation.buildRequired"),
       ),
       password: (value) =>
@@ -152,14 +153,13 @@ export function ServerFormModal({
                 value="auto"
                 label={t("gameBuild.options.auto", { ns: "common" })}
               />
-              <Radio
-                value="41"
-                label={t("gameBuild.options.41", { ns: "common" })}
-              />
-              <Radio
-                value="42"
-                label={t("gameBuild.options.42", { ns: "common" })}
-              />
+              {gameBuilds.map((build) => (
+                <Radio
+                  key={build}
+                  value={build}
+                  label={t(`gameBuild.options.${build}`, { ns: "common" })}
+                />
+              ))}
             </Group>
           </Radio.Group>
           <PasswordInput

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useSession } from "@/features/session/SessionProvider";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { errorMessage } from "@/shared/lib/errors";
-import { isGameBuild } from "@/features/game/types";
+import { isGameBuild, latestGameBuild } from "@/features/game/types";
 import { optionCatalogs } from "./catalog";
 import { OptionsNavigation } from "./components/OptionsNavigation";
 import { OptionsSection } from "./components/OptionsSection";
@@ -77,7 +77,7 @@ export function OptionsPage() {
   const { t } = useTranslation("options");
   const { profile } = useSession();
   const build =
-    profile && isGameBuild(profile.version) ? profile.version : "42";
+    profile && isGameBuild(profile.version) ? profile.version : latestGameBuild;
   const editor = useOptionsEditor(optionCatalogs[build]);
   const search = useOptionsSearch(editor.categories);
   const [requestedCategory, setRequestedCategory] = useState("");

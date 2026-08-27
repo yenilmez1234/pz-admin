@@ -9,7 +9,12 @@ import {
 import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { GameBuild } from "@/features/game/types";
+import {
+  gameBuilds,
+  isGameBuild,
+  latestGameBuild,
+  type GameBuild,
+} from "@/features/game/types";
 import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
 import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
 import { PageContainer } from "@/shared/layout/PageContainer";
@@ -17,11 +22,11 @@ import classes from "./MessageEditorPage.module.css";
 
 export function MessageEditorPage() {
   const { t } = useTranslation(["messages", "common"]);
-  const [build, setBuild] = useState<GameBuild>("42");
+  const [build, setBuild] = useState<GameBuild>(latestGameBuild);
   const [message, setMessage] = useState("");
 
   function handleBuildChange(nextBuild: string) {
-    if (nextBuild === "41" || nextBuild === "42") setBuild(nextBuild);
+    if (isGameBuild(nextBuild)) setBuild(nextBuild);
   }
 
   return (
@@ -36,16 +41,10 @@ export function MessageEditorPage() {
           <Title order={1}>{t("page.title")}</Title>
           <SegmentedControl
             aria-label={t("gameBuild.label", { ns: "common" })}
-            data={[
-              {
-                label: t("gameBuild.options.41", { ns: "common" }),
-                value: "41",
-              },
-              {
-                label: t("gameBuild.options.42", { ns: "common" }),
-                value: "42",
-              },
-            ]}
+            data={gameBuilds.map((value) => ({
+              label: t(`gameBuild.options.${value}`, { ns: "common" }),
+              value,
+            }))}
             onChange={handleBuildChange}
             value={build}
           />

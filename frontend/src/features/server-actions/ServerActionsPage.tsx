@@ -31,7 +31,7 @@ import {
 } from "@bindings/internal/serveraction/service";
 import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
 import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
-import { isGameBuild } from "@/features/game/types";
+import { isGameBuild, latestGameBuild } from "@/features/game/types";
 import { usePlayers } from "@/features/players/PlayersProvider";
 import { isOnline } from "@/features/players/status";
 import { useSession } from "@/features/session/SessionProvider";
@@ -87,7 +87,8 @@ export function ServerActionsPage() {
   const { t } = useTranslation(["serverActions", "common"]);
   const { players } = usePlayers();
   const { profile, supports } = useSession();
-  const build = profile && isGameBuild(profile.version) ? profile.version : "42";
+  const build =
+    profile && isGameBuild(profile.version) ? profile.version : latestGameBuild;
   const { pending, run } = useServerAction();
   const [dialog, setDialog] = useState<DialogName | null>(null);
   const [message, setMessage] = useState("");
