@@ -14,33 +14,33 @@ import (
 type ParamType string
 
 const (
-	TypeString ParamType = "string" // always quoted
-	TypeInt    ParamType = "int"    // appended as-is after the prefix
-	TypeChoice ParamType = "choice" // prefix+value, e.g. "-true"
-	TypeFlag   ParamType = "flag"   // prefix only, no value
+	TypeString ParamType = "string" // Always quoted.
+	TypeInt    ParamType = "int"    // Appended unchanged after the prefix.
+	TypeChoice ParamType = "choice" // Appended to the prefix, such as `-true`.
+	TypeFlag   ParamType = "flag"   // Emits only the prefix.
 )
 
 // Param describes one parameter of a command.
 type Param struct {
-	Name       string // "username", "reason", "count"
+	Name       string // Identifies the argument, such as `username`, `reason`, or `count`.
 	Type       ParamType
-	Prefix     string // for flags/choices, "" for positional
+	Prefix     string // Precedes flags and choices; an empty prefix is positional.
 	Required   bool
-	AllowEmpty bool // an explicitly provided empty string is still an argument
+	AllowEmpty bool // Treats an explicitly provided empty string as an argument.
 }
 
 // Definition is a version-constrained game RCON command.
 //
-// MinVersion and MaxVersion are required and both inclusive.
+// MinVersion and MaxVersion are required and inclusive.
 //
-// A definition with no Params is a no-argument command (like "save").
+// A definition with no Params represents a command without arguments, such as
+// `save`.
 //
 // Feature identifies application functionality provided by the command.
 // Commands without a dedicated application feature leave it empty.
 //
-// Parse receives the raw server response and the args that were used to
-// build the command. A nil Parse is equivalent to returning the raw
-// string as-is — the caller gets the response text with a nil error.
+// Parse receives the raw server response and the arguments used to build the
+// command. A nil Parse returns the raw response with a nil error.
 type Definition struct {
 	Name       string
 	Params     []Param
@@ -50,7 +50,7 @@ type Definition struct {
 	Parse      func(raw string, args map[string]string) (any, error)
 }
 
-// matchesVersion reports whether version falls within d's inclusive range.
+// matchesVersion reports whether version falls within the inclusive range.
 func (d Definition) matchesVersion(version string) bool {
 	if version < d.MinVersion {
 		return false
@@ -61,9 +61,9 @@ func (d Definition) matchesVersion(version string) bool {
 	return true
 }
 
-// Build constructs the RCON command string from the definition and args.
-// Required params must be present and non-empty. Optional params are
-// included only when their value is provided. A definition with no params
+// Build constructs an RCON command string from a definition and its arguments.
+// Required parameters must be present and non-empty. Optional parameters are
+// included only when their value is provided. A definition with no parameters
 // returns the bare command name.
 func Build(d Definition, args map[string]string) (string, error) {
 	if len(d.Params) == 0 {

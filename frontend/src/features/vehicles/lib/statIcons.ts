@@ -1,7 +1,7 @@
 import type { VehicleStats } from "../types";
 
-// Project Zomboid UI icons sourced from PZwiki's vehicle stat legend.
-// Game artwork is copyright The Indie Stone: https://pzwiki.net/wiki/Vehicle
+// The icons come from PZwiki's vehicle stat legend. The game artwork remains
+// copyright The Indie Stone: https://pzwiki.net/wiki/Vehicle
 export const vehicleStatIcons: Partial<Record<keyof VehicleStats, string>> = {
   animalSize: "/vehicles/stats/animal-size.png",
   doors: "/vehicles/stats/doors.png",

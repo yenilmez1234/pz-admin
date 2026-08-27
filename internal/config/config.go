@@ -1,4 +1,4 @@
-// Package config loads, validates, and persists the application user
+// Package config loads, validates, and persists the application's user
 // configuration (theme and language).
 package config
 
@@ -32,14 +32,14 @@ var (
 	themeNames    = []string{ThemeSystem, ThemeDark, ThemeLight}
 	languageNames = []string{LanguageEnUS, LanguageTrTR}
 
-	// Sentinel errors allow callers to distinguish validation failures
-	// from I/O errors using errors.Is.
-	ErrInvalidTheme    = errors.New("config: invalid theme")
+	// ErrInvalidTheme identifies an unsupported theme value.
+	ErrInvalidTheme = errors.New("config: invalid theme")
+	// ErrInvalidLanguage identifies an unsupported language value.
 	ErrInvalidLanguage = errors.New("config: invalid language")
 )
 
-// defaults is the baseline configuration used at startup
-// and whenever the config file must be recreated from scratch.
+// defaults returns the baseline configuration used at startup and during
+// recovery.
 func defaults() Config {
 	return Config{
 		Theme:    ThemeSystem,
@@ -47,9 +47,8 @@ func defaults() Config {
 	}
 }
 
-// Validate checks that all fields contain acceptable values.
-// Returns nil if the config is valid, or an error wrapping the
-// appropriate sentinel for the first problem found.
+// Validate checks that all fields contain supported values. It wraps the
+// appropriate sentinel error for the first invalid field.
 func (c Config) Validate() error {
 	if !slices.Contains(themeNames, c.Theme) {
 		return fmt.Errorf("%w: %q must be one of [%s]",

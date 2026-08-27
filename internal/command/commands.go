@@ -58,15 +58,13 @@ func matchesNumericXPResponse(raw, username, perk, amount string) bool {
 	return err == nil && gotAmount == wantAmount
 }
 
-// definitions is the canonical list of every command definition. Add new
-// definitions here to register them automatically.
+// definitions is the canonical command catalog. Entries are registered
+// automatically during package initialization.
 var definitions = []Definition{
 
-	// ---------------------------------------------------------------------------
-	// B41, B41+ Commands
-	// ---------------------------------------------------------------------------
+	// Build 41 and shared commands
 
-	// addItem is the command definition for giving items to a player.
+	// Gives items to a player.
 	// Count is optional and defaults to 1 when omitted.
 	//
 	// Usage: /additem "username" "module.item" [count]
@@ -90,8 +88,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// addUser is the command definition for creating a new user account on a
-	// whitelisted server.
+	// Creates a user account on a whitelisted server.
 	//
 	// Usage: /adduser "username" "password"
 	// Example: /adduser "rj" hunter2
@@ -112,8 +109,7 @@ var definitions = []Definition{
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 		},
 	},
-	// addVehicle spawns a vehicle. The target is either a username or
-	// "x,y,z" coordinates.
+	// Spawns a vehicle for a user or at `x,y,z` coordinates.
 	//
 	// Usage: /addvehicle "script" "user or x,y,z"
 	// Example: /addvehicle "Base.VanAmbulance" "rj"
@@ -134,8 +130,8 @@ var definitions = []Definition{
 		},
 	},
 
-	// addXP gives XP to a player. The perk argument is in "perkname=xp"
-	// format, e.g. "Woodwork=2".
+	// Gives XP to a player. The perk argument uses `perkname=xp` format, such as
+	// `Woodwork=2`.
 	//
 	// Usage: /addxp "playername" perkname=xp
 	// Example: /addxp "rj" Woodwork=2
@@ -161,7 +157,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// addToSafehouse invites a player to a safehouse.
+	// Invites a player to a safehouse.
 	//
 	// Usage: /addtosafehouse "safehouse" "username"
 	// Example: /addtosafehouse "Rosewood Base" "rj"
@@ -182,7 +178,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// banID bans a Steam ID.
+	// Bans a Steam ID.
 	//
 	// Usage: /banid SteamID
 	// Example: /banid 00000000000000000
@@ -202,7 +198,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// unbanID unbans a Steam ID.
+	// Unbans a Steam ID.
 	//
 	// Usage: /unbanid SteamID
 	// Example: /unbanid 00000000000000000
@@ -222,8 +218,8 @@ var definitions = []Definition{
 		},
 	},
 
-	// banUser bans a user. Add -ip to also ban the IP, -r "reason" to specify
-	// a reason.
+	// Bans a user. `-ip` also bans the IP address, and `-r "reason"` records a
+	// reason.
 	//
 	// Usage: /banuser "username" -ip -r "reason"
 	// Example: /banuser "rj" -ip -r "spawn kill"
@@ -246,7 +242,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// unbanUser unbans a player.
+	// Unbans a player.
 	//
 	// Usage: /unbanuser "username"
 	// Example: /unbanuser "rj"
@@ -267,7 +263,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// changeOption changes a server option.
+	// Changes a server option.
 	//
 	// Usage: /changeoption optionName "newValue"
 	// Example: /changeoption SleepAllowed false
@@ -290,7 +286,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// chopper places a helicopter event on a random player.
+	// Places a helicopter event on a random player.
 	//
 	// Usage: /chopper
 	{
@@ -306,8 +302,8 @@ var definitions = []Definition{
 		},
 	},
 
-	// createHorde spawns a horde near a player. Count is the number of
-	// zombies. Username is required from RCON.
+	// Spawns a horde near a player. RCON requires both the zombie count and the
+	// username.
 	//
 	// Usage: /createhorde count "username"
 	// Example: /createhorde 150 "rj"
@@ -328,7 +324,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// godMode makes a player invincible.
+	// Makes a player invincible.
 	//
 	// Usage: /godmode "username" -value
 	// Example: /godmode "rj" -true (or -false)
@@ -354,7 +350,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// gunshot places a gunshot sound on a random player.
+	// Places a gunshot sound on a random player.
 	//
 	// Usage: /gunshot
 	{
@@ -370,7 +366,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// kick kicks a user. Add -r "reason" to specify a reason.
+	// Kicks a user. `-r "reason"` records a reason.
 	//
 	// Usage: /kick "username" -r "reason"
 	// Example: /kick "rj" -r "spam"
@@ -392,7 +388,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// lightning strikes lightning on a player.
+	// Strikes a player with lightning.
 	//
 	// Usage: /lightning "username"
 	// Example: /lightning "rj"
@@ -412,7 +408,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// thunder strikes thunder on a player.
+	// Plays thunder on a player.
 	//
 	// Usage: /thunder "username"
 	// Example: /thunder "rj"
@@ -432,8 +428,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// players lists all connected players. Parse extracts player names from
-	// the response. Parse returns a slice of player names.
+	// Lists connected players and parses their names from the response.
 	//
 	// Usage: /players
 	{
@@ -457,7 +452,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// quit saves and quits the server.
+	// Saves and quits the server.
 	//
 	// Usage: /quit
 	{
@@ -473,7 +468,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// reloadLua reloads a loaded Lua file matching the supplied path suffix.
+	// Reloads a loaded Lua file matching the supplied path suffix.
 	//
 	// Usage: /reloadlua "file"
 	{
@@ -492,8 +487,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// reloadOptions reloads server options (ServerOptions.ini) and sends them
-	// to clients.
+	// Reloads server options from `ServerOptions.ini` and sends them to clients.
 	//
 	// Usage: /reloadoptions
 	{
@@ -509,7 +503,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// removeUserFromWhitelist removes a user from the whitelist.
+	// Removes a user from the whitelist.
 	//
 	// Usage: /removeuserfromwhitelist "username"
 	// Example: /removeuserfromwhitelist "rj"
@@ -530,7 +524,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// save saves the current world.
+	// Saves the current world.
 	//
 	// Usage: /save
 	{
@@ -546,7 +540,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// serverMsg broadcasts a message to all connected players.
+	// Broadcasts a message to all connected players.
 	//
 	// Usage: /servermsg "My Message"
 	{
@@ -565,8 +559,8 @@ var definitions = []Definition{
 		},
 	},
 
-	// setAccessLevel sets a player's access level. Valid levels: Admin,
-	// Moderator, Overseer, GM, Observer, none.
+	// Sets a player's access level. Valid levels are Admin, Moderator, Overseer,
+	// GM, Observer, and none.
 	//
 	// Usage: /setaccesslevel "username" "accesslevel"
 	// Example: /setaccesslevel "rj" "moderator"
@@ -589,8 +583,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// showOptions lists current server options and values. Parse returns
-	// a map[string]string.
+	// Lists current server options and parses their values into a string map.
 	//
 	// Usage: /showoptions
 	{
@@ -613,8 +606,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// startRain starts raining on the server. Intensity is optional, from
-	// 1 to 100.
+	// Starts rain on the server. Intensity is optional and ranges from 1 to 100.
 	//
 	// Usage: /startrain "intensity"
 	// Example: /startrain 100
@@ -634,7 +626,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// startStorm starts a storm on the server. Duration is optional, in game
+	// Starts a storm on the server. Duration is optional and measured in game
 	// hours.
 	//
 	// Usage: /startstorm "duration"
@@ -655,7 +647,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// stopRain stops rain on the server.
+	// Stops rain on the server.
 	//
 	// Usage: /stoprain
 	{
@@ -671,7 +663,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// stopWeather stops weather on the server.
+	// Stops weather on the server.
 	//
 	// Usage: /stopweather
 	{
@@ -687,8 +679,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// teleport teleports a player to another player. Both players are
-	// required from RCON.
+	// Teleports one player to another. RCON requires both players.
 	//
 	// Usage: /teleport "player1" "player2"
 	// Example: /teleport "rj" "steve"
@@ -710,7 +701,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// teleportTo teleports a player to coordinates.
+	// Teleports a player to coordinates.
 	//
 	// Usage: /teleportto "username" x,y,z
 	// Example: /teleportto "rj" 10000,11000,0
@@ -732,7 +723,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// voiceBan blocks or unblocks voice from a user.
+	// Blocks or unblocks voice from a user.
 	//
 	// Usage: /voiceban "username" -value
 	// Example: /voiceban "rj" -true (or -false)
@@ -758,11 +749,9 @@ var definitions = []Definition{
 		},
 	},
 
-	// ---------------------------------------------------------------------------
-	// B42 Commands
-	// ---------------------------------------------------------------------------
+	// Build 42 commands
 
-	// addSteamID adds a Steam ID to the server's allowed list.
+	// Adds a Steam ID to the server's allowed list.
 	//
 	// Usage: /addsteamid "steamid"
 	// Example: /addsteamid "76561198181797231"
@@ -782,7 +771,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// addUser creates a new account on a whitelisted server.
+	// Creates a user account on a whitelisted server.
 	//
 	// Usage: /adduser "username" "password"
 	// Example: /adduser "rj" hunter2
@@ -804,7 +793,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// addXP gives XP to a player. Build 42 formats integral XP amounts with a
+	// Gives XP to a player. Build 42 formats integral XP amounts with a
 	// decimal suffix in successful responses.
 	//
 	// Usage: /addxp "playername" perkname=xp
@@ -828,7 +817,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// banID bans a Steam ID. The ban system may include details for a connected
+	// Bans a Steam ID. The response may include details for a connected
 	// account inside the response's parentheses.
 	//
 	// Usage: /banid SteamID
@@ -850,7 +839,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// banIP bans an IPv4 address.
+	// Bans an IPv4 address.
 	//
 	// Usage: /banip IP
 	// Example: /banip 0.0.0.0
@@ -870,7 +859,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// unbanIP unbans an IPv4 address.
+	// Unbans an IPv4 address.
 	//
 	// Usage: /unbanip IP
 	// Example: /unbanip 0.0.0.0
@@ -890,8 +879,8 @@ var definitions = []Definition{
 		},
 	},
 
-	// banUser bans a user. Add -ip to also ban the IP, -r "reason" to specify
-	// a reason.
+	// Bans a user. `-ip` also bans the IP address, and `-r "reason"` records a
+	// reason.
 	//
 	// Usage: /banuser "username" -ip -r "reason"
 	// Example: /banuser "rj" -ip -r "spawn kill"
@@ -914,7 +903,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// unbanUser unbans a user.
+	// Unbans a user.
 	//
 	// Usage: /unbanuser "username"
 	// Example: /unbanuser "rj"
@@ -935,7 +924,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// godModePlayer makes a player invincible.
+	// Makes a player invincible.
 	//
 	// Usage: /godmodeplayer "username" -value
 	// Example: /godmodeplayer "rj" -true (or -false)
@@ -961,7 +950,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// invisiblePlayer makes a player invisible to zombies.
+	// Makes a player invisible to zombies.
 	//
 	// Usage: /invisibleplayer "username" -value
 	// Example: /invisibleplayer "rj" -true (or -false)
@@ -987,7 +976,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// kickFromSafehouse removes a player directly from a safehouse.
+	// Removes a player directly from a safehouse.
 	//
 	// Usage: /kickfromsafehouse "safehouse" "username"
 	// Example: /kickfromsafehouse "Rosewood Base" "rj"
@@ -1008,7 +997,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// noClip makes a player pass through walls and structures.
+	// Allows a player to pass through walls and structures.
 	//
 	// Usage: /noclip "username" -value
 	// Example: /noclip "rj" -true (or -false)
@@ -1034,7 +1023,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// releaseSafehouse releases the named safehouse.
+	// Releases the named safehouse.
 	//
 	// Usage: /releasesafehouse "safehouse"
 	// Example: /releasesafehouse "Rosewood Base"
@@ -1054,7 +1043,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// reloadAllLua reloads all loaded Lua files.
+	// Reloads all loaded Lua files.
 	//
 	// Usage: /reloadalllua
 	{
@@ -1070,7 +1059,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// removeMapSymbolsForUser removes all shared map symbols created by a user.
+	// Removes all shared map symbols created by a user.
 	//
 	// Usage: /removemapsymbolsforuser "username"
 	// Example: /removemapsymbolsforuser "rj"
@@ -1097,7 +1086,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// removeSteamID removes a Steam ID from the server's allowed list.
+	// Removes a Steam ID from the server's allowed list.
 	//
 	// Usage: /removesteamid "steamid"
 	// Example: /removesteamid "76561198181797231"
@@ -1117,7 +1106,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// setPassword changes a user's password. The server returns the new password
+	// Changes a user's password. The server returns the new password
 	// hash, which is never exposed by the typed wrapper.
 	//
 	// Usage: /setpassword "username" "newpassword"
@@ -1139,7 +1128,7 @@ var definitions = []Definition{
 		},
 	},
 
-	// teleportPlayer teleports a player to another player.
+	// Teleports one player to another.
 	//
 	// Usage: /teleportplayer "player1" "player2"
 	// Example: /teleportplayer "rj" "steve"

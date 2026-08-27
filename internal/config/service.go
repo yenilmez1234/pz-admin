@@ -20,9 +20,8 @@ const (
 	configBakExt   = ".bak"
 )
 
-// Service is the Wails v3 service for application configuration.
-// It loads config from disk on startup, provides typed setters
-// for the frontend, and saves atomically on every write.
+// Service is the Wails v3 service for application configuration. It loads the
+// configuration at startup and persists every update atomically.
 type Service struct {
 	mu  sync.RWMutex
 	cfg Config
@@ -46,19 +45,19 @@ func (s *Service) Config() Config {
 	return s.cfg
 }
 
-// SetTheme sets the theme. Accepted values: ThemeSystem, ThemeDark, ThemeLight.
+// SetTheme sets the theme to ThemeSystem, ThemeDark, or ThemeLight.
 func (s *Service) SetTheme(theme string) error {
 	return s.update(func(c *Config) { c.Theme = theme })
 }
 
-// SetLanguage sets the language. Accepted values: LanguageEnUS, LanguageTrTR.
+// SetLanguage sets the language to LanguageEnUS or LanguageTrTR.
 func (s *Service) SetLanguage(language string) error {
 	return s.update(func(c *Config) { c.Language = language })
 }
 
-// update validates a candidate config on a copy and, on success,
-// commits it to memory and persists to disk. If the disk write
-// fails the in-memory state is rolled back so Config() never lies.
+// update validates and persists a copy before committing it to memory. A
+// failed write restores the previous state so Config never reports unpersisted
+// data.
 func (s *Service) update(mutate func(*Config)) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -80,9 +79,8 @@ func (s *Service) update(mutate func(*Config)) error {
 	return nil
 }
 
-// ServiceStartup loads the config file, creating it with defaults when
-// missing. Corrupt JSON, invalid values, or unreadable files are backed
-// up (when possible) before the file is replaced with defaults.
+// ServiceStartup loads the configuration, creating it with defaults when it is
+// missing. It backs up corrupt or invalid data before replacing it.
 func (s *Service) ServiceStartup(ctx context.Context, options application.ServiceOptions) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -108,9 +106,8 @@ func (s *Service) ServiceStartup(ctx context.Context, options application.Servic
 	return nil
 }
 
-// recoverBadConfig backs up data and replaces the config file with
-// defaults. When data is nil there was no readable file to back up.
-// Backup failure is fatal — the original must be preserved.
+// recoverBadConfig backs up readable data and replaces the configuration with
+// defaults. A backup failure is fatal because the original must be preserved.
 func (s *Service) recoverBadConfig(data []byte, cause error, msg string) error {
 	path := filepath.Join(s.dir, configFileName)
 	bak := path + configBakExt
@@ -126,8 +123,8 @@ func (s *Service) recoverBadConfig(data []byte, cause error, msg string) error {
 	return s.save()
 }
 
-// resolveDir returns the application config directory. When s.dir is set
-// (e.g. in tests) it is used directly; otherwise the XDG config dir is used.
+// resolveDir returns the configured directory or the platform configuration
+// directory when no override is set.
 func (s *Service) resolveDir() string {
 	if s.dir != "" {
 		return s.dir
@@ -135,8 +132,7 @@ func (s *Service) resolveDir() string {
 	return appdata.ConfigDir()
 }
 
-// save writes the current config to disk atomically.
-// Caller must hold s.mu.
+// save writes the current configuration atomically. The caller must hold s.mu.
 func (s *Service) save() error {
 	data, err := json.MarshalIndent(s.cfg, "", "  ")
 	if err != nil {

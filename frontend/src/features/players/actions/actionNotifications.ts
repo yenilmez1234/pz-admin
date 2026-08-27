@@ -54,7 +54,6 @@ interface ExecutePlayerActionOptions {
   targets: Player[];
 }
 
-// All player action translations use this shared result shape.
 export function executePlayerAction({
   execute,
   partialFailurePath,

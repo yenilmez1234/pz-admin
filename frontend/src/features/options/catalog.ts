@@ -538,7 +538,7 @@ const antiCheatPolicyChoices: OptionChoice[] = [
 ];
 
 export const build42Options = {
-  // ------ Unchanged options from B41 ------
+  // Options unchanged from Build 41
   AdminSafehouse: { type: "boolean", defaultValue: false },
   AllowCoop: { type: "boolean", defaultValue: true },
   AllowDestructionBySledgehammer: { type: "boolean", defaultValue: true },
@@ -842,7 +842,7 @@ export const build42Options = {
   WorkshopItems: { type: "string", defaultValue: "" },
   server_browser_announced_ip: { type: "string", defaultValue: "" },
 
-  // ------ Modified options ------
+  // Options changed from Build 41
   DropOffWhiteListAfterDeath: {
     type: "boolean",
     defaultValue: false,
@@ -882,7 +882,7 @@ export const build42Options = {
   },
   SteamScoreboard: { type: "boolean", defaultValue: false },
 
-  // ------ Others ------
+  // Build 42-only options
   AnnounceAnimalDeath: { type: "boolean", defaultValue: false },
   AntiCheatChecksum: {
     type: "integer",
@@ -1103,7 +1103,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       sections: [
         {
           id: "identityAndListing",
-          // Text shown before and after joining, followed by listing visibility.
           options: b41([
             "PublicName",
             "PublicDescription",
@@ -1114,14 +1113,11 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "accessAndCapacity",
           options: b41([
-            // General access policy and concurrent capacity.
             "Open",
             "MaxPlayers",
-            // Account creation, limits, and lifecycle.
             "MaxAccountsPerUser",
             "AutoCreateUserInWhiteList",
             "DropOffWhiteListAfterDeath",
-            // Username compatibility and additional local players.
             "AllowNonAsciiUsername",
             "AllowCoop",
           ]),
@@ -1129,11 +1125,9 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "networkAndConnection",
           options: b41([
-            // Player traffic ports and automatic router configuration.
             "DefaultPort",
             "UDPPort",
             "UPnP",
-            // Optional advertised address for multi-address network setups.
             "server_browser_announced_ip",
           ]),
         },
@@ -1151,7 +1145,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         },
         {
           id: "modsAndWorkshop",
-          // Workshop content first, followed by the mod IDs loaded by the server.
           options: b41(["WorkshopItems", "Mods"]),
         },
         {
@@ -1210,7 +1203,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
           id: "world",
           options: b41([
             "Map",
-            // Fire and persistent world cleanup.
             "NoFire",
             "BloodSplatLifespanDays",
             "RemovePlayerCorpsesOnCorpseRemoval",
@@ -1224,13 +1216,10 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "lootAndConstruction",
           options: b41([
-            // Loot respawn interval and eligibility.
             "HoursForLootRespawn",
             "MaxItemsForLootRespawn",
             "ConstructionPreventsLootRespawn",
-            // Player storage limits.
             "ItemNumbersLimitPerContainer",
-            // Sledgehammer destruction policy.
             "AllowDestructionBySledgehammer",
             "SledgehammerOnlyInSafehouse",
           ]),
@@ -1238,13 +1227,11 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "pvpAndSafety",
           options: b41([
-            // Global PvP policy and the per-player safety system.
             "PVP",
             "SafetySystem",
             "ShowSafety",
             "SafetyToggleTimer",
             "SafetyCooldownTimer",
-            // PvP damage behavior.
             "PVPFirearmDamageModifier",
             "PVPMeleeDamageModifier",
             "PVPMeleeWhileHitReaction",
@@ -1258,16 +1245,13 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "safehouses",
           options: b41([
-            // Who can claim a safehouse and which buildings are eligible.
             "PlayerSafehouse",
             "AdminSafehouse",
             "SafehouseDaySurvivedToClaim",
             "SafehouseAllowNonResidential",
-            // Member-specific behavior and safehouse lifecycle.
             "SafehouseAllowRespawn",
             "SafeHouseRemovalTime",
             "DisableSafehouseWhenPlayerConnected",
-            // Protections governing non-members and environmental damage.
             "SafehouseAllowTrepass",
             "SafehouseAllowLoot",
             "SafehouseAllowFire",
@@ -1275,7 +1259,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         },
         {
           id: "factions",
-          // Feature availability first, followed by creation and tag requirements.
           options: b41([
             "Faction",
             "FactionDaySurvivedToCreate",
@@ -1285,17 +1268,14 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         {
           id: "chatAndVoice",
           options: b41([
-            // Available text-chat channels and server-wide notifications.
             "GlobalChat",
             "ChatStreams",
             "AnnounceDeath",
             "BanKickGlobalSound",
-            // Voice chat availability, positioning, and range.
             "VoiceEnable",
             "Voice3D",
             "VoiceMinDistance",
             "VoiceMaxDistance",
-            // Radio restrictions, from the broad override to narrower cases.
             "DisableRadioStaff",
             "DisableRadioAdmin",
             "DisableRadioModerator",
@@ -1311,7 +1291,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       sections: [
         {
           id: "savingAndBackups",
-          // World saving first, then backup triggers and retention.
           options: b41([
             "SaveWorldEveryMinutes",
             "BackupsOnStart",
@@ -1339,7 +1318,6 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         },
         {
           id: "antiCheat",
-          // Keep the game's numbered order and each configurable threshold together.
           options: b41([
             "AntiCheatProtectionType1",
             "AntiCheatProtectionType2",

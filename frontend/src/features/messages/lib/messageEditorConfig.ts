@@ -31,13 +31,13 @@ export const messageEditorExtensions = [
 ];
 
 export const messageColorSwatches = [
-  "#ffffff", // White
-  "#e64d00", // Orange
-  "#ffff00", // Yellow
-  "#00ff00", // Green
-  "#00ffff", // Cyan
+  "#ffffff",
+  "#e64d00",
+  "#ffff00",
+  "#00ff00",
+  "#00ffff",
   defaultGameMessageColor,
-  "#0000ff", // Blue
-  "#ff00ff", // Magenta
-  "#ff0000", // Red
+  "#0000ff",
+  "#ff00ff",
+  "#ff0000",
 ];

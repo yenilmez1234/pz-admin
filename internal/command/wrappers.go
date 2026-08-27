@@ -9,14 +9,13 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/connection"
 )
 
-// Client is a typed command runner. It bundles a command executor and game
-// version so callers don't repeat them on every call.
+// Client executes typed commands for a specific game version.
 type Client struct {
 	exec    connection.CommandExecutor
 	version string
 }
 
-// NewClient returns a Client ready to execute typed commands.
+// NewClient returns a Client that executes commands through exec for version.
 func NewClient(exec connection.CommandExecutor, version string) *Client {
 	return &Client{exec: exec, version: version}
 }
@@ -28,7 +27,7 @@ func (c *Client) Execute(ctx context.Context, input string) (string, error) {
 	return c.exec.ExecuteCommand(ctx, input)
 }
 
-// AddItem gives items to a player. Count is optional; 0 means omit.
+// AddItem gives items to a player. A count of zero omits the optional count.
 func (c *Client) AddItem(ctx context.Context, username, item string, count int) (string, error) {
 	args := map[string]string{"username": username, "item": item}
 	if count > 0 {
@@ -76,7 +75,7 @@ func (c *Client) AddUser(ctx context.Context, username, password string) (string
 	return res.(string), nil
 }
 
-// AddVehicle spawns a vehicle. Target is a username or "x,y,z" coordinates.
+// AddVehicle spawns a vehicle for a user or at `x,y,z` coordinates.
 func (c *Client) AddVehicle(ctx context.Context, script, target string) (string, error) {
 	res, err := Execute(ctx, c.exec, "addvehicle", c.version, map[string]string{
 		"script": script,
@@ -154,7 +153,7 @@ func validateIPv4(ip string) error {
 	return nil
 }
 
-// BanUser bans a user. banIP also bans the IP. reason is optional.
+// BanUser bans a user. banIP also bans the IP address, and reason is optional.
 func (c *Client) BanUser(ctx context.Context, username, reason string, banIP bool) (string, error) {
 	args := map[string]string{"username": username}
 	if banIP {
@@ -263,7 +262,7 @@ func (c *Client) Gunshot(ctx context.Context) (string, error) {
 	return res.(string), nil
 }
 
-// Kick kicks a user. reason is optional.
+// Kick kicks a user with an optional reason.
 func (c *Client) Kick(ctx context.Context, username, reason string) (string, error) {
 	args := map[string]string{"username": username}
 	if reason != "" {
@@ -310,7 +309,7 @@ func (c *Client) Thunder(ctx context.Context, username string) (string, error) {
 	return res.(string), nil
 }
 
-// Players lists all connected players. Returns their names.
+// Players returns the names of all connected players.
 func (c *Client) Players(ctx context.Context) ([]string, error) {
 	res, err := Execute(ctx, c.exec, "players", c.version, nil)
 	if err != nil {
@@ -361,7 +360,7 @@ func (c *Client) RemoveSteamID(ctx context.Context, steamid string) (string, err
 	return res.(string), nil
 }
 
-// ReloadOptions reloads server options from ServerOptions.ini.
+// ReloadOptions reloads server options from `ServerOptions.ini`.
 func (c *Client) ReloadOptions(ctx context.Context) (string, error) {
 	res, err := Execute(ctx, c.exec, "reloadoptions", c.version, nil)
 	if err != nil {
@@ -451,7 +450,7 @@ func (c *Client) ShowOptions(ctx context.Context) (map[string]string, error) {
 	return res.(map[string]string), nil
 }
 
-// StartRain starts rain. Intensity is optional; 0 means omit.
+// StartRain starts rain. An intensity of zero omits the optional intensity.
 func (c *Client) StartRain(ctx context.Context, intensity int) (string, error) {
 	args := map[string]string{}
 	if intensity > 0 {
@@ -464,7 +463,7 @@ func (c *Client) StartRain(ctx context.Context, intensity int) (string, error) {
 	return res.(string), nil
 }
 
-// StartStorm starts a storm. Duration is optional; 0 means omit.
+// StartStorm starts a storm. A duration of zero omits the optional duration.
 func (c *Client) StartStorm(ctx context.Context, duration int) (string, error) {
 	args := map[string]string{}
 	if duration > 0 {

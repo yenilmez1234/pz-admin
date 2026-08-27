@@ -47,7 +47,7 @@ export function useServerProfiles(language?: string) {
 
   async function saveProfile(profile: Profile, password: string) {
     setLoadError(null);
-    // Save errors are handled by the modal so it can remain open.
+    // The modal handles save errors so it can remain open.
     const savedProfile = await Save(profile, password);
     setProfiles((current) => {
       const index = current.findIndex((item) => item.id === savedProfile.id);
@@ -61,7 +61,7 @@ export function useServerProfiles(language?: string) {
 
   async function removeProfile(profile: Profile) {
     setLoadError(null);
-    // Delete errors are handled by the confirmation modal.
+    // The confirmation modal handles delete errors.
     await Delete(profile.id);
     setProfiles((current) => current.filter((item) => item.id !== profile.id));
   }

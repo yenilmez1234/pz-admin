@@ -28,7 +28,7 @@ func NewService(playerData playerDataStore) *Service {
 	return &Service{playerData: playerData}
 }
 
-// newService creates a service with an explicit config directory (for tests).
+// newService creates a service with an explicit configuration directory.
 func newService(dir string) *Service {
 	return &Service{dir: dir}
 }

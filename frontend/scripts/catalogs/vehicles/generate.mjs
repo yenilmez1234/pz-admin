@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// Regenerates src/data/vehicles/<build>.json from the hand-curated
-// public/vehicles/<build>/ folder tree.
+// Regenerates `src/data/vehicles/<build>.json` from the hand-curated
+// `public/vehicles/<build>` folder tree.
 //
 // Usage: pnpm generate:vehicles -- --build 41
 //
-// Folder tree:        {Category}/{Model}/{Variant}/{ScriptId}/image.webp
-// Single-variant:     {Category}/{Model}/{ScriptId}/image.webp  (flattened)
-// Each vehicle leaf (the script-id folder) may contain a hand-edited
-// stats.json: { "weight": "1030", "enginePower": "480", ... }
+// Folder tree: `{Category}/{Model}/{Variant}/{ScriptId}/image.webp`
+// Single variant: `{Category}/{Model}/{ScriptId}/image.webp` (flattened)
+// Each vehicle leaf, represented by the script ID folder, may contain a
+// hand-edited `stats.json`: `{ "weight": "1030", "enginePower": "480", ... }`.
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -26,8 +26,8 @@ function parseArgs(argv) {
   return args;
 }
 
-// rootDir is public/vehicles/<build>; every image path in the output is
-// relative to it, prefixed with the web path baseImagePath.
+// `rootDir` is `public/vehicles/<build>`. Every output image path is relative
+// to it and prefixed with the web path in `baseImagePath`.
 async function processDirectory(dirPath, type, baseImagePath, rootDir) {
   const entries = await fs.readdir(dirPath, { withFileTypes: true });
   const items = [];
@@ -40,8 +40,8 @@ async function processDirectory(dirPath, type, baseImagePath, rootDir) {
 
       if (type === "type") {
         const idEntries = await fs.readdir(fullPath, { withFileTypes: true });
-        // Variant folders contain the script-id folder; flattened models are
-        // the script-id folder themselves (only image files inside).
+        // Variant folders contain a script ID folder. Flattened models are the
+        // script ID folder and contain only image files.
         const idDir = idEntries.find((f) => f.isDirectory());
         if (idDir) {
           item.id = idDir.name;
@@ -75,7 +75,7 @@ async function processDirectory(dirPath, type, baseImagePath, rootDir) {
           rootDir,
         );
 
-        // Merge models with a single variant into a type node.
+        // Collapses models with a single variant into a type node.
         if (
           item.children &&
           item.children.length === 1 &&
@@ -95,7 +95,7 @@ async function processDirectory(dirPath, type, baseImagePath, rootDir) {
   return items;
 }
 
-// Single-image support only: each leaf carries exactly one image file.
+// Each leaf supports exactly one image file.
 async function listImages(dirPath, baseImagePath, rootDir) {
   const files = await fs.readdir(dirPath);
   return files
@@ -126,11 +126,10 @@ function countIds(nodes) {
   );
 }
 
-// Reads a leaf's hand-edited stats.json (in the script-id folder, next to
-// the images) and attaches it to the leaf node. Hand-edited string values
-// are normalized to typed values for the catalog: "True"/"False" become
-// booleans, numeric strings become numbers, and slash-separated capacities
-// such as "20 / 10" become their numeric total.
+// Reads a leaf's hand-edited `stats.json` from its script ID folder and attaches
+// it to the leaf node. String values are normalized for the catalog: `True` and
+// `False` become booleans, numeric strings become numbers, and slash-separated
+// capacities such as `20 / 10` become their numeric total.
 async function attachStats(leafItem, leafDir) {
   const statsFile = path.join(leafDir, "stats.json");
   try {

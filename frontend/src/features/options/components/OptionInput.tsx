@@ -93,7 +93,7 @@ export function OptionInput({
   }
 
   if (definition.type === "integer" || definition.type === "number") {
-    // Integer.MAX_VALUE is an implementation ceiling, not useful user guidance.
+    // `Integer.MAX_VALUE` is an implementation ceiling, not useful user guidance.
     const displayedMaximum =
       definition.maximum === 2_147_483_647 ? undefined : definition.maximum;
     return (

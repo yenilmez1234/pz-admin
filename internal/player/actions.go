@@ -122,7 +122,7 @@ func (s *Service) Teleport(ctx context.Context, playerIDs []string, targetPlayer
 	})
 }
 
-// TeleportToCoordinates moves each player to x,y,z coordinates.
+// TeleportToCoordinates moves each player to the given x, y, and z coordinates.
 func (s *Service) TeleportToCoordinates(ctx context.Context, playerIDs []string, coordinates string) (ActionResult, error) {
 	return s.runPlayerAction(ctx, playerIDs, "teleport to coordinates", func(commands *command.Client, player Player) (*Observation, error) {
 		_, err := commands.TeleportToCoordinates(ctx, player.Username, coordinates)
@@ -162,8 +162,8 @@ func (s *Service) Kick(ctx context.Context, playerIDs []string, reason string) (
 	})
 }
 
-// Ban bans each player by username. Reason is optional; banIP also bans each
-// player's current IP address.
+// Ban bans each player by username. The reason is optional. When banIP is true,
+// the command also bans each player's current IP address.
 func (s *Service) Ban(ctx context.Context, playerIDs []string, reason string, banIP bool) (ActionResult, error) {
 	p, err := s.currentProfile()
 	if err != nil {
@@ -193,7 +193,7 @@ func (s *Service) Unban(ctx context.Context, playerIDs []string) (ActionResult, 
 	})
 }
 
-// SetGodMode enables or disables god mode for each player.
+// SetGodMode enables or disables God Mode for each player.
 func (s *Service) SetGodMode(ctx context.Context, playerIDs []string, enabled bool) (ActionResult, error) {
 	return s.runPlayerAction(ctx, playerIDs, "set god mode", func(commands *command.Client, player Player) (*Observation, error) {
 		_, err := commands.SetGodMode(ctx, player.Username, enabled)
@@ -217,7 +217,7 @@ func (s *Service) SetInvisible(ctx context.Context, playerIDs []string, enabled 
 	})
 }
 
-// SetNoClip enables or disables no-clip mode for each player.
+// SetNoClip enables or disables No Clip for each player.
 func (s *Service) SetNoClip(ctx context.Context, playerIDs []string, enabled bool) (ActionResult, error) {
 	return s.runPlayerAction(ctx, playerIDs, "set no-clip", func(commands *command.Client, player Player) (*Observation, error) {
 		_, err := commands.SetNoClip(ctx, player.Username, enabled)
@@ -229,7 +229,7 @@ func (s *Service) SetNoClip(ctx context.Context, playerIDs []string, enabled boo
 	})
 }
 
-// SetVoiceBanned blocks or restores voice communication for each player.
+// SetVoiceBanned enables or disables the Voice Ban for each player.
 func (s *Service) SetVoiceBanned(ctx context.Context, playerIDs []string, banned bool) (ActionResult, error) {
 	return s.runPlayerAction(ctx, playerIDs, "set voice ban", func(commands *command.Client, player Player) (*Observation, error) {
 		if _, err := commands.VoiceBan(ctx, player.Username, banned); err != nil {

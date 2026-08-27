@@ -9,10 +9,6 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/feature"
 )
 
-// ---------------------------------------------------------------------------
-// Build
-// ---------------------------------------------------------------------------
-
 func TestBuildPositionalArgs(t *testing.T) {
 	d := Definition{
 		Name: "kick",
@@ -176,10 +172,6 @@ func TestBuildQuoting(t *testing.T) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-// Registry Lookup
-// ---------------------------------------------------------------------------
-
 func TestRegistryLookup(t *testing.T) {
 	r := &Registry{}
 	r.Register(Definition{Name: "save", MinVersion: "41", MaxVersion: "42"})
@@ -264,10 +256,6 @@ func TestRegistryRequiresVersionBounds(t *testing.T) {
 		})
 	}
 }
-
-// ---------------------------------------------------------------------------
-// Registry Execute
-// ---------------------------------------------------------------------------
 
 type stubExecutor struct {
 	response string

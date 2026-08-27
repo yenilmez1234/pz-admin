@@ -1,20 +1,18 @@
 #!/usr/bin/env node
-// Scrapes the Build 42 Project Zomboid Wiki and builds
-// the public/vehicles/42/ tree directly: folder structure, images, and
-// per-leaf stats.json files. Run `pnpm generate:vehicles -- --build 42`
-// afterwards to generate the catalog.
+// Scrapes the Build 42 Project Zomboid Wiki into `public/vehicles/42`, including
+// the folder structure, images, and per-leaf `stats.json` files. Run
+// `pnpm generate:vehicles -- --build 42` afterwards to generate the catalog.
 //
 // Usage: pnpm scrape:vehicles:42
 //
-// List page: https://pzwiki.net/wiki/Vehicle — a vehicles table and a
-// trailers table (both with a Vehicle ID column). Model pages (e.g.
-// /wiki/Chevalier_D6) carry the full stats in the infobox sidebar and a
-// variant table. Variant rows without a link are the base vehicle (stats and
-// image from the model page); linked rows point at variant pages with their
-// own sidebar stats and image. Rows whose Vehicle ID belongs to another list
-// page model are sibling models and are ignored. Variants without an
-// "Engine power" stat (burnt, wrecked) are skipped — but only when the model
-// itself has engine power, since trailers legitimately lack it.
+// The list page at https://pzwiki.net/wiki/Vehicle contains vehicle and trailer
+// tables with a `Vehicle ID` column. Model pages such as `/wiki/Chevalier_D6`
+// contain full statistics in an infobox and a variant table. Unlinked variant
+// rows represent the base vehicle and use the model page's statistics and image.
+// Linked rows use their variant page. Rows with a `Vehicle ID` belonging to
+// another listed model are sibling models and are ignored. Variants without an
+// `Engine power` statistic are skipped only when the model itself has engine
+// power, because trailers legitimately omit it.
 //
 // Requests go through curl because the wiki blocks Node's HTTP client on TLS
 // fingerprinting.
@@ -31,8 +29,8 @@ const WIKI = "https://pzwiki.net";
 const LIST_PAGE = `${WIKI}/wiki/Vehicle`;
 const USER_AGENT =
   "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0";
-// Infobox labels mapped to stats.json keys. Labels not listed here and not in
-// SKIP_LABELS are reported at the end.
+// Maps infobox labels to `stats.json` keys. Labels absent from this map and
+// `SKIP_LABELS` are reported at the end.
 const STAT_KEYS = {
   Weight: "weight",
   "Engine power": "enginePower",
@@ -114,7 +112,7 @@ const stripTags = (html) =>
     .replace(/\s+/g, " ")
     .trim();
 
-// Decodes percent-encoding from hrefs ("Greene%27s" -> "Greene's").
+// Decodes percent-encoding in links, such as `Greene%27s` to `Greene's`.
 const decodeUri = (value) => {
   try {
     return decodeURIComponent(value);
@@ -138,16 +136,17 @@ function rowCells(row) {
 
 const imgIn = (cellHtml) => cellHtml.match(/src="([^"]+)"/)?.[1] ?? null;
 
-// /w/images/thumb/7/74/File.png/200px-File.png -> /w/images/7/74/File.png
+// Converts thumbnail paths such as `/w/images/thumb/7/74/File.png/200px-File.png`
+// to their original image path, `/w/images/7/74/File.png`.
 const originalImageUrl = (thumbUrl) =>
   thumbUrl.replace(/\/thumb\//, "/").replace(/\/\d+px-[^/]+$/, "");
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// --- infobox parsing --------------------------------------------------------
+// Infobox parsing
 
-// All "infobox-item" divs on the page: {label, value} pairs from the sidebar.
-// Inner divs may carry attributes on some pages, so they're matched loosely.
+// Parses all `infobox-item` elements as `{ label, value }` sidebar pairs. Inner
+// elements carry attributes on some pages, so the matcher remains permissive.
 function parseInfobox(html) {
   const stats = {};
   const re =
@@ -167,7 +166,7 @@ function parseInfobox(html) {
   return stats;
 }
 
-// The infobox preview image, at original size.
+// Returns the infobox preview image at its original size.
 function parseInfoboxImage(html) {
   const at = html.indexOf('class="infobox-image"');
   if (at === -1) return null;
@@ -175,12 +174,12 @@ function parseInfoboxImage(html) {
   return img ? originalImageUrl(img[1]) : null;
 }
 
-// --- list / variant table parsing -------------------------------------------
+// List and variant table parsing
 
-// Rows of a table with a "Vehicle ID" header column:
-// {name, type, id, links, image}. The image comes from the row's own
-// thumbnail (cell 0) — per-variant images from the table survive page
-// redirects better than the linked pages' infoboxes.
+// Parses rows from a table with a `Vehicle ID` header into
+// `{ name, type, id, links, image }`. Images come from each row's thumbnail in
+// the first cell because table images survive redirects more reliably than the
+// linked pages' infobox images.
 function variantRows(html) {
   for (const rows of allTables(html)) {
     const header = rowCells(rows[0] ?? "").map((cell) => cell.text);
@@ -214,14 +213,14 @@ function stripModelSuffix(name, modelName) {
   return name;
 }
 
-// "(camo)" -> "Camo"
+// Converts parenthesized names such as `(camo)` to `Camo`.
 const stripOuterParens = (name) =>
   name.replace(/^\((.*)\)$/, (_, inner) =>
     inner.replace(/^./, (c) => c.toUpperCase()),
   );
 
-// "Chevalier Step Van (masonry)" -> "Masonry"; returns "" when the row name
-// doesn't follow the "<model> (<variant>)" form.
+// Extracts `Masonry` from `Chevalier Step Van (masonry)`, or returns an empty
+// string when the row does not follow the `<model> (<variant>)` form.
 function parenthesizedSuffix(name, modelName) {
   const rest = name.startsWith(modelName)
     ? name.slice(modelName.length).trim()
@@ -230,8 +229,8 @@ function parenthesizedSuffix(name, modelName) {
   return match ? match[1].replace(/^./, (c) => c.toUpperCase()) : "";
 }
 
-// Special cases where the wiki's short names lose information the b41 hand
-// tree kept (user, 2026-08-16). Keyed by script id.
+// Preserves information from the hand-curated Build 41 tree when the wiki's
+// short names omit it. Entries are keyed by script ID.
 const NAME_OVERRIDES = {
   "Base.CarTaxi": "Taxi (yellow)",
   "Base.CarTaxi2": "Taxi (green)",
@@ -247,11 +246,9 @@ function leafName(row, modelName, usedNames) {
   return deriveName(row, modelName, usedNames);
 }
 
-// Variant rows are often all named after the model (e.g. every Step Van
-// business variant is "Chevalier Step Van (masonry)"), so the folder name
-// derives from the parenthesized suffix, a name prefix ("Fire Department
-// Chevalier D6" -> "Fire Department"), the variant page title, or a numeric
-// collision suffix as last resort.
+// Variant rows often share the model name, so folder names derive from the
+// parenthesized suffix, a name prefix, the variant page title, or a numeric
+// collision suffix as a last resort.
 function deriveName(row, modelName, usedNames) {
   const stripped = stripModelSuffix(row.name, modelName).trim();
   const pageTitle = row.links[0]
@@ -275,7 +272,7 @@ function deriveName(row, modelName, usedNames) {
   return name;
 }
 
-// --- main -------------------------------------------------------------------
+// Scraping workflow
 
 async function main() {
   const listHtml = await fetchText(LIST_PAGE);
@@ -291,7 +288,7 @@ async function main() {
   }
   const [vehicleTable, trailerTable] = tables;
 
-  // Models: {name, type, id, link, category}
+  // Model records use `{ name, type, id, link, category }`.
   const models = [];
   for (const [rows, category] of [
     [vehicleTable, null],
@@ -375,7 +372,6 @@ async function main() {
     for (const row of rows) {
       if (row.type === "Burnt") continue; // Base.*Burnt rows
       if (row.links.length > 0 && row.links[0] !== modelUrl) {
-        // Variant page: fetch, check engine power, use its stats and image.
         let pageHtml;
         try {
           pageHtml = await getPage(row.links[0]);
@@ -396,14 +392,14 @@ async function main() {
           name: leafName(row, model.name, usedNames),
           id: row.id,
           stats,
-          // Table thumbnail first; the variant page's infobox is only a
-          // fallback (some variant pages redirect and lose their image).
+          // Prefer the table thumbnail because some variant pages redirect and
+          // lose their infobox image.
           image: row.image ?? parseInfoboxImage(pageHtml),
         });
       } else {
-        // Base vehicle: stats and image from the model page. The wiki gives
-        // the base variant no distinct name, so it's called "Normal" like the
-        // hand-curated b41 tree.
+        // Base vehicles use the model page's statistics and image. The wiki
+        // gives the base variant no distinct name, so it remains `Normal` to
+        // match the hand-curated Build 41 tree.
         let name = "Normal";
         if (usedNames.has(name)) {
           name = `Normal ${usedNames.size}`;
@@ -430,7 +426,7 @@ async function main() {
       sanitize(model.name),
     );
     for (const leaf of accepted) {
-      // Flatten single-variant models: {Category}/{Model}/{ScriptId}.
+      // Flattens single-variant models to `{Category}/{Model}/{ScriptId}`.
       const leafDir =
         accepted.length === 1
           ? path.join(modelDir, sanitize(leaf.id))

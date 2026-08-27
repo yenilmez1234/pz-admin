@@ -8,7 +8,7 @@ interface ItemIdThumbnailProps {
   size: number;
 }
 
-/** Loads the first generated image directly without loading the item catalog. */
+/** Resolves the first generated image without loading the item catalog. */
 export function ItemIdThumbnail({ build, itemId, size }: ItemIdThumbnailProps) {
   const [failed, setFailed] = useState(false);
 

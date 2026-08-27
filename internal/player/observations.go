@@ -20,8 +20,8 @@ func isB42RegularAccess(accessLevel string) bool {
 	}
 }
 
-// addedUserObservation uses false defaults for the common case of a genuinely
-// new player.
+// A newly created account starts with known disabled powers and no bans. Build
+// 41 and Build 42 use different names for the default access level.
 func addedUserObservation(build, username string) Observation {
 	if build == "41" {
 		return newPlayerObservation(username, "none")

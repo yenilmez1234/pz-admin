@@ -215,10 +215,8 @@ func TestStoreUnknownObservationsDoNotAbortTheBatch(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Unknown observations no longer abort the batch: Alice's update,
-	// Bob's provisional creation, and Charlie's direct creation with a
-	// stable ID are all recorded; the empty observation and the
-	// ID-only unknown are skipped.
+	// Unknown observations do not abort the batch. Record valid updates and
+	// creations while skipping observations that cannot identify a player.
 	banned := true
 	charlieID := uuid.NewString()
 	players, err := store.Merge(profileID, []Observation{
@@ -284,8 +282,8 @@ func TestStorePropagatesRenameOnIDMatch(t *testing.T) {
 		t.Fatalf("Username = %q, want %q", players[0].Username, "Alicia")
 	}
 
-	// A later username-only observation with the new name matches the
-	// same record instead of minting a duplicate.
+	// A later username-only observation matches the renamed record instead of
+	// creating a duplicate.
 	online := true
 	players, err = store.Merge(profileID, []Observation{{
 		Username: "Alicia",
@@ -317,8 +315,7 @@ func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
 	}
 	provisionalID := players[0].ID
 
-	// The first observation carrying the stable identity claims the
-	// provisional record by username.
+	// The first stable identity claims the provisional record by username.
 	stableID := uuid.NewString()
 	accessLevel := "admin"
 	players, err = store.Merge(profileID, []Observation{{
@@ -342,7 +339,7 @@ func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
 		t.Fatalf("Merge() AccessLevel = %#v, want %q", players[0].AccessLevel, accessLevel)
 	}
 
-	// Later observations by the stable ID match the same record.
+	// Later observations carrying the stable ID match the same record.
 	banned := true
 	players, err = store.Merge(profileID, []Observation{{
 		ID:     stableID,

@@ -8,6 +8,7 @@ import "slices"
 // ID identifies application functionality exposed to the user.
 type ID string
 
+// Feature identifiers.
 const (
 	ConsoleExecuteCommand ID = "console.command.execute"
 
@@ -49,21 +50,21 @@ const (
 // Set stores unique feature IDs.
 type Set map[ID]struct{}
 
-// NewSet creates a feature set containing ids.
+// NewSet creates a feature set containing the supplied IDs.
 func NewSet(ids ...ID) Set {
 	set := make(Set, len(ids))
 	set.Add(ids...)
 	return set
 }
 
-// Add inserts ids into the set.
+// Add inserts the supplied IDs into the set.
 func (s Set) Add(ids ...ID) {
 	for _, id := range ids {
 		s[id] = struct{}{}
 	}
 }
 
-// Has reports whether id belongs to the set.
+// Has reports whether the ID belongs to the set.
 func (s Set) Has(id ID) bool {
 	_, ok := s[id]
 	return ok

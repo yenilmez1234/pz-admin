@@ -19,7 +19,7 @@ interface MessageEditorDialogProps {
   value: string;
 }
 
-/** Edits a serialized game message without exposing its document model to callers. */
+// The editor keeps its document model behind the serialized game-message boundary.
 export function MessageEditorDialog({
   build,
   descriptionId,

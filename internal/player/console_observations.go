@@ -173,8 +173,8 @@ var consoleObservationRules = []consoleObservationRule{
 	},
 }
 
-// ObserveConsoleCommand records only player facts explicitly confirmed by a
-// recognized console response. Ambiguous and unsuccessful responses are ignored.
+// ObserveConsoleCommand records only player state confirmed by a recognized
+// console response. It ignores ambiguous and unsuccessful responses.
 //
 //wails:ignore
 func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string) error {

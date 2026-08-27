@@ -2,11 +2,10 @@ package command
 
 import "errors"
 
-// ErrUnknownCommand is returned when Lookup or Execute cannot find a
-// matching command for the given (name, version) pair.
+// ErrUnknownCommand indicates that Lookup or Execute found no command matching
+// the supplied name and version.
 var ErrUnknownCommand = errors.New("unknown command")
 
-// ErrCommandFailed is returned by a command's Parse function when the
-// server's response indicates the command did not succeed. Wrapped with
-// the server's response text via %w so callers can use errors.Is.
+// ErrCommandFailed indicates that a server response reports an unsuccessful
+// command. Parsers wrap it with the response text so callers can use errors.Is.
 var ErrCommandFailed = errors.New("command failed")

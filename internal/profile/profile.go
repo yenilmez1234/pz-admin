@@ -26,19 +26,18 @@ type Profile struct {
 
 const keyringService = "com.bedirhanyenilmez.pzadmin"
 
-// ErrNotFound is returned when a profile ID doesn't exist.
+// ErrNotFound is returned when a profile ID does not exist.
 var ErrNotFound = errors.New("profile: not found")
 
-// Store persists profiles to a JSON file and passwords to the OS keyring.
-// Safe for concurrent use.
+// Store persists profiles to a JSON file and passwords to the OS keyring. It is
+// safe for concurrent use.
 type Store struct {
 	mu sync.RWMutex
 	db *jsondb.DB[[]Profile]
 }
 
-// Open loads the profile store from the given path. If the file doesn't
-// exist, an empty store is created. Corrupt JSON is backed up and replaced
-// with an empty store.
+// Open loads the profile store from the given path. It creates an empty store
+// when the file does not exist and recovers corrupt JSON into a backup.
 func Open(path string) (*Store, error) {
 	db, err := jsondb.OpenRecovering(path, []Profile{})
 	if err != nil {
@@ -54,8 +53,8 @@ func (s *Store) List() []Profile {
 	return append([]Profile{}, *s.db.Data...)
 }
 
-// Save inserts or updates p. It generates an ID if one is missing
-// and validates required fields.
+// Save inserts or updates a profile after validating its required fields. It
+// generates an ID when one is missing.
 func (s *Store) Save(p Profile) (Profile, error) {
 	if p.Name == "" {
 		return Profile{}, errors.New("profile: name is required")
@@ -75,7 +74,7 @@ func (s *Store) Save(p Profile) (Profile, error) {
 	if p.ID == "" {
 		p.ID = uuid.NewString()
 	}
-	// Work on a copy so a disk failure doesn't leave memory diverged.
+	// A copy prevents a failed disk write from leaving memory out of sync.
 	updated := append([]Profile{}, *s.db.Data...)
 	for i, existing := range updated {
 		if existing.ID == p.ID {

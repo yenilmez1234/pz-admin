@@ -191,8 +191,7 @@ func TestSetLanguageRollsBackOnWriteFailure(t *testing.T) {
 		t.Fatalf("ReadFile: %v", err)
 	}
 
-	// Point dir at a file — MkdirAll will fail because a regular file
-	// already exists at that path.
+	// A regular file at the configured directory path forces MkdirAll to fail.
 	svc.dir = filepath.Join(t.TempDir(), "blocker")
 	if err := os.WriteFile(svc.dir, nil, 0o600); err != nil {
 		t.Fatal(err)
@@ -216,8 +215,7 @@ func TestSetLanguageRollsBackOnWriteFailure(t *testing.T) {
 
 func TestServiceStartupUnreadableFile(t *testing.T) {
 	dir := t.TempDir()
-	// Create a directory where the config file would be, so os.ReadFile
-	// fails (a dir is not a regular file).
+	// A directory at the configuration file path forces os.ReadFile to fail.
 	if err := os.MkdirAll(filepath.Join(dir, configFileName), 0o700); err != nil {
 		t.Fatalf("MkdirAll: %v", err)
 	}
@@ -228,7 +226,7 @@ func TestServiceStartupUnreadableFile(t *testing.T) {
 	if got := svc.Config(); got != want {
 		t.Errorf("Config() = %+v, want %+v", got, want)
 	}
-	// Unreadable file has no data to back up; no .bak should be created.
+	// An unreadable file provides no data to back up.
 	if _, err := os.Stat(configPath(svc) + configBakExt); !os.IsNotExist(err) {
 		t.Errorf("backup file created when it should not be: %v", err)
 	}

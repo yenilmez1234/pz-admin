@@ -50,7 +50,7 @@ export function queryVehicles(
     if (search && !catalog.searchIndex.get(vehicle.id)?.includes(search)) {
       continue;
     }
-    // The catalog records lightbars only when present; an omitted flag means no.
+    // The catalog records only present lightbars, so an omitted flag means false.
     const hasLightbar = vehicle.stats.lightbar === true;
     if (query.lightbar !== null && hasLightbar !== query.lightbar) {
       continue;

@@ -167,7 +167,7 @@ export function useVehicleExplorer(
     setSortDirection,
     sortDirection,
     sortField,
-    // Deferred query identity indicates that filtering is still catching up.
+    // A changed deferred query indicates that filtering is still catching up.
     updating: query !== deferredQuery,
     vehicles,
   };

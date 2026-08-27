@@ -68,11 +68,7 @@ interface DialogActionsProps {
   onClose: () => void;
 }
 
-function DialogActions({
-  busy,
-  children,
-  onClose,
-}: DialogActionsProps) {
+function DialogActions({ busy, children, onClose }: DialogActionsProps) {
   const { t } = useTranslation("common");
   return (
     <Group className={classes.dialogActions} gap="xs" justify="flex-end">

@@ -1,7 +1,5 @@
-// Package logger provides a two-sink application logger: human-readable
-// text to stderr at Debug level for development, and a rotating file log
-// at the configured level (default Info) under the XDG state directory
-// for bug reports.
+// Package logger configures human-readable development logs and rotating file
+// logs for bug reports.
 package logger
 
 import (
@@ -25,14 +23,12 @@ const (
 
 // Options configures the application logger.
 type Options struct {
-	// FileLevel is the minimum level written to the rotating file log.
-	// Stderr is fixed at Debug regardless of this value.
-	// Defaults to Info when nil.
+	// FileLevel is the minimum level written to the rotating file log. It
+	// defaults to Info when nil and does not affect stderr output.
 	FileLevel slog.Leveler
 }
 
-// Bundle holds the application logger together with its runtime
-// level control. Pass Bundle.Logger to application.Options.Logger.
+// Bundle holds the application logger and its runtime file-level control.
 type Bundle struct {
 	Logger   *slog.Logger
 	LevelVar *slog.LevelVar
@@ -42,17 +38,17 @@ type Bundle struct {
 
 // New creates the application logger.
 //
-// Two sinks are configured:
-//   - stderr: all levels, short text lines (for development)
-//   - rotating file under the XDG state directory (for bug reports)
+// New configures two sinks:
+//   - stderr receives short text lines at all levels.
+//   - a rotating file under the application state directory receives entries
+//     at the configured level.
 //
 // The returned LevelVar changes the file log level at runtime.
 func New(options Options) (*Bundle, error) {
 	return newLogger(os.Stderr, appdata.StateDir(), options)
 }
 
-// newLogger creates the logger with explicit sinks. stderr receives
-// all output (fixed at Debug); the rotating file lives under stateDir.
+// newLogger creates a logger with explicit stderr and state-directory sinks.
 func newLogger(stderr io.Writer, stateDir string, options Options) (*Bundle, error) {
 	if options.FileLevel == nil {
 		options.FileLevel = slog.LevelInfo
@@ -88,8 +84,8 @@ func newLogger(stderr io.Writer, stateDir string, options Options) (*Bundle, err
 	}, nil
 }
 
-// Close flushes and closes the rotating file log.
-// It is safe to call even if the file was never opened.
+// Close flushes and closes the rotating file log. It is safe to call when the
+// file was never opened.
 func (b *Bundle) Close() error {
 	if b.closer != nil {
 		return b.closer.Close()
@@ -97,8 +93,7 @@ func (b *Bundle) Close() error {
 	return nil
 }
 
-// handlerOpts returns HandlerOptions with source location and
-// filename-only path shortening.
+// handlerOpts enables source locations and shortens them to file names.
 func handlerOpts(level slog.Leveler) *slog.HandlerOptions {
 	return &slog.HandlerOptions{
 		Level:       level,
@@ -107,8 +102,8 @@ func handlerOpts(level slog.Leveler) *slog.HandlerOptions {
 	}
 }
 
-// shortSource keeps only the source file's base name in log output.
-// It allocates a new Source so handlers never share mutable state.
+// shortSource keeps only the source file's base name. It allocates a new Source
+// so handlers never share mutable state.
 func shortSource(_ []string, a slog.Attr) slog.Attr {
 	if a.Key != slog.SourceKey {
 		return a
@@ -123,8 +118,8 @@ func shortSource(_ []string, a slog.Attr) slog.Attr {
 	return a
 }
 
-// errorWriter surfaces the first write error from the underlying
-// writer to errw so file-sink failures are never completely silent.
+// errorWriter reports the first underlying write error through errw so file
+// sink failures are not silent.
 type errorWriter struct {
 	w     io.Writer
 	path  string

@@ -123,7 +123,7 @@ function ItemEditorDialogContent({
   );
 }
 
-/** Edits the game's repeated-ID item format without exposing it to callers. */
+/** Encapsulates the game's repeated-ID format behind a selection editor. */
 export function ItemEditorDialog({
   build,
   descriptionId,

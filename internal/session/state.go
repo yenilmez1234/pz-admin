@@ -22,7 +22,7 @@ type State struct {
 	CommandClient *command.Client
 }
 
-// NewState derives the command capabilities once for a session change.
+// NewState derives command capabilities once for the lifetime of a session.
 func NewState(p profile.Profile, channel connection.Channel) State {
 	state := State{
 		Snapshot: Snapshot{

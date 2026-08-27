@@ -26,8 +26,9 @@ type Service struct {
 	active State
 }
 
-// Observer receives initialized-session changes. A nil channel means the
-// session disconnected. Implementations must return quickly.
+// Observer receives active-session changes. A zero State represents a
+// disconnection. Implementations must return quickly because notifications are
+// delivered synchronously.
 type Observer interface {
 	SessionChanged(State)
 }
@@ -38,8 +39,7 @@ func NewService(profiles *profile.Service, observers ...Observer) *Service {
 	return &Service{profiles: profiles, observers: observers}
 }
 
-// ServiceStartup is a no-op: the connection is established later via
-// Connect, not at application startup.
+// ServiceStartup leaves the session disconnected until Connect is called.
 func (s *Service) ServiceStartup(ctx context.Context, options application.ServiceOptions) error {
 	return nil
 }
@@ -49,9 +49,9 @@ func (s *Service) ServiceShutdown() error {
 	return s.Disconnect()
 }
 
-// Connect looks up the profile and credentials, then opens its configured
-// channel. Connect holds the lock for the entire operation; the frontend shows
-// a spinner so no other methods are called concurrently.
+// Connect resolves the profile and credentials, then opens the configured
+// channel. It serializes the complete connection transition so no caller can
+// observe a partially initialized session.
 func (s *Service) Connect(ctx context.Context, profileID string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -86,7 +86,7 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 	return nil
 }
 
-// Disconnect closes the active channel. Idempotent.
+// Disconnect closes the active channel. It is safe to call while disconnected.
 func (s *Service) Disconnect() error {
 	s.mu.Lock()
 	if s.active.Channel == nil {

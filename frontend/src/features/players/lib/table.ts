@@ -47,9 +47,7 @@ export function filterAndSortPlayers(
   );
   filteredPlayers.sort((firstPlayer, secondPlayer) => {
     if (sorting.column === "accessLevel") {
-      const firstUnknown = !hasKnownAccessLevel(
-        playerAccessLevel(firstPlayer),
-      );
+      const firstUnknown = !hasKnownAccessLevel(playerAccessLevel(firstPlayer));
       const secondUnknown = !hasKnownAccessLevel(
         playerAccessLevel(secondPlayer),
       );

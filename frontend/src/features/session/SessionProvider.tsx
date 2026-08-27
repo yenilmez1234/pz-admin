@@ -106,10 +106,8 @@ export function SessionProvider({ children }: SessionProviderProps) {
       try {
         await Connect(nextProfile.id);
       } catch (connectionError) {
-        // Re-sync from the backend instead of painting "disconnected"
-        // locally: a failed Connect may leave a live session behind
-        // (e.g. "session: already connected"), and painting the UI
-        // without it desyncs the frontend from the backend.
+        // Resynchronize instead of assuming disconnection. A failed connection
+        // attempt may leave a live backend session, such as when one already exists.
         await synchronize();
         throw connectionError;
       }

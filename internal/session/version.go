@@ -13,8 +13,8 @@ var buildByBanIPResponse = map[string]string{
 	"Ban IP. Use /banip IP": "42",
 }
 
-// detectGameVersion uses an argument-less command that is harmless on both
-// supported builds: B41 does not recognize banip, while B42 prints its usage.
+// The argument-less banip command is harmless on both supported builds. Build
+// 41 does not recognize it, while Build 42 returns its usage text.
 func detectGameVersion(ctx context.Context, channel connection.Channel) (string, error) {
 	executor, ok := channel.(connection.CommandExecutor)
 	if !ok {

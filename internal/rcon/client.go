@@ -18,22 +18,21 @@ const defaultTimeout = 5 * time.Second
 
 // Config configures an RCON client connection.
 type Config struct {
-	// Addr is the server address in "host:port" form.
+	// Addr is the server address in `host:port` form.
 	Addr string
 
 	// Password is the RCON password.
 	Password string
 
 	// Timeout bounds connection, authentication, queueing, and command
-	// execution. Zero uses the default of 5s.
+	// execution. Zero uses the five-second default.
 	Timeout time.Duration
 
 	// OnDisconnect is called asynchronously after an unexpected transport
-	// failure. Explicitly closing the client does not call it. Optional.
+	// failure. Explicitly closing the client does not call it. It is optional.
 	OnDisconnect func()
 }
 
-// withDefaults fills in zero-valued options with their defaults.
 func (c Config) withDefaults() Config {
 	if c.Timeout <= 0 {
 		c.Timeout = defaultTimeout
@@ -41,8 +40,8 @@ func (c Config) withDefaults() Config {
 	return c
 }
 
-// Client is a managed RCON connection. Safe for concurrent use. A Client is
-// created via Connect and must be closed via Close to release resources.
+// Client is a managed RCON connection that is safe for concurrent use. Connect
+// creates a Client, and Close releases its resources.
 type Client struct {
 	conn         *source.Client
 	closed       atomic.Bool
@@ -54,15 +53,13 @@ var (
 	_ connection.CommandExecutor = (*Client)(nil)
 )
 
-// Connect dials the RCON server once; the caller controls retries
-// by calling Connect again. Authentication failures are permanent and
-// reported as source.ErrAuthentication (wrapped in "rcon: connect").
-// ctx bounds only the initial dial; the Client's lifetime is
-// independent of it. Use Close to shut the client down.
+// Connect dials the RCON server once; callers retry by calling Connect again.
+// Authentication failures wrap source.ErrAuthentication. The context bounds
+// only the initial dial and does not control the Client's lifetime.
 func Connect(ctx context.Context, config Config) (*Client, error) {
 	config = config.withDefaults()
-	// PZ returns one complete packet per command and can exceed Source's
-	// standard 4096-byte packet limit (B42's `help` packet is 4218 bytes).
+	// Project Zomboid returns one packet per command and can exceed Source's
+	// standard 4096-byte limit; Build 42's `help` packet is 4218 bytes.
 	conn, err := source.Dial(
 		ctx,
 		config.Addr,
@@ -83,14 +80,12 @@ func Connect(ctx context.Context, config Config) (*Client, error) {
 // client serializes concurrent commands. Any transport failure closes the
 // connection permanently; callers must create a new Client to connect again.
 //
-// Empty commands are rejected before any I/O. The round-trip is bounded by
-// Timeout; a timeout is reported as ErrCommandTimeout. Cancelling
-// ctx aborts a pending Execute, although the command may already have reached
-// the server.
+// Empty commands are rejected before I/O. Config.Timeout bounds the round trip,
+// and timeouts report connection.ErrCommandTimeout. Cancelling ctx aborts a
+// pending execution, although the command may already have reached the server.
 //
-// Cancelling ctx before the command is sent returns the context error
-// unwrapped (without the "rcon: execute:" prefix) so callers can
-// distinguish user cancellation from transport failures via errors.Is.
+// Cancelling ctx before transmission returns the unwrapped context error so
+// callers can distinguish cancellation from transport failures with errors.Is.
 func (c *Client) ExecuteCommand(ctx context.Context, cmd string) (string, error) {
 	if c.closed.Load() {
 		return "", fmt.Errorf("rcon: execute: %w", connection.ErrDisconnected)
@@ -99,7 +94,6 @@ func (c *Client) ExecuteCommand(ctx context.Context, cmd string) (string, error)
 		return "", err
 	}
 
-	// Reject invalid commands before touching the connection.
 	if cmd == "" {
 		return "", fmt.Errorf("rcon: execute: command is empty")
 	}

@@ -29,7 +29,6 @@ func openChannel(
 	}
 }
 
-// channelAddr formats a profile address for dialing, including IPv6 brackets.
 func channelAddr(p profile.Profile) string {
 	return net.JoinHostPort(p.Host, strconv.Itoa(p.Port))
 }

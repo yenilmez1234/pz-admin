@@ -18,10 +18,7 @@ export function ConsolePage() {
 
   async function handleExecute(command: string) {
     const commandParts = command.toLowerCase().split(/\s+/);
-    if (
-      commandParts.length === 1 &&
-      commandParts[0] === clearConsoleCommand
-    ) {
+    if (commandParts.length === 1 && commandParts[0] === clearConsoleCommand) {
       setEntries([]);
       return;
     }

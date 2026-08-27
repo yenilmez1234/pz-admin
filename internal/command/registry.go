@@ -8,37 +8,34 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/feature"
 )
 
-// Registry is a version-aware collection of command definitions.
-// The zero value is ready to use.
+// Registry is a version-aware collection of command definitions. Its zero
+// value is ready to use.
 type Registry struct {
 	defs []Definition
 }
 
-// Default is the global command registry. All commands registered via
-// Register are added to Default. Callers that need isolation (e.g.
-// tests) can create their own Registry.
+// Default is the global command registry. Register adds commands to Default;
+// callers that require isolation can create a separate Registry.
 var Default = &Registry{}
 
-// Register adds d to the global Default registry.
+// Register adds a definition to Default.
 func Register(d Definition) {
 	Default.Register(d)
 }
 
-// Lookup returns the first definition from the global registry whose
-// name and version range match.
+// Lookup returns the first definition in Default matching the name and version.
 func Lookup(name, version string) (Definition, bool) {
 	return Default.Lookup(name, version)
 }
 
-// Features returns the application features provided by commands available
-// for version.
+// Features returns the application features provided by commands available in
+// the specified version.
 func Features(version string) feature.Set {
 	return Default.Features(version)
 }
 
-// Execute runs the named command through the global registry: lookup,
-// build, send via exec, parse. It accepts the server's game version
-// so the registry can pick version-appropriate definitions.
+// Execute looks up, builds, sends, and parses a command through Default for the
+// specified game version.
 func Execute(ctx context.Context, exec connection.CommandExecutor, name, version string, args map[string]string) (any, error) {
 	return Default.Execute(ctx, exec, name, version, args)
 }
@@ -54,8 +51,8 @@ func (r *Registry) Register(d Definition) {
 	r.defs = append(r.defs, d)
 }
 
-// Lookup returns the first definition whose name and version
-// range match. The boolean is false when no definition matches.
+// Lookup returns the first definition matching the name and version. The
+// boolean is false when no definition matches.
 func (r *Registry) Lookup(name, version string) (Definition, bool) {
 	for _, d := range r.defs {
 		if d.Name == name && d.matchesVersion(version) {
@@ -66,7 +63,7 @@ func (r *Registry) Lookup(name, version string) (Definition, bool) {
 }
 
 // Features returns the unique application features provided by definitions
-// available for version.
+// available in the specified version.
 func (r *Registry) Features(version string) feature.Set {
 	features := feature.NewSet()
 	for _, d := range r.defs {
@@ -77,9 +74,8 @@ func (r *Registry) Features(version string) feature.Set {
 	return features
 }
 
-// Execute looks up the command, builds the RCON string from args,
-// sends it via exec, and parses the response. When the definition has
-// no Parse function the raw response is returned with a nil error.
+// Execute looks up the command, builds its RCON string, sends it, and parses the
+// response. A definition without a parser returns the raw response.
 func (r *Registry) Execute(ctx context.Context, exec connection.CommandExecutor, name, version string, args map[string]string) (any, error) {
 	if exec == nil {
 		return nil, fmt.Errorf("command: Execute: executor is nil")

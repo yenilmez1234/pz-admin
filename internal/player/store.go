@@ -47,11 +47,10 @@ func (s *Store) List(profileID string) ([]Player, error) {
 }
 
 // Merge records partial player observations at observedAt. Existing players
-// can be targeted by application ID; newly discovered players are matched by
-// username and given a provisional ID until a stable external identity is
-// available. A player first observed with an ID is recorded directly with
-// it. Unrecordable observations are skipped, so one stale observation does
-// not discard the rest of the batch.
+// can be targeted by application ID. Newly discovered players are matched by
+// username and receive a provisional ID until a stable external identity is
+// available. An observation that cannot identify a player is skipped without
+// discarding the rest of the batch.
 func (s *Store) Merge(profileID string, observations []Observation, observedAt time.Time) ([]Player, error) {
 	if err := validateProfileID(profileID); err != nil {
 		return nil, err
@@ -71,7 +70,6 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 	changed := false
 	for _, observation := range observations {
 		if observation.ID == "" && observation.Username == "" {
-			// Nothing to match or record.
 			slog.Debug("player: skipping observation without ID or username")
 			continue
 		}
@@ -83,9 +81,8 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 		if index == -1 && observation.Username != "" {
 			index = findByUsername(updated, observation.Username)
 			if index != -1 && observation.ID != "" {
-				// The record was created provisionally with a
-				// generated ID; adopt the stable identity now that
-				// the source reports it.
+				// A stable source identity replaces the provisional ID while
+				// preserving the existing player record.
 				updated[index].ID = observation.ID
 			}
 		}
@@ -98,13 +95,11 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 		}
 		if index == -1 {
 			if observation.Username == "" {
-				// An ID-only observation for an unknown player
-				// cannot be recorded; the only case that is skipped.
+				// An ID alone cannot create a usable player record because the
+				// username is required for subsequent server commands.
 				slog.Debug("player: skipping unknown observation", "id", observation.ID)
 				continue
 			}
-			// First sight: record the player, with the stable ID when
-			// the observation carries one.
 			updated = appendObservation(updated, observation, observedAt)
 			changed = true
 			continue
@@ -198,23 +193,20 @@ func validateProfileID(profileID string) error {
 	return nil
 }
 
-// findByID returns the index of the player with the given ID, or -1.
 func findByID(players []Player, id string) int {
 	return slices.IndexFunc(players, func(existing Player) bool {
 		return existing.ID == id
 	})
 }
 
-// findByUsername returns the index of the player with the given
-// username, or -1.
 func findByUsername(players []Player, username string) int {
 	return slices.IndexFunc(players, func(existing Player) bool {
 		return strings.EqualFold(existing.Username, username)
 	})
 }
 
-// appendObservation appends a new player built from the observation,
-// minting a provisional ID when the observation carries none.
+// A provisional ID keeps a newly observed player addressable until a stable
+// source identity becomes available.
 func appendObservation(players []Player, observation Observation, observedAt time.Time) []Player {
 	id := observation.ID
 	if id == "" {
@@ -230,9 +222,8 @@ func appendObservation(players []Player, observation Observation, observedAt tim
 }
 
 func mergeObservation(player *Player, observation Observation, observedAt time.Time) {
-	// A non-empty username reflects a rename: keep the record current
-	// so later username-only observations match it instead of minting
-	// a duplicate.
+	// Propagating a rename ensures that later username-only observations match
+	// this record instead of creating a duplicate.
 	if observation.Username != "" {
 		player.Username = observation.Username
 	}

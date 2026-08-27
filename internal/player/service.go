@@ -38,7 +38,6 @@ func NewService() *Service {
 	return &Service{}
 }
 
-// newService creates a service with an explicit application data directory.
 func newService(dir string) *Service {
 	return &Service{dir: dir}
 }
@@ -92,8 +91,8 @@ func (s *Service) List(profileID string) ([]Player, error) {
 	return s.store.List(profileID)
 }
 
-// Observe records one confirmed player observation from another backend
-// feature, such as the console.
+// Observe records player state confirmed by another backend feature, such as
+// the console.
 //
 //wails:ignore
 func (s *Service) Observe(profileID string, observation Observation) error {

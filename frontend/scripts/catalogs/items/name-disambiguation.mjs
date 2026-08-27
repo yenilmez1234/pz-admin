@@ -73,7 +73,7 @@ function formatSuffix(suffix) {
   return formatted.replace(/^\p{Ll}/u, (character) => character.toUpperCase());
 }
 
-/** Adds ID-derived suffixes only to related items that share a display name. */
+// Adds ID-derived suffixes only to related items that share a display name.
 export function disambiguateItemNames(entries) {
   const idsByName = new Map();
   for (const { id, name } of entries) {
