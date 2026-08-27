@@ -17,7 +17,7 @@ import (
 type Service struct {
 	observer CommandObserver
 
-	mu       sync.Mutex
+	mu     sync.Mutex
 	active session.State
 }
 

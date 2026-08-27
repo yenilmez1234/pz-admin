@@ -18,7 +18,7 @@ type Snapshot struct {
 // The zero value represents a disconnected session.
 type State struct {
 	Snapshot
-	Channel  connection.Channel
+	Channel       connection.Channel
 	CommandClient *command.Client
 }
 

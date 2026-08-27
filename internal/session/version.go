@@ -9,8 +9,8 @@ import (
 )
 
 var buildByBanIPResponse = map[string]string{
-	"Unknown command banip":      "41",
-	"Ban IP. Use /banip IP":      "42",
+	"Unknown command banip": "41",
+	"Ban IP. Use /banip IP": "42",
 }
 
 // detectGameVersion uses an argument-less command that is harmless on both

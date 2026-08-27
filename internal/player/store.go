@@ -252,7 +252,6 @@ func mergeObservation(player *Player, observation Observation, observedAt time.T
 	mergeKnown(&player.VoiceBanned, observation.VoiceBanned)
 }
 
-
 func mergeKnown[T any](current **T, observed ObservationValue[T]) {
 	switch observed.operation {
 	case setObservation:

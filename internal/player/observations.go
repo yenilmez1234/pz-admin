@@ -131,7 +131,6 @@ func accessLevelObservation(build, level string, player *Player) Observation {
 	return b42AccessLevelObservation(level, player)
 }
 
-
 func b41AccessLevelObservation(level string) Observation {
 	observation := Observation{AccessLevel: Known(level)}
 	if strings.EqualFold(level, "none") {

@@ -26,11 +26,11 @@ type Service struct {
 	store *Store
 	dir   string
 
-	mu            sync.Mutex
-	pollCancel    context.CancelFunc
-	pollWG        sync.WaitGroup
-	active        session.State
-	closed        bool
+	mu         sync.Mutex
+	pollCancel context.CancelFunc
+	pollWG     sync.WaitGroup
+	active     session.State
+	closed     bool
 }
 
 // NewService creates a player service ready to be registered with Wails.

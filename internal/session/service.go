@@ -22,8 +22,8 @@ type Service struct {
 	profiles  *profile.Service
 	observers []Observer
 
-	mu       sync.Mutex
-	active   State
+	mu     sync.Mutex
+	active State
 }
 
 // Observer receives initialized-session changes. A nil channel means the
