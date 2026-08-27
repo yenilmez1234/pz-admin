@@ -66,7 +66,9 @@ export function createCatalogTranslationLoader({
     const localized = resources.get(`${build}:${languageTag}`)?.[section][id];
     if (localized?.trim()) return localized;
 
-    const fallback = resources.get(`${build}:${defaultLanguage}`)?.[section][id];
+    const fallback = resources.get(`${build}:${defaultLanguage}`)?.[section][
+      id
+    ];
     return fallback?.trim() ? fallback : null;
   }
 

@@ -43,11 +43,14 @@ export interface VehicleHierarchyVariant {
 }
 
 export interface VehicleHierarchyModel {
+  defaultVariantId: string;
+  id: string;
   name: string;
   variants: VehicleHierarchyVariant[];
 }
 
 export interface VehicleHierarchyCategory {
+  id: string;
   models: VehicleHierarchyModel[];
   name: string;
 }

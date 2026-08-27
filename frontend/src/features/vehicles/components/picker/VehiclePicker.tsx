@@ -73,11 +73,13 @@ export function VehiclePicker({
 
   const cards = category
     ? category.models.map((categoryModel, index) => ({
+        id: categoryModel.id,
         images: modelImages(catalog, categoryModel).slice(0, 4),
         label: categoryModel.name,
         onClick: () => handleModelSelect(index),
       }))
     : catalog.hierarchy.map((catalogCategory, index) => ({
+        id: catalogCategory.id,
         images: categoryImages(catalog, catalogCategory).slice(0, 4),
         label: catalogCategory.name,
         onClick: () => {
@@ -162,7 +164,7 @@ export function VehiclePicker({
             {cards.map((card) => (
               <VehiclePickerCard
                 images={card.images}
-                key={card.label}
+                key={card.id}
                 label={card.label}
                 onClick={card.onClick}
               />

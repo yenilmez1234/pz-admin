@@ -14,12 +14,7 @@ export function defaultVehicle(
   catalog: VehicleCatalog,
   model: VehicleHierarchyModel,
 ): VehicleCatalogEntry | null {
-  const defaultVariant =
-    model.variants.find((variant) => variant.name === "Normal") ??
-    model.variants[0];
-  return defaultVariant
-    ? (catalog.vehiclesById.get(defaultVariant.id) ?? null)
-    : null;
+  return catalog.vehiclesById.get(model.defaultVariantId) ?? null;
 }
 
 export function modelImages(

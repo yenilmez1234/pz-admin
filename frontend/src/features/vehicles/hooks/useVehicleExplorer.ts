@@ -9,6 +9,7 @@ import {
 } from "../lib/stats";
 import type { VehicleCatalog } from "../types";
 import type { VehicleNumericStat, VehicleStatRange } from "../types";
+import { vehicleCategoryValue, vehicleModelValue } from "../lib/hierarchy";
 
 export type VehicleSortField = (typeof vehicleSortFields)[number];
 
@@ -36,10 +37,10 @@ function prepareHierarchy(catalog: VehicleCatalog | null): TreeNodeData[] {
   return catalog.hierarchy.map((category) => ({
     children: category.models.map((model) => ({
       label: model.name,
-      value: `model:${category.name}:${model.name}`,
+      value: vehicleModelValue(category.id, model.id),
     })),
     label: category.name,
-    value: `category:${category.name}`,
+    value: vehicleCategoryValue(category.id),
   }));
 }
 

@@ -1,4 +1,5 @@
 import { vehicleNumericStats } from "./lib/stats";
+import { vehicleCategoryValue, vehicleModelValue } from "./lib/hierarchy";
 import i18n from "@/i18n";
 import { canonicalLanguage, defaultLanguage } from "@/i18n/locales";
 import type { GameBuild } from "@/features/game/types";
@@ -66,6 +67,7 @@ function prepareCatalog(
   for (const category of catalog.categories) {
     const categoryName = translatedName(categoryNames, category.name);
     const preparedCategory: VehicleHierarchyCategory = {
+      id: category.name,
       models: [],
       name: categoryName,
     };
@@ -84,6 +86,8 @@ function prepareCatalog(
             variant: null,
           });
           preparedCategory.models.push({
+            defaultVariantId: model.id,
+            id: model.name,
             name: modelName,
             variants: [{ id: model.id, name: modelName }],
           });
@@ -110,7 +114,12 @@ function prepareCatalog(
         originalNamesByVehicleId.set(variant.id, [model.name, variant.name]);
       }
       if (variants.length > 0) {
-        preparedCategory.models.push({ name: modelName, variants });
+        preparedCategory.models.push({
+          defaultVariantId: variants[0].id,
+          id: model.name,
+          name: modelName,
+          variants,
+        });
       }
     }
 
@@ -121,12 +130,12 @@ function prepareCatalog(
         const modelVehicleIds = model.variants.map((variant) => variant.id);
         categoryVehicleIds.push(...modelVehicleIds);
         vehicleIdsByHierarchyNode.set(
-          `model:${preparedCategory.name}:${model.name}`,
+          vehicleModelValue(preparedCategory.id, model.id),
           modelVehicleIds,
         );
       }
       vehicleIdsByHierarchyNode.set(
-        `category:${preparedCategory.name}`,
+        vehicleCategoryValue(preparedCategory.id),
         categoryVehicleIds,
       );
     }
