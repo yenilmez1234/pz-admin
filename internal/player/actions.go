@@ -241,8 +241,7 @@ func (s *Service) SetVoiceBanned(ctx context.Context, playerIDs []string, banned
 	})
 }
 
-// SetAccessLevel changes the server access level of each player. Access-level
-// permissions are configurable, so no other player state is inferred.
+// SetAccessLevel changes the server access level of each player.
 func (s *Service) SetAccessLevel(ctx context.Context, playerIDs []string, level string) (ActionResult, error) {
 	p, err := s.currentProfile()
 	if err != nil {
