@@ -8,27 +8,9 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/feature"
 )
 
-// usernameEchoes returns the exact forms Project Zomboid may use when it
-// repeats a username in an RCON response. Some server responses replace each
-// non-ASCII UTF-8 byte with '?', while the command itself still succeeds.
-func usernameEchoes(username string) []string {
-	mangled := []byte(username)
-	changed := false
-	for i, b := range mangled {
-		if b > 0x7f {
-			mangled[i] = '?'
-			changed = true
-		}
-	}
-	if !changed {
-		return []string{username}
-	}
-	return []string{username, string(mangled)}
-}
-
 func optionValueMatches(requested, actual string) bool {
-  requested = strings.TrimSpace(requested)
-  actual = strings.TrimSpace(actual)
+	requested = strings.TrimSpace(requested)
+	actual = strings.TrimSpace(actual)
 
 	if requested == actual {
 		return true
@@ -59,35 +41,21 @@ func optionBoolean(value string) (bool, bool) {
 	}
 }
 
-func matchesUsernameResponse(raw, username string, response func(string) string) bool {
-	for _, echo := range usernameEchoes(username) {
-		if raw == response(echo) {
-			return true
-		}
-	}
-	return false
-}
-
 func matchesNumericXPResponse(raw, username, perk, amount string) bool {
 	wantAmount, err := strconv.ParseFloat(amount, 64)
 	if err != nil {
 		return false
 	}
-	for _, echo := range usernameEchoes(username) {
-		value, ok := strings.CutPrefix(raw, "Added ")
-		if !ok {
-			continue
-		}
-		value, ok = strings.CutSuffix(value, fmt.Sprintf(" %s xp's to %s", perk, echo))
-		if !ok {
-			continue
-		}
-		gotAmount, err := strconv.ParseFloat(value, 64)
-		if err == nil && gotAmount == wantAmount {
-			return true
-		}
+	value, ok := strings.CutPrefix(raw, "Added ")
+	if !ok {
+		return false
 	}
-	return false
+	value, ok = strings.CutSuffix(value, fmt.Sprintf(" %s xp's to %s", perk, username))
+	if !ok {
+		return false
+	}
+	gotAmount, err := strconv.ParseFloat(value, 64)
+	return err == nil && gotAmount == wantAmount
 }
 
 // definitions is the canonical list of every command definition. Add new
@@ -115,9 +83,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("Item %s Added in %s's inventory.", args["item"], username)
-			}) {
+			if raw == fmt.Sprintf("Item %s Added in %s's inventory.", args["item"], args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -140,10 +106,8 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			for _, username := range usernameEchoes(args["username"]) {
-				if strings.Contains(raw, fmt.Sprintf("User %s created with the password ", username)) {
-					return raw, nil
-				}
+			if strings.Contains(raw, fmt.Sprintf("User %s created with the password ", args["username"])) {
+				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 		},
@@ -190,9 +154,7 @@ var definitions = []Definition{
 				return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 			}
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("Added %s %s xp's to %s", amount, perk, username)
-			}) {
+			if raw == fmt.Sprintf("Added %s %s xp's to %s", amount, perk, args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -213,9 +175,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("Player %s invited to safehouse %s", username, args["safehouse"])
-			}) {
+			if raw == fmt.Sprintf("Player %s invited to safehouse %s", args["username"], args["safehouse"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -279,9 +239,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s is now banned", username)
-			}) {
+			if raw == fmt.Sprintf("User %s is now banned", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -302,9 +260,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s is now un-banned", username)
-			}) {
+			if raw == fmt.Sprintf("User %s is now un-banned", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -387,12 +343,11 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				if args["state"] == "true" {
-					return fmt.Sprintf("User %s is now invincible.", username)
-				}
-				return fmt.Sprintf("User %s is no more invincible.", username)
-			}) {
+			expected := fmt.Sprintf("User %s is no more invincible.", args["username"])
+			if args["state"] == "true" {
+				expected = fmt.Sprintf("User %s is now invincible.", args["username"])
+			}
+			if raw == expected {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -430,9 +385,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s kicked.", username)
-			}) {
+			if raw == fmt.Sprintf("User %s kicked.", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -570,9 +523,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s removed from white list", username)
-			}) {
+			if raw == fmt.Sprintf("User %s removed from white list", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -630,11 +581,8 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s is now %s", username, args["level"])
-			}) || matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s no longer has access level", username)
-			}) {
+			if raw == fmt.Sprintf("User %s is now %s", args["username"], args["level"]) ||
+				raw == fmt.Sprintf("User %s no longer has access level", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -755,12 +703,8 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			for _, player1 := range usernameEchoes(args["player1"]) {
-				for _, player2 := range usernameEchoes(args["player2"]) {
-					if raw == fmt.Sprintf("teleported %s to %s", player1, player2) {
-						return raw, nil
-					}
-				}
+			if raw == fmt.Sprintf("teleported %s to %s", args["player1"], args["player2"]) {
+				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 		},
@@ -781,9 +725,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("%s teleported to %s please wait two seconds to show the map around you.", username, args["coordinates"])
-			}) {
+			if raw == fmt.Sprintf("%s teleported to %s please wait two seconds to show the map around you.", args["username"], args["coordinates"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -805,12 +747,11 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				if args["state"] == "true" {
-					return fmt.Sprintf("User %s voice is banned.", username)
-				}
-				return fmt.Sprintf("User %s voice is unbanned.", username)
-			}) {
+			expected := fmt.Sprintf("User %s voice is unbanned.", args["username"])
+			if args["state"] == "true" {
+				expected = fmt.Sprintf("User %s voice is banned.", args["username"])
+			}
+			if raw == expected {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -856,9 +797,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("User %s created with password", username)
-			}) {
+			if raw == fmt.Sprintf("User %s created with password", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -968,9 +907,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("System banned user %s", username)
-			}) {
+			if raw == fmt.Sprintf("System banned user %s", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -991,9 +928,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("System unbanned user %s", username)
-			}) {
+			if raw == fmt.Sprintf("System unbanned user %s", args["username"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -1015,12 +950,11 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				if args["state"] == "true" {
-					return fmt.Sprintf("User %s is now invincible.", username)
-				}
-				return fmt.Sprintf("User %s is no longer invincible.", username)
-			}) {
+			expected := fmt.Sprintf("User %s is no longer invincible.", args["username"])
+			if args["state"] == "true" {
+				expected = fmt.Sprintf("User %s is now invincible.", args["username"])
+			}
+			if raw == expected {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -1042,12 +976,11 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				if args["state"] == "true" {
-					return fmt.Sprintf("User %s is now invisible.", username)
-				}
-				return fmt.Sprintf("User %s is no longer invisible.", username)
-			}) {
+			expected := fmt.Sprintf("User %s is no longer invisible.", args["username"])
+			if args["state"] == "true" {
+				expected = fmt.Sprintf("User %s is now invisible.", args["username"])
+			}
+			if raw == expected {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -1068,9 +1001,7 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				return fmt.Sprintf("Player %s kicked from a safehouse %s", username, args["safehouse"])
-			}) {
+			if raw == fmt.Sprintf("Player %s kicked from a safehouse %s", args["username"], args["safehouse"]) {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -1092,12 +1023,11 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			if matchesUsernameResponse(raw, args["username"], func(username string) string {
-				if args["state"] == "true" {
-					return fmt.Sprintf("User %s won't collide.", username)
-				}
-				return fmt.Sprintf("User %s will collide.", username)
-			}) {
+			expected := fmt.Sprintf("User %s will collide.", args["username"])
+			if args["state"] == "true" {
+				expected = fmt.Sprintf("User %s won't collide.", args["username"])
+			}
+			if raw == expected {
 				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
@@ -1224,12 +1154,8 @@ var definitions = []Definition{
 		},
 		Parse: func(raw string, args map[string]string) (any, error) {
 			raw = strings.TrimSpace(raw)
-			for _, player1 := range usernameEchoes(args["player1"]) {
-				for _, player2 := range usernameEchoes(args["player2"]) {
-					if raw == fmt.Sprintf("teleported %s to %s", player1, player2) {
-						return raw, nil
-					}
-				}
+			if raw == fmt.Sprintf("teleported %s to %s", args["player1"], args["player2"]) {
+				return raw, nil
 			}
 			return raw, fmt.Errorf("%w: %s", ErrCommandFailed, raw)
 		},

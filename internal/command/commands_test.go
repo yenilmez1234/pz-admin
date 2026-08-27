@@ -2,63 +2,6 @@ package command
 
 import "testing"
 
-func TestUsernameEchoes(t *testing.T) {
-	got := usernameEchoes("AТарас-1")
-	want := []string{"AТарас-1", "A??????????-1"}
-	if len(got) != len(want) {
-		t.Fatalf("usernameEchoes() = %#v, want %#v", got, want)
-	}
-	for i := range want {
-		if got[i] != want[i] {
-			t.Errorf("usernameEchoes()[%d] = %q, want %q", i, got[i], want[i])
-		}
-	}
-}
-
-func TestCommandParsersAcceptMangledUnicodeUsernameEchoes(t *testing.T) {
-	tests := []struct {
-		name     string
-		args     map[string]string
-		response string
-	}{
-		{"additem", map[string]string{"username": "Тарас", "item": "Base.Axe"}, "Item Base.Axe Added in ??????????'s inventory."},
-		{"adduser", map[string]string{"username": "Тарас", "password": "secret"}, "User ?????????? created with the password hash"},
-		{"addxp", map[string]string{"username": "Тарас", "perk": "Fitness=5"}, "Added 5 Fitness xp's to ??????????"},
-		{"banuser", map[string]string{"username": "Тарас"}, "User ?????????? is now banned"},
-		{"unbanuser", map[string]string{"username": "Тарас"}, "User ?????????? is now un-banned"},
-		{"godmode", map[string]string{"username": "Тарас", "state": "true"}, "User ?????????? is now invincible."},
-		{"kick", map[string]string{"username": "Тарас"}, "User ?????????? kicked."},
-		{"removeuserfromwhitelist", map[string]string{"username": "Тарас"}, "User ?????????? removed from white list"},
-		{"setaccesslevel", map[string]string{"username": "Тарас", "level": "none"}, "User ?????????? no longer has access level"},
-		{"teleport", map[string]string{"player1": "Тарас", "player2": "Зоя"}, "teleported ?????????? to ??????"},
-		{"teleportto", map[string]string{"username": "Тарас", "coordinates": "1,2,0"}, "?????????? teleported to 1,2,0 please wait two seconds to show the map around you."},
-		{"voiceban", map[string]string{"username": "Тарас", "state": "false"}, "User ?????????? voice is unbanned."},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			definition, ok := Lookup(tt.name, "41")
-			if !ok {
-				t.Fatalf("Lookup(%q) failed", tt.name)
-			}
-			if _, err := definition.Parse(tt.response, tt.args); err != nil {
-				t.Fatalf("Parse() returned %v", err)
-			}
-		})
-	}
-}
-
-func TestCommandParserRejectsDifferentMangledResponse(t *testing.T) {
-	definition, ok := Lookup("setaccesslevel", "41")
-	if !ok {
-		t.Fatal("Lookup(setaccesslevel) failed")
-	}
-	args := map[string]string{"username": "Тарас", "level": "moderator"}
-	if _, err := definition.Parse("User ????????? is now moderator", args); err == nil {
-		t.Fatal("Parse() accepted an incorrectly mangled username")
-	}
-}
-
 func TestChangeOptionParserAcceptsServerNormalizedValues(t *testing.T) {
 	definition, ok := Lookup("changeoption", "42")
 	if !ok {

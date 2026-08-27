@@ -190,7 +190,7 @@ func (s *Service) ObserveConsoleCommand(p profile.Profile, input, output string)
 			}
 			outputCaptures := response.output.FindStringSubmatch(strings.TrimSpace(output))
 			if outputCaptures == nil ||
-				!consoleUsernameMatches(username, namedCapture(response.output, outputCaptures, "username")) {
+				username != namedCapture(response.output, outputCaptures, "username") {
 				continue
 			}
 			observation := response.observe(p.Version, username, namedCaptures(response.output, outputCaptures))
@@ -271,19 +271,4 @@ func namedCaptures(pattern *regexp.Regexp, captures []string) map[string]string 
 		}
 	}
 	return values
-}
-
-func consoleUsernameMatches(input, output string) bool {
-	if input == output {
-		return true
-	}
-	mangled := []byte(input)
-	changed := false
-	for index, character := range mangled {
-		if character > 0x7f {
-			mangled[index] = '?'
-			changed = true
-		}
-	}
-	return changed && string(mangled) == output
 }
