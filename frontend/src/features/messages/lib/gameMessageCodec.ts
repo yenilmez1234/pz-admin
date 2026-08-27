@@ -188,17 +188,18 @@ export function serializeGameMessage(
       return (
         alignmentToken +
         (paragraph.content ?? [])
-          .map((text) =>
-            values.get(text)
+          .map((text) => {
+            const value = values.get(text);
+            return value
               ? serializeText(
                   text,
-                  values.get(text)!,
+                  value,
                   serializationState,
                   build,
                   remainingColors,
                 )
-              : "",
-          )
+              : "";
+          })
           .join("")
       );
     })
@@ -319,21 +320,24 @@ function normalizeMessageText(
 
   for (const paragraph of paragraphs) {
     const texts = paragraph.content ?? [];
-    for (const text of texts) {
-      values.set(text, sanitizeGameMessageText(text.text));
+    const normalized = texts.map((text) => ({
+      text,
+      value: sanitizeGameMessageText(text.text),
+    }));
+
+    for (const entry of normalized) {
+      entry.value = entry.value.trimStart();
+      if (entry.value) break;
     }
 
-    for (const text of texts) {
-      const value = values.get(text)!.trimStart();
-      values.set(text, value);
-      if (value) break;
+    for (let index = normalized.length - 1; index >= 0; index -= 1) {
+      const entry = normalized[index];
+      entry.value = entry.value.trimEnd();
+      if (entry.value) break;
     }
 
-    for (let index = texts.length - 1; index >= 0; index -= 1) {
-      const text = texts[index];
-      const value = values.get(text)!.trimEnd();
-      values.set(text, value);
-      if (value) break;
+    for (const entry of normalized) {
+      values.set(entry.text, entry.value);
     }
   }
 
