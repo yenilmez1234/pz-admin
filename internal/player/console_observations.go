@@ -56,8 +56,8 @@ var consoleObservationRules = []consoleObservationRule{
 	{
 		input: regexp.MustCompile(`(?i)^kick\s+(?P<username>"[^"]+"|'[^']+'|\S+)(?:\s+.*)?$`),
 		responses: []consoleResponseRule{
-			observationResponse(`^User (?P<username>.+?) kicked\.?$`, func(string) Observation {
-				return offlineObservation()
+			observationResponse(`^User (?P<username>.+?) kicked\.?$`, func(build string) Observation {
+				return offlineObservation(build, nil)
 			}),
 		},
 	},

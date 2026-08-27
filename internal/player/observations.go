@@ -2,6 +2,8 @@ package player
 
 import "strings"
 
+// addedUserObservation uses false defaults for the common case of a genuinely
+// new player.
 func addedUserObservation(build, username string) Observation {
 	accessLevel := "none"
 	if build != "41" {
@@ -18,8 +20,34 @@ func addedUserObservation(build, username string) Observation {
 	}
 }
 
-func offlineObservation() Observation {
-	return Observation{Online: Known(false)}
+func offlineObservation(build string, accessLevel *string) Observation {
+	observation := Observation{
+		Online:      Known(false),
+		VoiceBanned: Unknown[bool](),
+	}
+	if build != "41" {
+		return observation
+	}
+	if accessLevel == nil {
+		observation.GodMode = Unknown[bool]()
+		observation.Invisible = Unknown[bool]()
+		observation.NoClip = Unknown[bool]()
+		return observation
+	}
+	staff := isB41StaffAccess(*accessLevel)
+	observation.GodMode = Known(staff)
+	observation.Invisible = Known(staff)
+	observation.NoClip = Known(false)
+	return observation
+}
+
+func isB41StaffAccess(accessLevel string) bool {
+	switch strings.ToLower(accessLevel) {
+	case "observer", "gm", "overseer", "moderator", "admin":
+		return true
+	default:
+		return false
+	}
 }
 
 func onlineObservation() Observation {

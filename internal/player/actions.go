@@ -148,12 +148,16 @@ func (s *Service) Thunder(ctx context.Context, playerIDs []string) (ActionResult
 
 // Kick disconnects each player from the server. Reason is optional.
 func (s *Service) Kick(ctx context.Context, playerIDs []string, reason string) (ActionResult, error) {
+	p, err := s.currentProfile()
+	if err != nil {
+		return ActionResult{}, err
+	}
 	return s.runPlayerAction(ctx, playerIDs, "kick", func(commands *command.Client, player Player) (*Observation, error) {
 		_, err := commands.Kick(ctx, player.Username, reason)
 		if err != nil {
 			return nil, err
 		}
-		observation := offlineObservation()
+		observation := offlineObservation(p.Version, player.AccessLevel)
 		return &observation, nil
 	})
 }

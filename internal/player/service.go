@@ -174,7 +174,7 @@ func (s *Service) refresh(ctx context.Context, state session.State) {
 		if _, found := online[strings.ToLower(player.Username)]; found {
 			continue
 		}
-		offline := offlineObservation()
+		offline := offlineObservation(state.Profile.Version, player.AccessLevel)
 		offline.ID = player.ID
 		observations = append(observations, offline)
 	}
