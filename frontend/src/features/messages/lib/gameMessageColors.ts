@@ -14,7 +14,10 @@ const namedColors: Readonly<Record<string, string>> = {
 };
 
 const namedColorsByLowercaseName = new Map(
-  Object.entries(namedColors).map(([name, color]) => [name.toLowerCase(), color]),
+  Object.entries(namedColors).map(([name, color]) => [
+    name.toLowerCase(),
+    color,
+  ]),
 );
 
 export function getGameMessageNamedColor(

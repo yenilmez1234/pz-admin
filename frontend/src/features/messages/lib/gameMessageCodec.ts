@@ -40,20 +40,21 @@ interface GameMessageFontMetrics {
   weight: number;
 }
 
-export const gameMessageFontMetrics: Record<GameBuild, GameMessageFontMetrics> = {
-  "41": {
-    family: "Corbel",
-    lineHeights: { small: "0.95rem", medium: "1.25rem", large: "1.5rem" },
-    sizes: { small: "0.8em", medium: "1em", large: "1.2em" },
-    weight: 700,
-  },
-  "42": {
-    family: '"Noto Sans"',
-    lineHeights: { small: "0.82rem", medium: "1.25rem", large: "1.42rem" },
-    sizes: { small: "0.66em", medium: "1em", large: "1.14em" },
-    weight: 600,
-  },
-};
+export const gameMessageFontMetrics: Record<GameBuild, GameMessageFontMetrics> =
+  {
+    "41": {
+      family: "Corbel",
+      lineHeights: { small: "0.95rem", medium: "1.25rem", large: "1.5rem" },
+      sizes: { small: "0.8em", medium: "1em", large: "1.2em" },
+      weight: 700,
+    },
+    "42": {
+      family: '"Noto Sans"',
+      lineHeights: { small: "0.82rem", medium: "1.25rem", large: "1.42rem" },
+      sizes: { small: "0.66em", medium: "1em", large: "1.14em" },
+      weight: 600,
+    },
+  };
 
 interface FormatState {
   alignment?: MessageAlignment;
@@ -165,7 +166,9 @@ export function serializeGameMessage(
 ): string {
   const format = createDefaultFormat();
   let alignment: MessageAlignment | undefined;
-  const texts = document.content.flatMap((paragraph) => paragraph.content ?? []);
+  const texts = document.content.flatMap(
+    (paragraph) => paragraph.content ?? [],
+  );
   const values = normalizeMessageText(document.content);
   const serializedTexts = texts.filter((text) => values.get(text));
   if (serializedTexts.length === 0) return "";
@@ -177,7 +180,10 @@ export function serializeGameMessage(
   const message = document.content
     .map((paragraph) => {
       const nextAlignment = paragraph.attrs?.textAlign ?? "left";
-      const alignmentToken = encodeAlignmentTransition(alignment, nextAlignment);
+      const alignmentToken = encodeAlignmentTransition(
+        alignment,
+        nextAlignment,
+      );
       alignment = nextAlignment;
       return (
         alignmentToken +
@@ -209,23 +215,12 @@ export function serializeGameMessage(
 
 function optimizeFormatPresets(message: string): string {
   return message
-    .replace(
-      /<CENTRE> +<RGB:1,1,1> +<SIZE:large>/g,
-      "<H1>",
-    )
-    .replace(
-      /<LEFT> +<RGB:0\.8,0\.8,0\.8> +<SIZE:medium>/g,
-      "<H2>",
-    )
-    .replace(
-      /<LEFT> +<RGB:0\.7,0\.7,0\.7> +<SIZE:medium>/g,
-      "<TEXT>",
-    );
+    .replace(/<CENTRE> +<RGB:1,1,1> +<SIZE:large>/g, "<H1>")
+    .replace(/<LEFT> +<RGB:0\.8,0\.8,0\.8> +<SIZE:medium>/g, "<H2>")
+    .replace(/<LEFT> +<RGB:0\.7,0\.7,0\.7> +<SIZE:medium>/g, "<TEXT>");
 }
 
-export function containsForbiddenGameMessageCharacters(
-  value: string,
-): boolean {
+export function containsForbiddenGameMessageCharacters(value: string): boolean {
   return FORBIDDEN_CHARACTER_PATTERN.test(value);
 }
 
@@ -299,9 +294,7 @@ function createParagraph(alignment?: MessageAlignment): MessageParagraph {
   };
 }
 
-function currentParagraph(
-  paragraphs: MessageParagraph[],
-): MessageParagraph {
+function currentParagraph(paragraphs: MessageParagraph[]): MessageParagraph {
   return paragraphs[paragraphs.length - 1];
 }
 
@@ -316,12 +309,7 @@ function serializeText(
 ): string {
   const next = resolveTextFormat(findTextStyle(text), build);
   remainingColors.shift();
-  const prefix = encodeFormatTransition(
-    current,
-    next,
-    build,
-    remainingColors,
-  );
+  const prefix = encodeFormatTransition(current, next, build, remainingColors);
 
   current.color = next.color;
   current.size = next.size;
@@ -364,7 +352,9 @@ function encodeFormatTransition(
 ): string {
   const tokens: string[] = [];
   if (next.color !== current.color) {
-    tokens.push(encodeColorTransition(current, next.color, build, remainingColors));
+    tokens.push(
+      encodeColorTransition(current, next.color, build, remainingColors),
+    );
   }
   if (next.size !== current.size) {
     tokens.push(`<SIZE:${next.size}>`);

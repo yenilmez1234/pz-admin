@@ -1,8 +1,11 @@
-import { Button, ColorPicker, ColorSwatch, Popover, Stack } from "@mantine/core";
 import {
-  RichTextEditor,
-  useRichTextEditorContext,
-} from "@mantine/tiptap";
+  Button,
+  ColorPicker,
+  ColorSwatch,
+  Popover,
+  Stack,
+} from "@mantine/core";
+import { RichTextEditor, useRichTextEditorContext } from "@mantine/tiptap";
 import { useTranslation } from "react-i18next";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
 import { messageColorSwatches } from "@/features/messages/lib/messageEditorConfig";
@@ -10,9 +13,7 @@ import { messageColorSwatches } from "@/features/messages/lib/messageEditorConfi
 export function MessageColorControl() {
   const { t } = useTranslation("messages");
   const { editor } = useRichTextEditorContext();
-  const color = editor?.getAttributes("textStyle").color as
-    | string
-    | undefined;
+  const color = editor?.getAttributes("textStyle").color as string | undefined;
 
   return (
     <Popover position="bottom-start" shadow="md" width={220}>

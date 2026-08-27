@@ -64,8 +64,7 @@ type OptionMetadata = Omit<OptionDefinition, "name">;
 
 function changeOptionValueByteLimit(name: string) {
   return (
-    MAXIMUM_RCON_COMMAND_BYTES -
-    utf8ByteLength(`changeoption "${name}" ""`)
+    MAXIMUM_RCON_COMMAND_BYTES - utf8ByteLength(`changeoption "${name}" ""`)
   );
 }
 

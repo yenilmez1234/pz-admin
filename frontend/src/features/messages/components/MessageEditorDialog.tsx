@@ -33,8 +33,7 @@ export function MessageEditorDialog({
   const { t } = useTranslation(["messages", "common"]);
   const [opened, modal] = useDisclosure(false);
   const [draft, setDraft] = useState("");
-  const overLimit =
-    maxBytes !== undefined && utf8ByteLength(draft) > maxBytes;
+  const overLimit = maxBytes !== undefined && utf8ByteLength(draft) > maxBytes;
 
   function openEditor() {
     setDraft(value);

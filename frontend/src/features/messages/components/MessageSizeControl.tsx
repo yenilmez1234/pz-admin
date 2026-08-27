@@ -1,7 +1,4 @@
-import {
-  RichTextEditor,
-  useRichTextEditorContext,
-} from "@mantine/tiptap";
+import { RichTextEditor, useRichTextEditorContext } from "@mantine/tiptap";
 import { IconTextSize } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import {
@@ -62,7 +59,6 @@ function getActiveSize(
   return (
     sizes.find(
       (size) => gameMessageFontMetrics[build].sizes[size] === fontSize,
-    ) ??
-    defaultGameMessageSize
+    ) ?? defaultGameMessageSize
   );
 }

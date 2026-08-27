@@ -43,8 +43,7 @@ import classes from "./ServerActionsPage.module.css";
 
 type DialogName = "message" | "stop";
 const SERVER_MESSAGE_MAX_BYTES =
-  MAXIMUM_RCON_COMMAND_BYTES -
-  utf8ByteLength('servermsg ""');
+  MAXIMUM_RCON_COMMAND_BYTES - utf8ByteLength('servermsg ""');
 
 function CommandInfo({
   description,
@@ -136,28 +135,28 @@ export function ServerActionsPage() {
           <Group className={classes.toolbar} justify="space-between">
             <Group gap="xs">
               <Button
-                  disabled={busy}
-                  loading={pending === "save"}
-                  onClick={() =>
-                    void run("save", SaveWorld, t("success.worldSaved"))
-                  }
-                >
-                  {t("actions.saveWorld")}
+                disabled={busy}
+                loading={pending === "save"}
+                onClick={() =>
+                  void run("save", SaveWorld, t("success.worldSaved"))
+                }
+              >
+                {t("actions.saveWorld")}
               </Button>
               <Button
-                  color="red"
-                  disabled={busy}
-                  onClick={() => setDialog("stop")}
-                >
-                  {t("actions.stopServer")}
+                color="red"
+                disabled={busy}
+                onClick={() => setDialog("stop")}
+              >
+                {t("actions.stopServer")}
               </Button>
             </Group>
             <Button
-                disabled={busy}
-                onClick={() => setDialog("message")}
-                variant="default"
-              >
-                {t("actions.sendMessage")}
+              disabled={busy}
+              onClick={() => setDialog("message")}
+              variant="default"
+            >
+              {t("actions.sendMessage")}
             </Button>
           </Group>
 
@@ -166,185 +165,185 @@ export function ServerActionsPage() {
               {t("sections.weather")}
             </Title>
             <div className={classes.commandRow}>
-                <CommandInfo
-                  description={t("descriptions.startRain")}
-                  title={t("actions.startRain")}
+              <CommandInfo
+                description={t("descriptions.startRain")}
+                title={t("actions.startRain")}
+              />
+              <form
+                className={classes.weatherControl}
+                onSubmit={(event) =>
+                  submit(
+                    event,
+                    "rain",
+                    () => StartRain(valueOrAutomatic(rainIntensity)),
+                    t("success.rainStarted"),
+                    () => setRainIntensity(""),
+                  )
+                }
+              >
+                <NumberInput
+                  allowDecimal={false}
+                  clampBehavior="blur"
+                  label={t("fields.intensity")}
+                  max={100}
+                  min={1}
+                  name="rainIntensity"
+                  onChange={setRainIntensity}
+                  size="sm"
+                  value={rainIntensity}
                 />
-                <form
-                  className={classes.weatherControl}
-                  onSubmit={(event) =>
-                    submit(
-                      event,
-                      "rain",
-                      () => StartRain(valueOrAutomatic(rainIntensity)),
-                      t("success.rainStarted"),
-                      () => setRainIntensity(""),
-                    )
-                  }
+                <Button
+                  disabled={busy}
+                  loading={pending === "rain"}
+                  type="submit"
                 >
-                  <NumberInput
-                    allowDecimal={false}
-                    clampBehavior="blur"
-                    label={t("fields.intensity")}
-                    max={100}
-                    min={1}
-                    name="rainIntensity"
-                    onChange={setRainIntensity}
-                    size="sm"
-                    value={rainIntensity}
-                  />
-                  <Button
-                    disabled={busy}
-                    loading={pending === "rain"}
-                    type="submit"
-                  >
-                    {t("actions.startRain")}
-                  </Button>
-                </form>
+                  {t("actions.startRain")}
+                </Button>
+              </form>
             </div>
             <div className={classes.commandRow}>
-                <CommandInfo
-                  description={t("descriptions.startStorm")}
-                  title={t("actions.startStorm")}
+              <CommandInfo
+                description={t("descriptions.startStorm")}
+                title={t("actions.startStorm")}
+              />
+              <form
+                className={classes.weatherControl}
+                onSubmit={(event) =>
+                  submit(
+                    event,
+                    "storm",
+                    () => StartStorm(valueOrAutomatic(stormDuration)),
+                    t("success.stormStarted"),
+                  )
+                }
+              >
+                <NumberInput
+                  allowDecimal={false}
+                  clampBehavior="blur"
+                  label={t("fields.duration")}
+                  min={1}
+                  name="stormDuration"
+                  onChange={setStormDuration}
+                  size="sm"
+                  value={stormDuration}
                 />
-                <form
-                  className={classes.weatherControl}
-                  onSubmit={(event) =>
-                    submit(
-                      event,
-                      "storm",
-                      () => StartStorm(valueOrAutomatic(stormDuration)),
-                      t("success.stormStarted"),
-                    )
-                  }
+                <Button
+                  disabled={busy}
+                  loading={pending === "storm"}
+                  type="submit"
                 >
-                  <NumberInput
-                    allowDecimal={false}
-                    clampBehavior="blur"
-                    label={t("fields.duration")}
-                    min={1}
-                    name="stormDuration"
-                    onChange={setStormDuration}
-                    size="sm"
-                    value={stormDuration}
-                  />
-                  <Button
-                    disabled={busy}
-                    loading={pending === "storm"}
-                    type="submit"
-                  >
-                    {t("actions.startStorm")}
-                  </Button>
-                </form>
+                  {t("actions.startStorm")}
+                </Button>
+              </form>
             </div>
             <div className={classes.stopWeatherRow}>
               <Button
-                  disabled={busy}
-                  loading={pending === "stopRain"}
-                  onClick={() =>
-                    void run("stopRain", StopRain, t("success.rainStopped"))
-                  }
-                  variant="default"
-                >
-                  {t("actions.stopRain")}
+                disabled={busy}
+                loading={pending === "stopRain"}
+                onClick={() =>
+                  void run("stopRain", StopRain, t("success.rainStopped"))
+                }
+                variant="default"
+              >
+                {t("actions.stopRain")}
               </Button>
               <Button
-                  disabled={busy}
-                  loading={pending === "stopWeather"}
-                  onClick={() =>
-                    void run(
-                      "stopWeather",
-                      StopWeather,
-                      t("success.weatherStopped"),
-                    )
-                  }
-                  variant="default"
-                >
-                  {t("actions.stopWeather")}
+                disabled={busy}
+                loading={pending === "stopWeather"}
+                onClick={() =>
+                  void run(
+                    "stopWeather",
+                    StopWeather,
+                    t("success.weatherStopped"),
+                  )
+                }
+                variant="default"
+              >
+                {t("actions.stopWeather")}
               </Button>
             </div>
           </section>
 
           <section>
-              <Title className={classes.sectionTitle} order={2}>
-                {t("sections.events")}
-              </Title>
-              <Text c="dimmed" size="sm">
-                {t("descriptions.events")}
+            <Title className={classes.sectionTitle} order={2}>
+              {t("sections.events")}
+            </Title>
+            <Text c="dimmed" size="sm">
+              {t("descriptions.events")}
+            </Text>
+            <Group gap="xs" mt={6} wrap="nowrap">
+              <Text fw={600} size="xs">
+                {t("events.onlinePlayers")}
               </Text>
-              <Group gap="xs" mt={6} wrap="nowrap">
-                <Text fw={600} size="xs">
-                  {t("events.onlinePlayers")}
+              <Badge
+                color={onlinePlayers.length ? "green" : "gray"}
+                size="sm"
+                variant="light"
+              >
+                {onlinePlayers.length}
+              </Badge>
+              <Tooltip
+                disabled={!playerNames}
+                label={playerNames}
+                maw={400}
+                multiline
+                withArrow
+              >
+                <Text className={classes.playerNames} c="dimmed" size="xs">
+                  {playerNames || t("events.noPlayers")}
                 </Text>
-                <Badge
-                  color={onlinePlayers.length ? "green" : "gray"}
-                  size="sm"
-                  variant="light"
-                >
-                  {onlinePlayers.length}
-                </Badge>
-                <Tooltip
-                  disabled={!playerNames}
-                  label={playerNames}
-                  maw={400}
-                  multiline
-                  withArrow
-                >
-                  <Text className={classes.playerNames} c="dimmed" size="xs">
-                    {playerNames || t("events.noPlayers")}
-                  </Text>
-                </Tooltip>
-              </Group>
-              <div className={classes.eventButtons}>
-                <Button
-                    disabled={eventDisabled}
-                    loading={pending === "helicopter"}
-                    onClick={() =>
-                      void run(
-                        "helicopter",
-                        TriggerHelicopter,
-                        t("success.helicopter"),
-                      )
-                    }
-                    variant="default"
-                  >
-                    {t("actions.helicopter")}
-                </Button>
-                <Button
-                    disabled={eventDisabled}
-                    loading={pending === "gunshot"}
-                    onClick={() =>
-                      void run("gunshot", TriggerGunshot, t("success.gunshot"))
-                    }
-                    variant="default"
-                  >
-                    {t("actions.gunshot")}
-                </Button>
-                <Button
-                    disabled={eventDisabled}
-                    loading={pending === "lightning"}
-                    onClick={() =>
-                      void run("lightning", TriggerLightning, (result) =>
-                        t("success.lightning", { target: result.target }),
-                      )
-                    }
-                    variant="default"
-                  >
-                    {t("actions.lightning")}
-                </Button>
-                <Button
-                    disabled={eventDisabled}
-                    loading={pending === "thunder"}
-                    onClick={() =>
-                      void run("thunder", TriggerThunder, (result) =>
-                        t("success.thunder", { target: result.target }),
-                      )
-                    }
-                    variant="default"
-                  >
-                    {t("actions.thunder")}
-                </Button>
-              </div>
+              </Tooltip>
+            </Group>
+            <div className={classes.eventButtons}>
+              <Button
+                disabled={eventDisabled}
+                loading={pending === "helicopter"}
+                onClick={() =>
+                  void run(
+                    "helicopter",
+                    TriggerHelicopter,
+                    t("success.helicopter"),
+                  )
+                }
+                variant="default"
+              >
+                {t("actions.helicopter")}
+              </Button>
+              <Button
+                disabled={eventDisabled}
+                loading={pending === "gunshot"}
+                onClick={() =>
+                  void run("gunshot", TriggerGunshot, t("success.gunshot"))
+                }
+                variant="default"
+              >
+                {t("actions.gunshot")}
+              </Button>
+              <Button
+                disabled={eventDisabled}
+                loading={pending === "lightning"}
+                onClick={() =>
+                  void run("lightning", TriggerLightning, (result) =>
+                    t("success.lightning", { target: result.target }),
+                  )
+                }
+                variant="default"
+              >
+                {t("actions.lightning")}
+              </Button>
+              <Button
+                disabled={eventDisabled}
+                loading={pending === "thunder"}
+                onClick={() =>
+                  void run("thunder", TriggerThunder, (result) =>
+                    t("success.thunder", { target: result.target }),
+                  )
+                }
+                variant="default"
+              >
+                {t("actions.thunder")}
+              </Button>
+            </div>
           </section>
 
           <section>
@@ -352,58 +351,58 @@ export function ServerActionsPage() {
               {t("sections.reload")}
             </Title>
             <div className={classes.commandRow}>
-                <CommandInfo
-                  description={t("descriptions.reloadOptions")}
-                  title={t("actions.reloadOptions")}
-                />
-                <Button
-                  disabled={busy}
-                  loading={pending === "reloadOptions"}
-                  onClick={() =>
-                    void run(
-                      "reloadOptions",
-                      ReloadOptions,
-                      t("success.optionsReloaded"),
-                    )
-                  }
-                  variant="default"
-                >
-                  {t("actions.reloadOptions")}
-                </Button>
+              <CommandInfo
+                description={t("descriptions.reloadOptions")}
+                title={t("actions.reloadOptions")}
+              />
+              <Button
+                disabled={busy}
+                loading={pending === "reloadOptions"}
+                onClick={() =>
+                  void run(
+                    "reloadOptions",
+                    ReloadOptions,
+                    t("success.optionsReloaded"),
+                  )
+                }
+                variant="default"
+              >
+                {t("actions.reloadOptions")}
+              </Button>
             </div>
             <div className={classes.commandRow}>
-                <CommandInfo
-                  description={t("descriptions.reloadLua")}
-                  title={t("actions.reloadLua")}
+              <CommandInfo
+                description={t("descriptions.reloadLua")}
+                title={t("actions.reloadLua")}
+              />
+              <form
+                className={classes.luaControl}
+                onSubmit={(event) =>
+                  submit(
+                    event,
+                    "reloadLua",
+                    () => ReloadLua(luaFile),
+                    t("success.luaReloaded"),
+                    () => setLuaFile(""),
+                  )
+                }
+              >
+                <TextInput
+                  aria-label={t("fields.luaFile")}
+                  autoComplete="off"
+                  name="luaFile"
+                  onChange={(event) => setLuaFile(event.currentTarget.value)}
+                  spellCheck={false}
+                  value={luaFile}
                 />
-                <form
-                  className={classes.luaControl}
-                  onSubmit={(event) =>
-                    submit(
-                      event,
-                      "reloadLua",
-                      () => ReloadLua(luaFile),
-                      t("success.luaReloaded"),
-                      () => setLuaFile(""),
-                    )
-                  }
+                <Button
+                  disabled={busy || !luaFile.trim()}
+                  loading={pending === "reloadLua"}
+                  type="submit"
                 >
-                  <TextInput
-                    aria-label={t("fields.luaFile")}
-                    autoComplete="off"
-                    name="luaFile"
-                    onChange={(event) => setLuaFile(event.currentTarget.value)}
-                    spellCheck={false}
-                    value={luaFile}
-                  />
-                  <Button
-                    disabled={busy || !luaFile.trim()}
-                    loading={pending === "reloadLua"}
-                    type="submit"
-                  >
-                    {t("actions.reloadFile")}
-                  </Button>
-                </form>
+                  {t("actions.reloadFile")}
+                </Button>
+              </form>
             </div>
             {supports("serverAction.reloadAllLua") ? (
               <div className={classes.commandRow}>
