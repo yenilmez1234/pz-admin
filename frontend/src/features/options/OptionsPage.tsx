@@ -19,6 +19,7 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { isGameBuild, latestGameBuild } from "@/features/game/types";
 import { useSession } from "@/features/session/SessionProvider";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 import { errorMessage } from "@/shared/lib/errors";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { optionCatalogs } from "./catalog";
@@ -145,6 +146,9 @@ export function OptionsPage({ active }: { active: boolean }) {
   const build =
     profile && isGameBuild(profile.version) ? profile.version : latestGameBuild;
   const editor = useOptionsEditor(optionCatalogs[build], active);
+  const skeleton = useSkeletonVisibility(
+    editor.loading && editor.categories.length === 0,
+  );
   const search = useOptionsSearch(editor.categories);
   const [requestedCategory, setRequestedCategory] = useState("");
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -216,8 +220,8 @@ export function OptionsPage({ active }: { active: boolean }) {
     void handleSave();
   }
 
-  if (editor.loading) {
-    return <OptionsPageSkeleton />;
+  if (skeleton.active) {
+    return skeleton.visible ? <OptionsPageSkeleton /> : null;
   }
 
   if (editor.loadError) {

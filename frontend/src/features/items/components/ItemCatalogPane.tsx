@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { IconChevronRight, IconSearch, IconX } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 import { ItemThumbnail } from "./ItemThumbnail";
 import type {
   ItemCatalogCategory,
@@ -45,6 +46,7 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
 }: ItemCatalogPaneProps) {
   const { t } = useTranslation("items");
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const skeleton = useSkeletonVisibility(loading);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const itemsByCategory = useMemo(() => {
     const groupedItems = new Map<string, ItemCatalogEntry[]>();
@@ -103,13 +105,13 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
           scrollbarSize={10}
           type="auto"
         >
-          {loading ? (
+          {skeleton.visible ? (
             <Stack gap={4}>
               {loadingRows.map((row) => (
                 <Skeleton h={30} key={row} />
               ))}
             </Stack>
-          ) : visibleCategories.length > 0 ? (
+          ) : skeleton.active ? null : visibleCategories.length > 0 ? (
             <Accordion
               chevron={<IconChevronRight aria-hidden="true" size={14} />}
               chevronPosition="left"

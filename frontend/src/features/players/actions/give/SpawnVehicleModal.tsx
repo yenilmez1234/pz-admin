@@ -15,6 +15,7 @@ import type { GameBuild } from "@/features/game/types";
 import { VehiclePicker } from "@/features/vehicles/components/picker/VehiclePicker";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
 import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 
 interface SpawnVehicleModalProps {
   build: GameBuild;
@@ -37,6 +38,7 @@ export function SpawnVehicleModal({
   const { t } = useTranslation(["players", "common"]);
   const { t: vehicleT } = useTranslation("vehicles");
   const { catalog, error, loading, reload } = useVehicleCatalog(build);
+  const skeleton = useSkeletonVisibility(loading || !catalog);
   const [pickerRevision, setPickerRevision] = useState(0);
   const [selectedVehicle, setSelectedVehicle] =
     useState<VehicleCatalogEntry | null>(null);
@@ -91,23 +93,27 @@ export function SpawnVehicleModal({
               </Button>
             </Stack>
           </Alert>
-        ) : loading || !catalog ? (
+        ) : skeleton.active ? (
           <Stack gap="sm" h="min(62vh, 34rem)" aria-busy="true">
-            <Skeleton h={28} w="45%" />
-            <Group align="stretch" grow>
-              <Skeleton h={150} />
-              <Skeleton h={150} />
-              <Skeleton h={150} />
-            </Group>
+            {skeleton.visible ? (
+              <>
+                <Skeleton h={28} w="45%" />
+                <Group align="stretch" grow>
+                  <Skeleton h={150} />
+                  <Skeleton h={150} />
+                  <Skeleton h={150} />
+                </Group>
+              </>
+            ) : null}
           </Stack>
-        ) : (
+        ) : catalog ? (
           <VehiclePicker
             key={pickerRevision}
             catalog={catalog}
             onChange={setSelectedVehicle}
             selectedVehicle={selectedVehicle}
           />
-        )}
+        ) : null}
 
         <Group justify="flex-end">
           <Button disabled={submitting} onClick={onClose} variant="default">

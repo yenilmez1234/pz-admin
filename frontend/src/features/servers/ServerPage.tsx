@@ -1,6 +1,7 @@
 import { Group, SimpleGrid, Skeleton, Stack } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { useSession } from "@/features/session/SessionProvider";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { ServerWorkspace } from "./components/ServerWorkspace";
 import { ServerProfilesPage } from "./profiles/ServerProfilesPage";
@@ -8,8 +9,9 @@ import { ServerProfilesPage } from "./profiles/ServerProfilesPage";
 export function ServerPage() {
   const { t } = useTranslation("session");
   const { profile, state } = useSession();
+  const skeleton = useSkeletonVisibility(state === "initializing");
 
-  if (state === "initializing") {
+  if (skeleton.active) {
     return (
       <PageContainer
         contentWidth="standard"
@@ -17,17 +19,19 @@ export function ServerPage() {
         aria-busy="true"
         aria-label={t("loadingLabel")}
       >
-        <Stack gap="lg">
-          <Group justify="space-between" align="center" aria-hidden="true">
-            <Skeleton h={42} w={190} />
-            <Skeleton h={36} w={122} />
-          </Group>
-          <SimpleGrid minColWidth={260} aria-hidden="true">
-            <Skeleton height={112} />
-            <Skeleton height={112} />
-            <Skeleton height={112} />
-          </SimpleGrid>
-        </Stack>
+        {skeleton.visible ? (
+          <Stack gap="lg">
+            <Group justify="space-between" align="center" aria-hidden="true">
+              <Skeleton h={42} w={190} />
+              <Skeleton h={36} w={122} />
+            </Group>
+            <SimpleGrid minColWidth={260} aria-hidden="true">
+              <Skeleton height={112} />
+              <Skeleton height={112} />
+              <Skeleton height={112} />
+            </SimpleGrid>
+          </Stack>
+        ) : null}
       </PageContainer>
     );
   }

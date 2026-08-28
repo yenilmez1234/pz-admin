@@ -17,6 +17,7 @@ import type { Profile } from "@bindings/internal/profile/models";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { useAppConfig } from "@/features/config/AppConfigProvider";
 import { useSession } from "@/features/session/SessionProvider";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 import { errorMessage } from "@/shared/lib/errors";
 import { DeleteServerModal } from "./components/DeleteServerModal";
 import { ServerCard } from "./components/ServerCard";
@@ -39,6 +40,7 @@ export function ServerProfilesPage() {
   const formDialog = useProfileDialog();
   const deleteDialog = useProfileDialog();
   const connecting = sessionState === "connecting";
+  const skeleton = useSkeletonVisibility(loading && profiles.length === 0);
 
   async function handleConnect(profile: Profile) {
     try {
@@ -110,7 +112,7 @@ export function ServerProfilesPage() {
             </Alert>
           ) : null}
 
-          {loading ? (
+          {skeleton.visible ? (
             <SimpleGrid
               minColWidth={260}
               aria-busy="true"
@@ -120,8 +122,8 @@ export function ServerProfilesPage() {
               <Skeleton height={112} />
               <Skeleton height={112} />
             </SimpleGrid>
-          ) : loadError && profiles.length === 0 ? null : profiles.length ===
-            0 ? (
+          ) : skeleton.active ? null : loadError &&
+            profiles.length === 0 ? null : profiles.length === 0 ? (
             <Paper withBorder p="xl">
               <Stack align="center" ta="center" py="xl">
                 <IconServer

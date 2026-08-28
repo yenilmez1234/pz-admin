@@ -16,6 +16,7 @@ import { SkillXpPicker } from "@/features/skills/components/SkillXpPicker";
 import type { GameBuild } from "@/features/game/types";
 import { useSkillCatalog } from "@/features/skills/hooks/useSkillCatalog";
 import { useSkillXpSelection } from "@/features/skills/hooks/useSkillXpSelection";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 
 interface AddXpModalProps {
   build: GameBuild;
@@ -36,6 +37,7 @@ export function AddXpModal({
   const { t: skillT } = useTranslation("skills");
   const language = i18n.language;
   const { catalog, error, loading, reload } = useSkillCatalog(build, language);
+  const skeleton = useSkeletonVisibility(loading || !catalog);
   const selection = useSkillXpSelection();
   const [submitting, setSubmitting] = useState(false);
   const grants = useMemo(() => {
@@ -123,21 +125,23 @@ export function AddXpModal({
               </Button>
             </Stack>
           </Alert>
-        ) : loading || !catalog ? (
+        ) : skeleton.active ? (
           <Stack gap="sm" h="min(62vh, 34rem)" aria-busy="true">
-            <Group align="stretch" grow>
-              <Skeleton h="100%" />
-              <Skeleton h="100%" />
-            </Group>
+            {skeleton.visible ? (
+              <Group align="stretch" grow>
+                <Skeleton h="100%" />
+                <Skeleton h="100%" />
+              </Group>
+            ) : null}
           </Stack>
-        ) : (
+        ) : catalog ? (
           <Box
             h="min(62vh, 34rem)"
             style={{ display: "flex", minHeight: 0, overflow: "hidden" }}
           >
             <SkillXpPicker catalog={catalog} selection={selection} />
           </Box>
-        )}
+        ) : null}
 
         <Group justify="space-between">
           <Button

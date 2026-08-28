@@ -13,6 +13,7 @@ import {
 import { IconSearch } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
+import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 import {
   filterAndSortPlayers,
   type PlayerSorting,
@@ -41,6 +42,7 @@ export function PlayerTable({
 }: PlayerTableProps) {
   const { t } = useTranslation("players");
   const actions = usePlayerActions();
+  const skeleton = useSkeletonVisibility(loading && players.length === 0);
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<PlayerSorting>({
     column: "status",
@@ -136,7 +138,7 @@ export function PlayerTable({
               sorting={sorting}
             />
             <Table.Tbody>
-              {loading && players.length === 0
+              {skeleton.visible
                 ? Array.from({ length: 5 }, (_, index) => (
                     <Table.Tr key={index}>
                       <Table.Td>
@@ -156,15 +158,17 @@ export function PlayerTable({
                       </Table.Td>
                     </Table.Tr>
                   ))
-                : visiblePlayers.map((player) => (
-                    <PlayerTableRow
-                      key={player.id}
-                      checked={selectedPlayerIds.has(player.id)}
-                      onToggle={() => togglePlayer(player.id)}
-                      player={player}
-                      relativeTime={relativeTime}
-                    />
-                  ))}
+                : skeleton.active
+                  ? null
+                  : visiblePlayers.map((player) => (
+                      <PlayerTableRow
+                        key={player.id}
+                        checked={selectedPlayerIds.has(player.id)}
+                        onToggle={() => togglePlayer(player.id)}
+                        player={player}
+                        relativeTime={relativeTime}
+                      />
+                    ))}
 
               {!loading && showEmptyState && visiblePlayers.length === 0 ? (
                 <Table.Tr>
