@@ -29,7 +29,6 @@ import {
   TriggerLightning,
   TriggerThunder,
 } from "@bindings/internal/serveraction/service";
-import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
 import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
 import { isGameBuild, latestGameBuild } from "@/features/game/types";
 import { usePlayers } from "@/features/players/PlayersProvider";
@@ -466,13 +465,11 @@ export function ServerActionsPage() {
           <Stack gap="md">
             <GameMessageEditor
               build={build}
+              maxBytes={SERVER_MESSAGE_MAX_BYTES}
               maxHeight="min(22rem, 40vh)"
+              minHeight="18rem"
               onChange={setMessage}
               value={message}
-            />
-            <FormattedMessagePreview
-              maxBytes={SERVER_MESSAGE_MAX_BYTES}
-              value={serializedMessage}
             />
             <DialogActions busy={busy} onClose={closeDialog}>
               <Button

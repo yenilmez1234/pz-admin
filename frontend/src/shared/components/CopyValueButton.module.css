@@ -14,7 +14,7 @@
 }
 
 @media (hover: hover) {
-  .root:hover {
+  .root:hover:not(:disabled) {
     background-color: var(--mantine-color-default-hover);
   }
 }
@@ -22,6 +22,11 @@
 .root[data-copied] {
   color: var(--mantine-color-teal-filled);
   border-color: var(--mantine-color-teal-filled);
+}
+
+.root:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .root:focus-visible {

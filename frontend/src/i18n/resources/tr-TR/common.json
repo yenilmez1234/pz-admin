@@ -1,6 +1,8 @@
 {
   "actions": {
     "cancel": "İptal",
+    "copied": "Kopyalandı",
+    "copy": "Kopyala",
     "delete": "Sil",
     "remove": "Kaldır",
     "retry": "Tekrar Dene"

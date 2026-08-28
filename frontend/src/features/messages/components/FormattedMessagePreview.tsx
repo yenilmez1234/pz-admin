@@ -1,20 +1,18 @@
 import { Code, Group, Paper, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
+import { CopyValueButton } from "@/shared/components/CopyValueButton";
+import { formatUnit } from "@/shared/lib/numberFormat";
 import { utf8ByteLength } from "@/shared/lib/text";
 
 interface FormattedMessagePreviewProps {
-  maxBytes?: number;
   value: string;
 }
 
 export function FormattedMessagePreview({
-  maxBytes,
   value,
 }: FormattedMessagePreviewProps) {
-  const { i18n, t } = useTranslation("messages");
+  const { i18n, t } = useTranslation(["messages", "common"]);
   const byteLength = utf8ByteLength(value);
-  const overLimit = maxBytes !== undefined && byteLength > maxBytes;
 
   return (
     <Stack gap="xs" style={{ flexShrink: 0, minHeight: 0, minWidth: 0 }}>
@@ -22,20 +20,20 @@ export function FormattedMessagePreview({
         <Text fw={600} size="sm">
           {t("preview.title")}
         </Text>
-        <Text
-          aria-live="polite"
-          c={overLimit ? "red" : "dimmed"}
-          ff="monospace"
-          size="xs"
+        <CopyValueButton
+          copiedLabel={t("actions.copied", { ns: "common" })}
+          copyLabel={t("actions.copy", { ns: "common" })}
+          disabled={!value}
+          value={value}
         >
-          {maxBytes === undefined
-            ? formatUnit(i18n.language, byteLength, "byte")
-            : `${formatNumber(i18n.language, byteLength)} / ${formatUnit(i18n.language, maxBytes, "byte")}`}
-        </Text>
+          <Text aria-live="polite" ff="monospace" size="xs">
+            {formatUnit(i18n.language, byteLength, "byte")}
+          </Text>
+        </CopyValueButton>
       </Group>
       <Paper
         component="pre"
-        h="8rem"
+        h="10rem"
         m={0}
         p="sm"
         radius="md"

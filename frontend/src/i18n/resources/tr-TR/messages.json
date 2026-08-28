@@ -30,8 +30,6 @@
   },
   "actions": {
     "apply": "Uygula",
-    "copy": "Biçimlendirilmiş Mesajı Kopyala",
-    "copied": "Kopyalandı",
     "edit": "Mesajı Düzenle"
   }
 }

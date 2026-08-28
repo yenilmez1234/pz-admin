@@ -5,7 +5,6 @@ import { IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { utf8ByteLength } from "@/shared/lib/text";
-import { FormattedMessagePreview } from "./FormattedMessagePreview";
 import { GameMessageEditor } from "./GameMessageEditor";
 
 interface MessageEditorDialogProps {
@@ -71,11 +70,12 @@ export function MessageEditorDialog({
         <Stack gap="md">
           <GameMessageEditor
             build={build}
+            maxBytes={maxBytes}
             maxHeight="min(22rem, 40vh)"
+            minHeight="18rem"
             onChange={setDraft}
             value={draft}
           />
-          <FormattedMessagePreview maxBytes={maxBytes} value={draft} />
           <Group justify="flex-end">
             <Button onClick={modal.close} variant="default">
               {t("actions.cancel", { ns: "common" })}

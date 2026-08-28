@@ -1,12 +1,4 @@
-import {
-  Button,
-  CopyButton,
-  Group,
-  SegmentedControl,
-  Stack,
-  Title,
-} from "@mantine/core";
-import { IconCheck, IconCopy } from "@tabler/icons-react";
+import { Group, SegmentedControl, Stack, Title } from "@mantine/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -59,30 +51,6 @@ export function MessageEditorPage() {
         />
 
         <FormattedMessagePreview value={message} />
-
-        <Group justify="flex-start">
-          <CopyButton value={message} timeout={2000}>
-            {({ copied, copy }) => (
-              <Button
-                aria-label={copied ? t("actions.copied") : t("actions.copy")}
-                className={classes.copyButton}
-                data-copied={copied || undefined}
-                disabled={!message}
-                leftSection={
-                  copied ? (
-                    <IconCheck aria-hidden="true" size={16} />
-                  ) : (
-                    <IconCopy aria-hidden="true" size={16} />
-                  )
-                }
-                onClick={copy}
-                variant="default"
-              >
-                {t("actions.copy")}
-              </Button>
-            )}
-          </CopyButton>
-        </Group>
       </Stack>
     </PageContainer>
   );

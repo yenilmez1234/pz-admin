@@ -1,6 +1,8 @@
 {
   "actions": {
     "cancel": "Cancel",
+    "copied": "Copied",
+    "copy": "Copy",
     "delete": "Delete",
     "remove": "Remove",
     "retry": "Try Again"

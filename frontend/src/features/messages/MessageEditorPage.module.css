@@ -2,8 +2,3 @@
   flex: 1;
   min-height: 0;
 }
-
-.copyButton[data-copied] {
-  color: var(--mantine-color-teal-filled);
-  border-color: var(--mantine-color-teal-filled);
-}

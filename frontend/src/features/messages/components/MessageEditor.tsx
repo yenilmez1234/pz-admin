@@ -1,6 +1,6 @@
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { defaultGameMessageColor } from "@/features/messages/lib/gameMessageColors";
@@ -20,8 +20,10 @@ interface MessageEditorProps {
   initialDocument: MessageDocument;
   isTextAllowed?: (value: string) => boolean;
   maxHeight?: CSSProperties["maxHeight"];
+  minHeight?: CSSProperties["minHeight"];
   onChange: (document: MessageDocument) => void;
   sanitizePastedText?: (value: string) => string;
+  toolbarEnd?: ReactNode;
 }
 
 export function MessageEditor({
@@ -30,8 +32,10 @@ export function MessageEditor({
   initialDocument,
   isTextAllowed,
   maxHeight,
+  minHeight = "14rem",
   onChange,
   sanitizePastedText,
+  toolbarEnd,
 }: MessageEditorProps) {
   const { t } = useTranslation("messages");
   const editor = useEditor({
@@ -71,7 +75,7 @@ export function MessageEditor({
           caretColor,
           color: defaultGameMessageColor,
           maxHeight,
-          minHeight: "14rem",
+          minHeight,
           overflowY: "auto",
         },
       }}
@@ -93,6 +97,8 @@ export function MessageEditor({
           <RichTextEditor.Undo />
           <RichTextEditor.Redo />
         </RichTextEditor.ControlsGroup>
+
+        {toolbarEnd}
       </RichTextEditor.Toolbar>
 
       <RichTextEditor.Content />

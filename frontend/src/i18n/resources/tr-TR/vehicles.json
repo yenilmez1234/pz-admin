@@ -206,8 +206,6 @@
   "details": {
     "back": "Araçlar",
     "backLabel": "Araçlara dön",
-    "copied": "Kopyalandı",
-    "copyId": "Araç kimliğini (ID) kopyala",
     "openVariant": "{{variant}} varyantını aç",
     "sections": {
       "body": "Gövde ve donanım",

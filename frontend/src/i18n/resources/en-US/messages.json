@@ -30,8 +30,6 @@
   },
   "actions": {
     "apply": "Apply",
-    "copy": "Copy Formatted Message",
-    "copied": "Copied",
     "edit": "Edit Message"
   }
 }
