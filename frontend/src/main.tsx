@@ -9,6 +9,12 @@ import "@mantine/notifications/styles.css";
 import "./i18n";
 import App from "./app/App";
 import { AppProviders } from "./app/AppProviders";
+import {
+  installFrontendErrorReporting,
+  reportFrontendError,
+} from "./shared/lib/frontendErrorReporting";
+
+installFrontendErrorReporting();
 
 const rootElement = document.getElementById("root");
 
@@ -16,7 +22,29 @@ if (!rootElement) {
   throw new Error("Root element not found");
 }
 
-ReactDOM.createRoot(rootElement).render(
+ReactDOM.createRoot(rootElement, {
+  onCaughtError(error, errorInfo) {
+    reportFrontendError(
+      "react_caught",
+      error,
+      errorInfo.componentStack ?? "",
+    );
+  },
+  onRecoverableError(error, errorInfo) {
+    reportFrontendError(
+      "react_recoverable",
+      error,
+      errorInfo.componentStack ?? "",
+    );
+  },
+  onUncaughtError(error, errorInfo) {
+    reportFrontendError(
+      "react_uncaught",
+      error,
+      errorInfo.componentStack ?? "",
+    );
+  },
+}).render(
   <React.StrictMode>
     <AppProviders>
       <App />

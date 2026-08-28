@@ -77,6 +77,7 @@ func run() error {
 
 	// Service creations
 	configSvc := config.NewService()
+	frontendLogSvc := logger.NewService()
 	playerSvc := player.NewService()
 	profileSvc := profile.NewService(playerSvc)
 	consoleSvc := console.NewService(playerSvc.ObserveConsoleCommand)
@@ -95,10 +96,11 @@ func run() error {
 		Logger:      lg.Logger,
 		Services: []application.Service{
 			application.NewService(configSvc),
-			application.NewService(consoleSvc),
-			application.NewService(optionsSvc),
+			application.NewService(frontendLogSvc),
 			application.NewService(playerSvc),
 			application.NewService(profileSvc),
+			application.NewService(consoleSvc),
+			application.NewService(optionsSvc),
 			application.NewService(serverActionSvc),
 			application.NewService(sessionSvc),
 		},

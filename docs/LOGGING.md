@@ -27,5 +27,10 @@ Never log passwords, tokens, webhook addresses, raw command arguments, raw
 command responses, server messages, or complete option values. Command
 diagnostics may include only the command name.
 
+Unexpected frontend errors are forwarded to the same rotating log through the
+logger service. The frontend reports global errors, unhandled rejections, and
+React root errors. Expected failures already handled by the interface are not
+reported. Both sides bound diagnostic fields and redact common secret patterns.
+
 Frontend catalog scripts use `console.*` for command-line output. That output
 is separate from application logging and does not follow these runtime rules.
