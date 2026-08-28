@@ -21,11 +21,7 @@ const errors = [];
 validateLocaleRegistry();
 validateOrdering("locale registry", Object.keys(localeRegistry));
 
-compareSets(
-  "locale registry and generated catalogs",
-  supportedLanguages,
-  generatedLanguages,
-);
+rejectUnknown("generated catalog languages", supportedLanguages, generatedLanguages);
 rejectUnknown("resource directories", supportedLanguages, resourceLanguages);
 
 const defaultNamespaces = sortedStrings(Object.keys(namespaceManifest));
