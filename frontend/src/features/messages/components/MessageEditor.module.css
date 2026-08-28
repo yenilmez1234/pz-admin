@@ -1,13 +1,26 @@
 .root {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.typography {
+  display: flex;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
 }
 
 .content {
   background-color: rgb(0 0 0 / 80%) !important;
   border-radius: 0;
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .content :global(.ProseMirror) {
+  flex: 1;
   min-height: 14rem;
   padding: 0.75rem 0.5rem;
   letter-spacing: normal;

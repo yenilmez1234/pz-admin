@@ -16,6 +16,7 @@ import classes from "./MessageEditor.module.css";
 
 interface MessageEditorProps {
   build: GameBuild;
+  className?: string;
   initialDocument: MessageDocument;
   isTextAllowed?: (value: string) => boolean;
   maxHeight?: CSSProperties["maxHeight"];
@@ -25,6 +26,7 @@ interface MessageEditorProps {
 
 export function MessageEditor({
   build,
+  className,
   initialDocument,
   isTextAllowed,
   maxHeight,
@@ -51,7 +53,12 @@ export function MessageEditor({
 
   return (
     <RichTextEditor
-      classNames={{ content: classes.content, root: classes.root }}
+      className={className}
+      classNames={{
+        content: classes.content,
+        root: classes.root,
+        Typography: classes.typography,
+      }}
       data-game-build={build}
       editor={editor}
       labels={{

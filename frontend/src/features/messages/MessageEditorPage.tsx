@@ -53,6 +53,7 @@ export function MessageEditorPage() {
         <GameMessageEditor
           key={build}
           build={build}
+          className={classes.editor}
           onChange={setMessage}
           value={message}
         />

@@ -17,7 +17,7 @@ export function FormattedMessagePreview({
   const overLimit = maxBytes !== undefined && byteLength > maxBytes;
 
   return (
-    <Stack gap="xs" style={{ minHeight: 0, minWidth: 0 }}>
+    <Stack gap="xs" style={{ flexShrink: 0, minHeight: 0, minWidth: 0 }}>
       <Group justify="space-between">
         <Text fw={600} size="sm">
           {t("preview.title")}

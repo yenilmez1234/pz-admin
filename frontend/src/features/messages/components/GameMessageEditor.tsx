@@ -10,6 +10,7 @@ import { MessageEditor } from "./MessageEditor";
 
 interface GameMessageEditorProps {
   build: GameBuild;
+  className?: string;
   maxHeight?: CSSProperties["maxHeight"];
   onChange: (value: string) => void;
   value: string;
@@ -17,6 +18,7 @@ interface GameMessageEditorProps {
 
 export function GameMessageEditor({
   build,
+  className,
   maxHeight,
   onChange,
   value,
@@ -24,6 +26,7 @@ export function GameMessageEditor({
   return (
     <MessageEditor
       build={build}
+      className={className}
       initialDocument={parseGameMessage(value, build)}
       isTextAllowed={isGameMessageTextAllowed}
       maxHeight={maxHeight}
