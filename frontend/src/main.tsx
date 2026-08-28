@@ -24,11 +24,7 @@ if (!rootElement) {
 
 ReactDOM.createRoot(rootElement, {
   onCaughtError(error, errorInfo) {
-    reportFrontendError(
-      "react_caught",
-      error,
-      errorInfo.componentStack ?? "",
-    );
+    reportFrontendError("react_caught", error, errorInfo.componentStack ?? "");
   },
   onRecoverableError(error, errorInfo) {
     reportFrontendError(
