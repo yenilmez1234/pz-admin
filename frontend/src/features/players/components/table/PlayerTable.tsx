@@ -24,7 +24,6 @@ import { PlayerTableHeader } from "./PlayerTableHeader";
 import { PlayerTableRow } from "./PlayerTableRow";
 
 interface PlayerTableProps {
-  language: string;
   loading: boolean;
   onSelectionChange: (playerIds: Set<string>) => void;
   players: Player[];
@@ -33,14 +32,14 @@ interface PlayerTableProps {
 }
 
 export function PlayerTable({
-  language,
   loading,
   onSelectionChange,
   players,
   selectedPlayerIds,
   showEmptyState,
 }: PlayerTableProps) {
-  const { t } = useTranslation("players");
+  const { i18n, t } = useTranslation("players");
+  const language = i18n.language;
   const actions = usePlayerActions();
   const skeleton = useSkeletonVisibility(loading && players.length === 0);
   const [search, setSearch] = useState("");

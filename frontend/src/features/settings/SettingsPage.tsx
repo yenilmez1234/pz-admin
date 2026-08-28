@@ -40,7 +40,7 @@ export function SettingsPage() {
   const { i18n, t } = useTranslation("settings");
   const { config, error, loading, setLanguage, setTheme } = useAppConfig();
   const percentFormatter = new Intl.NumberFormat(
-    i18n.resolvedLanguage ?? defaultLanguage,
+    i18n.language,
     { style: "percent" },
   );
 

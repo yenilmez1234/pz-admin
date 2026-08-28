@@ -2,16 +2,13 @@ import { useState } from "react";
 import { Alert, Box, Button, Stack, Text } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import { defaultLanguage } from "@/i18n/locales";
 import { PageContainer } from "@/shared/layout/PageContainer";
-import { useAppConfig } from "@/features/config/AppConfigProvider";
 import { usePlayers } from "../PlayersProvider";
 import { PlayerBulkActions } from "../actions/menu/PlayerBulkActions";
 import { PlayerTable } from "./table/PlayerTable";
 
 export function PlayersWorkspace() {
   const { t } = useTranslation(["players", "common"]);
-  const { config } = useAppConfig();
   const { error, loading, players, refresh } = usePlayers();
   const [selectedPlayerIds, setSelectedPlayerIds] = useState<Set<string>>(
     () => new Set(),
@@ -55,7 +52,6 @@ export function PlayersWorkspace() {
         ) : null}
 
         <PlayerTable
-          language={config?.language ?? defaultLanguage}
           loading={loading}
           onSelectionChange={setSelectedPlayerIds}
           players={players}
