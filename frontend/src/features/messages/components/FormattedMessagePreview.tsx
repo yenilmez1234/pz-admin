@@ -1,5 +1,6 @@
 import { Code, Group, Paper, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
+import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
 import { utf8ByteLength } from "@/shared/lib/text";
 
 interface FormattedMessagePreviewProps {
@@ -11,7 +12,7 @@ export function FormattedMessagePreview({
   maxBytes,
   value,
 }: FormattedMessagePreviewProps) {
-  const { t } = useTranslation("messages");
+  const { i18n, t } = useTranslation("messages");
   const byteLength = utf8ByteLength(value);
   const overLimit = maxBytes !== undefined && byteLength > maxBytes;
 
@@ -28,8 +29,8 @@ export function FormattedMessagePreview({
           size="xs"
         >
           {maxBytes === undefined
-            ? t("preview.byteCount", { count: byteLength })
-            : t("preview.byteLimit", { count: byteLength, max: maxBytes })}
+            ? formatUnit(i18n.language, byteLength, "byte")
+            : `${formatNumber(i18n.language, byteLength)} / ${formatUnit(i18n.language, maxBytes, "byte")}`}
         </Text>
       </Group>
       <Paper

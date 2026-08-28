@@ -49,7 +49,7 @@ export function VehiclePickerSelection({
   selectedVehicle,
   variants,
 }: VehiclePickerSelectionProps) {
-  const { t } = useTranslation("vehicles");
+  const { i18n, t } = useTranslation("vehicles");
 
   return (
     <Stack gap="md" h={0} p="xs" style={{ flex: 1, minHeight: 0 }}>
@@ -102,7 +102,12 @@ export function VehiclePickerSelection({
                   </Text>
                 </Group>
                 <Text fw={500} fz={13} lh={1.15}>
-                  {formatVehicleStat(t, stat, selectedVehicle.stats[stat])}
+                  {formatVehicleStat(
+                    t,
+                    i18n.language,
+                    stat,
+                    selectedVehicle.stats[stat],
+                  )}
                 </Text>
               </Fragment>
             ))}

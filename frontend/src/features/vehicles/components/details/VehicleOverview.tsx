@@ -29,7 +29,7 @@ interface VehicleOverviewProps {
 }
 
 export function VehicleOverview({ titleRef, vehicle }: VehicleOverviewProps) {
-  const { t } = useTranslation("vehicles");
+  const { i18n, t } = useTranslation("vehicles");
 
   return (
     <Paper className={classes.scrollPanel} h="100%" p="md" withBorder>
@@ -119,7 +119,7 @@ export function VehicleOverview({ titleRef, vehicle }: VehicleOverviewProps) {
                         {t(`stats.${stat}`)}
                       </Text>
                       <Text fw={500} size="sm">
-                        {formatVehicleStat(t, stat, value)}
+                        {formatVehicleStat(t, i18n.language, stat, value)}
                       </Text>
                     </Stack>
                   </Group>

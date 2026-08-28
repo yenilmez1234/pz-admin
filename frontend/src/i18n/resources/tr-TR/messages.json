@@ -26,10 +26,7 @@
   },
   "preview": {
     "title": "Biçimlendirilmiş Mesaj",
-    "empty": "Biçimlendirilmiş mesaj burada görüntülenecek.",
-    "byteCount_one": "{{count}} bayt",
-    "byteCount_other": "{{count}} bayt",
-    "byteLimit": "{{count}} / {{max}} bayt"
+    "empty": "Biçimlendirilmiş mesaj burada görüntülenecek."
   },
   "actions": {
     "apply": "Uygula",

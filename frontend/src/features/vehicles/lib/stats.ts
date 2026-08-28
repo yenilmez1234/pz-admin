@@ -1,4 +1,5 @@
 import type { TFunction } from "i18next";
+import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
 import type { VehicleNumericStat, VehicleStats } from "../types";
 
 export const primaryVehicleFilterStats = [
@@ -73,6 +74,7 @@ export const vehicleDetailSections = [
 
 export function formatVehicleStat(
   t: TFunction<"vehicles">,
+  locale: string,
   stat: keyof VehicleStats,
   value: boolean | number | undefined,
 ): string {
@@ -82,19 +84,29 @@ export function formatVehicleStat(
   }
   if (typeof value !== "number") return String(value);
   if (stat === "enginePower") {
-    return t("browser.values.enginePower", { value });
+    return t("browser.values.enginePower", {
+      value: formatNumber(locale, value),
+    });
   }
   if (stat === "topSpeed") {
-    return t("browser.values.topSpeed", { value });
+    return formatUnit(locale, value, "kilometer-per-hour");
   }
-  if (stat === "weight") return t("details.values.weight", { value });
-  if (stat === "seats") return t("browser.values.seats", { count: value });
+  if (stat === "weight") return formatUnit(locale, value, "kilogram");
+  if (stat === "seats") {
+    return t("browser.values.seats", {
+      count: value,
+      value: formatNumber(locale, value),
+    });
+  }
   if (
     stat === "gloveBox" ||
     stat === "totalStorage" ||
     stat === "trunkStorage"
   ) {
-    return t("browser.values.storage", { count: value });
+    return t("browser.values.storage", {
+      count: value,
+      value: formatNumber(locale, value),
+    });
   }
-  return String(value);
+  return formatNumber(locale, value);
 }

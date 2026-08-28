@@ -1,4 +1,4 @@
-import { useState, type ReactNode, type SyntheticEvent } from "react";
+import { useMemo, useState, type ReactNode, type SyntheticEvent } from "react";
 import {
   Badge,
   Button,
@@ -85,7 +85,7 @@ function DialogActions({ busy, children, onClose }: DialogActionsProps) {
 }
 
 export function ServerActionsPage() {
-  const { t } = useTranslation(["serverActions", "common"]);
+  const { i18n, t } = useTranslation(["serverActions", "common"]);
   const { players } = usePlayers();
   const { profile, supports } = useSession();
   const build =
@@ -96,8 +96,18 @@ export function ServerActionsPage() {
   const [rainIntensity, setRainIntensity] = useState<string | number>("");
   const [stormDuration, setStormDuration] = useState<string | number>("");
   const [luaFile, setLuaFile] = useState("");
+  const playerListFormatter = useMemo(
+    () =>
+      new Intl.ListFormat(i18n.language, {
+        style: "short",
+        type: "unit",
+      }),
+    [i18n.language],
+  );
   const onlinePlayers = players.filter(isOnline);
-  const playerNames = onlinePlayers.map((player) => player.username).join(", ");
+  const playerNames = playerListFormatter.format(
+    onlinePlayers.map((player) => player.username),
+  );
   const busy = pending !== null;
   const serializedMessage = message;
   const messageEmpty = serializedMessage.trim().length === 0;

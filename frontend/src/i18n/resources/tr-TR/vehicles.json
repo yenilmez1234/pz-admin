@@ -197,11 +197,10 @@
     },
     "values": {
       "enginePower": "{{value}} bg",
-      "seats_one": "{{count}} koltuk",
-      "seats_other": "{{count}} koltuk",
-      "storage_one": "{{count}} birim",
-      "storage_other": "{{count}} birim",
-      "topSpeed": "{{value}} km/sa"
+      "seats_one": "{{value}} koltuk",
+      "seats_other": "{{value}} koltuk",
+      "storage_one": "{{value}} birim",
+      "storage_other": "{{value}} birim"
     }
   },
   "details": {
@@ -214,9 +213,6 @@
       "body": "Gövde ve donanım",
       "capacity": "Kapasite",
       "performance": "Performans"
-    },
-    "values": {
-      "weight": "{{value}} kg"
     },
     "variants": "Varyantlar"
   },

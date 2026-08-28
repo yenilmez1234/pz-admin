@@ -197,11 +197,10 @@
     },
     "values": {
       "enginePower": "{{value}} hp",
-      "seats_one": "{{count}} seat",
-      "seats_other": "{{count}} seats",
-      "storage_one": "{{count}} unit",
-      "storage_other": "{{count}} units",
-      "topSpeed": "{{value}} km/h"
+      "seats_one": "{{value}} seat",
+      "seats_other": "{{value}} seats",
+      "storage_one": "{{value}} unit",
+      "storage_other": "{{value}} units"
     }
   },
   "details": {
@@ -214,9 +213,6 @@
       "body": "Body and equipment",
       "capacity": "Capacity",
       "performance": "Performance"
-    },
-    "values": {
-      "weight": "{{value}} kg"
     },
     "variants": "Variants"
   },

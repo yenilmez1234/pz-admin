@@ -15,6 +15,7 @@ import { IconAlertCircle, IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { utf8ByteLength } from "@/shared/lib/text";
+import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
 import { useItemCatalog } from "../hooks/useItemCatalog";
 import { useItemSelection } from "../hooks/useItemSelection";
 import {
@@ -101,10 +102,7 @@ function ItemEditorDialogContent({
           size="xs"
           ta="end"
         >
-          {t("editor.byteLimit", {
-            count: utf8ByteLength(serializedSelection),
-            max: maxBytes,
-          })}
+          {`${formatNumber(language, utf8ByteLength(serializedSelection))} / ${formatUnit(language, maxBytes, "byte")}`}
         </Text>
       ) : null}
 

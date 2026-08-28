@@ -26,10 +26,7 @@
   },
   "preview": {
     "title": "Formatted Message",
-    "empty": "The formatted message will appear here.",
-    "byteCount_one": "{{count}} byte",
-    "byteCount_other": "{{count}} bytes",
-    "byteLimit": "{{count}} / {{max}} bytes"
+    "empty": "The formatted message will appear here."
   },
   "actions": {
     "apply": "Apply",

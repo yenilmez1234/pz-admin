@@ -9,7 +9,6 @@
     "title": "Başlangıç Eşyalarını Düzenle",
     "edit": "Eşyaları Düzenle",
     "apply": "Uygula",
-    "byteLimit": "{{count}} / {{max}} bayt",
     "empty": "Eşya seçilmedi",
     "summary_one": "{{count}} başlangıç eşyası seçildi",
     "summary_other": "{{count}} başlangıç eşyası seçildi"

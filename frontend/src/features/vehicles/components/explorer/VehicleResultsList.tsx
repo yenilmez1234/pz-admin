@@ -70,7 +70,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
   onVehicleSelect,
   vehicles,
 }: VehicleResultsListProps) {
-  const { t } = useTranslation("vehicles");
+  const { i18n, t } = useTranslation("vehicles");
   const skeleton = useSkeletonVisibility(loading);
 
   return (
@@ -218,6 +218,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
                                 label={t(summaryStatLabels[stat])}
                                 value={formatVehicleStat(
                                   t,
+                                  i18n.language,
                                   stat,
                                   vehicle.stats[stat],
                                 )}

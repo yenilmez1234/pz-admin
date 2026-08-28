@@ -9,7 +9,6 @@
     "title": "Edit Starting Items",
     "edit": "Edit Items",
     "apply": "Apply",
-    "byteLimit": "{{count}} / {{max}} bytes",
     "empty": "No items selected",
     "summary_one": "{{count}} starting item selected",
     "summary_other": "{{count}} starting items selected"
