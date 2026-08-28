@@ -15,7 +15,7 @@ import type * as session$0 from "../../../../beyenilmez/pz-admin/internal/sessio
 declare module "@wailsio/runtime" {
     namespace Events {
         interface CustomEvents {
-            "player:updated": player$0.Update;
+            "players:changed": player$0.Update;
             "session:changed": session$0.Snapshot;
         }
     }

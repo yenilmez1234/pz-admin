@@ -13,6 +13,7 @@ import {
   VisuallyHidden,
 } from "@mantine/core";
 import { useTranslation } from "react-i18next";
+import { ID as FeatureID } from "@bindings/internal/feature/models";
 import {
   ReloadAllLua,
   ReloadLua,
@@ -412,7 +413,7 @@ export function ServerActionsPage() {
                 </Button>
               </form>
             </div>
-            {supports("serverAction.reloadAllLua") ? (
+            {supports(FeatureID.ServerActionReloadAllLua) ? (
               <div className={classes.commandRow}>
                 <CommandInfo
                   description={t("descriptions.reloadAllLua")}

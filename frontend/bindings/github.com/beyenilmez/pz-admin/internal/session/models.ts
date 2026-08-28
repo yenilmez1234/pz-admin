@@ -7,6 +7,9 @@ import { Create as $Create } from "@wailsio/runtime";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
+import * as feature$0 from "../feature/models.js";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: Unused imports
 import * as profile$0 from "../profile/models.js";
 
 /**
@@ -14,7 +17,7 @@ import * as profile$0 from "../profile/models.js";
  */
 export class Snapshot {
     "profile": profile$0.Profile;
-    "features": string[];
+    "features": feature$0.ID[];
     "connected": boolean;
 
     /** Creates a new Snapshot instance. */

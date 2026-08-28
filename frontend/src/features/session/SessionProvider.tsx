@@ -11,6 +11,7 @@ import {
 import { Events } from "@wailsio/runtime";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
+import type { ID as FeatureID } from "@bindings/internal/feature/models";
 import type { Profile } from "@bindings/internal/profile/models";
 import { Connect, Disconnect } from "@bindings/internal/session/service";
 import type { Snapshot } from "@bindings/internal/session/models";
@@ -25,12 +26,12 @@ import {
 interface SessionContextValue {
   connect: (profile: Profile) => Promise<void>;
   disconnect: () => Promise<void>;
-  features: ReadonlySet<string>;
+  features: ReadonlySet<FeatureID>;
   initializationError: string | null;
   profile: Profile | null;
   retryInitialization: () => Promise<void>;
   state: SessionState;
-  supports: (feature: string) => boolean;
+  supports: (feature: FeatureID) => boolean;
 }
 
 const SessionContext = createContext<SessionContextValue | null>(null);
@@ -131,7 +132,7 @@ export function SessionProvider({ children }: SessionProviderProps) {
   }, [synchronize]);
 
   const supports = useCallback(
-    (feature: string) => features.has(feature),
+    (feature: FeatureID) => features.has(feature),
     [features],
   );
 

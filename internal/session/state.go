@@ -10,7 +10,7 @@ import (
 // Snapshot is the serializable public state of the active session.
 type Snapshot struct {
 	Profile   profile.Profile `json:"profile"`
-	Features  []string        `json:"features"`
+	Features  []feature.ID    `json:"features"`
 	Connected bool            `json:"connected"`
 }
 
@@ -27,7 +27,7 @@ func NewState(p profile.Profile, channel connection.Channel) State {
 	state := State{
 		Snapshot: Snapshot{
 			Profile:  p,
-			Features: featureNames(resolveFeatures(p, channel)),
+			Features: resolveFeatures(p, channel).Values(),
 		},
 		Channel: channel,
 	}
@@ -40,15 +40,6 @@ func NewState(p profile.Profile, channel connection.Channel) State {
 		state.Connected = true
 	}
 	return state
-}
-
-func featureNames(features feature.Set) []string {
-	ids := features.Values()
-	names := make([]string, len(ids))
-	for i, id := range ids {
-		names[i] = string(id)
-	}
-	return names
 }
 
 // IsConnected reports whether the snapshot has an executable server session.

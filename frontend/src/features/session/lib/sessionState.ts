@@ -1,3 +1,4 @@
+import type { ID as FeatureID } from "@bindings/internal/feature/models";
 import type { Profile } from "@bindings/internal/profile/models";
 import type { Snapshot } from "@bindings/internal/session/models";
 
@@ -9,13 +10,13 @@ export type SessionState =
   | "disconnected";
 
 interface SessionData {
-  features: ReadonlySet<string>;
+  features: ReadonlySet<FeatureID>;
   initializationError: string | null;
   profile: Profile | null;
   state: SessionState;
 }
 
-const emptyFeatures: ReadonlySet<string> = new Set();
+const emptyFeatures: ReadonlySet<FeatureID> = new Set();
 
 export const initialSessionData: SessionData = {
   features: emptyFeatures,

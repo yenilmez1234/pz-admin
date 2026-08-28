@@ -1,9 +1,10 @@
+import { ID as FeatureID } from "@bindings/internal/feature/models";
 import type { Player } from "@bindings/internal/player/models";
 import { setGodMode, setInvisible, setNoClip } from "./actions";
 
 const playerPowerById = {
   invisible: {
-    feature: "player.setInvisible",
+    feature: FeatureID.PlayerSetInvisible,
     label: "actions.powers.invisible.label",
     enableLabel: "actions.powers.invisible.enable",
     disableLabel: "actions.powers.invisible.disable",
@@ -19,7 +20,7 @@ const playerPowerById = {
     execute: setGodMode,
   },
   noClip: {
-    feature: "player.setNoClip",
+    feature: FeatureID.PlayerSetNoClip,
     label: "actions.powers.noClip.label",
     enableLabel: "actions.powers.noClip.enable",
     disableLabel: "actions.powers.noClip.disable",

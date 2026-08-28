@@ -10,6 +10,7 @@ import (
 	"sync"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
+	"github.com/beyenilmez/pz-admin/internal/feature"
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
@@ -123,14 +124,14 @@ func (s *Service) Profile() (profile.Profile, bool) {
 
 // Features returns the application features available through the active
 // connection. It returns an empty array while disconnected.
-func (s *Service) Features() []string {
+func (s *Service) Features() []feature.ID {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if s.active.Channel == nil {
-		return []string{}
+		return []feature.ID{}
 	}
 
-	return append([]string(nil), s.active.Features...)
+	return append([]feature.ID(nil), s.active.Features...)
 }
 
 // Snapshot returns the complete serializable state of the active session.

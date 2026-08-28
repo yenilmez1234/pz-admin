@@ -15,7 +15,7 @@ import * as session$0 from "../../../../beyenilmez/pz-admin/internal/session/mod
 
 function configure() {
     Object.freeze(Object.assign($Create.Events, {
-        "player:updated": $$createType0,
+        "players:changed": $$createType0,
         "session:changed": $$createType1,
     }));
 }

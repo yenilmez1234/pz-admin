@@ -12,6 +12,9 @@ import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Cr
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
+import * as feature$0 from "../feature/models.js";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: Unused imports
 import * as profile$0 from "../profile/models.js";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -38,7 +41,7 @@ export function Disconnect(): $CancellablePromise<void> {
  * Features returns the application features available through the active
  * connection. It returns an empty array while disconnected.
  */
-export function Features(): $CancellablePromise<string[]> {
+export function Features(): $CancellablePromise<feature$0.ID[]> {
     return $Call.ByID(4186798162).then(($result: any) => {
         return $$createType0($result);
     });
