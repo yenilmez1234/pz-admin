@@ -14,8 +14,10 @@ import (
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
+const changedEvent = "session:changed"
+
 func init() {
-	application.RegisterEvent[Snapshot]("session:changed")
+	application.RegisterEvent[Snapshot](changedEvent)
 }
 
 // Service is the Wails v3 boundary for the active server session.
@@ -158,5 +160,5 @@ func (s *Service) notify(state State) {
 	}
 
 	app := application.Get()
-	app.Event.Emit("session:changed", state.Snapshot)
+	app.Event.Emit(changedEvent, state.Snapshot)
 }

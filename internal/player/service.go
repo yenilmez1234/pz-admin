@@ -15,10 +15,13 @@ import (
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
-const pollInterval = 15 * time.Second
+const (
+	changedEvent = "players:changed"
+	pollInterval = 15 * time.Second
+)
 
 func init() {
-	application.RegisterEvent[Update]("player:updated")
+	application.RegisterEvent[Update](changedEvent)
 }
 
 // Service exposes stored player data and owns the player store lifecycle.
@@ -193,7 +196,7 @@ func (s *Service) merge(profileID string, observations []Observation, observedAt
 
 func (s *Service) emitUpdate(profileID string, players []Player) {
 	if app := application.Get(); app != nil {
-		app.Event.Emit("player:updated", Update{ProfileID: profileID, Players: players})
+		app.Event.Emit(changedEvent, Update{ProfileID: profileID, Players: players})
 	}
 }
 

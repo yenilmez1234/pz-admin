@@ -76,7 +76,7 @@ export function PlayersProvider({ children }: PlayersProviderProps) {
   }, [profileId]);
 
   useEffect(() => {
-    return Events.On("player:updated", ({ data: update }) => {
+    return Events.On("players:changed", ({ data: update }) => {
       if (update.profileId !== profileId) return;
 
       eventRevisionRef.current += 1;
