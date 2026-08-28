@@ -1,3 +1,5 @@
+/* oxlint-disable eslint/no-await-in-loop -- Game data files are read sequentially. */
+
 import fs from "node:fs/promises";
 import path from "node:path";
 import {

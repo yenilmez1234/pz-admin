@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* oxlint-disable eslint/no-await-in-loop -- Wiki requests are deliberately rate-limited. */
+
 // Scrapes the Build 42 Project Zomboid Wiki into `public/vehicles/42`, including
 // the folder structure, images, and per-leaf `stats.json` files. Run
 // `pnpm generate:vehicles -- --build 42` afterwards to generate the catalog.

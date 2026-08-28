@@ -1,3 +1,5 @@
+/* oxlint-disable eslint/no-await-in-loop -- Game translation files are read sequentially. */
+
 import fs from "node:fs/promises";
 import path from "node:path";
 const TRANSLATE_PATH = ["media", "lua", "shared", "Translate"];

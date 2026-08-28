@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* oxlint-disable eslint/no-await-in-loop -- Game translations are read sequentially. */
+
 // Extracts reference metadata from an installed game build. The chosen output
 // is temporary input for maintaining the authoritative option definitions.
 //

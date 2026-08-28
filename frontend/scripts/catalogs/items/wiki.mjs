@@ -1,3 +1,5 @@
+/* oxlint-disable eslint/no-await-in-loop -- Downloads are deliberately rate-limited. */
+
 import fs from "node:fs/promises";
 import path from "node:path";
 import { execFile } from "node:child_process";

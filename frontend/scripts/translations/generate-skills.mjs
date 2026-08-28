@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* oxlint-disable eslint/no-await-in-loop -- Locale files are generated sequentially. */
 
 import fs from "node:fs/promises";
 import path from "node:path";

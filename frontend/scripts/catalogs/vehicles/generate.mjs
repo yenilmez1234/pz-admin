@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* oxlint-disable eslint/no-await-in-loop -- Catalog directories are processed sequentially. */
+
 // Regenerates `src/data/vehicles/<build>.json` from the hand-curated
 // `public/vehicles/<build>` folder tree.
 //
