@@ -43,7 +43,7 @@ func (e loggingExecutor) ExecuteCommand(ctx context.Context, input string) (stri
 		)
 		return "", err
 	}
-	
+
 	slog.Debug(
 		"server command completed",
 		"command", command,
