@@ -7,7 +7,6 @@ import (
 	"os"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/config"
 	"github.com/beyenilmez/pz-admin/internal/console"
@@ -40,7 +39,6 @@ func init() {
 	// Register a custom event whose associated data type is string.
 	// This is not required, but the binding generator will pick up registered events
 	// and provide a strongly typed JS/TS API for them.
-	application.RegisterEvent[string]("time")
 }
 
 // main function serves as the application's entry point. It initializes the application, creates a window,
@@ -82,6 +80,7 @@ func run() error {
 	// 'Assets' configures the asset server with the 'FS' variable pointing to the frontend files.
 	// 'Bind' is a list of Go struct instances. The frontend has access to the methods of these instances.
 	// 'Mac' options tailor the application when running an macOS.
+	configSvc := config.NewService()
 	playerSvc := player.NewService()
 	profileSvc := profile.NewService(playerSvc)
 	consoleSvc := console.NewService(playerSvc.ObserveConsoleCommand)
@@ -94,7 +93,7 @@ func run() error {
 		Description: "A demo of using raw HTML & CSS",
 		Logger:      lg.Logger,
 		Services: []application.Service{
-			application.NewService(config.NewService()),
+			application.NewService(configSvc),
 			application.NewService(consoleSvc),
 			application.NewService(optionsSvc),
 			application.NewService(playerSvc),
@@ -129,16 +128,6 @@ func run() error {
 		BackgroundColour: application.NewRGB(6, 7, 15),
 		URL:              "/",
 	})
-
-	// Create a goroutine that emits an event containing the current time every second.
-	// The frontend can listen to this event and update the UI accordingly.
-	go func() {
-		for {
-			now := time.Now().Format(time.RFC1123)
-			app.Event.Emit("time", now)
-			time.Sleep(time.Second)
-		}
-	}()
 
 	// Run the application. This blocks until the application has been exited.
 	if err := app.Run(); err != nil {
