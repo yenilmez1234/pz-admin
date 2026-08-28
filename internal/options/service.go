@@ -4,6 +4,7 @@ package options
 import (
 	"context"
 	"errors"
+	"log/slog"
 	"sync"
 
 	"github.com/beyenilmez/pz-admin/internal/command"
@@ -66,6 +67,11 @@ func (s *Service) Update(ctx context.Context, changes map[string]string) (Update
 		}
 		result.Updated = append(result.Updated, name)
 	}
+	slog.Debug(
+		"server options update completed",
+		"updated_count", len(result.Updated),
+		"failed_count", len(result.Failed),
+	)
 	return result, nil
 }
 

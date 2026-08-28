@@ -114,7 +114,7 @@ func (s *Store) Delete(id string) error {
 	}
 	s.mu.Unlock()
 	if err := keyring.Delete(keyringService, id); err != nil && !errors.Is(err, keyring.ErrNotFound) {
-		slog.Warn("profile: keyring delete failed", "id", id, "err", err)
+		slog.Warn("keyring password deletion failed", "profile_id", id, "err", err)
 	}
 	return nil
 }

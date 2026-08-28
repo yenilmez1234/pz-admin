@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
@@ -82,6 +83,12 @@ func (s *Service) Connect(ctx context.Context, profileID string) error {
 	}
 
 	s.active = NewState(p, channel)
+	slog.Info(
+		"session connected",
+		"profile_id", p.ID,
+		"build", p.Version,
+		"connection_type", p.ConnectionType,
+	)
 	s.notify(s.active)
 	return nil
 }
@@ -93,9 +100,11 @@ func (s *Service) Disconnect() error {
 		s.mu.Unlock()
 		return nil
 	}
+	profileID := s.active.Profile.ID
 	s.active.Channel.Close()
 	s.active = State{}
 	s.mu.Unlock()
+	slog.Info("session disconnected", "profile_id", profileID)
 	s.notify(State{})
 	return nil
 }
@@ -137,6 +146,7 @@ func (s *Service) handleDisconnect(profileID string, channel connection.Channel)
 	}
 	s.active = State{}
 	s.mu.Unlock()
+	slog.Warn("session connection lost", "profile_id", profileID)
 	s.notify(State{})
 }
 

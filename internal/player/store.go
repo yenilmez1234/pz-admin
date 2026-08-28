@@ -70,7 +70,7 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 	changed := false
 	for _, observation := range observations {
 		if observation.ID == "" && observation.Username == "" {
-			slog.Debug("player: skipping observation without ID or username")
+			slog.Debug("skipping observation without identity")
 			continue
 		}
 
@@ -97,7 +97,7 @@ func (s *Store) Merge(profileID string, observations []Observation, observedAt t
 			if observation.Username == "" {
 				// An ID alone cannot create a usable player record because the
 				// username is required for subsequent server commands.
-				slog.Debug("player: skipping unknown observation", "id", observation.ID)
+				slog.Debug("skipping unknown observation", "player_id", observation.ID)
 				continue
 			}
 			updated = appendObservation(updated, observation, observedAt)

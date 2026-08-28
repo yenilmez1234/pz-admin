@@ -153,7 +153,7 @@ func (s *Service) refresh(ctx context.Context, state session.State) {
 	observations, err := observePlayers(ctx, state)
 	if err != nil {
 		if !errors.Is(err, context.Canceled) {
-			slog.Warn("player refresh failed", "profile", state.Profile.ID, "err", err)
+			slog.Warn("online player query failed", "profile_id", state.Profile.ID, "err", err)
 		}
 		return
 	}
@@ -162,7 +162,7 @@ func (s *Service) refresh(ctx context.Context, state session.State) {
 	}
 	players, err := s.store.List(state.Profile.ID)
 	if err != nil {
-		slog.Warn("player refresh failed", "profile", state.Profile.ID, "err", err)
+		slog.Warn("stored player lookup failed", "profile_id", state.Profile.ID, "err", err)
 		return
 	}
 	online := make(map[string]struct{}, len(observations))
@@ -178,7 +178,7 @@ func (s *Service) refresh(ctx context.Context, state session.State) {
 		observations = append(observations, offline)
 	}
 	if _, err := s.merge(state.Profile.ID, observations, time.Now().UTC()); err != nil {
-		slog.Warn("player merge failed", "profile", state.Profile.ID, "err", err)
+		slog.Warn("player refresh merge failed", "profile_id", state.Profile.ID, "err", err)
 	}
 }
 

@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync/atomic"
 
 	"github.com/beyenilmez/pz-admin/internal/appdata"
@@ -93,7 +94,7 @@ func (b *Bundle) Close() error {
 	return nil
 }
 
-// handlerOpts enables source locations and shortens them to file names.
+// handlerOpts enables source locations and shortens them to package/file names.
 func handlerOpts(level slog.Leveler) *slog.HandlerOptions {
 	return &slog.HandlerOptions{
 		Level:       level,
@@ -102,7 +103,7 @@ func handlerOpts(level slog.Leveler) *slog.HandlerOptions {
 	}
 }
 
-// shortSource keeps only the source file's base name. It allocates a new Source
+// shortSource keeps the package name and source file. It allocates a new Source
 // so handlers never share mutable state.
 func shortSource(_ []string, a slog.Attr) slog.Attr {
 	if a.Key != slog.SourceKey {
@@ -111,11 +112,24 @@ func shortSource(_ []string, a slog.Attr) slog.Attr {
 	if src, ok := a.Value.Any().(*slog.Source); ok && src != nil {
 		return slog.Any(slog.SourceKey, &slog.Source{
 			Function: src.Function,
-			File:     filepath.Base(src.File),
+			File:     filepath.Join(sourcePackage(src.Function), filepath.Base(src.File)),
 			Line:     src.Line,
 		})
 	}
 	return a
+}
+
+func sourcePackage(function string) string {
+	if slash := strings.LastIndexByte(function, '/'); slash >= 0 {
+		function = function[slash+1:]
+	}
+	if dot := strings.IndexByte(function, '.'); dot >= 0 {
+		function = function[:dot]
+	}
+	if function == "" {
+		return "unknown"
+	}
+	return function
 }
 
 // errorWriter reports the first underlying write error through errw so file

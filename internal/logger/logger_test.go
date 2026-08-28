@@ -45,9 +45,9 @@ func TestHandlerOpts(t *testing.T) {
 			if !options.AddSource {
 				t.Error("AddSource = false, want true")
 			}
-			src := &slog.Source{Function: "f", File: "/x/y/z.go", Line: 1}
+			src := &slog.Source{Function: "example.com/project/pkg.F", File: "/x/y/z.go", Line: 1}
 			result := options.ReplaceAttr(nil, slog.Any(slog.SourceKey, src))
-			if got, ok := result.Value.Any().(*slog.Source); !ok || got.File != "z.go" {
+			if got, ok := result.Value.Any().(*slog.Source); !ok || got.File != filepath.Join("pkg", "z.go") {
 				t.Error("ReplaceAttr is not shortSource or not shortening file paths")
 			}
 		})
@@ -62,9 +62,9 @@ func TestShortSource(t *testing.T) {
 	}{
 		{"string attr passes through", slog.String("message", "hello"), slog.String("message", "hello")},
 		{"int attr passes through", slog.Int("count", 3), slog.Int("count", 3)},
-		{"source file shortened to base name",
+		{"source file shortened to package and base name",
 			slog.Any(slog.SourceKey, &slog.Source{Function: "pkg.F", File: "/a/b/logger.go", Line: 99}),
-			slog.Any(slog.SourceKey, &slog.Source{Function: "pkg.F", File: "logger.go", Line: 99})},
+			slog.Any(slog.SourceKey, &slog.Source{Function: "pkg.F", File: filepath.Join("pkg", "logger.go"), Line: 99})},
 		{"source key with string value passes through",
 			slog.String(slog.SourceKey, "not a *slog.Source"), slog.String(slog.SourceKey, "not a *slog.Source")},
 		{"source key with nil passes through", slog.Any(slog.SourceKey, nil), slog.Any(slog.SourceKey, nil)},

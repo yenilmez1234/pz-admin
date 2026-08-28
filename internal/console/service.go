@@ -62,7 +62,12 @@ func (s *Service) Execute(ctx context.Context, command string) (string, error) {
 		if err := s.observer(p, command, result); err != nil {
 			// The remote command succeeded; local observation must not turn it
 			// into a misleading console failure.
-			slog.Warn("console command observation failed", "command", command, "err", err)
+			slog.Warn(
+				"console command observation failed",
+				"profile_id", p.ID,
+				"command", strings.Fields(command)[0],
+				"err", err,
+			)
 		}
 	}
 	return result, nil

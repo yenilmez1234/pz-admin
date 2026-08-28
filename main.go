@@ -62,10 +62,10 @@ func run() error {
 	if lvl := os.Getenv("PZ_ADMIN_LOG"); lvl != "" {
 		var level slog.Level
 		if err := level.UnmarshalText([]byte(lvl)); err != nil {
-			lg.Logger.Warn("PZ_ADMIN_LOG has invalid level, ignoring", "env", lvl, "err", err)
+			lg.Logger.Warn("invalid file log level", "setting", "PZ_ADMIN_LOG", "value", lvl, "err", err)
 		} else {
 			lg.LevelVar.Set(level)
-			lg.Logger.Info("log level overridden", "level", lvl)
+			lg.Logger.Info("file log level overridden", "level", level)
 		}
 	}
 
@@ -75,11 +75,7 @@ func run() error {
 		"arch", runtime.GOARCH,
 	)
 
-	// Create a new Wails application by providing the necessary options.
-	// Variables 'Name' and 'Description' are for application metadata.
-	// 'Assets' configures the asset server with the 'FS' variable pointing to the frontend files.
-	// 'Bind' is a list of Go struct instances. The frontend has access to the methods of these instances.
-	// 'Mac' options tailor the application when running an macOS.
+	// Service creations
 	configSvc := config.NewService()
 	playerSvc := player.NewService()
 	profileSvc := profile.NewService(playerSvc)
@@ -88,6 +84,11 @@ func run() error {
 	serverActionSvc := serveraction.NewService()
 	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc, optionsSvc, serverActionSvc)
 
+	// Create a new Wails application by providing the necessary options.
+	// Variables 'Name' and 'Description' are for application metadata.
+	// 'Assets' configures the asset server with the 'FS' variable pointing to the frontend files.
+	// 'Bind' is a list of Go struct instances. The frontend has access to the methods of these instances.
+	// 'Mac' options tailor the application when running an macOS.
 	app := application.New(application.Options{
 		Name:        "pz-admin",
 		Description: "A demo of using raw HTML & CSS",

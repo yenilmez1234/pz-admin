@@ -89,38 +89,46 @@ func (s *Service) ServiceStartup(ctx context.Context, options application.Servic
 	s.cfg = defaults()
 	data, err := os.ReadFile(filepath.Join(s.dir, configFileName))
 	if errors.Is(err, os.ErrNotExist) {
-		slog.Info("config not found, writing defaults")
-		return s.save()
+		if err := s.save(); err != nil {
+			return err
+		}
+		slog.Info("default config created")
+		return nil
 	}
 	if err != nil {
-		slog.Warn("config unreadable, using defaults", "err", err)
+		slog.Warn("config unreadable; using defaults", "err", err)
 		return nil
 	}
 	if err := json.Unmarshal(data, &s.cfg); err != nil {
-		return s.recoverBadConfig(data, err, "config unparseable, wrote defaults")
+		return s.recoverBadConfig(data, err, "unparseable")
 	}
 	if err := s.cfg.Validate(); err != nil {
-		return s.recoverBadConfig(data, err, "config invalid, wrote defaults")
+		return s.recoverBadConfig(data, err, "invalid")
 	}
-	slog.Info("config loaded", "theme", s.cfg.Theme, "language", s.cfg.Language)
+	slog.Debug("config loaded", "theme", s.cfg.Theme, "language", s.cfg.Language)
 	return nil
 }
 
 // recoverBadConfig backs up readable data and replaces the configuration with
 // defaults. A backup failure is fatal because the original must be preserved.
-func (s *Service) recoverBadConfig(data []byte, cause error, msg string) error {
+func (s *Service) recoverBadConfig(data []byte, cause error, reason string) error {
 	path := filepath.Join(s.dir, configFileName)
 	bak := path + configBakExt
 	if data != nil {
 		if err := atomicfile.WriteFile(bak, data, 0o600); err != nil {
 			return fmt.Errorf("config: backup: %w", err)
 		}
-		slog.Warn(msg, "err", cause, "backup", bak)
-	} else {
-		slog.Warn(msg, "err", cause)
 	}
 	s.cfg = defaults()
-	return s.save()
+	if err := s.save(); err != nil {
+		return err
+	}
+	if data != nil {
+		slog.Warn("config recovered with defaults", "reason", reason, "err", cause, "backup", bak)
+	} else {
+		slog.Warn("config recovered with defaults", "reason", reason, "err", cause)
+	}
+	return nil
 }
 
 // resolveDir returns the configured directory or the platform configuration

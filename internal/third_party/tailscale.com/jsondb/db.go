@@ -89,7 +89,7 @@ func OpenRecovering[T any](path string, empty T) (*DB[T], error) {
 	}
 	*db.Data = empty
 	if backup != "" {
-		slog.Warn("corrupt JSON backed up; starting fresh", "path", path, "backup", backup)
+		slog.Warn("corrupt JSON recovered with empty data", "path", path, "backup", backup)
 	}
 	return db, nil
 }

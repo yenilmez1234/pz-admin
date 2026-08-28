@@ -3,8 +3,11 @@ package command
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/netip"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/connection"
 )
@@ -17,7 +20,36 @@ type Client struct {
 
 // NewClient returns a Client that executes commands through exec for version.
 func NewClient(exec connection.CommandExecutor, version string) *Client {
-	return &Client{exec: exec, version: version}
+	return &Client{exec: loggingExecutor{CommandExecutor: exec}, version: version}
+}
+
+type loggingExecutor struct {
+	connection.CommandExecutor
+}
+
+func (e loggingExecutor) ExecuteCommand(ctx context.Context, input string) (string, error) {
+	startedAt := time.Now()
+	result, err := e.CommandExecutor.ExecuteCommand(ctx, input)
+	command := "unknown"
+	if fields := strings.Fields(input); len(fields) > 0 {
+		command = fields[0]
+	}
+	if err != nil {
+		slog.Debug(
+			"server command failed",
+			"command", command,
+			"duration", time.Since(startedAt),
+			"err", err,
+		)
+		return "", err
+	}
+	
+	slog.Debug(
+		"server command completed",
+		"command", command,
+		"duration", time.Since(startedAt),
+	)
+	return result, nil
 }
 
 // Execute sends an untyped command through the active server connection.
