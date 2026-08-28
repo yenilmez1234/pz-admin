@@ -17,7 +17,6 @@ declare module "@wailsio/runtime" {
         interface CustomEvents {
             "player:updated": player$0.Update;
             "session:changed": session$0.Snapshot;
-            "time": string;
         }
     }
 }

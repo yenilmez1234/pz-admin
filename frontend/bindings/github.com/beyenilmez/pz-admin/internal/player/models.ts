@@ -110,9 +110,9 @@ export class Player {
     "noClip"?: boolean | null;
     "banned"?: boolean | null;
     "voiceBanned"?: boolean | null;
-    "firstSeenAt": Date;
-    "lastSeenOnlineAt": Date;
-    "lastKnownOfflineAt": Date;
+    "firstSeenAt": string;
+    "lastSeenOnlineAt": string;
+    "lastKnownOfflineAt": string;
 
     /** Creates a new Player instance. */
     constructor($$source: Partial<Player> = {}) {
@@ -123,13 +123,13 @@ export class Player {
             this["username"] = "";
         }
         if (!("firstSeenAt" in $$source)) {
-            this["firstSeenAt"] = new Date("0001-01-01T00:00:00.000Z");
+            this["firstSeenAt"] = "0001-01-01T00:00:00.000Z";
         }
         if (!("lastSeenOnlineAt" in $$source)) {
-            this["lastSeenOnlineAt"] = new Date("0001-01-01T00:00:00.000Z");
+            this["lastSeenOnlineAt"] = "0001-01-01T00:00:00.000Z";
         }
         if (!("lastKnownOfflineAt" in $$source)) {
-            this["lastKnownOfflineAt"] = new Date("0001-01-01T00:00:00.000Z");
+            this["lastKnownOfflineAt"] = "0001-01-01T00:00:00.000Z";
         }
 
         Object.assign(this, $$source);
@@ -139,19 +139,7 @@ export class Player {
      * Creates a new Player instance from a string or object.
      */
     static createFrom($$source: any = {}): Player {
-        const $$createField8_0 = $Create.DateFromTime;
-        const $$createField9_0 = $Create.DateFromTime;
-        const $$createField10_0 = $Create.DateFromTime;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
-        if ("firstSeenAt" in $$parsedSource) {
-            $$parsedSource["firstSeenAt"] = $$createField8_0($$parsedSource["firstSeenAt"]);
-        }
-        if ("lastSeenOnlineAt" in $$parsedSource) {
-            $$parsedSource["lastSeenOnlineAt"] = $$createField9_0($$parsedSource["lastSeenOnlineAt"]);
-        }
-        if ("lastKnownOfflineAt" in $$parsedSource) {
-            $$parsedSource["lastKnownOfflineAt"] = $$createField10_0($$parsedSource["lastKnownOfflineAt"]);
-        }
         return new Player($$parsedSource as Partial<Player>);
     }
 }
