@@ -39,10 +39,9 @@ const languageOptions = [...locales]
 export function SettingsPage() {
   const { i18n, t } = useTranslation("settings");
   const { config, error, loading, setLanguage, setTheme } = useAppConfig();
-  const percentFormatter = new Intl.NumberFormat(
-    i18n.language,
-    { style: "percent" },
-  );
+  const percentFormatter = new Intl.NumberFormat(i18n.language, {
+    style: "percent",
+  });
 
   function handleThemeChange(theme: string) {
     if (isThemeSetting(theme)) void setTheme(theme);

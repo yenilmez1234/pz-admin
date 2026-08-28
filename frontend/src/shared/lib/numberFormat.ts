@@ -1,7 +1,4 @@
-type SupportedUnit =
-  | "byte"
-  | "kilogram"
-  | "kilometer-per-hour";
+type SupportedUnit = "byte" | "kilogram" | "kilometer-per-hour";
 
 const decimalFormatters = new Map<string, Intl.NumberFormat>();
 const unitFormatters = new Map<string, Intl.NumberFormat>();
@@ -15,11 +12,7 @@ export function formatNumber(locale: string, value: number) {
   return formatter.format(value);
 }
 
-export function formatUnit(
-  locale: string,
-  value: number,
-  unit: SupportedUnit,
-) {
+export function formatUnit(locale: string, value: number, unit: SupportedUnit) {
   const key = `${locale}:${unit}`;
   let formatter = unitFormatters.get(key);
   if (!formatter) {
