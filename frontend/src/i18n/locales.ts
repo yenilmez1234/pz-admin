@@ -1,19 +1,32 @@
-import localeNames from "./locales.json";
+import localeRegistry from "./locales.json";
 
-export type SupportedLanguage = keyof typeof localeNames;
+export type SupportedLanguage = keyof typeof localeRegistry;
 
 export function isSupportedLanguage(
   language: string,
 ): language is SupportedLanguage {
-  return Object.prototype.hasOwnProperty.call(localeNames, language);
+  return Object.entries(localeRegistry).some(
+    ([code, supported]) => code === language && supported,
+  );
 }
 
-export const locales = Object.entries(localeNames).map(([code, nativeName]) => {
-  if (!isSupportedLanguage(code)) {
-    throw new Error(`Unsupported locale code: ${code}`);
+function nativeLanguageName(language: SupportedLanguage) {
+  try {
+    const displayNames = new Intl.DisplayNames([language], {
+      languageDisplay: "standard",
+      type: "language",
+    });
+    return displayNames.of(language) ?? language;
+  } catch {
+    return language;
   }
-  return { code, nativeName };
-});
+}
+
+export const locales = Object.keys(localeRegistry).flatMap((code) =>
+  isSupportedLanguage(code)
+    ? [{ code, nativeName: nativeLanguageName(code) }]
+    : [],
+);
 
 export const defaultLanguage = "en-US" satisfies SupportedLanguage;
 

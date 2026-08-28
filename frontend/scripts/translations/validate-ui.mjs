@@ -5,9 +5,9 @@ import { frontendRoot } from "../shared/paths.mjs";
 const i18nRoot = join(frontendRoot, "src", "i18n");
 const resourcesRoot = join(i18nRoot, "resources");
 const defaultLanguage = "en-US";
-const localeNames = readJson(join(i18nRoot, "locales.json"));
+const localeRegistry = readJson(join(i18nRoot, "locales.json"));
 const namespaceManifest = readJson(join(i18nRoot, "namespaces.json"));
-const supportedLanguages = sortedStrings(Object.keys(localeNames));
+const supportedLanguages = sortedStrings(Object.keys(localeRegistry));
 const generatedLanguages = sortedStrings(
   new Set([...catalogLanguages("items"), ...catalogLanguages("skills")]),
 );
@@ -19,7 +19,7 @@ const resourceLanguages = sortedStrings(
 const errors = [];
 
 validateLocaleRegistry();
-validateOrdering("locale registry", Object.keys(localeNames));
+validateOrdering("locale registry", Object.keys(localeRegistry));
 
 compareSets(
   "locale registry and generated catalogs",
@@ -134,9 +134,9 @@ function flatten(value, context, prefix = "", entries = new Map()) {
 }
 
 function validateLocaleRegistry() {
-  for (const [language, nativeName] of Object.entries(localeNames)) {
-    if (typeof nativeName !== "string" || nativeName.trim() === "") {
-      errors.push(`${language}: native locale name must be a non-empty string`);
+  for (const [language, marker] of Object.entries(localeRegistry)) {
+    if (marker !== true) {
+      errors.push(`${language}: locale registry value must be true`);
     }
 
     try {
