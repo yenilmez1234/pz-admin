@@ -7,7 +7,7 @@ import "@mantine/core/styles.css";
 import "@mantine/tiptap/styles.css";
 import "@mantine/notifications/styles.css";
 import "./i18n";
-import App from "./app/App";
+import { App } from "./app/App";
 import { AppProviders } from "./app/AppProviders";
 import {
   installFrontendErrorReporting,

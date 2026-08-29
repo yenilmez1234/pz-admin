@@ -5,7 +5,7 @@ import { ToolsPage } from "@/features/tools/ToolsPage";
 import type { AppSection } from "@/app/navigation";
 import { usePersistentNavigation } from "@/shared/hooks/usePersistentNavigation";
 
-function App() {
+export function App() {
   const navigation = usePersistentNavigation<AppSection>("server");
 
   return (
@@ -25,5 +25,3 @@ function App() {
     </ApplicationShell>
   );
 }
-
-export default App;
