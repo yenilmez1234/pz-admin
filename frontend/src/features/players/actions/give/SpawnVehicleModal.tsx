@@ -16,7 +16,10 @@ import { VehiclePicker } from "@/features/vehicles/components/picker/VehiclePick
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
 import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
-import { dialogSizes } from "@/shared/layout/dialogs";
+import {
+  dialogBrowserViewportHeight,
+  dialogSizes,
+} from "@/shared/layout/dialogs";
 
 interface SpawnVehicleModalProps {
   build: GameBuild;
@@ -94,7 +97,7 @@ export function SpawnVehicleModal({
             </Stack>
           </Alert>
         ) : skeleton.active ? (
-          <Stack gap="sm" h="min(62vh, 40rem)" aria-busy="true">
+          <Stack gap="sm" h={dialogBrowserViewportHeight} aria-busy="true">
             {skeleton.visible ? (
               <>
                 <Skeleton h={28} w="45%" />

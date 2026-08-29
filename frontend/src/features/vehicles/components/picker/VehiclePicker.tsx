@@ -15,6 +15,7 @@ import type {
   VehicleCatalog,
   VehicleCatalogEntry,
 } from "@/features/vehicles/types";
+import { dialogBrowserViewportHeight } from "@/shared/layout/dialogs";
 import { VehiclePickerCard } from "./VehiclePickerCard";
 import { VehiclePickerSelection } from "./VehiclePickerSelection";
 import {
@@ -89,7 +90,7 @@ export function VehiclePicker({
       }));
 
   return (
-    <Stack className={classes.content} h="min(62vh, 40rem)">
+    <Stack className={classes.content} h={dialogBrowserViewportHeight}>
       <Group gap={6} wrap="nowrap">
         <ActionIcon
           aria-label={t("picker.back")}
