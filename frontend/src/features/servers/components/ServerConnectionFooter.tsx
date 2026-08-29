@@ -2,6 +2,7 @@ import { Button, Stack, Text } from "@mantine/core";
 import { IconPlugOff } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Profile } from "@bindings/internal/profile/models";
+import classes from "./ServerConnectionFooter.module.css";
 
 type ServerConnectionState = "connected" | "disconnecting";
 
@@ -34,8 +35,8 @@ export function ServerConnectionFooter({
         {profile.host}:{profile.port}
       </Text>
       <Button
+        className={classes.disconnect}
         variant="default"
-        c="light-dark(var(--mantine-color-red-7), var(--mantine-color-red-4))"
         size="xs"
         fullWidth
         leftSection={<IconPlugOff size={14} aria-hidden="true" />}
