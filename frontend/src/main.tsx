@@ -12,7 +12,7 @@ import { AppProviders } from "./app/AppProviders";
 import {
   installFrontendErrorReporting,
   reportFrontendError,
-} from "./shared/lib/frontendErrorReporting";
+} from "./app/lib/frontendErrorReporting";
 
 installFrontendErrorReporting();
 
