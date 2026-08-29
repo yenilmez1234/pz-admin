@@ -74,17 +74,8 @@ export const VehicleResultsList = memo(function VehicleResultsList({
   const skeleton = useSkeletonVisibility(loading);
 
   return (
-    <Paper
-      withBorder
-      style={{
-        display: "flex",
-        flex: 1,
-        height: 0,
-        minHeight: 0,
-        overflow: "hidden",
-      }}
-    >
-      <ScrollArea h="100%" type="auto" style={{ flex: 1, minWidth: 0 }}>
+    <Paper className={classes.root} withBorder>
+      <ScrollArea className={classes.scrollArea} h="100%" type="auto">
         <Box
           aria-busy={loading}
           aria-label={t("browser.accessibleLabel")}
@@ -96,27 +87,20 @@ export const VehicleResultsList = memo(function VehicleResultsList({
             ? Array.from({ length: 7 }, (_row, index) => (
                 <Box
                   component="li"
+                  className={classes.item}
+                  data-skeleton
                   key={index}
                   px="md"
                   py="sm"
-                  style={{
-                    borderBottom:
-                      "1px solid var(--mantine-color-default-border)",
-                    listStyle: "none",
-                  }}
                 >
                   <Grid align="center" gap="md">
                     <Grid.Col span={{ base: 12, sm: 6 }}>
                       <Group gap={0} wrap="nowrap">
                         <Box
+                          className={classes.skeletonThumbnail}
                           h={76}
                           ms="calc(-1 * var(--mantine-spacing-md))"
                           my="calc(-1 * var(--mantine-spacing-sm))"
-                          style={{
-                            display: "flex",
-                            flex: "0 0 120px",
-                            overflow: "hidden",
-                          }}
                         >
                           <Skeleton h="100%" radius={0} w="100%" />
                         </Box>
@@ -141,19 +125,12 @@ export const VehicleResultsList = memo(function VehicleResultsList({
               ))
             : skeleton.active
               ? null
-              : vehicles.map((vehicle, index) => (
+              : vehicles.map((vehicle) => (
                   <Box
+                    className={classes.item}
                     component="li"
+                    data-content
                     key={vehicle.id}
-                    style={{
-                      borderBottom:
-                        index === vehicles.length - 1
-                          ? undefined
-                          : "1px solid var(--mantine-color-default-border)",
-                      contentVisibility: "auto",
-                      containIntrinsicSize: "80px",
-                      listStyle: "none",
-                    }}
                   >
                     <UnstyledButton
                       className={classes.row}
@@ -166,16 +143,10 @@ export const VehicleResultsList = memo(function VehicleResultsList({
                         <Grid.Col span={{ base: 12, sm: 6 }}>
                           <Group gap={0} wrap="nowrap">
                             <Box
+                              className={classes.thumbnail}
                               h={76}
                               ms="calc(-1 * var(--mantine-spacing-md))"
                               my="calc(-1 * var(--mantine-spacing-sm))"
-                              style={{
-                                alignItems: "center",
-                                display: "flex",
-                                flex: "0 0 120px",
-                                justifyContent: "center",
-                                overflow: "hidden",
-                              }}
                             >
                               {vehicle.image ? (
                                 <Image
@@ -184,7 +155,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
                                   h={76}
                                   loading="lazy"
                                   src={vehicle.image}
-                                  style={{ transform: "scale(1.15)" }}
+                                  className={classes.image}
                                   w={120}
                                 />
                               ) : (

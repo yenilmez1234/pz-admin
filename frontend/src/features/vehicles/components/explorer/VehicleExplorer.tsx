@@ -19,6 +19,7 @@ import type {
   VehicleCatalogEntry,
 } from "@/features/vehicles/types";
 import { useVehicleExplorer } from "@/features/vehicles/hooks/useVehicleExplorer";
+import classes from "./VehicleExplorer.module.css";
 
 interface VehicleExplorerProps {
   catalog: VehicleCatalog | null;
@@ -36,25 +37,17 @@ export function VehicleExplorer({
 
   return (
     <Grid
+      className={classes.root}
       gap="lg"
       h="100%"
-      style={{ flex: 1, minHeight: 0, overflow: "hidden" }}
       styles={{ inner: { height: "100%", minHeight: 0 } }}
     >
-      <Grid.Col
-        h="100%"
-        span={{ base: 4, md: 3 }}
-        style={{ minHeight: 0, overflow: "hidden" }}
-      >
+      <Grid.Col className={classes.column} h="100%" span={{ base: 4, md: 3 }}>
         <VehicleFilters filters={explorer.filters} />
       </Grid.Col>
 
-      <Grid.Col
-        h="100%"
-        span={{ base: 8, md: 9 }}
-        style={{ minHeight: 0, overflow: "hidden" }}
-      >
-        <Stack gap="sm" h="100%" style={{ minHeight: 0, overflow: "hidden" }}>
+      <Grid.Col className={classes.column} h="100%" span={{ base: 8, md: 9 }}>
+        <Stack className={classes.content} gap="sm" h="100%">
           <Group align="flex-end">
             <TextInput
               aria-label={t("browser.searchLabel")}
@@ -111,26 +104,17 @@ export function VehicleExplorer({
 
           <Text
             c="dimmed"
+            className={classes.resultCount}
+            data-updating={explorer.updating || undefined}
             size="sm"
-            style={{
-              opacity: explorer.updating ? 0.65 : 1,
-              transition: "opacity 120ms ease",
-            }}
           >
             {t("browser.resultCount", { count: explorer.vehicles.length })}
           </Text>
 
           <Box
             aria-busy={explorer.updating}
-            style={{
-              display: "flex",
-              flex: 1,
-              flexDirection: "column",
-              height: 0,
-              minHeight: 0,
-              opacity: explorer.updating ? 0.55 : 1,
-              transition: "opacity 120ms ease",
-            }}
+            className={classes.results}
+            data-updating={explorer.updating || undefined}
           >
             <VehicleResultsList
               loading={loading}

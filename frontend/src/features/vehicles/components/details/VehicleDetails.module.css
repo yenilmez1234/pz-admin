@@ -1,3 +1,28 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.headerBorder {
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.contentContainer {
+  min-height: 0;
+}
+
 .panes {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

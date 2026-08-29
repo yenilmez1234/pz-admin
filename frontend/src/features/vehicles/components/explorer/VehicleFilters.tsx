@@ -29,16 +29,7 @@ export function VehicleFilters({ filters }: VehicleFiltersProps) {
   const { t } = useTranslation("vehicles");
 
   return (
-    <Paper
-      h="100%"
-      withBorder
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 0,
-        overflow: "hidden",
-      }}
-    >
+    <Paper className={classes.root} h="100%" withBorder>
       <Group justify="space-between" gap="xs" px="md" pt="md">
         <Text fw={600}>{t("filters.title")}</Text>
         <Button
@@ -53,10 +44,10 @@ export function VehicleFilters({ filters }: VehicleFiltersProps) {
       </Group>
 
       <ScrollArea
+        className={classes.scrollArea}
         h={0}
         offsetScrollbars
         type="auto"
-        style={{ flex: 1, minHeight: 0 }}
       >
         <Accordion
           chevron={<IconChevronRight size={16} aria-hidden="true" />}

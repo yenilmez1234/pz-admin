@@ -1,12 +1,11 @@
-import { Alert, Button, Group, Stack, Title } from "@mantine/core";
+import { Alert, Button, Stack } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GameBuildSelector } from "@/features/game/components/GameBuildSelector";
 import type { GameBuild } from "@/features/game/types";
+import { GameToolPageLayout } from "@/features/game/components/GameToolPageLayout";
 import { VehicleDetails } from "@/features/vehicles/components/details/VehicleDetails";
 import { VehicleExplorer } from "@/features/vehicles/components/explorer/VehicleExplorer";
-import { PageContainer } from "@/shared/layout/PageContainer";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
 import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 
@@ -46,45 +45,35 @@ export function VehiclesPage({ build, onBuildChange }: VehiclesPageProps) {
         />
       ) : null}
 
-      <PageContainer
-        contentWidth="wide"
-        h="100%"
-        py="md"
-        style={{
-          display: selectedVehicle ? "none" : "flex",
-          minHeight: 0,
-          overflow: "hidden",
-        }}
+      <GameToolPageLayout
+        build={build}
+        clipContent
+        hidden={selectedVehicle !== null}
+        onBuildChange={onBuildChange}
+        title={t("page.title")}
       >
-        <Stack gap="md" style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
-          <Group justify="space-between">
-            <Title order={1}>{t("page.title")}</Title>
-            <GameBuildSelector onChange={onBuildChange} value={build} />
-          </Group>
+        {error ? (
+          <Alert
+            color="red"
+            icon={<IconAlertCircle size={20} aria-hidden="true" />}
+            title={t("errors.loadTitle")}
+          >
+            <Stack gap="xs" align="flex-start">
+              {error}
+              <Button onClick={reload} size="xs" variant="light">
+                {t("actions.retry", { ns: "common" })}
+              </Button>
+            </Stack>
+          </Alert>
+        ) : null}
 
-          {error ? (
-            <Alert
-              color="red"
-              icon={<IconAlertCircle size={20} aria-hidden="true" />}
-              title={t("errors.loadTitle")}
-            >
-              <Stack gap="xs" align="flex-start">
-                {error}
-                <Button onClick={reload} size="xs" variant="light">
-                  {t("actions.retry", { ns: "common" })}
-                </Button>
-              </Stack>
-            </Alert>
-          ) : null}
-
-          <VehicleExplorer
-            key={build}
-            catalog={catalog}
-            loading={loading}
-            onVehicleSelect={setSelectedVehicle}
-          />
-        </Stack>
-      </PageContainer>
+        <VehicleExplorer
+          key={build}
+          catalog={catalog}
+          loading={loading}
+          onVehicleSelect={setSelectedVehicle}
+        />
+      </GameToolPageLayout>
     </>
   );
 }

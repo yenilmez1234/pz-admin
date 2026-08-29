@@ -2,7 +2,6 @@ import { useLayoutEffect, useState } from "react";
 import {
   ActionIcon,
   Alert,
-  Box,
   Button,
   Group,
   Modal,
@@ -16,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { utf8ByteLength } from "@/shared/lib/text";
 import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
+import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
 import { useItemCatalog } from "../hooks/useItemCatalog";
 import { useItemSelection } from "../hooks/useItemSelection";
 import {
@@ -82,17 +82,13 @@ function ItemEditorDialogContent({
           </Stack>
         </Alert>
       ) : (
-        <Box
-          aria-busy={loading}
-          h="min(62vh, 34rem)"
-          style={{ display: "flex", minHeight: 0, overflow: "hidden" }}
-        >
+        <SelectionDialogViewport busy={loading}>
           <ItemBrowser
             catalog={catalog}
             loading={loading}
             selection={selection}
           />
-        </Box>
+        </SelectionDialogViewport>
       )}
 
       {maxBytes !== undefined ? (

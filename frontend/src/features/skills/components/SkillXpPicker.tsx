@@ -1,10 +1,9 @@
 import { useMemo } from "react";
-import { Box } from "@mantine/core";
+import { SelectionWorkspace } from "@/shared/layout/SelectionWorkspace";
 import type { SkillCatalog } from "@/features/skills/types";
 import type { SkillXpSelectionController } from "@/features/skills/hooks/useSkillXpSelection";
 import { SelectedSkillsPane } from "./SelectedSkillsPane";
 import { SkillCatalogPane } from "./SkillCatalogPane";
-import classes from "./SkillXpPicker.module.css";
 
 interface SkillXpPickerProps {
   catalog: SkillCatalog;
@@ -32,7 +31,7 @@ export function SkillXpPicker({ catalog, selection }: SkillXpPickerProps) {
   );
 
   return (
-    <Box className={classes.picker}>
+    <SelectionWorkspace layout="skills">
       <SkillCatalogPane catalog={catalog} selection={selection} />
       <SelectedSkillsPane
         catalog={catalog}
@@ -41,6 +40,6 @@ export function SkillXpPicker({ catalog, selection }: SkillXpPickerProps) {
         selectedSkills={selectedSkills}
         selection={selection}
       />
-    </Box>
+    </SelectionWorkspace>
   );
 }

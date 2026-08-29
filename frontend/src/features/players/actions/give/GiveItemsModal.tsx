@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Box, Button, Group, Modal, Stack, Text } from "@mantine/core";
+import { Alert, Button, Group, Modal, Stack, Text } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { ItemGrant, type Player } from "@bindings/internal/player/models";
@@ -7,6 +7,7 @@ import { ItemBrowser } from "@/features/items/components/ItemBrowser";
 import type { GameBuild } from "@/features/game/types";
 import { useItemCatalog } from "@/features/items/hooks/useItemCatalog";
 import { useItemSelection } from "@/features/items/hooks/useItemSelection";
+import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
 
 interface GiveItemsModalProps {
   build: GameBuild;
@@ -86,18 +87,14 @@ export function GiveItemsModal({
             </Stack>
           </Alert>
         ) : (
-          <Box
-            aria-busy={loading}
-            h="min(62vh, 34rem)"
-            style={{ display: "flex", minHeight: 0, overflow: "hidden" }}
-          >
+          <SelectionDialogViewport busy={loading}>
             <ItemBrowser
               key={`${build}:${language}:${browserRevision}`}
               catalog={catalog}
               loading={loading}
               selection={selection}
             />
-          </Box>
+          </SelectionDialogViewport>
         )}
 
         <Group justify="flex-end">

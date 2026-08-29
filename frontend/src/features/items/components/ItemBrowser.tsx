@@ -1,10 +1,9 @@
 import { useDeferredValue, useMemo, useState } from "react";
-import { Box } from "@mantine/core";
+import { SelectionWorkspace } from "@/shared/layout/SelectionWorkspace";
 import { ItemCatalogPane } from "./ItemCatalogPane";
 import { SelectedItemsPane } from "./SelectedItemsPane";
 import type { ItemCatalog } from "@/features/items/types";
 import type { ItemSelectionController } from "@/features/items/hooks/useItemSelection";
-import classes from "./ItemBrowser.module.css";
 
 interface ItemBrowserProps {
   catalog: ItemCatalog | null;
@@ -32,7 +31,7 @@ export function ItemBrowser({
   }, [catalog, deferredSearch]);
 
   return (
-    <Box className={classes.browser}>
+    <SelectionWorkspace layout="items">
       <ItemCatalogPane
         categories={catalog?.categories ?? []}
         loading={loading}
@@ -43,6 +42,6 @@ export function ItemBrowser({
         visibleItems={visibleItems}
       />
       <SelectedItemsPane catalog={catalog} selection={selection} />
-    </Box>
+    </SelectionWorkspace>
   );
 }

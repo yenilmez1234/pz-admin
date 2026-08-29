@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import {
   Alert,
-  Box,
   Button,
   Group,
   Modal,
@@ -17,6 +16,7 @@ import type { GameBuild } from "@/features/game/types";
 import { useSkillCatalog } from "@/features/skills/hooks/useSkillCatalog";
 import { useSkillXpSelection } from "@/features/skills/hooks/useSkillXpSelection";
 import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
+import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
 
 interface AddXpModalProps {
   build: GameBuild;
@@ -135,12 +135,9 @@ export function AddXpModal({
             ) : null}
           </Stack>
         ) : catalog ? (
-          <Box
-            h="min(62vh, 34rem)"
-            style={{ display: "flex", minHeight: 0, overflow: "hidden" }}
-          >
+          <SelectionDialogViewport>
             <SkillXpPicker catalog={catalog} selection={selection} />
-          </Box>
+          </SelectionDialogViewport>
         ) : null}
 
         <Group justify="space-between">

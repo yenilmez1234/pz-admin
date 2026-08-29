@@ -42,21 +42,9 @@ export function VehicleDetails({
   }, [onBack]);
 
   return (
-    <Box
-      h="100%"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 0,
-        overflow: "hidden",
-      }}
-    >
-      <Box bg="var(--mantine-color-body)" pb="sm" style={{ flex: "0 0 auto" }}>
-        <Box
-          style={{
-            borderBottom: "1px solid var(--mantine-color-default-border)",
-          }}
-        >
+    <Box className={classes.root} h="100%">
+      <Box className={classes.header} bg="var(--mantine-color-body)" pb="sm">
+        <Box className={classes.headerBorder}>
           <PageContainer
             contentWidth={showVariants ? "wide" : "standard"}
             py="xs"
@@ -75,18 +63,12 @@ export function VehicleDetails({
         </Box>
       </Box>
 
-      <Box
-        style={{
-          flex: 1,
-          minHeight: 0,
-          overflow: "hidden",
-        }}
-      >
+      <Box className={classes.content}>
         <PageContainer
           contentWidth={showVariants ? "wide" : "standard"}
+          className={classes.contentContainer}
           h="100%"
           pb="sm"
-          style={{ minHeight: 0 }}
         >
           <Box
             className={classes.panes}
