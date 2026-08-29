@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Group, Modal, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
+import { dialogSizes } from "@/shared/layout/dialogs";
 import type { Profile } from "@bindings/internal/profile/models";
 import { errorMessage } from "@/shared/lib/errors";
 
@@ -44,11 +45,10 @@ export function DeleteServerModal({
       opened={opened}
       onClose={onClose}
       title={t("deleteDialog.title")}
-      size="sm"
+      size={dialogSizes.compact}
       closeOnClickOutside={!deleting}
       closeOnEscape={!deleting}
       withCloseButton={!deleting}
-      centered
     >
       <Stack>
         <Text>

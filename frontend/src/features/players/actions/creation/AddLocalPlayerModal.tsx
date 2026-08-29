@@ -39,7 +39,6 @@ export function AddLocalPlayerModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!form.submitting}
       closeOnEscape={!form.submitting}
       opened={opened}

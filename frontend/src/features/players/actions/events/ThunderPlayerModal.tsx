@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Group, Modal, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
+import { dialogSizes } from "@/shared/layout/dialogs";
 import type { Player } from "@bindings/internal/player/models";
 
 interface ThunderPlayerModalProps {
@@ -36,11 +37,11 @@ export function ThunderPlayerModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!triggering}
       closeOnEscape={!triggering}
       opened={opened}
       onClose={onClose}
+      size={dialogSizes.compact}
       title={t("dialogs.thunder.title")}
       withCloseButton={!triggering}
     >

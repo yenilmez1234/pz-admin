@@ -89,7 +89,7 @@ export function VehiclePicker({
       }));
 
   return (
-    <Stack className={classes.content} h="min(62vh, 34rem)">
+    <Stack className={classes.content} h="min(62vh, 40rem)">
       <Group gap={6} wrap="nowrap">
         <ActionIcon
           aria-label={t("picker.back")}

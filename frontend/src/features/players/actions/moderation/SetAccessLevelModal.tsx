@@ -2,6 +2,7 @@ import { useEffectEvent, useLayoutEffect } from "react";
 import { Badge, Button, Group, Modal, Radio, Stack, Text } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useTranslation } from "react-i18next";
+import { dialogSizes } from "@/shared/layout/dialogs";
 import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
 import { accessLevelColor } from "../../lib/accessLevel";
@@ -101,12 +102,11 @@ export function SetAccessLevelModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!form.submitting}
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
-      size="sm"
+      size={dialogSizes.compact}
       title={t("dialogs.setRole.title")}
       withCloseButton={!form.submitting}
     >

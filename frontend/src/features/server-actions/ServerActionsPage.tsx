@@ -38,6 +38,7 @@ import { useSession } from "@/features/session/SessionProvider";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import { MAXIMUM_RCON_COMMAND_BYTES } from "@/shared/lib/rcon";
 import { utf8ByteLength } from "@/shared/lib/text";
+import { dialogEditorViewport, dialogSizes } from "@/shared/layout/dialogs";
 import { useServerAction } from "./hooks/useServerAction";
 import classes from "./ServerActionsPage.module.css";
 
@@ -440,12 +441,11 @@ export function ServerActionsPage() {
       </PageContainer>
 
       <Modal
-        centered
         closeOnClickOutside={!busy}
         closeOnEscape={!busy}
         opened={dialog === "message"}
         onClose={closeDialog}
-        size="lg"
+        size={dialogSizes.editor}
         title={t("dialogs.messageTitle")}
         withCloseButton={!busy}
       >
@@ -466,9 +466,8 @@ export function ServerActionsPage() {
           <Stack gap="md">
             <GameMessageEditor
               build={build}
+              {...dialogEditorViewport}
               maxBytes={SERVER_MESSAGE_MAX_BYTES}
-              maxHeight="min(22rem, 40vh)"
-              minHeight="18rem"
               onChange={setMessage}
               value={message}
             />
@@ -485,11 +484,11 @@ export function ServerActionsPage() {
         </form>
       </Modal>
       <Modal
-        centered
         closeOnClickOutside={!busy}
         closeOnEscape={!busy}
         opened={dialog === "stop"}
         onClose={closeDialog}
+        size={dialogSizes.compact}
         title={t("dialogs.stopTitle")}
         withCloseButton={!busy}
       >

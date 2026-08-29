@@ -16,6 +16,7 @@ import type { GameBuild } from "@/features/game/types";
 import { utf8ByteLength } from "@/shared/lib/text";
 import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
 import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
+import { dialogSizes } from "@/shared/layout/dialogs";
 import { useItemCatalog } from "../hooks/useItemCatalog";
 import { useItemSelection } from "../hooks/useItemSelection";
 import {
@@ -187,11 +188,10 @@ export function ItemEditorDialog({
       </div>
 
       <Modal
-        centered
         keepMounted
         onClose={modal.close}
         opened={opened}
-        size="xl"
+        size={dialogSizes.browser}
         title={t("editor.title")}
       >
         {visited ? (

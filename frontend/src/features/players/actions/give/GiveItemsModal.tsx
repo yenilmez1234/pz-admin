@@ -8,6 +8,7 @@ import type { GameBuild } from "@/features/game/types";
 import { useItemCatalog } from "@/features/items/hooks/useItemCatalog";
 import { useItemSelection } from "@/features/items/hooks/useItemSelection";
 import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
+import { dialogSizes } from "@/shared/layout/dialogs";
 
 interface GiveItemsModalProps {
   build: GameBuild;
@@ -54,13 +55,12 @@ export function GiveItemsModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!submitting}
       closeOnEscape={!submitting}
       onClose={onClose}
       onExitTransitionEnd={resetBrowser}
       opened={opened}
-      size="xl"
+      size={dialogSizes.browser}
       title={t("dialogs.giveItems.title", { count: players.length })}
       withCloseButton={!submitting}
     >

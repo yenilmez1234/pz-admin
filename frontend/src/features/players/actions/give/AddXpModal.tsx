@@ -17,6 +17,7 @@ import { useSkillCatalog } from "@/features/skills/hooks/useSkillCatalog";
 import { useSkillXpSelection } from "@/features/skills/hooks/useSkillXpSelection";
 import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
 import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
+import { dialogSizes } from "@/shared/layout/dialogs";
 
 interface AddXpModalProps {
   build: GameBuild;
@@ -93,13 +94,12 @@ export function AddXpModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!submitting}
       closeOnEscape={!submitting}
       onClose={onClose}
       onExitTransitionEnd={selection.clear}
       opened={opened}
-      size="xl"
+      size={dialogSizes.browser}
       title={t("dialogs.addXp.title", { count: players.length })}
       withCloseButton={!submitting}
     >
@@ -126,7 +126,7 @@ export function AddXpModal({
             </Stack>
           </Alert>
         ) : skeleton.active ? (
-          <Stack gap="sm" h="min(62vh, 34rem)" aria-busy="true">
+          <Stack gap="sm" h="min(62vh, 40rem)" aria-busy="true">
             {skeleton.visible ? (
               <Group align="stretch" grow>
                 <Skeleton h="100%" />

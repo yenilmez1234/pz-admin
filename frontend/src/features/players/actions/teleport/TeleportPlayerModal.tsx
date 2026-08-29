@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useTranslation } from "react-i18next";
+import { dialogSizes } from "@/shared/layout/dialogs";
 import type { Player } from "@bindings/internal/player/models";
 import { isOnline } from "../../status";
 
@@ -119,11 +120,11 @@ export function TeleportPlayerModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!form.submitting}
       closeOnEscape={!form.submitting}
       opened={opened}
       onClose={onClose}
+      size={dialogSizes.wide}
       title={t("dialogs.teleport.title", { count: players.length })}
       withCloseButton={!form.submitting}
     >

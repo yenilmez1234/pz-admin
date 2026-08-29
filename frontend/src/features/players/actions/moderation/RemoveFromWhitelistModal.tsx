@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Group, Modal, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
+import { dialogSizes } from "@/shared/layout/dialogs";
 import type { Player } from "@bindings/internal/player/models";
 
 interface RemoveFromWhitelistModalProps {
@@ -33,11 +34,11 @@ export function RemoveFromWhitelistModal({
 
   return (
     <Modal
-      centered
       closeOnClickOutside={!submitting}
       closeOnEscape={!submitting}
       opened={opened}
       onClose={onClose}
+      size={dialogSizes.compact}
       title={t("dialogs.removeFromWhitelist.title", { count: players.length })}
       withCloseButton={!submitting}
     >

@@ -97,7 +97,6 @@ export function ServerFormModal({
       closeOnClickOutside={!form.submitting}
       closeOnEscape={!form.submitting}
       withCloseButton={!form.submitting}
-      centered
     >
       <form
         onSubmit={form.onSubmit(handleSubmit, focusFirstInvalidField)}

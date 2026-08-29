@@ -5,6 +5,7 @@ import { IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { utf8ByteLength } from "@/shared/lib/text";
+import { dialogEditorViewport, dialogSizes } from "@/shared/layout/dialogs";
 import { GameMessageEditor } from "./GameMessageEditor";
 
 interface MessageEditorDialogProps {
@@ -61,18 +62,16 @@ export function MessageEditorDialog({
       </Button>
 
       <Modal
-        centered
         opened={opened}
         onClose={modal.close}
-        size="lg"
+        size={dialogSizes.editor}
         title={t("dialog.title", { ns: "messages" })}
       >
         <Stack gap="md">
           <GameMessageEditor
             build={build}
+            {...dialogEditorViewport}
             maxBytes={maxBytes}
-            maxHeight="min(22rem, 40vh)"
-            minHeight="18rem"
             onChange={setDraft}
             value={draft}
           />
