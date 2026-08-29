@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "@mantine/form";
 import { List, Update } from "@bindings/internal/options/service";
 import type { UpdateResult } from "@bindings/internal/options/models";
@@ -91,6 +91,7 @@ export function useOptionsEditor(
   const [loadError, setLoadError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const wasActive = useRef(false);
   const definitions = useMemo(
     () => collectDefinitions(categories),
     [categories],
@@ -98,7 +99,7 @@ export function useOptionsEditor(
   const form = useForm<OptionFormValues>({
     initialValues: {},
   });
-  const { clearErrors, resetDirty, setInitialValues, setValues } = form;
+  const { clearErrors, isDirty, resetDirty, setInitialValues, setValues } = form;
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -106,6 +107,7 @@ export function useOptionsEditor(
     try {
       const rawValues = await List();
       const loaded = prepareEditorData(catalog, rawValues);
+      if (isDirty()) return;
       setCategories(loaded.categories);
       setInitialValues(loaded.values);
       setValues(loaded.values);
@@ -116,11 +118,13 @@ export function useOptionsEditor(
     } finally {
       setLoading(false);
     }
-  }, [catalog, clearErrors, resetDirty, setInitialValues, setValues]);
+  }, [catalog, clearErrors, isDirty, resetDirty, setInitialValues, setValues]);
 
   useEffect(() => {
-    if (active) void load();
-  }, [active, load]);
+    const activated = active && !wasActive.current;
+    wasActive.current = active;
+    if (activated && !isDirty()) void load();
+  }, [active, isDirty, load]);
 
   async function save(): Promise<SaveOutcome | null> {
     if (

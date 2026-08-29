@@ -2,28 +2,27 @@ import {
   Alert,
   Button,
   Group,
-  SegmentedControl,
   Stack,
   Title,
 } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  gameBuilds,
-  isGameBuild,
-  latestGameBuild,
-  type GameBuild,
-} from "@/features/game/types";
+import { GameBuildSelector } from "@/features/game/components/GameBuildSelector";
+import type { GameBuild } from "@/features/game/types";
 import { VehicleDetails } from "@/features/vehicles/components/details/VehicleDetails";
 import { VehicleExplorer } from "@/features/vehicles/components/explorer/VehicleExplorer";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
 import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 
-export function VehiclesPage() {
+interface VehiclesPageProps {
+  build: GameBuild;
+  onBuildChange: (build: GameBuild) => void;
+}
+
+export function VehiclesPage({ build, onBuildChange }: VehiclesPageProps) {
   const { t } = useTranslation(["vehicles", "common"]);
-  const [build, setBuild] = useState<GameBuild>(latestGameBuild);
   const [selectedVehicle, setSelectedVehicle] =
     useState<VehicleCatalogEntry | null>(null);
   const { catalog, error, loading, reload } = useVehicleCatalog(build);
@@ -31,12 +30,9 @@ export function VehiclesPage() {
     ? (catalog?.variantsByVehicleId.get(selectedVehicle.id) ?? [])
     : [];
 
-  function handleBuildChange(value: string) {
-    if (isGameBuild(value)) {
-      setSelectedVehicle(null);
-      setBuild(value);
-    }
-  }
+  useEffect(() => {
+    setSelectedVehicle(null);
+  }, [build]);
 
   function handleBack() {
     if (!selectedVehicle) return;
@@ -69,13 +65,8 @@ export function VehiclesPage() {
         <Stack gap="md" style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
           <Group justify="space-between">
             <Title order={1}>{t("page.title")}</Title>
-            <SegmentedControl
-              aria-label={t("gameBuild.label", { ns: "common" })}
-              data={gameBuilds.map((value) => ({
-                label: t(`gameBuild.options.${value}`, { ns: "common" }),
-                value,
-              }))}
-              onChange={handleBuildChange}
+            <GameBuildSelector
+              onChange={onBuildChange}
               value={build}
             />
           </Group>

@@ -1,25 +1,24 @@
-import { Group, SegmentedControl, Stack, Title } from "@mantine/core";
+import { Group, Stack, Title } from "@mantine/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  gameBuilds,
-  isGameBuild,
-  latestGameBuild,
-  type GameBuild,
-} from "@/features/game/types";
+import { GameBuildSelector } from "@/features/game/components/GameBuildSelector";
+import type { GameBuild } from "@/features/game/types";
 import { FormattedMessagePreview } from "@/features/messages/components/FormattedMessagePreview";
 import { GameMessageEditor } from "@/features/messages/components/GameMessageEditor";
 import { PageContainer } from "@/shared/layout/PageContainer";
 import classes from "./MessageEditorPage.module.css";
 
-export function MessageEditorPage() {
-  const { t } = useTranslation(["messages", "common"]);
-  const [build, setBuild] = useState<GameBuild>(latestGameBuild);
-  const [message, setMessage] = useState("");
+interface MessageEditorPageProps {
+  build: GameBuild;
+  onBuildChange: (build: GameBuild) => void;
+}
 
-  function handleBuildChange(nextBuild: string) {
-    if (isGameBuild(nextBuild)) setBuild(nextBuild);
-  }
+export function MessageEditorPage({
+  build,
+  onBuildChange,
+}: MessageEditorPageProps) {
+  const { t } = useTranslation(["messages", "common"]);
+  const [message, setMessage] = useState("");
 
   return (
     <PageContainer
@@ -31,13 +30,8 @@ export function MessageEditorPage() {
       <Stack gap="md" style={{ flex: 1, minHeight: 0 }}>
         <Group justify="space-between">
           <Title order={1}>{t("page.title")}</Title>
-          <SegmentedControl
-            aria-label={t("gameBuild.label", { ns: "common" })}
-            data={gameBuilds.map((value) => ({
-              label: t(`gameBuild.options.${value}`, { ns: "common" }),
-              value,
-            }))}
-            onChange={handleBuildChange}
+          <GameBuildSelector
+            onChange={onBuildChange}
             value={build}
           />
         </Group>

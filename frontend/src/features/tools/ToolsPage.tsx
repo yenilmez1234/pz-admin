@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { IconCar, IconMessage, IconPackage } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import {
@@ -8,6 +8,7 @@ import {
 import { ItemsPage } from "@/features/items/ItemsPage";
 import { VehiclesPage } from "@/features/vehicles/VehiclesPage";
 import { MessageEditorPage } from "@/features/messages/MessageEditorPage";
+import { latestGameBuild, type GameBuild } from "@/features/game/types";
 import { usePersistentNavigation } from "@/shared/hooks/usePersistentNavigation";
 
 type ToolsPageName = "messages" | "items" | "vehicles";
@@ -15,6 +16,7 @@ type ToolsPageName = "messages" | "items" | "vehicles";
 export function ToolsPage() {
   const { t } = useTranslation("tools");
   const navigation = usePersistentNavigation<ToolsPageName>("messages");
+  const [build, setBuild] = useState<GameBuild>(latestGameBuild);
   const navigationItems = [
     {
       value: "messages",
@@ -45,15 +47,19 @@ export function ToolsPage() {
       onPageChange={navigation.changePage}
     >
       <SectionNavigationPanel page="messages" scrollable={false}>
-        <MessageEditorPage />
+        <MessageEditorPage build={build} onBuildChange={setBuild} />
       </SectionNavigationPanel>
 
       <SectionNavigationPanel page="items" scrollable={false}>
-        {navigation.isVisited("items") ? <ItemsPage /> : null}
+        {navigation.isVisited("items") ? (
+          <ItemsPage build={build} onBuildChange={setBuild} />
+        ) : null}
       </SectionNavigationPanel>
 
       <SectionNavigationPanel page="vehicles" scrollable={false}>
-        {navigation.isVisited("vehicles") ? <VehiclesPage /> : null}
+        {navigation.isVisited("vehicles") ? (
+          <VehiclesPage build={build} onBuildChange={setBuild} />
+        ) : null}
       </SectionNavigationPanel>
     </SectionNavigation>
   );
