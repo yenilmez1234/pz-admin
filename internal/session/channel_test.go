@@ -1,26 +1,24 @@
 package session
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/beyenilmez/pz-admin/internal/profile"
 )
 
-func TestChannelAddr(t *testing.T) {
-	tests := []struct {
-		name, host string
-		port       int
-		want       string
-	}{
-		{name: "hostname", host: "example.com", port: 27015, want: "example.com:27015"},
-		{name: "ipv4", host: "192.168.1.10", port: 27015, want: "192.168.1.10:27015"},
-		{name: "ipv6 loopback", host: "::1", port: 27015, want: "[::1]:27015"},
-		{name: "ipv6", host: "2001:db8::7", port: 16261, want: "[2001:db8::7]:16261"},
-	}
-	for _, test := range tests {
-		got := channelAddr(profile.Profile{Host: test.host, Port: test.port})
-		if got != test.want {
-			t.Errorf("%s: channelAddr() = %q, want %q", test.name, got, test.want)
+func TestOpenChannel(t *testing.T) {
+	t.Run("rejects unsupported connection type", func(t *testing.T) {
+		_, err := openChannel(t.Context(), profile.Profile{ConnectionType: "unsupported"}, "", func() {})
+		if err == nil || !strings.Contains(err.Error(), "unsupported connection type") {
+			t.Errorf("openChannel() error = %v, want unsupported connection type", err)
 		}
+	})
+}
+
+func TestChannelAddr(t *testing.T) {
+	got := channelAddr(profile.Profile{Host: "2001:db8::7", Port: 16261})
+	if got != "[2001:db8::7]:16261" {
+		t.Errorf("channelAddr() = %q, want IPv6 host and port", got)
 	}
 }

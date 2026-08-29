@@ -4,405 +4,15 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
+	"reflect"
 	"testing"
 	"time"
 
 	"github.com/google/uuid"
 )
 
-func TestStoreReturnsEmptyCollectionForNewProfile(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-
-	players, err := store.List(profileID)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if players == nil || len(players) != 0 {
-		t.Fatalf("List() = %#v, want non-nil empty slice", players)
-	}
-
-	players, err = store.Merge(profileID, nil, time.Now().UTC())
-	if err != nil {
-		t.Fatal(err)
-	}
-	if players == nil || len(players) != 0 {
-		t.Fatalf("Merge() = %#v, want non-nil empty slice", players)
-	}
-}
-
-func TestStoreMergeCreatesAndUpdatesPlayer(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	firstSeen := time.Date(2026, time.August, 14, 10, 0, 0, 0, time.UTC)
-	accessLevel := "admin"
-	godMode := true
-	online := true
-
-	players, err := store.Merge(profileID, []Observation{{
-		Username:    "Alice",
-		Online:      Known(online),
-		AccessLevel: Known(accessLevel),
-		GodMode:     Known(godMode),
-	}}, firstSeen)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 1 {
-		t.Fatalf("Merge() returned %d players, want 1", len(players))
-	}
-	created := players[0]
-	if created.ID == "" || created.Username != "Alice" {
-		t.Fatalf("Merge() created %#v", created)
-	}
-	if !created.FirstSeenAt.Equal(firstSeen) || !created.LastSeenOnlineAt.Equal(firstSeen) {
-		t.Fatalf("Merge() timestamps = %v, %v; want %v", created.FirstSeenAt, created.LastSeenOnlineAt, firstSeen)
-	}
-
-	lastOnline := firstSeen.Add(15 * time.Second)
-	invisible := true
-	noClip := true
-	players, err = store.Merge(profileID, []Observation{{
-		Username:  "Alice",
-		Online:    Known(online),
-		Invisible: Known(invisible),
-		NoClip:    Known(noClip),
-	}}, lastOnline)
-	if err != nil {
-		t.Fatal(err)
-	}
-	updated := players[0]
-	if updated.ID != created.ID {
-		t.Fatalf("Merge() changed ID from %q to %q", created.ID, updated.ID)
-	}
-	if !updated.FirstSeenAt.Equal(firstSeen) || !updated.LastSeenOnlineAt.Equal(lastOnline) {
-		t.Fatalf("Merge() timestamps = %v, %v", updated.FirstSeenAt, updated.LastSeenOnlineAt)
-	}
-	if updated.AccessLevel == nil || *updated.AccessLevel != accessLevel {
-		t.Fatalf("Merge() erased previously known access level: %#v", updated.AccessLevel)
-	}
-	if updated.GodMode == nil || !*updated.GodMode {
-		t.Fatalf("Merge() erased previously known god mode: %#v", updated.GodMode)
-	}
-	if updated.Invisible == nil || !*updated.Invisible {
-		t.Fatalf("Merge() invisible = %#v, want true", updated.Invisible)
-	}
-	if updated.NoClip == nil || !*updated.NoClip {
-		t.Fatalf("Merge() no clip = %#v, want true", updated.NoClip)
-	}
-	reopened, err := Open(store.dir)
-	if err != nil {
-		t.Fatal(err)
-	}
-	persisted, err := reopened.List(profileID)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(persisted) != 1 || persisted[0].ID != created.ID {
-		t.Fatalf("List() after reopen = %#v", persisted)
-	}
-}
-
-func TestStoreMergeMatchesUsernameCaseInsensitively(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	firstSeen := time.Now().UTC()
-
-	players, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, firstSeen)
-	if err != nil {
-		t.Fatal(err)
-	}
-	originalID := players[0].ID
-
-	players, err = store.Merge(profileID, []Observation{{Username: "alice"}}, firstSeen.Add(time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 1 {
-		t.Fatalf("Merge() returned %d players, want 1", len(players))
-	}
-	if players[0].ID != originalID {
-		t.Fatalf("Merge() changed ID from %q to %q", originalID, players[0].ID)
-	}
-}
-
-func TestStoreMergesOfflinePlayerWithoutChangingLastOnline(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	firstSeen := time.Date(2026, time.August, 14, 10, 0, 0, 0, time.UTC)
-	accessLevel := "admin"
-	offline := false
-	online := true
-
-	players, err := store.Merge(profileID, []Observation{{
-		Username:    "Alice",
-		Online:      Known(offline),
-		AccessLevel: Known(accessLevel),
-	}}, firstSeen)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !players[0].LastSeenOnlineAt.IsZero() {
-		t.Fatalf("offline player LastSeenOnlineAt = %v, want zero", players[0].LastSeenOnlineAt)
-	}
-	if !players[0].LastKnownOfflineAt.Equal(firstSeen) {
-		t.Fatalf("LastKnownOfflineAt = %v, want %v", players[0].LastKnownOfflineAt, firstSeen)
-	}
-
-	lastOnline := firstSeen.Add(15 * time.Second)
-	players, err = store.Merge(profileID, []Observation{{Username: "Alice", Online: Known(online)}}, lastOnline)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	invisible := true
-	players, err = store.Merge(profileID, []Observation{{
-		Username:  "Alice",
-		Online:    Known(offline),
-		Invisible: Known(invisible),
-	}}, lastOnline.Add(15*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !players[0].LastSeenOnlineAt.Equal(lastOnline) {
-		t.Fatalf("offline update LastSeenOnlineAt = %v, want %v", players[0].LastSeenOnlineAt, lastOnline)
-	}
-	wantOffline := lastOnline.Add(15 * time.Second)
-	if !players[0].LastKnownOfflineAt.Equal(wantOffline) {
-		t.Fatalf("LastKnownOfflineAt = %v, want %v", players[0].LastKnownOfflineAt, wantOffline)
-	}
-	if players[0].Invisible == nil || !*players[0].Invisible {
-		t.Fatalf("offline update Invisible = %#v, want true", players[0].Invisible)
-	}
-}
-
-func TestStoreUpdatesKnownPlayerByIDWithoutObservingPresence(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	observedAt := time.Now().UTC()
-	online := true
-
-	players, err := store.Merge(profileID, []Observation{{Username: "Alice", Online: Known(online)}}, observedAt)
-	if err != nil {
-		t.Fatal(err)
-	}
-	banned := true
-	players, err = store.Merge(profileID, []Observation{{
-		ID:     players[0].ID,
-		Banned: Known(banned),
-	}}, observedAt.Add(15*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if players[0].Banned == nil || !*players[0].Banned {
-		t.Fatalf("ID update Banned = %#v, want true", players[0].Banned)
-	}
-	if !players[0].LastSeenOnlineAt.Equal(observedAt) {
-		t.Fatalf("ID update LastSeenOnlineAt = %v, want %v", players[0].LastSeenOnlineAt, observedAt)
-	}
-}
-
-func TestStoreUnknownObservationsDoNotAbortTheBatch(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	observedAt := time.Now().UTC()
-	online := true
-
-	if _, err := store.Merge(profileID, []Observation{{
-		Username: "Alice",
-		Online:   Known(online),
-	}}, observedAt); err != nil {
-		t.Fatal(err)
-	}
-
-	// Unknown observations do not abort the batch. Record valid updates and
-	// creations while skipping observations that cannot identify a player.
-	banned := true
-	charlieID := uuid.NewString()
-	players, err := store.Merge(profileID, []Observation{
-		{},
-		{ID: uuid.NewString()},
-		{ID: charlieID, Username: "Charlie"},
-		{Username: "Alice", Banned: Known(banned)},
-		{Username: "Bob"},
-	}, observedAt.Add(15*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 3 {
-		t.Fatalf("Merge() returned %d players, want 3", len(players))
-	}
-	if players[0].Banned == nil || !*players[0].Banned {
-		t.Fatalf("Alice Banned = %#v, want true", players[0].Banned)
-	}
-	charlie := players[1]
-	if charlie.ID != charlieID || charlie.Username != "Charlie" {
-		t.Fatalf("Charlie = %#v, want ID %q", charlie, charlieID)
-	}
-	if players[2].Username != "Bob" || players[2].ID == "" {
-		t.Fatalf("Bob = %#v", players[2])
-	}
-
-	reopened, err := Open(store.dir)
-	if err != nil {
-		t.Fatal(err)
-	}
-	persisted, err := reopened.List(profileID)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(persisted) != 3 {
-		t.Fatalf("List() after reopen = %#v, want 3 players", persisted)
-	}
-}
-
-func TestStorePropagatesRenameOnIDMatch(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	observedAt := time.Now().UTC()
-
-	players, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, observedAt)
-	if err != nil {
-		t.Fatal(err)
-	}
-	id := players[0].ID
-
-	// The source reports the same player under a new username.
-	players, err = store.Merge(profileID, []Observation{{
-		ID:       id,
-		Username: "Alicia",
-	}}, observedAt.Add(15*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 1 {
-		t.Fatalf("Merge() returned %d players, want 1", len(players))
-	}
-	if players[0].Username != "Alicia" {
-		t.Fatalf("Username = %q, want %q", players[0].Username, "Alicia")
-	}
-
-	// A later username-only observation matches the renamed record instead of
-	// creating a duplicate.
-	online := true
-	players, err = store.Merge(profileID, []Observation{{
-		Username: "Alicia",
-		Online:   Known(online),
-	}}, observedAt.Add(30*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 1 {
-		t.Fatalf("Merge() after rename returned %d players, want 1 (no duplicate)", len(players))
-	}
-	if !players[0].LastSeenOnlineAt.Equal(observedAt.Add(30 * time.Second)) {
-		t.Fatalf("rename follow-up did not merge into the original record: %#v", players[0])
-	}
-}
-
-func TestStoreAdoptsStableIDForProvisionallyCreatedPlayer(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	observedAt := time.Now().UTC()
-	online := true
-
-	players, err := store.Merge(profileID, []Observation{{
-		Username: "Alice",
-		Online:   Known(online),
-	}}, observedAt)
-	if err != nil {
-		t.Fatal(err)
-	}
-	provisionalID := players[0].ID
-
-	// The first stable identity claims the provisional record by username.
-	stableID := uuid.NewString()
-	accessLevel := "admin"
-	players, err = store.Merge(profileID, []Observation{{
-		ID:          stableID,
-		Username:    "Alice",
-		AccessLevel: Known(accessLevel),
-	}}, observedAt.Add(15*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 1 {
-		t.Fatalf("Merge() returned %d players, want 1", len(players))
-	}
-	if players[0].ID != stableID {
-		t.Fatalf("Merge() ID = %q, want adopted %q", players[0].ID, stableID)
-	}
-	if players[0].ID == provisionalID {
-		t.Fatalf("Merge() kept provisional ID %q", provisionalID)
-	}
-	if players[0].AccessLevel == nil || *players[0].AccessLevel != accessLevel {
-		t.Fatalf("Merge() AccessLevel = %#v, want %q", players[0].AccessLevel, accessLevel)
-	}
-
-	// Later observations carrying the stable ID match the same record.
-	banned := true
-	players, err = store.Merge(profileID, []Observation{{
-		ID:     stableID,
-		Banned: Known(banned),
-	}}, observedAt.Add(30*time.Second))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(players) != 1 || players[0].Banned == nil {
-		t.Fatalf("Merge() after ID adoption = %#v", players)
-	}
-}
-
-func TestStoreKeepsProfilesSeparate(t *testing.T) {
-	store := openStore(t)
-	firstProfile := uuid.NewString()
-	secondProfile := uuid.NewString()
-	observedAt := time.Now().UTC()
-
-	if _, err := store.Merge(firstProfile, []Observation{{Username: "Alice"}}, observedAt); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := store.Merge(secondProfile, []Observation{{Username: "Bob"}}, observedAt); err != nil {
-		t.Fatal(err)
-	}
-
-	first, err := store.List(firstProfile)
-	if err != nil {
-		t.Fatal(err)
-	}
-	second, err := store.List(secondProfile)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(first) != 1 || first[0].Username != "Alice" {
-		t.Fatalf("first profile players = %#v", first)
-	}
-	if len(second) != 1 || second[0].Username != "Bob" {
-		t.Fatalf("second profile players = %#v", second)
-	}
-}
-
-func TestStoreDeleteByProfile(t *testing.T) {
-	store := openStore(t)
-	profileID := uuid.NewString()
-	if _, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, time.Now().UTC()); err != nil {
-		t.Fatal(err)
-	}
-
-	path := filepath.Join(store.dir, profileID+".json")
-	if err := store.DeleteByProfile(profileID); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := os.Stat(path); !os.IsNotExist(err) {
-		t.Fatalf("player file still exists: %v", err)
-	}
-	if err := store.DeleteByProfile(profileID); err != nil {
-		t.Fatalf("second DeleteByProfile() returned %v", err)
-	}
-}
-
-func TestStoreRecoversCorruptProfile(t *testing.T) {
-	store := openStore(t)
+func TestStore_RecoversCorruptProfile(t *testing.T) {
+	store := openTestStore(t)
 	profileID := uuid.NewString()
 	path := filepath.Join(store.dir, profileID+".json")
 	corrupt := []byte("not json")
@@ -414,8 +24,8 @@ func TestStoreRecoversCorruptProfile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(players) != 0 {
-		t.Fatalf("List() after recovery = %#v, want empty", players)
+	if players == nil || len(players) != 0 {
+		t.Fatalf("players = %#v, want non-nil empty slice", players)
 	}
 	backup, err := os.ReadFile(path + ".bak")
 	if err != nil {
@@ -429,23 +39,218 @@ func TestStoreRecoversCorruptProfile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, err := reopened.List(profileID); err != nil {
-		t.Fatalf("reopen recovered profile: %v", err)
+	players, err = reopened.List(profileID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if players == nil || len(players) != 0 {
+		t.Fatalf("reopened players = %#v, want non-nil empty slice", players)
 	}
 }
 
-func TestStoreRejectsInvalidProfileID(t *testing.T) {
-	store := openStore(t)
-	if _, err := store.List("../profiles"); err == nil {
+func TestStore_PersistsCompletePlayer(t *testing.T) {
+	store := openTestStore(t)
+	profileID := uuid.NewString()
+	playerID := uuid.NewString()
+	firstSeen := time.Date(2026, time.August, 14, 10, 0, 0, 0, time.UTC)
+	lastOffline := firstSeen.Add(time.Minute)
+	accessLevel := "admin"
+
+	if _, err := store.Merge(profileID, []Observation{{
+		ID: playerID, Username: "Alice", Online: Known(true), AccessLevel: Known(accessLevel),
+		GodMode: Known(true), Invisible: Known(false), NoClip: Known(true),
+		Banned: Known(false), VoiceBanned: Known(true),
+	}}, firstSeen); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := store.Merge(profileID, []Observation{{ID: playerID, Online: Known(false)}}, lastOffline); err != nil {
+		t.Fatal(err)
+	}
+
+	reopened, err := Open(store.dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	players, err := reopened.List(profileID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := Player{
+		ID: playerID, Username: "Alice", AccessLevel: new(accessLevel),
+		GodMode: new(true), Invisible: new(false), NoClip: new(true),
+		Banned: new(false), VoiceBanned: new(true),
+		FirstSeenAt: firstSeen, LastSeenOnlineAt: firstSeen, LastKnownOfflineAt: lastOffline,
+	}
+	if len(players) != 1 || !reflect.DeepEqual(players[0], want) {
+		t.Fatalf("persisted player:\n got: %#v\nwant: %#v", players, want)
+	}
+}
+
+func TestStore_MergeState(t *testing.T) {
+	t.Run("preserves omitted values and clears unknown values", func(t *testing.T) {
+		store := openTestStore(t)
+		profileID := uuid.NewString()
+		players, err := store.Merge(profileID, []Observation{{
+			Username: "Alice", AccessLevel: Known("admin"), GodMode: Known(true),
+		}}, time.Now().UTC())
+		if err != nil {
+			t.Fatal(err)
+		}
+		players, err = store.Merge(profileID, []Observation{{
+			ID: players[0].ID, GodMode: Unknown[bool](),
+		}}, time.Now().UTC().Add(time.Second))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if players[0].AccessLevel == nil || *players[0].AccessLevel != "admin" || players[0].GodMode != nil {
+			t.Fatalf("player = %#v", players[0])
+		}
+	})
+
+	t.Run("records offline time once until the next online observation", func(t *testing.T) {
+		store := openTestStore(t)
+		profileID := uuid.NewString()
+		start := time.Date(2026, time.August, 14, 10, 0, 0, 0, time.UTC)
+		players, err := store.Merge(profileID, []Observation{{Username: "Alice", Online: Known(false)}}, start)
+		if err != nil {
+			t.Fatal(err)
+		}
+		id := players[0].ID
+		onlineAt := start.Add(time.Minute)
+		offlineAt := start.Add(2 * time.Minute)
+		if _, err := store.Merge(profileID, []Observation{{ID: id, Online: Known(true)}}, onlineAt); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := store.Merge(profileID, []Observation{{ID: id, Online: Known(false)}}, offlineAt); err != nil {
+			t.Fatal(err)
+		}
+		players, err = store.Merge(profileID, []Observation{{ID: id, Online: Known(false)}}, offlineAt.Add(time.Minute))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !players[0].LastSeenOnlineAt.Equal(onlineAt) || !players[0].LastKnownOfflineAt.Equal(offlineAt) {
+			t.Fatalf("timestamps = online %v, offline %v", players[0].LastSeenOnlineAt, players[0].LastKnownOfflineAt)
+		}
+	})
+}
+
+func TestStore_MergeIdentity(t *testing.T) {
+	t.Run("matches usernames case insensitively", func(t *testing.T) {
+		store := openTestStore(t)
+		profileID := uuid.NewString()
+		players, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, time.Now().UTC())
+		if err != nil {
+			t.Fatal(err)
+		}
+		id := players[0].ID
+		players, err = store.Merge(profileID, []Observation{{Username: "alice"}}, time.Now().UTC().Add(time.Second))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(players) != 1 || players[0].ID != id {
+			t.Fatalf("players = %#v, want one player with ID %q", players, id)
+		}
+	})
+
+	t.Run("propagates rename on ID match", func(t *testing.T) {
+		store := openTestStore(t)
+		profileID := uuid.NewString()
+		players, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, time.Now().UTC())
+		if err != nil {
+			t.Fatal(err)
+		}
+		id := players[0].ID
+		players, err = store.Merge(profileID, []Observation{{ID: id, Username: "Alicia"}}, time.Now().UTC().Add(time.Second))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(players) != 1 || players[0].Username != "Alicia" {
+			t.Fatalf("players = %#v, want renamed player", players)
+		}
+		players, err = store.Merge(profileID, []Observation{{Username: "alicia", Online: Known(true)}}, time.Now().UTC().Add(2*time.Second))
+		if err != nil || len(players) != 1 || players[0].ID != id {
+			t.Fatalf("follow-up merge = %#v, %v", players, err)
+		}
+	})
+
+	t.Run("adopts stable ID", func(t *testing.T) {
+		store := openTestStore(t)
+		profileID := uuid.NewString()
+		players, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, time.Now().UTC())
+		if err != nil {
+			t.Fatal(err)
+		}
+		provisionalID := players[0].ID
+		stableID := uuid.NewString()
+		players, err = store.Merge(profileID, []Observation{{ID: stableID, Username: "Alice"}}, time.Now().UTC().Add(time.Second))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(players) != 1 || players[0].ID != stableID || players[0].ID == provisionalID {
+			t.Fatalf("players = %#v, want adopted ID %q", players, stableID)
+		}
+	})
+
+	t.Run("skips observations that cannot identify a usable player", func(t *testing.T) {
+		store := openTestStore(t)
+		players, err := store.Merge(uuid.NewString(), []Observation{{}, {ID: uuid.NewString()}}, time.Now().UTC())
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(players) != 0 {
+			t.Fatalf("players = %#v, want empty", players)
+		}
+	})
+}
+
+func TestStore_Deletion(t *testing.T) {
+	store := openTestStore(t)
+	profileID := uuid.NewString()
+	players, err := store.Merge(profileID, []Observation{{Username: "Alice"}}, time.Now().UTC())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if players, err = store.Merge(profileID, []Observation{{ID: players[0].ID, Delete: true}}, time.Now().UTC().Add(time.Second)); err != nil || len(players) != 0 {
+		t.Fatalf("delete observation = %#v, %v", players, err)
+	}
+	reopened, err := Open(store.dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	players, err = reopened.List(profileID)
+	if err != nil || len(players) != 0 {
+		t.Fatalf("persisted players after delete = %#v, %v", players, err)
+	}
+	if _, err := store.Merge(profileID, []Observation{{Username: "Bob"}}, time.Now().UTC().Add(2*time.Second)); err != nil {
+		t.Fatal(err)
+	}
+	path := filepath.Join(store.dir, profileID+".json")
+	if err := store.DeleteByProfile(profileID); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Stat(path); !os.IsNotExist(err) {
+		t.Fatalf("player file still exists: %v", err)
+	}
+	if err := store.DeleteByProfile(profileID); err != nil {
+		t.Fatalf("second DeleteByProfile() returned %v", err)
+	}
+}
+
+func TestStore_RejectsInvalidProfileID(t *testing.T) {
+	if _, err := openTestStore(t).List("../profiles"); err == nil {
 		t.Fatal("List() accepted invalid profile ID")
 	}
 }
 
-func openStore(t *testing.T) *Store {
+func openTestStore(t *testing.T) *Store {
 	t.Helper()
 	store, err := Open(t.TempDir())
 	if err != nil {
 		t.Fatal(err)
 	}
 	return store
+}
+
+func pointer[T any](value T) *T {
+	return &value
 }

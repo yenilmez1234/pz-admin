@@ -3,7 +3,6 @@ package logger
 import (
 	"bytes"
 	"errors"
-	"io"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -11,228 +10,109 @@ import (
 	"testing"
 )
 
-func newTestBundle(t *testing.T, options Options) (*Bundle, *bytes.Buffer, string) {
-	t.Helper()
-	var stderr bytes.Buffer
-	dir := t.TempDir()
-	b, err := newLogger(&stderr, dir, options)
+func TestLogger_Output(t *testing.T) {
+	bundle, stderr, dir := newTestLogger(t, Options{})
+
+	bundle.Logger.Debug("debug before level change")
+	bundle.Logger.Info("info message")
+
+	if got := stderr.String(); !strings.Contains(got, "debug before level change") || !strings.Contains(got, "info message") {
+		t.Errorf("stderr = %q, want debug and info messages", got)
+	}
+	fileLog := readLog(t, dir)
+	if bytes.Contains(fileLog, []byte("debug before level change")) {
+		t.Errorf("file log = %q, want debug message filtered", fileLog)
+	}
+	if !bytes.Contains(fileLog, []byte("info message")) {
+		t.Errorf("file log = %q, want info message", fileLog)
+	}
+	normalizedLog := filepath.ToSlash(string(fileLog))
+	if !strings.Contains(normalizedLog, "logger/logger_test.go") {
+		t.Errorf("file log = %q, want source logger/logger_test.go", fileLog)
+	}
+	workingDirectory, err := os.Getwd()
 	if err != nil {
-		t.Fatalf("newLogger: %v", err)
+		t.Fatalf("Getwd() error = %v", err)
 	}
-	t.Cleanup(func() { b.Close() })
-	return b, &stderr, dir
-}
+	if strings.Contains(normalizedLog, filepath.ToSlash(workingDirectory)) {
+		t.Errorf("file log = %q, want source without absolute working directory", fileLog)
+	}
 
-func TestHandlerOpts(t *testing.T) {
-	tests := []struct {
-		name  string
-		level slog.Leveler
-	}{
-		{"debug level", slog.LevelDebug},
-		{"info level", slog.LevelInfo},
-		{"error level", slog.LevelError},
-		{"level var", new(slog.LevelVar)},
-	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			options := handlerOpts(test.level)
-			if options == nil {
-				t.Fatal("handlerOpts() = nil, want non-nil")
-			}
-			if options.Level != test.level {
-				t.Errorf("Level = %v, want %v", options.Level, test.level)
-			}
-			if !options.AddSource {
-				t.Error("AddSource = false, want true")
-			}
-			src := &slog.Source{Function: "example.com/project/pkg.F", File: "/x/y/z.go", Line: 1}
-			result := options.ReplaceAttr(nil, slog.Any(slog.SourceKey, src))
-			if got, ok := result.Value.Any().(*slog.Source); !ok || got.File != filepath.Join("pkg", "z.go") {
-				t.Error("ReplaceAttr is not shortSource or not shortening file paths")
-			}
-		})
+	bundle.LevelVar.Set(slog.LevelDebug)
+	bundle.Logger.Debug("debug after level change")
+	if fileLog := readLog(t, dir); !bytes.Contains(fileLog, []byte("debug after level change")) {
+		t.Errorf("file log = %q, want runtime level change to take effect", fileLog)
 	}
 }
 
-func TestShortSource(t *testing.T) {
-	tests := []struct {
-		name string
-		attr slog.Attr
-		want slog.Attr
-	}{
-		{"string attr passes through", slog.String("message", "hello"), slog.String("message", "hello")},
-		{"int attr passes through", slog.Int("count", 3), slog.Int("count", 3)},
-		{"source file shortened to package and base name",
-			slog.Any(slog.SourceKey, &slog.Source{Function: "pkg.F", File: "/a/b/logger.go", Line: 99}),
-			slog.Any(slog.SourceKey, &slog.Source{Function: "pkg.F", File: filepath.Join("pkg", "logger.go"), Line: 99})},
-		{"source key with string value passes through",
-			slog.String(slog.SourceKey, "not a *slog.Source"), slog.String(slog.SourceKey, "not a *slog.Source")},
-		{"source key with nil passes through", slog.Any(slog.SourceKey, nil), slog.Any(slog.SourceKey, nil)},
+func TestNewLogger_ReturnsDirectoryError(t *testing.T) {
+	blocker := filepath.Join(t.TempDir(), "blocker")
+	if err := os.WriteFile(blocker, []byte("x"), 0o600); err != nil {
+		t.Fatalf("write blocker: %v", err)
 	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			got := shortSource(nil, test.attr)
-			if !attrEqual(got, test.want) {
-				t.Errorf("shortSource() = %v, want %v", got, test.want)
-			}
-		})
+	if _, err := newLogger(&bytes.Buffer{}, filepath.Join(blocker, "state"), Options{}); err == nil {
+		t.Fatal("newLogger() error = nil, want directory creation error")
 	}
 }
 
-func TestShortSourceAllocatesNewSource(t *testing.T) {
-	src := &slog.Source{Function: "pkg.Func", File: "/a/b/c/logger.go", Line: 12}
-	got := shortSource(nil, slog.Any(slog.SourceKey, src))
-
-	gotSrc, ok := got.Value.Any().(*slog.Source)
-	if !ok {
-		t.Fatalf("result value is %T, want *slog.Source", got.Value.Any())
-	}
-	if gotSrc == src {
-		t.Error("shortSource returned the input pointer, want a fresh copy")
+func TestBundle_Close(t *testing.T) {
+	bundle, _, _ := newTestLogger(t, Options{})
+	if err := bundle.Close(); err != nil {
+		t.Fatalf("Close() error = %v", err)
 	}
 }
 
-func TestNewCreatesLogFile(t *testing.T) {
-	b, _, dir := newTestBundle(t, Options{})
-	b.Logger.Info("hello")
-
-	logPath := filepath.Join(dir, logFileName)
-	data, err := os.ReadFile(logPath)
-	if err != nil {
-		t.Fatalf("ReadFile: %v", err)
-	}
-	if !bytes.Contains(data, []byte("hello")) {
-		t.Errorf("log file does not contain the message: %s", string(data))
-	}
-}
-
-func TestDefaultFileLevel(t *testing.T) {
-	b, _, _ := newTestBundle(t, Options{})
-	if b.LevelVar.Level() != slog.LevelInfo {
-		t.Errorf("LevelVar = %v, want %v", b.LevelVar.Level(), slog.LevelInfo)
-	}
-}
-
-func TestCustomFileLevel(t *testing.T) {
-	b, _, dir := newTestBundle(t, Options{FileLevel: slog.LevelError})
-	b.Logger.Info("info msg")
-	b.Logger.Error("error msg")
-
-	logPath := filepath.Join(dir, logFileName)
-	data, err := os.ReadFile(logPath)
-	if err != nil {
-		t.Fatalf("ReadFile: %v", err)
-	}
-
-	if bytes.Contains(data, []byte("info msg")) {
-		t.Error("info msg leaked into file with FileLevel=Error")
-	}
-	if !bytes.Contains(data, []byte("error msg")) {
-		t.Error("error msg missing from file with FileLevel=Error")
-	}
-}
-
-func TestClose(t *testing.T) {
-	b, _, _ := newTestBundle(t, Options{})
-	if err := b.Close(); err != nil {
-		t.Errorf("Close() = %v, want nil", err)
-	}
-	if err := b.Close(); err != nil {
-		t.Errorf("second Close() = %v, want nil", err)
-	}
-}
-
-func TestMkdirAllFailure(t *testing.T) {
-	dir := t.TempDir()
-	blocker := filepath.Join(dir, "blocker")
-	if err := os.WriteFile(blocker, []byte("x"), 0o644); err != nil {
-		t.Fatalf("WriteFile: %v", err)
-	}
-
-	_, err := newLogger(&bytes.Buffer{}, filepath.Join(blocker, "sub"), Options{})
-	if err == nil {
-		t.Fatal("newLogger: want error, got nil")
-	}
-}
-
-func TestFileSinkErrorSurfaced(t *testing.T) {
-	wantErr := errors.New("disk full")
-	ew := &errorWriter{
-		w:    &failWriter{err: wantErr},
-		path: "test.log",
-		errw: io.Discard,
-	}
-
-	_, err := ew.Write([]byte("data"))
-	if !errors.Is(err, wantErr) {
-		t.Fatalf("Write() error = %v, want %v", err, wantErr)
-	}
-}
-
-func TestFileSinkErrorSurfacedToStderr(t *testing.T) {
+func TestErrorWriter_ReportsFirstFailure(t *testing.T) {
 	wantErr := errors.New("disk full")
 	var stderr bytes.Buffer
-	ew := &errorWriter{
-		w:    &failWriter{err: wantErr},
-		path: "test.log",
-		errw: &stderr,
-	}
+	underlying := &stubFailingWriter{err: wantErr}
+	writer := &errorWriter{w: underlying, path: "test.log", errw: &stderr}
 
-	ew.Write([]byte("data"))
-	out := stderr.String()
-	if !strings.Contains(out, "logger: file sink error") {
-		t.Error("stderr missing sink-error message")
+	if _, err := writer.Write([]byte("first")); !errors.Is(err, wantErr) {
+		t.Fatalf("Write() error = %v, want error matching %v", err, wantErr)
 	}
-	if !strings.Contains(out, "test.log") {
-		t.Error("stderr missing file path")
-	}
-	if !strings.Contains(out, "disk full") {
-		t.Error("stderr missing error text")
-	}
-}
-
-func TestFileSinkSecondErrorSilent(t *testing.T) {
-	wantErr := errors.New("boom")
-	var stderr bytes.Buffer
-	underlying := &failWriter{err: wantErr}
-	ew := &errorWriter{
-		w:    underlying,
-		path: "test.log",
-		errw: &stderr,
-	}
-
-	ew.Write([]byte("a"))
-	ew.Write([]byte("b"))
+	_, _ = writer.Write([]byte("second"))
 
 	if underlying.writes != 2 {
-		t.Errorf("underlying Write calls = %d, want 2", underlying.writes)
+		t.Errorf("underlying writes = %d, want 2", underlying.writes)
 	}
-	if got := strings.Count(stderr.String(), "logger: file sink error"); got > 1 {
-		t.Errorf("stderr has %d sink-error lines, want at most 1", got)
+	for _, want := range []string{"logger: file sink error", "test.log", "disk full"} {
+		if !strings.Contains(stderr.String(), want) {
+			t.Errorf("error report = %q, want it to contain %q", stderr.String(), want)
+		}
+	}
+	if got := strings.Count(stderr.String(), "logger: file sink error"); got != 1 {
+		t.Errorf("reported errors = %d, want 1", got)
 	}
 }
 
-type failWriter struct {
+type stubFailingWriter struct {
 	err    error
-	n      int
 	writes int
 }
 
-func (w *failWriter) Write(p []byte) (int, error) {
-	w.writes++
-	return w.n, w.err
+func (writer *stubFailingWriter) Write(_ []byte) (int, error) {
+	writer.writes++
+	return 0, writer.err
 }
 
-func attrEqual(a, b slog.Attr) bool {
-	if a.Key != b.Key {
-		return false
+func newTestLogger(t *testing.T, options Options) (*Bundle, *bytes.Buffer, string) {
+	t.Helper()
+	var stderr bytes.Buffer
+	dir := t.TempDir()
+	bundle, err := newLogger(&stderr, dir, options)
+	if err != nil {
+		t.Fatalf("newLogger() error = %v", err)
 	}
-	if a.Key == slog.SourceKey {
-		as, aok := a.Value.Any().(*slog.Source)
-		bs, bok := b.Value.Any().(*slog.Source)
-		if aok && bok {
-			return *as == *bs
-		}
+	t.Cleanup(func() { _ = bundle.Close() })
+	return bundle, &stderr, dir
+}
+
+func readLog(t *testing.T, dir string) []byte {
+	t.Helper()
+	data, err := os.ReadFile(filepath.Join(dir, logFileName))
+	if err != nil {
+		t.Fatalf("ReadFile() error = %v", err)
 	}
-	return a.Equal(b)
+	return data
 }

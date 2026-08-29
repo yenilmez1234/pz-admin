@@ -7,83 +7,101 @@ import (
 
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/beyenilmez/pz-admin/internal/session"
+	"github.com/beyenilmez/pz-admin/internal/testutil"
 )
 
-type commandChannel struct {
-	command string
-	result  string
-	err     error
-}
-
-type recordedCommand struct {
+type recordingCommandObserver struct {
 	profile profile.Profile
 	input   string
 	output  string
+	calls   int
+	err     error
 }
 
-func (r *recordedCommand) ObserveConsoleCommand(p profile.Profile, input, output string) error {
-	r.profile = p
-	r.input = input
-	r.output = output
-	return nil
+func (o *recordingCommandObserver) Observe(p profile.Profile, input, output string) error {
+	o.calls++
+	o.profile = p
+	o.input = input
+	o.output = output
+	return o.err
 }
 
-func (c *commandChannel) Close() {}
+func TestService_Execute(t *testing.T) {
+	t.Run("executes trimmed command and records response", func(t *testing.T) {
+		channel := &testutil.RecordingChannel{Handler: func(context.Context, string) (string, error) {
+			return "response", nil
+		}}
+		observer := &recordingCommandObserver{}
+		p := profile.Profile{ID: "profile-id", Version: "42"}
+		service := NewService(observer.Observe)
+		service.SessionChanged(session.NewState(p, channel))
 
-func (c *commandChannel) ExecuteCommand(_ context.Context, command string) (string, error) {
-	c.command = command
-	return c.result, c.err
-}
+		result, err := service.Execute(t.Context(), "  players  ")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if result != "response" {
+			t.Errorf("Execute() = %q, want response", result)
+		}
+		testutil.AssertCommands(t, channel, "players")
+		if observer.profile != p || observer.input != "players" || observer.output != result {
+			t.Errorf("observed command = (%+v, %q, %q), want (%+v, %q, %q)", observer.profile, observer.input, observer.output, p, "players", result)
+		}
+	})
 
-func TestExecuteUsesConnectedCommandChannel(t *testing.T) {
-	channel := &commandChannel{result: "response"}
-	recorded := &recordedCommand{}
-	p := profile.Profile{ID: "profile-id", Version: "42"}
-	service := NewService(recorded.ObserveConsoleCommand)
-	service.SessionChanged(session.NewState(p, channel))
+	t.Run("requires active command capability", func(t *testing.T) {
+		service := NewService(nil)
+		if _, err := service.Execute(t.Context(), "players"); err == nil {
+			t.Error("Execute() error = nil, want disconnected error")
+		}
+	})
 
-	result, err := service.Execute(context.Background(), "  players  ")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if channel.command != "players" {
-		t.Fatalf("command = %q, want players", channel.command)
-	}
-	if result != "response" {
-		t.Fatalf("result = %q, want response", result)
-	}
-	if recorded.profile != p || recorded.input != "players" || recorded.output != result {
-		t.Fatalf("recorded command = %#v", recorded)
-	}
-}
+	t.Run("rejects blank command without execution or observation", func(t *testing.T) {
+		channel := &testutil.RecordingChannel{}
+		observer := &recordingCommandObserver{}
+		service := NewService(observer.Observe)
+		service.SessionChanged(session.NewState(profile.Profile{}, channel))
 
-func TestExecuteRequiresCommandCapability(t *testing.T) {
-	service := NewService(nil)
-	_, err := service.Execute(context.Background(), "players")
-	if err == nil {
-		t.Fatal("Execute() error = nil, want disconnected error")
-	}
-}
+		if _, err := service.Execute(t.Context(), " \t\n "); err == nil {
+			t.Error("Execute() accepted a blank command")
+		}
+		if len(channel.Commands()) != 0 || observer.calls != 0 {
+			t.Errorf("blank command executed %d commands and made %d observations", len(channel.Commands()), observer.calls)
+		}
+	})
 
-func TestExecuteReturnsChannelError(t *testing.T) {
-	want := errors.New("command failed")
-	channel := &commandChannel{err: want}
-	service := NewService(nil)
-	service.SessionChanged(session.NewState(profile.Profile{}, channel))
+	t.Run("returns command error", func(t *testing.T) {
+		wantErr := errors.New("command failed")
+		observer := &recordingCommandObserver{}
+		channel := &testutil.RecordingChannel{Handler: func(context.Context, string) (string, error) {
+			return "", wantErr
+		}}
+		service := NewService(observer.Observe)
+		service.SessionChanged(session.NewState(profile.Profile{}, channel))
 
-	_, err := service.Execute(context.Background(), "players")
-	if !errors.Is(err, want) {
-		t.Fatalf("Execute() error = %v, want wrapped %v", err, want)
-	}
-}
+		if _, err := service.Execute(t.Context(), "players"); !errors.Is(err, wantErr) {
+			t.Errorf("Execute() error = %v, want wrapped %v", err, wantErr)
+		}
+		if observer.calls != 0 {
+			t.Errorf("observer calls = %d, want 0", observer.calls)
+		}
+	})
 
-func TestDisconnectedSessionClearsCommandChannel(t *testing.T) {
-	service := NewService(nil)
-	service.SessionChanged(session.NewState(profile.Profile{}, &commandChannel{}))
-	service.SessionChanged(session.State{})
+	t.Run("does not fail a successful command when observation fails", func(t *testing.T) {
+		observer := &recordingCommandObserver{err: errors.New("observation failed")}
+		channel := &testutil.RecordingChannel{Handler: func(context.Context, string) (string, error) {
+			return "response", nil
+		}}
+		service := NewService(observer.Observe)
+		service.SessionChanged(session.NewState(profile.Profile{ID: "profile"}, channel))
 
-	_, err := service.Execute(context.Background(), "players")
-	if err == nil {
-		t.Fatal("Execute() error = nil after disconnect")
-	}
+		result, err := service.Execute(t.Context(), "players")
+		if err != nil || result != "response" {
+			t.Fatalf("Execute() = (%q, %v), want (response, nil)", result, err)
+		}
+		if observer.calls != 1 {
+			t.Errorf("observer calls = %d, want 1", observer.calls)
+		}
+	})
+
 }

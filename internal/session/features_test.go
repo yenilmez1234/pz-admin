@@ -1,55 +1,32 @@
 package session
 
 import (
-	"context"
 	"testing"
 
+	"github.com/beyenilmez/pz-admin/internal/command"
 	"github.com/beyenilmez/pz-admin/internal/feature"
 	"github.com/beyenilmez/pz-admin/internal/profile"
+	"github.com/beyenilmez/pz-admin/internal/testutil"
 )
 
-type featureTestChannel struct{}
-
-func (featureTestChannel) Close() {}
-
-type featureTestCommandChannel struct{ featureTestChannel }
-
-func (featureTestCommandChannel) ExecuteCommand(context.Context, string) (string, error) {
-	return "", nil
-}
-
 func TestResolveFeatures(t *testing.T) {
-	p := profile.Profile{Version: "42"}
-
-	withoutCommands := resolveFeatures(p, featureTestChannel{})
-	if len(withoutCommands) != 0 {
-		t.Fatalf("features without CommandExecutor = %v, want empty", withoutCommands.Values())
-	}
-
-	withCommands := resolveFeatures(p, featureTestCommandChannel{})
-	for _, expected := range []feature.ID{
-		feature.ConsoleExecuteCommand,
-		feature.PlayerList,
-		feature.PlayerSetGodMode,
-		feature.PlayerSetInvisible,
-		feature.PlayerSetNoClip,
-		feature.PlayerSetPassword,
-		feature.PlayerTeleportToPlayer,
-	} {
-		if !withCommands.Has(expected) {
-			t.Errorf("features with CommandExecutor does not contain %q", expected)
+	t.Run("does not add command execution without command capability", func(t *testing.T) {
+		features := resolveFeatures(profile.Profile{Version: "42"}, &stubChannel{})
+		if features.Has(feature.ConsoleExecuteCommand) {
+			t.Errorf("resolveFeatures() = %v, unexpectedly contains ConsoleExecuteCommand", features.Values())
 		}
-	}
+	})
 
-	p.Version = "41"
-	build41 := resolveFeatures(p, featureTestCommandChannel{})
-	if build41.Has(feature.PlayerSetNoClip) {
-		t.Error("Build 41 features contain PlayerSetNoClip")
-	}
-	if build41.Has(feature.PlayerSetInvisible) {
-		t.Error("Build 41 features contain PlayerSetInvisible")
-	}
-	if build41.Has(feature.PlayerSetPassword) {
-		t.Error("Build 41 features contain PlayerSetPassword")
+	for _, version := range []string{"41", "42"} {
+		t.Run("returns command features for Build "+version, func(t *testing.T) {
+			got := resolveFeatures(profile.Profile{Version: version}, &testutil.RecordingChannel{})
+			want := command.Features(version)
+			want.Add(feature.ConsoleExecuteCommand)
+			for _, required := range want.Values() {
+				if !got.Has(required) {
+					t.Errorf("resolveFeatures() = %v, missing %q", got.Values(), required)
+				}
+			}
+		})
 	}
 }

@@ -3,52 +3,78 @@ package options
 import (
 	"context"
 	"errors"
+	"slices"
 	"strings"
 	"testing"
 
-	"github.com/beyenilmez/pz-admin/internal/connection"
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/beyenilmez/pz-admin/internal/session"
+	"github.com/beyenilmez/pz-admin/internal/testutil"
 )
 
-type testChannel struct {
-	execute func(string) (string, error)
+func TestService_List(t *testing.T) {
+	wantErr := errors.New("show options failed")
+	channel := &testutil.RecordingChannel{Handler: func(context.Context, string) (string, error) {
+		return "", wantErr
+	}}
+	service := connectedService(channel)
+
+	if _, err := service.List(t.Context()); !errors.Is(err, wantErr) {
+		t.Errorf("List() error = %v, want wrapped %v", err, wantErr)
+	}
+	testutil.AssertCommands(t, channel, "showoptions")
 }
 
-func (c *testChannel) Close() {}
+func TestService_Update(t *testing.T) {
+	wantErr := errors.New("rejected by server")
+	channel := &testutil.RecordingChannel{Handler: func(_ context.Context, command string) (string, error) {
+		switch command {
+		case `changeoption "Open" "true"`:
+			return "Option : Open is now : true", nil
+		case `changeoption "MaxPlayers" "32"`:
+			return "", wantErr
+		default:
+			t.Fatalf("unexpected command %q", command)
+			return "", nil
+		}
+	}}
+	service := connectedService(channel)
 
-func (c *testChannel) ExecuteCommand(_ context.Context, input string) (string, error) {
-	return c.execute(input)
-}
-
-func TestUpdateReportsPartialFailures(t *testing.T) {
-	service := NewService()
-	service.SessionChanged(session.NewState(profile.Profile{ID: "profile-id", Version: "41"}, &testChannel{
-		execute: func(input string) (string, error) {
-			if strings.Contains(input, `"Rejected"`) {
-				return "", errors.New("rejected by server")
-			}
-			if strings.Contains(input, `"Accepted"`) {
-				return "Option : Accepted is now : true", nil
-			}
-			return "", errors.New("unexpected command")
-		},
-	}))
-
-	result, err := service.Update(context.Background(), map[string]string{
-		"Accepted": "true",
-		"Rejected": "false",
-	})
+	result, err := service.Update(t.Context(), map[string]string{"Open": "true", "MaxPlayers": "32"})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(result.Updated) != 1 || result.Updated[0] != "Accepted" {
-		t.Fatalf("Updated = %v, want [Accepted]", result.Updated)
+	if !slices.Equal(result.Updated, []string{"Open"}) {
+		t.Errorf("Updated = %v, want [Open]", result.Updated)
 	}
-	if !strings.Contains(result.Failed["Rejected"], "rejected by server") {
-		t.Fatalf("Failed = %v, want Rejected failure", result.Failed)
+	if failure := result.Failed["MaxPlayers"]; !strings.Contains(failure, wantErr.Error()) {
+		t.Errorf("Failed[MaxPlayers] = %q, want wrapped failure", failure)
 	}
 }
 
-var _ connection.Channel = (*testChannel)(nil)
-var _ connection.CommandExecutor = (*testChannel)(nil)
+func TestService_RequiresActiveSession(t *testing.T) {
+	service := NewService()
+	if _, err := service.List(t.Context()); err == nil {
+		t.Error("List() error = nil, want disconnected error")
+	}
+	if _, err := service.Update(t.Context(), map[string]string{"Open": "true"}); err == nil {
+		t.Error("Update() error = nil, want disconnected error")
+	}
+}
+
+func TestService_UpdateEmpty(t *testing.T) {
+	channel := &testutil.RecordingChannel{}
+	result, err := connectedService(channel).Update(t.Context(), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(result.Updated) != 0 || len(result.Failed) != 0 || len(channel.Commands()) != 0 {
+		t.Errorf("Update(nil) = %+v after commands %v, want empty result without commands", result, channel.Commands())
+	}
+}
+
+func connectedService(channel *testutil.RecordingChannel) *Service {
+	service := NewService()
+	service.SessionChanged(session.NewState(profile.Profile{Version: "42"}, channel))
+	return service
+}

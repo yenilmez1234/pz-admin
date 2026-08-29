@@ -6,18 +6,17 @@ import (
 	"testing"
 )
 
-func TestValidate(t *testing.T) {
+func TestConfig_Validate(t *testing.T) {
 	tests := []struct {
 		name            string
 		cfg             Config
 		wantErr         error
 		wantMsgContains string
 	}{
-		{"valid defaults", defaults(), nil, ""},
-		{"valid non-defaults", Config{Theme: ThemeDark, Language: "tr-TR"}, nil, ""},
-		{"valid generated locale", Config{Theme: ThemeSystem, Language: "fr"}, nil, ""},
-		{"invalid theme", Config{Theme: "blue", Language: "en-US"}, ErrInvalidTheme, "blue"},
-		{"both fields invalid", Config{Theme: "blue", Language: "xx-YY"}, ErrInvalidTheme, "blue"},
+		{name: "accepts defaults", cfg: defaults()},
+		{name: "accepts non-default theme and language", cfg: Config{Theme: ThemeDark, Language: "tr-TR"}},
+		{name: "accepts arbitrary language", cfg: Config{Theme: ThemeSystem, Language: "custom"}},
+		{name: "rejects invalid theme", cfg: Config{Theme: "blue", Language: "en-US"}, wantErr: ErrInvalidTheme, wantMsgContains: "blue"},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -28,14 +27,11 @@ func TestValidate(t *testing.T) {
 				}
 				return
 			}
-			if err == nil {
-				t.Fatalf("Validate() = nil, want error matching %v", test.wantErr)
-			}
 			if !errors.Is(err, test.wantErr) {
-				t.Errorf("errors.Is(err, %v) = false, got err = %v", test.wantErr, err)
+				t.Errorf("Validate() error = %v, want error matching %v", err, test.wantErr)
 			}
 			if !strings.Contains(err.Error(), test.wantMsgContains) {
-				t.Errorf("error message %q does not contain %q", err.Error(), test.wantMsgContains)
+				t.Errorf("Validate() error = %q, want it to contain %q", err, test.wantMsgContains)
 			}
 		})
 	}

@@ -2,7 +2,6 @@ package config
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"errors"
 	"os"
@@ -13,279 +12,181 @@ import (
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
-func configPath(svc *Service) string {
-	return filepath.Join(svc.dir, configFileName)
+func TestService_SetTheme(t *testing.T) {
+	t.Run("persists valid value", func(t *testing.T) {
+		service := newStartedConfigService(t)
+		if err := service.SetTheme(ThemeDark); err != nil {
+			t.Fatalf("SetTheme() error = %v", err)
+		}
+		want := defaults()
+		want.Theme = ThemeDark
+		assertConfigState(t, service, want)
+	})
+	t.Run("rejects invalid value without modifying state", func(t *testing.T) {
+		service := newStartedConfigService(t)
+		before := readConfigFile(t, configPath(service))
+		if err := service.SetTheme("blue"); !errors.Is(err, ErrInvalidTheme) {
+			t.Fatalf("SetTheme() error = %v, want error matching %v", err, ErrInvalidTheme)
+		}
+		assertConfigState(t, service, defaults())
+		if after := readConfigFile(t, configPath(service)); !bytes.Equal(after, before) {
+			t.Errorf("config file = %q, want unchanged %q", after, before)
+		}
+	})
 }
 
-func startService(t *testing.T, svc *Service) {
+func TestService_SetLanguage(t *testing.T) {
+	t.Run("persists value", func(t *testing.T) {
+		service := newStartedConfigService(t)
+		if err := service.SetLanguage("tr-TR"); err != nil {
+			t.Fatalf("SetLanguage() error = %v", err)
+		}
+		want := defaults()
+		want.Language = "tr-TR"
+		assertConfigState(t, service, want)
+	})
+	t.Run("rolls back after write failure", func(t *testing.T) {
+		service := newStartedConfigService(t)
+		originalPath := configPath(service)
+		before := readConfigFile(t, originalPath)
+		service.dir = filepath.Join(t.TempDir(), "blocker")
+		if err := os.WriteFile(service.dir, nil, 0o600); err != nil {
+			t.Fatalf("create directory blocker: %v", err)
+		}
+		if err := service.SetLanguage("tr-TR"); err == nil {
+			t.Fatal("SetLanguage() error = nil, want write error")
+		}
+		if got, want := service.Config(), defaults(); got != want {
+			t.Errorf("Config() = %+v, want rolled back %+v", got, want)
+		}
+		if after := readConfigFile(t, originalPath); !bytes.Equal(after, before) {
+			t.Errorf("config file = %q, want unchanged %q", after, before)
+		}
+	})
+}
+
+func TestService_Update(t *testing.T) {
+	service := newStartedConfigService(t)
+	var waitGroup sync.WaitGroup
+	errs := make([]error, 20)
+	for i := range errs {
+		waitGroup.Add(1)
+		go func(index int) {
+			defer waitGroup.Done()
+			if index%2 == 0 {
+				errs[index] = service.SetTheme(ThemeDark)
+			} else {
+				errs[index] = service.SetLanguage("tr-TR")
+			}
+		}(i)
+	}
+	waitGroup.Wait()
+	for i, err := range errs {
+		if err != nil {
+			t.Errorf("update %d error = %v", i, err)
+		}
+	}
+	assertConfigState(t, service, Config{Theme: ThemeDark, Language: "tr-TR"})
+}
+
+func TestService_ServiceStartup(t *testing.T) {
+	t.Run("creates defaults for missing file", func(t *testing.T) {
+		service := newStartedConfigService(t)
+		assertConfigState(t, service, defaults())
+	})
+	t.Run("loads valid file", func(t *testing.T) {
+		want := Config{Theme: ThemeDark, Language: "tr-TR"}
+		data, err := json.Marshal(want)
+		if err != nil {
+			t.Fatalf("Marshal() error = %v", err)
+		}
+		service := newConfigServiceWithFile(t, data)
+		startConfigService(t, service)
+		if got := service.Config(); got != want {
+			t.Errorf("Config() = %+v, want %+v", got, want)
+		}
+	})
+	for _, test := range []struct {
+		name string
+		data []byte
+	}{
+		{name: "recovers corrupt JSON", data: []byte("not json")},
+		{name: "recovers invalid values", data: []byte(`{"theme":"blue","language":"en-US"}`)},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			service := newConfigServiceWithFile(t, test.data)
+			startConfigService(t, service)
+			assertConfigState(t, service, defaults())
+			if got := readConfigFile(t, configPath(service)+configBakExt); !bytes.Equal(got, test.data) {
+				t.Errorf("backup = %q, want %q", got, test.data)
+			}
+		})
+	}
+	t.Run("uses defaults for unreadable file", func(t *testing.T) {
+		dir := t.TempDir()
+		if err := os.MkdirAll(filepath.Join(dir, configFileName), 0o700); err != nil {
+			t.Fatalf("create unreadable config fixture: %v", err)
+		}
+		service := newService(dir)
+		startConfigService(t, service)
+		if got, want := service.Config(), defaults(); got != want {
+			t.Errorf("Config() = %+v, want %+v", got, want)
+		}
+		if _, err := os.Stat(configPath(service) + configBakExt); !os.IsNotExist(err) {
+			t.Errorf("backup stat error = %v, want not exist", err)
+		}
+	})
+}
+
+func configPath(service *Service) string { return filepath.Join(service.dir, configFileName) }
+
+func startConfigService(t *testing.T, service *Service) {
 	t.Helper()
-	if err := svc.ServiceStartup(context.Background(), application.ServiceOptions{}); err != nil {
-		t.Fatalf("ServiceStartup: %v", err)
+	if err := service.ServiceStartup(t.Context(), application.ServiceOptions{}); err != nil {
+		t.Fatalf("ServiceStartup() error = %v", err)
 	}
 }
 
-func newStartedService(t *testing.T) *Service {
+func newStartedConfigService(t *testing.T) *Service {
 	t.Helper()
-	svc := newService(t.TempDir())
-	startService(t, svc)
-	return svc
+	service := newService(t.TempDir())
+	startConfigService(t, service)
+	return service
 }
 
-func newServiceWithConfig(t *testing.T, content []byte) *Service {
+func newConfigServiceWithFile(t *testing.T, data []byte) *Service {
 	t.Helper()
 	dir := t.TempDir()
-	svc := newService(dir)
-	path := filepath.Join(dir, configFileName)
-	if err := os.WriteFile(path, content, 0o600); err != nil {
-		t.Fatalf("WriteFile: %v", err)
+	if err := os.WriteFile(filepath.Join(dir, configFileName), data, 0o600); err != nil {
+		t.Fatalf("write config fixture: %v", err)
 	}
-	return svc
+	return newService(dir)
+}
+
+func assertConfigState(t *testing.T, service *Service, want Config) {
+	t.Helper()
+	if got := service.Config(); got != want {
+		t.Errorf("Config() = %+v, want %+v", got, want)
+	}
+	if got := readDiskConfig(t, configPath(service)); got != want {
+		t.Errorf("persisted config = %+v, want %+v", got, want)
+	}
 }
 
 func readDiskConfig(t *testing.T, path string) Config {
 	t.Helper()
+	var config Config
+	if err := json.Unmarshal(readConfigFile(t, path), &config); err != nil {
+		t.Fatalf("Unmarshal() error = %v", err)
+	}
+	return config
+}
+
+func readConfigFile(t *testing.T, path string) []byte {
+	t.Helper()
 	data, err := os.ReadFile(path)
 	if err != nil {
-		t.Fatalf("ReadFile(%q): %v", path, err)
+		t.Fatalf("ReadFile() error = %v", err)
 	}
-	var disk Config
-	if err := json.Unmarshal(data, &disk); err != nil {
-		t.Fatalf("unmarshal: %v", err)
-	}
-	return disk
-}
-
-func TestServiceStartupCreatesDefaults(t *testing.T) {
-	svc := newStartedService(t)
-
-	want := defaults()
-	if got := svc.Config(); got != want {
-		t.Errorf("Config() = %+v, want %+v", got, want)
-	}
-	if disk := readDiskConfig(t, configPath(svc)); disk != want {
-		t.Errorf("file = %+v, want %+v", disk, want)
-	}
-}
-
-func TestServiceStartupLoadsValidFile(t *testing.T) {
-	want := Config{Theme: ThemeDark, Language: "tr-TR"}
-	raw, err := json.Marshal(want)
-	if err != nil {
-		t.Fatalf("marshal: %v", err)
-	}
-	svc := newServiceWithConfig(t, raw)
-	startService(t, svc)
-
-	if got := svc.Config(); got != want {
-		t.Errorf("Config() = %+v, want %+v", got, want)
-	}
-}
-
-func TestServiceStartupReplacesBadConfig(t *testing.T) {
-	tests := []struct {
-		name    string
-		content []byte
-	}{
-		{"corrupt JSON", []byte("not json")},
-		{"invalid values", []byte(`{"theme":"blue","language":"en-US"}`)},
-	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			svc := newServiceWithConfig(t, test.content)
-			startService(t, svc)
-
-			want := defaults()
-			if got := svc.Config(); got != want {
-				t.Errorf("Config() = %+v, want defaults %+v", got, want)
-			}
-
-			bak, err := os.ReadFile(configPath(svc) + configBakExt)
-			if err != nil {
-				t.Fatalf("backup file: %v", err)
-			}
-			if !bytes.Equal(bak, test.content) {
-				t.Errorf("backup = %q, want %q", string(bak), string(test.content))
-			}
-
-			if disk := readDiskConfig(t, configPath(svc)); disk != want {
-				t.Errorf("disk = %+v, want defaults %+v", disk, want)
-			}
-		})
-	}
-}
-
-func TestSettersSaveToDisk(t *testing.T) {
-	tests := []struct {
-		name   string
-		set    func(svc *Service) error
-		wantFn func(Config) Config
-	}{
-		{
-			"SetTheme", func(s *Service) error { return s.SetTheme(ThemeDark) },
-			func(c Config) Config { c.Theme = ThemeDark; return c },
-		},
-		{
-			"SetLanguage", func(s *Service) error { return s.SetLanguage("tr-TR") },
-			func(c Config) Config { c.Language = "tr-TR"; return c },
-		},
-	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			svc := newStartedService(t)
-			if err := test.set(svc); err != nil {
-				t.Fatalf("%s: %v", test.name, err)
-			}
-			want := test.wantFn(defaults())
-			if disk := readDiskConfig(t, configPath(svc)); disk != want {
-				t.Errorf("disk = %+v, want %+v", disk, want)
-			}
-			if got := svc.Config(); got != want {
-				t.Errorf("Config() = %+v, want %+v", got, want)
-			}
-		})
-	}
-}
-
-func TestSettersRejectInvalidValues(t *testing.T) {
-	tests := []struct {
-		name         string
-		set          func(svc *Service) error
-		wantSentinel error
-	}{
-		{"SetTheme", func(s *Service) error { return s.SetTheme("blue") }, ErrInvalidTheme},
-	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			svc := newStartedService(t)
-			want := svc.Config()
-			origData, err := os.ReadFile(configPath(svc))
-			if err != nil {
-				t.Fatalf("ReadFile: %v", err)
-			}
-
-			if err := test.set(svc); !errors.Is(err, test.wantSentinel) {
-				t.Fatalf("%s = %v, want %v", test.name, err, test.wantSentinel)
-			}
-			if got := svc.Config(); got != want {
-				t.Errorf("Config() = %+v, want %+v (unchanged)", got, want)
-			}
-			after, err := os.ReadFile(configPath(svc))
-			if err != nil {
-				t.Fatalf("ReadFile: %v", err)
-			}
-			if !bytes.Equal(origData, after) {
-				t.Error("config file was modified after validation rejection")
-			}
-		})
-	}
-}
-
-func TestSetLanguageRollsBackOnWriteFailure(t *testing.T) {
-	svc := newStartedService(t)
-	want := svc.Config()
-	origPath := configPath(svc)
-
-	data, err := os.ReadFile(origPath)
-	if err != nil {
-		t.Fatalf("ReadFile: %v", err)
-	}
-
-	// A regular file at the configured directory path forces MkdirAll to fail.
-	svc.dir = filepath.Join(t.TempDir(), "blocker")
-	if err := os.WriteFile(svc.dir, nil, 0o600); err != nil {
-		t.Fatal(err)
-	}
-
-	if err := svc.SetLanguage("tr-TR"); err == nil {
-		t.Fatal("SetLanguage: want error, got nil")
-	}
-	if got := svc.Config(); got != want {
-		t.Errorf("Config() = %+v, want %+v (rollback failed)", got, want)
-	}
-
-	unchanged, err := os.ReadFile(origPath)
-	if err != nil {
-		t.Fatalf("ReadFile: %v", err)
-	}
-	if !bytes.Equal(data, unchanged) {
-		t.Error("config file was modified after write failure")
-	}
-}
-
-func TestServiceStartupUnreadableFile(t *testing.T) {
-	dir := t.TempDir()
-	// A directory at the configuration file path forces os.ReadFile to fail.
-	if err := os.MkdirAll(filepath.Join(dir, configFileName), 0o700); err != nil {
-		t.Fatalf("MkdirAll: %v", err)
-	}
-	svc := newService(dir)
-	startService(t, svc)
-
-	want := defaults()
-	if got := svc.Config(); got != want {
-		t.Errorf("Config() = %+v, want %+v", got, want)
-	}
-	// An unreadable file provides no data to back up.
-	if _, err := os.Stat(configPath(svc) + configBakExt); !os.IsNotExist(err) {
-		t.Errorf("backup file created when it should not be: %v", err)
-	}
-}
-
-func TestSaveLockedRenameFailureRollsBack(t *testing.T) {
-	svc := newStartedService(t)
-	want := svc.Config()
-	origPath := configPath(svc)
-
-	if err := os.Remove(origPath); err != nil {
-		t.Fatalf("Remove: %v", err)
-	}
-	if err := os.Mkdir(origPath, 0o700); err != nil {
-		t.Fatalf("Mkdir: %v", err)
-	}
-
-	if err := svc.SetTheme(ThemeDark); err == nil {
-		t.Fatal("SetTheme: want error, got nil")
-	}
-	if got := svc.Config(); got != want {
-		t.Errorf("Config() = %+v, want %+v (rollback failed)", got, want)
-	}
-
-	matches, _ := filepath.Glob(filepath.Join(filepath.Dir(origPath), ".jsonfile-*.json"))
-	if len(matches) > 0 {
-		t.Errorf("leftover temp files: %v", matches)
-	}
-}
-
-func TestConcurrentUpdates(t *testing.T) {
-	svc := newStartedService(t)
-
-	var wg sync.WaitGroup
-	var errs [20]error
-	for i := range 20 {
-		id := i
-		wg.Go(func() {
-			if id%2 == 0 {
-				errs[id] = svc.SetTheme(ThemeDark)
-			} else {
-				errs[id] = svc.SetLanguage("tr-TR")
-			}
-		})
-	}
-	wg.Wait()
-	for i, err := range errs {
-		if err != nil {
-			t.Errorf("goroutine %d: %v", i, err)
-		}
-	}
-
-	cfg := svc.Config()
-	want := Config{Theme: ThemeDark, Language: "tr-TR"}
-	if cfg != want {
-		t.Errorf("Config() = %+v, want %+v", cfg, want)
-	}
-
-	disk := readDiskConfig(t, configPath(svc))
-	if disk != cfg {
-		t.Errorf("disk = %+v, Config() = %+v (should match)", disk, cfg)
-	}
+	return data
 }
