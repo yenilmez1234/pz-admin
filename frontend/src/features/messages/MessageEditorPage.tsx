@@ -30,10 +30,7 @@ export function MessageEditorPage({
       <Stack gap="md" style={{ flex: 1, minHeight: 0 }}>
         <Group justify="space-between">
           <Title order={1}>{t("page.title")}</Title>
-          <GameBuildSelector
-            onChange={onBuildChange}
-            value={build}
-          />
+          <GameBuildSelector onChange={onBuildChange} value={build} />
         </Group>
 
         <GameMessageEditor

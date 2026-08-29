@@ -99,7 +99,8 @@ export function useOptionsEditor(
   const form = useForm<OptionFormValues>({
     initialValues: {},
   });
-  const { clearErrors, isDirty, resetDirty, setInitialValues, setValues } = form;
+  const { clearErrors, isDirty, resetDirty, setInitialValues, setValues } =
+    form;
 
   const load = useCallback(async () => {
     setLoading(true);

@@ -1,10 +1,4 @@
-import {
-  Alert,
-  Button,
-  Group,
-  Stack,
-  Title,
-} from "@mantine/core";
+import { Alert, Button, Group, Stack, Title } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { ItemBrowser } from "@/features/items/components/ItemBrowser";
@@ -35,10 +29,7 @@ export function ItemsPage({ build, onBuildChange }: ItemsPageProps) {
       <Stack gap="md" style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
         <Group justify="space-between">
           <Title order={1}>{t("page.title")}</Title>
-          <GameBuildSelector
-            onChange={onBuildChange}
-            value={build}
-          />
+          <GameBuildSelector onChange={onBuildChange} value={build} />
         </Group>
 
         {error ? (

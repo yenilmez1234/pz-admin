@@ -7,10 +7,7 @@ interface GameBuildSelectorProps {
   value: GameBuild;
 }
 
-export function GameBuildSelector({
-  onChange,
-  value,
-}: GameBuildSelectorProps) {
+export function GameBuildSelector({ onChange, value }: GameBuildSelectorProps) {
   const { t } = useTranslation("common");
 
   function handleChange(nextBuild: string) {
