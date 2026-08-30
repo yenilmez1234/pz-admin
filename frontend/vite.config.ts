@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import wails from "@wailsio/runtime/plugins/vite";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
@@ -12,4 +12,20 @@ export default defineConfig({
     strictPort: true,
   },
   plugins: [react(), wails("./bindings")],
+  test: {
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
+    clearMocks: true,
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/**/*.test.{ts,tsx}",
+        "src/data/**",
+        "src/test/**",
+        "src/vite-env.d.ts",
+      ],
+    },
+  },
 });

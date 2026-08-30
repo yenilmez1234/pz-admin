@@ -1,0 +1,8 @@
+[settings]
+lockfile = true
+
+[tools]
+go = "1.26"
+node = "24"
+pnpm = "latest"
+task = "latest"

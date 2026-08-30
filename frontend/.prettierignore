@@ -1,5 +1,6 @@
 # Generated code and build output
 bindings/
+coverage/
 dist/
 public/items/
 public/skills/

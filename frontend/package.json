@@ -8,7 +8,10 @@
     "build:dev": "tsc && vite build --minify false --mode development",
     "build": "tsc && vite build --mode production",
     "preview": "vite preview",
-    "check": "pnpm check:translations && pnpm lint && pnpm format:check && tsc",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "check": "pnpm check:translations && pnpm lint && pnpm format:check && tsc && pnpm test:run",
     "check:translations": "node ./scripts/translations/validate-ui.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -44,16 +47,23 @@
     "react-i18next": "17.0.11"
   },
   "devDependencies": {
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.6",
     "@types/node": "26.2.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "@vitejs/plugin-react": "6.0.5",
+    "@vitest/coverage-v8": "4.1.11",
     "cheerio": "1.2.0",
+    "jsdom": "30.0.1",
     "oxlint": "1.78.0",
     "oxlint-tsgolint": "7.0.2001",
     "postcss-preset-mantine": "1.18.0",
     "prettier": "3.9.6",
     "typescript": "7.0.2",
-    "vite": "8.2.1"
+    "vite": "8.2.1",
+    "vitest": "4.1.11"
   }
 }
