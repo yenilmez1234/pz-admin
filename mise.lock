@@ -32,6 +32,10 @@ url = "https://dl.google.com/go/go1.26.6.darwin-amd64.tar.gz"
 checksum = "sha256:5b6c5b556525810463b5c897b50dc7a82d6a3dc0bfaf55d990a7e9f31d6b2318"
 url = "https://dl.google.com/go/go1.26.6.windows-amd64.zip"
 
+[[tools."go:github.com/wailsapp/wails/v3/cmd/wails3"]]
+version = "3.0.0-beta.16"
+backend = "go:github.com/wailsapp/wails/v3/cmd/wails3"
+
 [[tools.node]]
 version = "24.19.0"
 backend = "core:node"
