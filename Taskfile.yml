@@ -19,6 +19,58 @@ includes:
   android: ./build/android/Taskfile.yml
 
 tasks:
+  check:
+    desc: Checks the backend and frontend
+    cmds:
+      - task: check:backend
+      - task: check:frontend
+
+  check:backend:
+    desc: Checks and tests the Go backend
+    cmds:
+      - go vet ./...
+      - task: test:backend
+
+  check:frontend:
+    desc: Checks and tests the frontend
+    dir: frontend
+    cmds:
+      - pnpm check
+
+  format:
+    desc: Formats the backend and frontend
+    deps:
+      - task: format:backend
+      - task: format:frontend
+
+  format:backend:
+    desc: Formats the Go backend
+    cmds:
+      - go fmt ./...
+
+  format:frontend:
+    desc: Formats the frontend
+    dir: frontend
+    cmds:
+      - pnpm format
+
+  test:
+    desc: Tests the backend and frontend
+    cmds:
+      - task: test:backend
+      - task: test:frontend
+
+  test:backend:
+    desc: Tests the Go backend
+    cmds:
+      - go test ./...
+
+  test:frontend:
+    desc: Tests the frontend
+    dir: frontend
+    cmds:
+      - pnpm test:run
+
   version:set:
     summary: Sets the application version and regenerates platform metadata
     requires:
