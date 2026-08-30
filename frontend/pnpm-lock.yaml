@@ -36,7 +36,7 @@ importers:
         specifier: 3.46.0
         version: 3.46.0(react@19.2.8)
       '@tiptap/extension-color':
-        specifier: ^3.30.3
+        specifier: 3.30.3
         version: 3.30.3(@tiptap/extension-text-style@3.30.3(@tiptap/core@3.30.3(@tiptap/pm@3.30.3)))
       '@tiptap/extension-text-align':
         specifier: 3.30.3
@@ -91,7 +91,7 @@ importers:
         specifier: 7.0.2001
         version: 7.0.2001
       postcss-preset-mantine:
-        specifier: ^1.18.0
+        specifier: 1.18.0
         version: 1.18.0(postcss@8.5.26)
       prettier:
         specifier: 3.9.6
