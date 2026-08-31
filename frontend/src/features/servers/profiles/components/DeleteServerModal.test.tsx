@@ -80,13 +80,14 @@ it("disables repeat deletion and closes after success", async () => {
 
 it("surfaces a normalized deletion failure", async () => {
   const user = userEvent.setup();
+  const onClose = vi.fn();
   const deleteRequest = deferred();
   const deleteError = new Error("delete-context: delete-error-sentinel");
   const onDelete = vi.fn<DeleteAction>().mockReturnValue(deleteRequest.promise);
 
   render(
     <DeleteServerModal
-      onClose={vi.fn()}
+      onClose={onClose}
       onDelete={onDelete}
       opened
       profile={profile}
@@ -108,4 +109,7 @@ it("surfaces a normalized deletion failure", async () => {
     message: "delete-context: delete-error-sentinel",
     title: i18n.t("deleteDialog.errorTitle", { ns: "servers" }),
   });
+  expect(onClose).not.toHaveBeenCalled();
+  expect(screen.getByRole("dialog")).toBeInTheDocument();
+  expect(deleteButton()).toBeEnabled();
 });

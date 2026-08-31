@@ -494,7 +494,9 @@ export function ServerActionsPage() {
       >
         <form
           onSubmit={(event) =>
-            submit(event, "stop", StopServer, t("success.serverStopped"))
+            submit(event, "stop", StopServer, t("success.serverStopped"), () =>
+              setDialog(null),
+            )
           }
         >
           <Stack gap="sm">

@@ -78,7 +78,7 @@ describe("ServerActionsPage", () => {
     await waitFor(() => expect(intensity).toHaveValue(""));
   });
 
-  it("requires explicit confirmation and submits one stop request", async () => {
+  it("requires explicit confirmation and closes after stopping", async () => {
     const user = userEvent.setup();
     vi.mocked(StopServer).mockResolvedValue(undefined);
     render(<ServerActionsPage />);
@@ -98,5 +98,8 @@ describe("ServerActionsPage", () => {
     await user.click(confirm);
 
     expect(StopServer).toHaveBeenCalledOnce();
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
   });
 });

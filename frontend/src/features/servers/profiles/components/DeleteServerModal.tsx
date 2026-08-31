@@ -28,6 +28,7 @@ export function DeleteServerModal({
     setDeleting(true);
     try {
       await onDelete(profile);
+      onClose();
     } catch (deleteError) {
       notifications.show({
         color: "red",
@@ -36,7 +37,6 @@ export function DeleteServerModal({
       });
     } finally {
       setDeleting(false);
-      onClose();
     }
   }
 
