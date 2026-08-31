@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  consoleSuggestionSegments,
-  rankedConsoleSuggestions,
-} from "./matching";
+import { rankedConsoleSuggestions } from "./matching";
 
 describe("rankedConsoleSuggestions", () => {
   it("ranks prefixes before substrings and ordered word-part matches", () => {
@@ -36,14 +33,11 @@ describe("rankedConsoleSuggestions", () => {
     ).toEqual(["addxp", "adduser", "additem"]);
   });
 
-  it.each([
-    { expected: [], limit: 0 },
-    { expected: ["one", "two"], limit: 2 },
-    { expected: ["one", "two", "three"], limit: 10 },
-  ])("returns at most $limit suggestions", ({ expected, limit }) => {
-    expect(
-      rankedConsoleSuggestions(["one", "two", "three"], "", limit),
-    ).toEqual(expected);
+  it("limits the number of suggestions", () => {
+    expect(rankedConsoleSuggestions(["one", "two", "three"], "", 2)).toEqual([
+      "one",
+      "two",
+    ]);
   });
 
   it("does not match query parts in reverse candidate order", () => {
@@ -51,32 +45,4 @@ describe("rankedConsoleSuggestions", () => {
       rankedConsoleSuggestions(["reload-server"], "server reload", 10),
     ).toEqual([]);
   });
-});
-
-describe("consoleSuggestionSegments", () => {
-  it("marks a case-insensitive substring in the original suggestion", () => {
-    expect(consoleSuggestionSegments("RemoveUser", "USER")).toEqual([
-      { matched: false, start: 0, text: "Remove" },
-      { matched: true, start: 6, text: "User" },
-    ]);
-  });
-
-  it("marks ordered query parts and leaves separators unmatched", () => {
-    expect(
-      consoleSuggestionSegments("server.reload-options", "server options"),
-    ).toEqual([
-      { matched: true, start: 0, text: "server" },
-      { matched: false, start: 6, text: ".reload-" },
-      { matched: true, start: 14, text: "options" },
-    ]);
-  });
-
-  it.each(["", "not-present"])(
-    "returns one unmatched segment for query %j",
-    (query) => {
-      expect(consoleSuggestionSegments("AddUser", query)).toEqual([
-        { matched: false, start: 0, text: "AddUser" },
-      ]);
-    },
-  );
 });

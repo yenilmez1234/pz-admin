@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Profile } from "@bindings/internal/profile/models";
+import { Profile } from "@bindings/internal/profile/models";
 import { Type } from "@bindings/internal/connection/models";
 import { Delete, List, Save } from "@bindings/internal/profile/service";
 import { useServerProfiles } from "./useServerProfiles";
@@ -92,5 +92,36 @@ describe("useServerProfiles", () => {
 
     expect(Delete).toHaveBeenCalledWith(alphaProfile.id);
     expect(result.current.profiles).toEqual([zuluProfile]);
+  });
+
+  it("replaces a saved profile by ID and preserves locale sorting", async () => {
+    const submittedProfile = new Profile({
+      connectionType: alphaProfile.connectionType,
+      host: alphaProfile.host,
+      id: alphaProfile.id,
+      name: "Submitted name",
+      port: alphaProfile.port,
+      version: alphaProfile.version,
+    });
+    const savedProfile = new Profile({
+      connectionType: submittedProfile.connectionType,
+      host: submittedProfile.host,
+      id: submittedProfile.id,
+      name: "Bravo",
+      port: submittedProfile.port,
+      version: submittedProfile.version,
+    });
+    vi.mocked(List).mockResolvedValue([zuluProfile, alphaProfile]);
+    vi.mocked(Save).mockResolvedValue(savedProfile);
+
+    const { result } = renderHook(() => useServerProfiles("en"));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.save(submittedProfile, "replacement secret");
+    });
+
+    expect(Save).toHaveBeenCalledWith(submittedProfile, "replacement secret");
+    expect(result.current.profiles).toEqual([savedProfile, zuluProfile]);
   });
 });
