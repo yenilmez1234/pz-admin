@@ -1,6 +1,7 @@
 import {
   Alert,
   Badge,
+  Button,
   Group,
   Radio,
   Select,
@@ -37,8 +38,9 @@ const languageOptions = [...locales]
   }));
 
 export function SettingsPage() {
-  const { i18n, t } = useTranslation("settings");
-  const { config, error, loading, setLanguage, setTheme } = useAppConfig();
+  const { i18n, t } = useTranslation(["settings", "common"]);
+  const { config, error, loading, reload, setLanguage, setTheme } =
+    useAppConfig();
   const percentFormatter = new Intl.NumberFormat(i18n.language, {
     style: "percent",
   });
@@ -59,9 +61,14 @@ export function SettingsPage() {
         <Alert
           color="red"
           icon={<IconAlertCircle size={20} aria-hidden="true" />}
-          title={t("errors.loadTitle")}
+          title={t("errors.load.title")}
         >
-          {error} {t("errors.loadRetryInstruction")}
+          <Stack align="flex-start" gap="xs">
+            {error}
+            <Button onClick={reload} size="xs" variant="light">
+              {t("actions.retry", { ns: "common" })}
+            </Button>
+          </Stack>
         </Alert>
       )}
 
@@ -71,26 +78,26 @@ export function SettingsPage() {
             <Alert
               color="red"
               icon={<IconAlertCircle size={20} aria-hidden="true" />}
-              title={t("errors.saveTitle")}
+              title={t("errors.save.title")}
               aria-live="polite"
             >
-              {error} {t("errors.saveRetryInstruction")}
+              {error} {t("errors.save.recovery")}
             </Alert>
           )}
 
           <Skeleton visible={loading}>
             <Radio.Group
               name="theme"
-              label={t("appearance.colorSchemeLabel")}
-              description={t("appearance.description")}
+              label={t("colorScheme.label")}
+              description={t("colorScheme.description")}
               value={config?.theme ?? "system"}
               disabled={loading}
               onChange={handleThemeChange}
             >
               <Group mt="xs">
-                <Radio value="system" label={t("appearance.system")} />
-                <Radio value="light" label={t("appearance.light")} />
-                <Radio value="dark" label={t("appearance.dark")} />
+                <Radio value="system" label={t("colorScheme.options.system")} />
+                <Radio value="light" label={t("colorScheme.options.light")} />
+                <Radio value="dark" label={t("colorScheme.options.dark")} />
               </Group>
             </Radio.Group>
           </Skeleton>

@@ -123,9 +123,9 @@ export function OptionField({
             </OptionSearchHighlight>
           </Text>
           {canRestoreDefault ? (
-            <Tooltip label={t("field.restoreCatalogDefault")}>
+            <Tooltip label={t("field.actions.restoreCatalogDefault")}>
               <ActionIcon
-                aria-label={t("field.restoreCatalogDefault")}
+                aria-label={t("field.actions.restoreCatalogDefault")}
                 color="gray"
                 onClick={restoreCatalogDefault}
                 size="xs"
@@ -141,9 +141,9 @@ export function OptionField({
             </Badge>
           ) : null}
           {definition.writeOnly ? (
-            <Tooltip label={t("field.writeOnlyDescription")}>
+            <Tooltip label={t("field.writeOnly.description")}>
               <Badge color="gray" size="xs" variant="light">
-                {t("field.writeOnly")}
+                {t("field.writeOnly.label")}
               </Badge>
             </Tooltip>
           ) : null}

@@ -1,34 +1,42 @@
 {
   "page": {
-    "title": "Eşyalar"
+    "title": "Eşya kataloğu"
   },
   "errors": {
-    "loadTitle": "Eşyalar Yüklenemedi"
+    "load": {
+      "title": "Eşyalar yüklenemedi"
+    }
   },
   "editor": {
-    "title": "Başlangıç Eşyalarını Düzenle",
-    "edit": "Eşyaları Düzenle",
-    "apply": "Uygula",
+    "actions": {
+      "edit": "Eşyaları düzenle"
+    },
+    "title": "Başlangıç eşyalarını düzenle",
     "empty": "Eşya seçilmedi",
-    "summary_one": "{{count}} başlangıç eşyası seçildi",
-    "summary_other": "{{count}} başlangıç eşyası seçildi"
+    "summary_one": "{{count}} eşya seçildi",
+    "summary_other": "{{count}} eşya seçildi"
   },
   "browser": {
-    "searchLabel": "Eşyalarda ara",
-    "searchPlaceholder": "Ada veya kimliğe göre ara…",
-    "clearSearch": "Eşya aramasını temizle",
-    "resultCount_one": "{{count}} eşya",
-    "resultCount_other": "{{count}} eşya",
-    "noResults": "Eşleşen eşya bulunamadı",
-    "addItem": "{{name}} ekle"
+    "search": {
+      "label": "Eşyalarda ara",
+      "empty": "Eşleşen eşya bulunamadı"
+    },
+    "actions": {
+      "addItem": "{{name}} ekle"
+    }
   },
   "selection": {
-    "title": "Seçilen Eşyalar",
-    "clear": "Temizle",
+    "title": "Seçilen eşyalar",
     "empty": "Bir liste oluşturmak için katalogdan eşya seçin.",
-    "customItemLabel": "Özel eşya kimliği",
-    "customItemPlaceholder": "Özel bir eşya kimliği girin…",
-    "addCustomItem": "Özel eşya ekle",
-    "quantityLabel": "{{name}} miktarı"
+    "customItem": {
+      "actions": {
+        "add": "Özel eşya ekle"
+      },
+      "label": "Özel eşya kimliği",
+      "placeholder": "Özel bir eşya kimliği girin…"
+    },
+    "quantity": {
+      "label": "{{name}} miktarı"
+    }
   }
 }

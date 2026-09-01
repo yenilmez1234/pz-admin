@@ -148,7 +148,11 @@ export function ServerActionsPage() {
                 disabled={busy}
                 loading={pending === "save"}
                 onClick={() =>
-                  void run("save", SaveWorld, t("success.worldSaved"))
+                  void run(
+                    "save",
+                    SaveWorld,
+                    t("notifications.worldSaved.message"),
+                  )
                 }
               >
                 {t("actions.saveWorld")}
@@ -186,7 +190,7 @@ export function ServerActionsPage() {
                     event,
                     "rain",
                     () => StartRain(valueOrAutomatic(rainIntensity)),
-                    t("success.rainStarted"),
+                    t("notifications.rainStarted.message"),
                     () => setRainIntensity(""),
                   )
                 }
@@ -194,7 +198,7 @@ export function ServerActionsPage() {
                 <NumberInput
                   allowDecimal={false}
                   clampBehavior="blur"
-                  label={t("fields.intensity")}
+                  label={t("fields.intensity.label")}
                   max={100}
                   min={1}
                   name="rainIntensity"
@@ -223,14 +227,14 @@ export function ServerActionsPage() {
                     event,
                     "storm",
                     () => StartStorm(valueOrAutomatic(stormDuration)),
-                    t("success.stormStarted"),
+                    t("notifications.stormStarted.message"),
                   )
                 }
               >
                 <NumberInput
                   allowDecimal={false}
                   clampBehavior="blur"
-                  label={t("fields.duration")}
+                  label={t("fields.duration.label")}
                   min={1}
                   name="stormDuration"
                   onChange={setStormDuration}
@@ -251,7 +255,11 @@ export function ServerActionsPage() {
                 disabled={busy}
                 loading={pending === "stopRain"}
                 onClick={() =>
-                  void run("stopRain", StopRain, t("success.rainStopped"))
+                  void run(
+                    "stopRain",
+                    StopRain,
+                    t("notifications.rainStopped.message"),
+                  )
                 }
                 variant="default"
               >
@@ -264,7 +272,7 @@ export function ServerActionsPage() {
                   void run(
                     "stopWeather",
                     StopWeather,
-                    t("success.weatherStopped"),
+                    t("notifications.weatherStopped.message"),
                   )
                 }
                 variant="default"
@@ -283,7 +291,7 @@ export function ServerActionsPage() {
             </Text>
             <Group gap="xs" mt={6} wrap="nowrap">
               <Text fw={600} size="xs">
-                {t("events.onlinePlayers")}
+                {t("events.players.label")}
               </Text>
               <Badge
                 color={onlinePlayers.length ? "green" : "gray"}
@@ -300,7 +308,7 @@ export function ServerActionsPage() {
                 withArrow
               >
                 <Text className={classes.playerNames} c="dimmed" size="xs">
-                  {playerNames || t("events.noPlayers")}
+                  {playerNames || t("events.players.empty")}
                 </Text>
               </Tooltip>
             </Group>
@@ -312,7 +320,7 @@ export function ServerActionsPage() {
                   void run(
                     "helicopter",
                     TriggerHelicopter,
-                    t("success.helicopter"),
+                    t("notifications.helicopter.message"),
                   )
                 }
                 variant="default"
@@ -323,7 +331,11 @@ export function ServerActionsPage() {
                 disabled={eventDisabled}
                 loading={pending === "gunshot"}
                 onClick={() =>
-                  void run("gunshot", TriggerGunshot, t("success.gunshot"))
+                  void run(
+                    "gunshot",
+                    TriggerGunshot,
+                    t("notifications.gunshot.message"),
+                  )
                 }
                 variant="default"
               >
@@ -334,7 +346,9 @@ export function ServerActionsPage() {
                 loading={pending === "lightning"}
                 onClick={() =>
                   void run("lightning", TriggerLightning, (result) =>
-                    t("success.lightning", { target: result.target }),
+                    t("notifications.lightning.message", {
+                      target: result.target,
+                    }),
                   )
                 }
                 variant="default"
@@ -346,7 +360,9 @@ export function ServerActionsPage() {
                 loading={pending === "thunder"}
                 onClick={() =>
                   void run("thunder", TriggerThunder, (result) =>
-                    t("success.thunder", { target: result.target }),
+                    t("notifications.thunder.message", {
+                      target: result.target,
+                    }),
                   )
                 }
                 variant="default"
@@ -372,7 +388,7 @@ export function ServerActionsPage() {
                   void run(
                     "reloadOptions",
                     ReloadOptions,
-                    t("success.optionsReloaded"),
+                    t("notifications.optionsReloaded.message"),
                   )
                 }
                 variant="default"
@@ -392,14 +408,14 @@ export function ServerActionsPage() {
                     event,
                     "reloadLua",
                     () => ReloadLua(luaFile),
-                    t("success.luaReloaded"),
+                    t("notifications.luaReloaded.message"),
                     () => setLuaFile(""),
                   )
                 }
               >
                 <TextInput
-                  aria-label={t("fields.luaFile")}
                   autoComplete="off"
+                  label={t("fields.luaFile.label")}
                   name="luaFile"
                   onChange={(event) => setLuaFile(event.currentTarget.value)}
                   spellCheck={false}
@@ -427,7 +443,7 @@ export function ServerActionsPage() {
                     void run(
                       "reloadAllLua",
                       ReloadAllLua,
-                      t("success.allLuaReloaded"),
+                      t("notifications.allLuaReloaded.message"),
                     )
                   }
                   variant="default"
@@ -446,7 +462,7 @@ export function ServerActionsPage() {
         opened={dialog === "message"}
         onClose={closeDialog}
         size={dialogSizes.editor}
-        title={t("dialogs.messageTitle")}
+        title={t("dialogs.message.title")}
         withCloseButton={!busy}
       >
         <form
@@ -455,7 +471,7 @@ export function ServerActionsPage() {
               event,
               "message",
               () => SendMessage(serializedMessage),
-              t("success.messageSent"),
+              t("notifications.messageSent.message"),
               () => {
                 setMessage("");
                 setDialog(null);
@@ -489,18 +505,22 @@ export function ServerActionsPage() {
         opened={dialog === "stop"}
         onClose={closeDialog}
         size={dialogSizes.compact}
-        title={t("dialogs.stopTitle")}
+        title={t("dialogs.stop.title")}
         withCloseButton={!busy}
       >
         <form
           onSubmit={(event) =>
-            submit(event, "stop", StopServer, t("success.serverStopped"), () =>
-              setDialog(null),
+            submit(
+              event,
+              "stop",
+              StopServer,
+              t("notifications.serverStopped.message"),
+              () => setDialog(null),
             )
           }
         >
           <Stack gap="sm">
-            <Text size="sm">{t("dialogs.stopDescription")}</Text>
+            <Text size="sm">{t("dialogs.stop.description")}</Text>
             <DialogActions busy={busy} onClose={closeDialog}>
               <Button color="red" loading={pending === "stop"} type="submit">
                 {t("actions.stopServer")}

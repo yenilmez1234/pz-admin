@@ -58,6 +58,7 @@ beforeEach(() => {
     config: { language: "en-US", theme: "system" },
     error: null,
     loading: false,
+    reload: vi.fn(),
     setLanguage: vi.fn(),
     setTheme: vi.fn(),
   });
@@ -101,7 +102,9 @@ describe("ConsolePage", () => {
       within(transcript).queryByText(i18n.t("help.cls", { ns: "console" })),
     ).not.toBeInTheDocument();
     expect(
-      within(transcript).getByText(i18n.t("welcome", { ns: "console" })),
+      within(transcript).getByText(
+        i18n.t("introduction.welcome", { ns: "console" }),
+      ),
     ).toBeVisible();
     expect(Execute).not.toHaveBeenCalled();
   });

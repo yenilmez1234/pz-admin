@@ -2,13 +2,13 @@ import type { ActionResult, Player } from "@bindings/internal/player/models";
 import { notifications } from "@mantine/notifications";
 import type { ParseKeys } from "i18next";
 import i18n from "@/i18n";
-import { rootErrorMessage } from "@/shared/lib/errors";
+import { errorMessage } from "@/shared/lib/errors";
 
 const t = i18n.getFixedT(null, "players");
 
 type PlayerSuccessMessageKey = Extract<
   ParseKeys<"players">,
-  `notifications.${string}.successMessage`
+  `notifications.${string}.success`
 >;
 
 interface ExecutePlayerActionOptions {
@@ -27,9 +27,9 @@ interface ExecutePlayerOperationOptions {
 function showFailure(error: unknown) {
   notifications.show({
     color: "red",
-    title: t("notifications.result.failureTitle"),
-    message: t("notifications.result.failureMessage", {
-      error: rootErrorMessage(error),
+    title: t("notifications.failure.title"),
+    message: t("notifications.failure.message", {
+      error: errorMessage(error),
     }),
   });
 }
@@ -42,7 +42,7 @@ export async function executePlayerOperation({
   try {
     await execute();
     notifications.show({
-      title: t("notifications.result.successTitle"),
+      title: t("notifications.success.title"),
       message: t(successKey, successValues),
     });
     return true;
@@ -61,14 +61,14 @@ export async function executePlayerAction({
   try {
     const result = await execute(targets.map((player) => player.id));
     if (result.failed.length > 0) {
-      const firstError = rootErrorMessage(result.failed[0].message);
+      const firstError = errorMessage(result.failed[0].message);
       if (result.succeeded.length === 0) {
         showFailure(firstError);
       } else {
         notifications.show({
           color: "yellow",
-          title: t("notifications.result.partialFailureTitle"),
-          message: t("notifications.result.partialFailureMessage", {
+          title: t("notifications.partialFailure.title"),
+          message: t("notifications.partialFailure.message", {
             error: firstError,
             failedCount: result.failed.length,
             succeededCount: result.succeeded.length,
@@ -80,7 +80,7 @@ export async function executePlayerAction({
     }
 
     notifications.show({
-      title: t("notifications.result.successTitle"),
+      title: t("notifications.success.title"),
       message: t(successKey, {
         count: targets.length,
         username: targets[0]?.username,

@@ -61,7 +61,7 @@ export function GiveItemsModal({
       onExitTransitionEnd={resetBrowser}
       opened={opened}
       size={dialogSizes.browser}
-      title={t("dialogs.giveItems.title", { count: players.length })}
+      title={t("dialogs.giveItems.title")}
       withCloseButton={!submitting}
     >
       <Stack gap="md">
@@ -77,7 +77,7 @@ export function GiveItemsModal({
             aria-live="polite"
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={itemT("errors.loadTitle")}
+            title={itemT("errors.load.title")}
           >
             <Stack align="flex-start" gap="xs">
               <Text size="sm">{error}</Text>

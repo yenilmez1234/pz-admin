@@ -91,6 +91,28 @@ describe("AppConfigProvider", () => {
     expect(setColorScheme).not.toHaveBeenCalled();
   });
 
+  it("retries a failed configuration load", async () => {
+    vi.mocked(Config)
+      .mockRejectedValueOnce(new Error("config-load-failure"))
+      .mockResolvedValueOnce(
+        new ConfigModel({ language: defaultLanguage, theme: "dark" }),
+      );
+
+    renderProvider();
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(appConfig.error).toBe("config-load-failure");
+
+    act(() => appConfig.reload());
+
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(Config).toHaveBeenCalledTimes(2);
+    expect(appConfig.config).toEqual({
+      language: defaultLanguage,
+      theme: "dark",
+    });
+    expect(appConfig.error).toBeNull();
+  });
+
   it("saves and applies language and theme changes", async () => {
     vi.mocked(Config).mockResolvedValue(
       new ConfigModel({ language: defaultLanguage, theme: "dark" }),

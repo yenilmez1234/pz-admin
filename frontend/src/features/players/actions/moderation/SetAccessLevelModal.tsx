@@ -71,7 +71,7 @@ export function SetAccessLevelModal({
     mode: "controlled",
     initialValues: { accessLevel: "" },
     validate: {
-      accessLevel: isNotEmpty(t("dialogs.setRole.validation.levelRequired")),
+      accessLevel: isNotEmpty(),
     },
   });
   const accessLevels =
@@ -117,7 +117,7 @@ export function SetAccessLevelModal({
           </Text>
 
           <Radio.Group
-            label={t("dialogs.setRole.levelLabel")}
+            label={t("dialogs.setRole.role.label")}
             required
             {...form.getInputProps("accessLevel")}
           >

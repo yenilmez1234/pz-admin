@@ -67,21 +67,13 @@ export function TeleportPlayerModal({
     initialValues,
     validate: {
       targetPlayerId: (value, values) =>
-        values.mode === "player" && !value
-          ? t("dialogs.teleport.validation.destinationRequired")
-          : null,
+        values.mode === "player" && !value ? true : null,
       x: (value, values) =>
-        values.mode === "coordinates" && !hasCoordinate(value)
-          ? t("dialogs.teleport.validation.xRequired")
-          : null,
+        values.mode === "coordinates" && !hasCoordinate(value) ? true : null,
       y: (value, values) =>
-        values.mode === "coordinates" && !hasCoordinate(value)
-          ? t("dialogs.teleport.validation.yRequired")
-          : null,
+        values.mode === "coordinates" && !hasCoordinate(value) ? true : null,
       z: (value, values) =>
-        values.mode === "coordinates" && !hasCoordinate(value)
-          ? t("dialogs.teleport.validation.zRequired")
-          : null,
+        values.mode === "coordinates" && !hasCoordinate(value) ? true : null,
     },
   });
   const sourcePlayerIds = useMemo(
@@ -136,10 +128,13 @@ export function TeleportPlayerModal({
           <SegmentedControl
             data={[
               {
-                label: t("dialogs.teleport.coordinatesMode"),
+                label: t("dialogs.teleport.mode.options.coordinates"),
                 value: "coordinates",
               },
-              { label: t("dialogs.teleport.playerMode"), value: "player" },
+              {
+                label: t("dialogs.teleport.mode.options.player"),
+                value: "player",
+              },
             ]}
             fullWidth
             {...form.getInputProps("mode")}
@@ -148,21 +143,24 @@ export function TeleportPlayerModal({
           {form.values.mode === "coordinates" ? (
             <SimpleGrid cols={3}>
               <NumberInput
-                label={t("dialogs.teleport.xCoordinateLabel")}
+                label={t("dialogs.teleport.coordinates.x.label")}
                 name="x"
                 placeholder="0"
+                required
                 {...form.getInputProps("x")}
               />
               <NumberInput
-                label={t("dialogs.teleport.yCoordinateLabel")}
+                label={t("dialogs.teleport.coordinates.y.label")}
                 name="y"
                 placeholder="0"
+                required
                 {...form.getInputProps("y")}
               />
               <NumberInput
-                label={t("dialogs.teleport.zCoordinateLabel")}
+                label={t("dialogs.teleport.coordinates.z.label")}
                 name="z"
                 placeholder="0"
+                required
                 {...form.getInputProps("z")}
               />
             </SimpleGrid>
@@ -172,10 +170,13 @@ export function TeleportPlayerModal({
                 label: player.username,
                 value: player.id,
               }))}
-              label={t("dialogs.teleport.destinationPlayerLabel")}
+              label={t("dialogs.teleport.destinationPlayer.label")}
               name="targetPlayerId"
-              nothingFoundMessage={t("dialogs.teleport.noDestinationPlayers")}
-              placeholder={t("dialogs.teleport.selectPlayerPlaceholder")}
+              nothingFoundMessage={t(
+                "dialogs.teleport.destinationPlayer.empty",
+              )}
+              placeholder={t("dialogs.teleport.destinationPlayer.placeholder")}
+              required
               searchable
               {...form.getInputProps("targetPlayerId")}
             />

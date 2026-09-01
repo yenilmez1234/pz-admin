@@ -135,6 +135,7 @@ function mockLanguage(language: LanguageSetting) {
     config: { language, theme: "system" },
     error: null,
     loading: false,
+    reload: vi.fn(),
     setLanguage: vi.fn(async () => undefined),
     setTheme: vi.fn(async () => undefined),
   });

@@ -56,10 +56,10 @@ export function PlayerModerationMenuItems({
   );
   const onlineOnlyMessage = t(
     mode === "bulk"
-      ? "actions.bulk.onlineOnlyExplanation"
-      : "actions.menu.onlineOnlyExplanation",
+      ? "actions.bulk.restrictions.onlineOnly"
+      : "actions.menu.restrictions.onlineOnly",
   );
-  const protectedRoleMessage = t("actions.menu.protectedRoleExplanation");
+  const protectedRoleMessage = t("actions.menu.restrictions.protectedRoles");
 
   if (players.length === 0) return null;
 
@@ -70,7 +70,7 @@ export function PlayerModerationMenuItems({
   return (
     <>
       <Menu.Item onClick={() => actions.openAccessLevel(players)}>
-        {t("actions.labels.setAccessLevel")}
+        {t("actions.commands.setRole")}
       </Menu.Item>
       <SetPasswordMenuItem players={players} />
       {mode === "single" ? (
@@ -83,8 +83,8 @@ export function PlayerModerationMenuItems({
             }
           >
             {player.banned
-              ? t("actions.labels.unban")
-              : t("actions.labels.ban")}
+              ? t("actions.commands.unban")
+              : t("actions.commands.ban")}
           </GuardedMenuItem>
           <GuardedMenuItem
             disabled={!online || moderationProtected}
@@ -93,7 +93,7 @@ export function PlayerModerationMenuItems({
             }
             onClick={() => actions.openKick(players)}
           >
-            {t("actions.labels.kick")}
+            {t("actions.commands.kick")}
           </GuardedMenuItem>
           <GuardedMenuItem
             disabled={!online}
@@ -103,8 +103,8 @@ export function PlayerModerationMenuItems({
             }
           >
             {player.voiceBanned
-              ? t("actions.labels.removeVoiceBan")
-              : t("actions.labels.voiceBan")}
+              ? t("actions.commands.removeVoiceBan")
+              : t("actions.commands.voiceBan")}
           </GuardedMenuItem>
         </>
       ) : (
@@ -114,10 +114,10 @@ export function PlayerModerationMenuItems({
             disabledReason={protectedRoleMessage}
             onClick={() => actions.openBan(players)}
           >
-            {t("actions.labels.ban")}
+            {t("actions.commands.ban")}
           </GuardedMenuItem>
           <Menu.Item onClick={() => actions.unban(players)}>
-            {t("actions.labels.unban")}
+            {t("actions.commands.unban")}
           </Menu.Item>
           <GuardedMenuItem
             disabled={!allOnline || hasProtectedPlayer}
@@ -126,26 +126,26 @@ export function PlayerModerationMenuItems({
             }
             onClick={() => actions.openKick(players)}
           >
-            {t("actions.labels.kick")}
+            {t("actions.commands.kick")}
           </GuardedMenuItem>
           <GuardedMenuItem
             disabled={!allOnline}
             disabledReason={onlineOnlyMessage}
             onClick={() => actions.setVoiceBanned(players, true)}
           >
-            {t("actions.labels.voiceBan")}
+            {t("actions.commands.voiceBan")}
           </GuardedMenuItem>
           <GuardedMenuItem
             disabled={!allOnline}
             disabledReason={onlineOnlyMessage}
             onClick={() => actions.setVoiceBanned(players, false)}
           >
-            {t("actions.labels.removeVoiceBan")}
+            {t("actions.commands.removeVoiceBan")}
           </GuardedMenuItem>
         </>
       )}
       <Menu.Item onClick={() => actions.openRemoveFromWhitelist(players)}>
-        {t("actions.labels.removeFromWhitelist")}
+        {t("actions.commands.removeFromWhitelist")}
       </Menu.Item>
     </>
   );

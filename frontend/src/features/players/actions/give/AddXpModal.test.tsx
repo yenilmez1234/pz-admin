@@ -74,7 +74,7 @@ function submitButton() {
 
 function levelButton(skill: string, level: number, amount: number) {
   return screen.getByRole("button", {
-    name: i18n.t("picker.levelAccessibleLabel", {
+    name: i18n.t("picker.level.label", {
       amount: new Intl.NumberFormat(catalog.language).format(amount),
       level,
       ns: "skills",
@@ -149,10 +149,12 @@ describe("AddXpModal", () => {
 
     fireEvent.click(screen.getByRole("button", { name: fitness.name }));
     fireEvent.click(
-      screen.getByLabelText(i18n.t("picker.customXp", { ns: "skills" })),
+      screen.getByLabelText(
+        i18n.t("picker.customXp.toggle.label", { ns: "skills" }),
+      ),
     );
     const customAmount = screen.getByLabelText(
-      i18n.t("picker.customXpAccessibleLabel", {
+      i18n.t("picker.customXp.input.label", {
         ns: "skills",
         skill: fitness.name,
       }),

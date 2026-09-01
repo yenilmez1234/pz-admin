@@ -53,6 +53,7 @@ interface AppConfigContextValue {
   config: AppConfig | null;
   error: string | null;
   loading: boolean;
+  reload: () => void;
   setLanguage: (language: LanguageSetting) => Promise<void>;
   setTheme: (theme: ThemeSetting) => Promise<void>;
 }
@@ -85,10 +86,17 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
   const [config, setConfig] = useState<AppConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadRevision, setLoadRevision] = useState(0);
   const activeLanguage = config?.language;
+  const reload = useCallback(
+    () => setLoadRevision((revision) => revision + 1),
+    [],
+  );
 
   useEffect(() => {
     let active = true;
+    setError(null);
+    setLoading(true);
 
     async function initialize() {
       try {
@@ -112,7 +120,7 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
     return () => {
       active = false;
     };
-  }, []);
+  }, [loadRevision]);
 
   useEffect(() => {
     if (!activeLanguage) return;
@@ -149,10 +157,11 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
       config,
       error,
       loading,
+      reload,
       setLanguage: updateLanguage,
       setTheme: updateTheme,
     }),
-    [config, error, loading, updateLanguage, updateTheme],
+    [config, error, loading, reload, updateLanguage, updateTheme],
   );
 
   return (

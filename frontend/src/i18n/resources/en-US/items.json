@@ -1,34 +1,42 @@
 {
   "page": {
-    "title": "Items"
+    "title": "Item Browser"
   },
   "errors": {
-    "loadTitle": "Unable to Load Items"
+    "load": {
+      "title": "Unable to Load Items"
+    }
   },
   "editor": {
+    "actions": {
+      "edit": "Edit Items"
+    },
     "title": "Edit Starting Items",
-    "edit": "Edit Items",
-    "apply": "Apply",
     "empty": "No items selected",
-    "summary_one": "{{count}} starting item selected",
-    "summary_other": "{{count}} starting items selected"
+    "summary_one": "{{count}} item selected",
+    "summary_other": "{{count}} items selected"
   },
   "browser": {
-    "searchLabel": "Search items",
-    "searchPlaceholder": "Search by name or ID…",
-    "clearSearch": "Clear item search",
-    "resultCount_one": "{{count}} item",
-    "resultCount_other": "{{count}} items",
-    "noResults": "No matching items",
-    "addItem": "Add {{name}}"
+    "search": {
+      "label": "Search items",
+      "empty": "No matching items"
+    },
+    "actions": {
+      "addItem": "Add {{name}}"
+    }
   },
   "selection": {
     "title": "Selected Items",
-    "clear": "Clear",
     "empty": "Select items from the catalog to build a list.",
-    "customItemLabel": "Custom item ID",
-    "customItemPlaceholder": "Enter a custom item ID…",
-    "addCustomItem": "Add custom item",
-    "quantityLabel": "Quantity of {{name}}"
+    "customItem": {
+      "actions": {
+        "add": "Add custom item"
+      },
+      "label": "Custom item ID",
+      "placeholder": "Enter a custom item ID…"
+    },
+    "quantity": {
+      "label": "Quantity of {{name}}"
+    }
   }
 }

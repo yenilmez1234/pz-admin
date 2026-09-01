@@ -4,7 +4,7 @@ import { executePlayerOperation } from "../actionNotifications";
 export function addServerUser(username: string, password: string) {
   return executePlayerOperation({
     execute: () => AddUser(username, password),
-    successKey: "notifications.addServerUser.successMessage",
+    successKey: "notifications.addServerUser.success",
     successValues: { username },
   });
 }
@@ -12,7 +12,7 @@ export function addServerUser(username: string, password: string) {
 export function addLocalPlayer(username: string) {
   return executePlayerOperation({
     execute: () => AddLocalUser(username),
-    successKey: "notifications.addLocalPlayer.successMessage",
+    successKey: "notifications.addLocalPlayer.success",
     successValues: { username },
   });
 }

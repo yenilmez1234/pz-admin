@@ -33,7 +33,7 @@ export function SetPasswordModal({
     mode: "controlled",
     initialValues: { password: "" },
     validate: {
-      password: isNotEmpty(t("validation.passwordRequired", { ns: "common" })),
+      password: isNotEmpty(),
     },
   });
   const resetForm = useEffectEvent(() => form.reset());
@@ -68,8 +68,9 @@ export function SetPasswordModal({
             key={form.key("password")}
             autoComplete="new-password"
             data-autofocus
-            label={t("fields.password", { ns: "common" })}
+            label={t("fields.password.label")}
             name="password"
+            required
             {...form.getInputProps("password")}
           />
           <Group justify="flex-end" mt="xs">

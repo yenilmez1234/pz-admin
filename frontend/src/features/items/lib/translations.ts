@@ -9,7 +9,7 @@ const translationModules = import.meta.glob<{ default: CatalogTranslations }>(
   "../../../data/items/locales/*/*.json",
 ) satisfies CatalogTranslationModules;
 
-const translations = createCatalogTranslationLoader({
+const translations = createCatalogTranslationLoader<CatalogTranslations>({
   moduleKey: (build: GameBuild, language: string) =>
     `../../../data/items/locales/${build}/${language}.json`,
   modules: translationModules,

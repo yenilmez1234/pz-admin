@@ -138,7 +138,7 @@ export function VehiclePickerSelection({
                   <Tooltip key={variant.id} label={label} withArrow>
                     <UnstyledButton
                       aria-current={selected ? "true" : undefined}
-                      aria-label={t("picker.selectVariant", {
+                      aria-label={t("picker.actions.selectVariant", {
                         variant: label,
                       })}
                       className={classes.variant}

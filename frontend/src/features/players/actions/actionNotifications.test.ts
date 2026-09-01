@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { notifications } from "@mantine/notifications";
 import {
   ActionFailure,
@@ -24,7 +24,7 @@ const { getFixedT, translate } = vi.hoisted(() => {
 });
 
 vi.mock("@/i18n", () => ({
-  default: { getFixedT },
+  default: { getFixedT, t: translate },
 }));
 
 vi.mock("@mantine/notifications", () => ({
@@ -36,8 +36,13 @@ const players = [
   new Player({ id: "bravo", username: "Bob" }),
 ];
 
+beforeEach(() => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+});
+
 afterEach(() => {
   vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("executePlayerAction", () => {
@@ -50,7 +55,7 @@ describe("executePlayerAction", () => {
 
     const succeeded = await executePlayerAction({
       execute,
-      successKey: "notifications.spawnVehicle.successMessage",
+      successKey: "notifications.spawnVehicle.success",
       successValues: { vehicle: "Ambulance" },
       targets: players,
     });
@@ -59,7 +64,7 @@ describe("executePlayerAction", () => {
     expect(execute).toHaveBeenCalledOnce();
     expect(execute).toHaveBeenCalledWith([players[0].id, players[1].id]);
     expect(translate).toHaveBeenCalledWith(
-      "notifications.spawnVehicle.successMessage",
+      "notifications.spawnVehicle.success",
       {
         count: players.length,
         username: players[0].username,
@@ -68,8 +73,8 @@ describe("executePlayerAction", () => {
     );
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.result.successTitle",
-      message: "translated:notifications.spawnVehicle.successMessage",
+      title: "translated:notifications.success.title",
+      message: "translated:notifications.spawnVehicle.success",
     });
   });
 
@@ -90,15 +95,15 @@ describe("executePlayerAction", () => {
 
     const succeeded = await executePlayerAction({
       execute,
-      successKey: "notifications.kick.successMessage",
+      successKey: "notifications.kick.success",
       targets: players,
     });
 
     expect(succeeded).toBe(false);
     expect(translate).toHaveBeenCalledWith(
-      "notifications.result.partialFailureMessage",
+      "notifications.partialFailure.message",
       {
-        error: "permission denied",
+        error: "rcon: permission denied",
         failedCount: 1,
         succeededCount: 1,
         totalCount: 2,
@@ -107,8 +112,8 @@ describe("executePlayerAction", () => {
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
       color: "yellow",
-      title: "translated:notifications.result.partialFailureTitle",
-      message: "translated:notifications.result.partialFailureMessage",
+      title: "translated:notifications.partialFailure.title",
+      message: "translated:notifications.partialFailure.message",
     });
   });
 
@@ -119,21 +124,20 @@ describe("executePlayerAction", () => {
 
     const succeeded = await executePlayerAction({
       execute,
-      successKey: "notifications.kick.successMessage",
+      successKey: "notifications.kick.success",
       targets: players,
     });
 
     expect(succeeded).toBe(false);
     expect(execute).toHaveBeenCalledWith([players[0].id, players[1].id]);
-    expect(translate).toHaveBeenCalledWith(
-      "notifications.result.failureMessage",
-      { error: "connection lost" },
-    );
+    expect(translate).toHaveBeenCalledWith("notifications.failure.message", {
+      error: "transport: connection lost",
+    });
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
       color: "red",
-      title: "translated:notifications.result.failureTitle",
-      message: "translated:notifications.result.failureMessage",
+      title: "translated:notifications.failure.title",
+      message: "translated:notifications.failure.message",
     });
   });
 });
@@ -144,7 +148,7 @@ describe("executePlayerOperation", () => {
 
     const succeeded = await executePlayerOperation({
       execute,
-      successKey: "notifications.addServerUser.successMessage",
+      successKey: "notifications.addServerUser.success",
       successValues: { username: "Carol" },
     });
 
@@ -152,13 +156,13 @@ describe("executePlayerOperation", () => {
     expect(execute).toHaveBeenCalledOnce();
     expect(execute).toHaveBeenCalledWith();
     expect(translate).toHaveBeenCalledWith(
-      "notifications.addServerUser.successMessage",
+      "notifications.addServerUser.success",
       { username: "Carol" },
     );
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.result.successTitle",
-      message: "translated:notifications.addServerUser.successMessage",
+      title: "translated:notifications.success.title",
+      message: "translated:notifications.addServerUser.success",
     });
   });
 });

@@ -14,13 +14,13 @@ export function PlayerEventMenuItems({ players }: PlayerEventMenuItemsProps) {
   return (
     <>
       <Menu.Item onClick={() => actions.openCreateHorde(players)}>
-        {t("actions.labels.createHorde")}
+        {t("actions.commands.createHorde")}
       </Menu.Item>
       <Menu.Item onClick={() => actions.openLightning(players)}>
-        {t("actions.labels.lightningStrike")}
+        {t("actions.commands.lightningStrike")}
       </Menu.Item>
       <Menu.Item onClick={() => actions.openThunder(players)}>
-        {t("actions.labels.thunderStrike")}
+        {t("actions.commands.thunderStrike")}
       </Menu.Item>
     </>
   );

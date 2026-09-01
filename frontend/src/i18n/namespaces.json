@@ -3,6 +3,7 @@
   "console": true,
   "items": true,
   "messages": true,
+  "optionCatalog": true,
   "options": true,
   "players": true,
   "servers": true,
@@ -12,5 +13,6 @@
   "shell": true,
   "skills": true,
   "tools": true,
+  "vehicleCatalog": true,
   "vehicles": true
 }

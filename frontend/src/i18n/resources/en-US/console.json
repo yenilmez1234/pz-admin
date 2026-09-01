@@ -1,11 +1,17 @@
 {
-  "commandLabel": "Server command",
-  "commandPlaceholder": "Enter a server command",
+  "command": {
+    "label": "Server command",
+    "placeholder": "Enter a server command"
+  },
   "help": {
     "cls": "Clears all output currently shown in the console."
   },
-  "noOutput": "Command completed without output.",
-  "outputLabel": "Console output",
-  "usageHint": "Use Tab for suggestions and the Up and Down arrows to navigate command history.",
-  "welcome": "Welcome. Type 'help' for server commands or 'cls' to clear the console."
+  "introduction": {
+    "usage": "Use Tab for suggestions and the Up and Down arrows to navigate command history.",
+    "welcome": "Welcome. Type 'help' for server commands or 'cls' to clear the console."
+  },
+  "output": {
+    "empty": "Command completed without output.",
+    "label": "Console output"
+  }
 }

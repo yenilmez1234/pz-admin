@@ -31,8 +31,8 @@ export function AddServerUserModal({
     mode: "controlled",
     initialValues: { password: "", username: "" },
     validate: {
-      password: isNotEmpty(t("validation.passwordRequired", { ns: "common" })),
-      username: isNotEmpty(t("validation.usernameRequired", { ns: "common" })),
+      password: isNotEmpty(),
+      username: isNotEmpty(),
     },
   });
   const resetForm = useEffectEvent(() => form.reset());
@@ -61,15 +61,17 @@ export function AddServerUserModal({
             key={form.key("username")}
             autoComplete="off"
             data-autofocus
-            label={t("fields.username", { ns: "common" })}
+            label={t("fields.username.label")}
             name="username"
+            required
             {...form.getInputProps("username")}
           />
           <PasswordInput
             key={form.key("password")}
             autoComplete="new-password"
-            label={t("fields.password", { ns: "common" })}
+            label={t("fields.password.label")}
             name="password"
+            required
             {...form.getInputProps("password")}
           />
           <Group justify="flex-end" mt="xs">

@@ -69,6 +69,7 @@
   display: grid;
   grid-template-columns: minmax(14rem, 24rem) auto;
   gap: var(--mantine-spacing-xs);
+  align-items: end;
 }
 
 .dialogActions button {

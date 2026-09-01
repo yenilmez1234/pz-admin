@@ -1,23 +1,44 @@
 {
   "table": {
-    "accessibleLabel": "Known players",
-    "actionsColumnLabel": "Actions",
-    "accessLevelColumn": "Role",
-    "addPlayerButton": "Add Player",
-    "empty": "No players to show.",
-    "missingPlayerLink": "Missing a player? Add an offline player to the list.",
-    "noSearchResults": "No players match your search.",
-    "playerColumn": "Player",
-    "searchLabel": "Search players",
-    "searchPlaceholder": "Search players…",
-    "selectAllLabel": "Select all visible players",
-    "selectPlayerLabel": "Select {{username}}",
-    "statusColumn": "Status"
+    "label": "Players",
+    "columns": {
+      "player": "Player",
+      "status": "Status",
+      "role": "Role",
+      "actions": "Actions"
+    },
+    "actions": {
+      "addLocalPlayer": "Missing a player? Add an offline player to the list.",
+      "addPlayer": "Add Player"
+    },
+    "empty": {
+      "default": "No players to show.",
+      "search": "No players match your search."
+    },
+    "search": {
+      "label": "Search players",
+      "placeholder": "Search players…"
+    }
+  },
+  "selection": {
+    "selectAll": "Select all visible players",
+    "selectPlayer": "Select {{username}}",
+    "clear": "Clear player selection",
+    "summary_one": "{{count}} selected",
+    "summary_other": "{{count}} selected"
   },
   "status": {
     "neverSeen": "Never seen",
     "offline": "Offline",
     "online": "Online"
+  },
+  "fields": {
+    "password": { "label": "Password" },
+    "reason": {
+      "label": "Reason",
+      "placeholder": "Optional"
+    },
+    "username": { "label": "Username" }
   },
   "roles": {
     "admin": "Admin",
@@ -33,9 +54,11 @@
   },
   "actions": {
     "menu": {
-      "accessibleLabel": "Open actions for {{username}}",
-      "onlineOnlyExplanation": "This action requires the player to be online",
-      "protectedRoleExplanation": "Admins and moderators cannot be banned or kicked"
+      "label": "Open actions for {{username}}",
+      "restrictions": {
+        "onlineOnly": "This action requires the player to be online.",
+        "protectedRoles": "Admins and moderators cannot be banned or kicked."
+      }
     },
     "groups": {
       "moderation": "Moderation",
@@ -43,7 +66,7 @@
       "give": "Give",
       "powers": "Powers"
     },
-    "labels": {
+    "commands": {
       "addItem": "Add Item",
       "spawnVehicle": "Spawn Vehicle",
       "addXp": "Add XP",
@@ -53,7 +76,7 @@
       "lightningStrike": "Lightning Strike",
       "removeFromWhitelist": "Remove from Whitelist",
       "removeVoiceBan": "Remove Voice Ban",
-      "setAccessLevel": "Set Role",
+      "setRole": "Set Role",
       "setPassword": "Change Password",
       "teleport": "Teleport",
       "thunderStrike": "Thunder Strike",
@@ -83,12 +106,11 @@
       }
     },
     "bulk": {
-      "accessibleLabel": "Selected player actions",
-      "actionsButton": "Actions",
-      "clearSelectionLabel": "Clear player selection",
-      "onlineOnlyExplanation": "All selected players must be online",
-      "selectedCount_one": "{{count}} selected",
-      "selectedCount_other": "{{count}} selected"
+      "label": "Selected player actions",
+      "open": "Actions",
+      "restrictions": {
+        "onlineOnly": "All selected players must be online."
+      }
     }
   },
   "dialogs": {
@@ -101,7 +123,7 @@
       "title": "Add Local Player"
     },
     "ban": {
-      "banIpLabel": "Also ban the current IP address",
+      "banIp": { "label": "Also ban the current IP address" },
       "description_one": "Ban {{username}} from the server.",
       "description_other": "Ban {{count}} players from the server.",
       "submit": "Ban",
@@ -118,13 +140,14 @@
     "removeFromWhitelist": {
       "description_one": "Remove {{username}} from the server whitelist?",
       "description_other": "Remove {{count}} players from the server whitelist?",
-      "title_one": "Remove from Whitelist",
+      "submit": "Remove",
+      "title_one": "Remove Player from Whitelist",
       "title_other": "Remove Players from Whitelist"
     },
     "createHorde": {
       "description_one": "Create a horde near {{username}}.",
       "description_other": "Create a horde near each of {{count}} players.",
-      "sizeLabel": "Horde Size",
+      "size": { "label": "Horde Size" },
       "submit": "Create Horde",
       "title": "Create Horde",
       "validation": {
@@ -144,173 +167,171 @@
       "title": "Thunder Strike"
     },
     "teleport": {
-      "coordinatesMode": "Coordinates",
       "description_one": "Choose where to teleport {{username}}.",
       "description_other": "Choose where to teleport {{count}} players.",
-      "destinationPlayerLabel": "Destination Player",
-      "noDestinationPlayers": "No other online players found",
-      "playerMode": "Player",
-      "selectPlayerPlaceholder": "Select a player",
+      "destinationPlayer": {
+        "label": "Destination Player",
+        "placeholder": "Select a player",
+        "empty": "No other online players found"
+      },
+      "mode": {
+        "options": {
+          "coordinates": "Coordinates",
+          "player": "Player"
+        }
+      },
       "submit": "Teleport",
-      "xCoordinateLabel": "X",
-      "yCoordinateLabel": "Y",
-      "zCoordinateLabel": "Z",
+      "coordinates": {
+        "x": { "label": "X" },
+        "y": { "label": "Y" },
+        "z": { "label": "Z" }
+      },
       "title_one": "Teleport Player",
-      "title_other": "Teleport Players",
-      "validation": {
-        "destinationRequired": "Select a destination player.",
-        "xRequired": "Enter X.",
-        "yRequired": "Enter Y.",
-        "zRequired": "Enter Z."
-      }
+      "title_other": "Teleport Players"
     },
     "spawnVehicle": {
       "description_one": "Choose a vehicle to spawn near {{username}}.",
       "description_other": "Choose a vehicle to spawn near each of {{count}} players.",
-      "submit": "Spawn Vehicle",
-      "title_one": "Spawn Vehicle",
-      "title_other": "Spawn Vehicles"
+      "submit": "Spawn",
+      "title": "Spawn Vehicle"
     },
     "giveItems": {
       "description_one": "Choose items to give to {{username}}.",
       "description_other": "Choose items to give to each of {{count}} players.",
-      "submit": "Give Items",
-      "title_one": "Give Items",
-      "title_other": "Give Items"
+      "submit": "Give",
+      "title": "Give Items"
     },
     "addXp": {
-      "description_one": "Choose the skill XP to add to {{username}}.",
-      "description_other": "Choose the skill XP to add to each of {{count}} players.",
-      "submit": "Add XP",
-      "title_one": "Add XP",
-      "title_other": "Add XP"
+      "description_one": "Choose the skills and XP amounts to add to {{username}}.",
+      "description_other": "Choose the skills and XP amounts to add to each of {{count}} players.",
+      "submit": "Add",
+      "title": "Add XP"
     },
     "setRole": {
       "description_one": "Choose a role for {{username}}.",
       "description_other": "Choose a role for {{count}} players.",
-      "levelLabel": "Role",
-      "submit": "Set Role",
-      "title": "Set Role",
-      "validation": {
-        "levelRequired": "Select a role."
-      }
+      "role": { "label": "Role" },
+      "submit": "Set",
+      "title": "Set Role"
     },
     "setPassword": {
       "description_one": "Enter a new password for {{username}}.",
       "description_other": "Enter a new password for {{count}} players.",
       "submit": "Change Password",
-      "title_one": "Change Password",
+      "title_one": "Change Player Password",
       "title_other": "Change Player Passwords"
     }
   },
-  "loadError": {
-    "title": "Unable to Load Players"
+  "errors": {
+    "load": { "title": "Unable to Load Players" }
   },
   "notifications": {
     "addServerUser": {
-      "successMessage": "{{username}} was added to the server whitelist."
+      "success": "Added {{username}} to the server whitelist."
     },
     "addLocalPlayer": {
-      "successMessage": "{{username}} was added to the player list."
+      "success": "Added {{username}} to the player list."
     },
     "godMode": {
       "enable": {
-        "successMessage_one": "God mode was enabled for {{username}}.",
-        "successMessage_other": "God mode was enabled for {{count}} players."
+        "success_one": "Enabled god mode for {{username}}.",
+        "success_other": "Enabled god mode for {{count}} players."
       },
       "disable": {
-        "successMessage_one": "God mode was disabled for {{username}}.",
-        "successMessage_other": "God mode was disabled for {{count}} players."
+        "success_one": "Disabled god mode for {{username}}.",
+        "success_other": "Disabled god mode for {{count}} players."
       }
     },
     "noClip": {
       "enable": {
-        "successMessage_one": "No clip was enabled for {{username}}.",
-        "successMessage_other": "No clip was enabled for {{count}} players."
+        "success_one": "Enabled no-clip mode for {{username}}.",
+        "success_other": "Enabled no-clip mode for {{count}} players."
       },
       "disable": {
-        "successMessage_one": "No clip was disabled for {{username}}.",
-        "successMessage_other": "No clip was disabled for {{count}} players."
+        "success_one": "Disabled no-clip mode for {{username}}.",
+        "success_other": "Disabled no-clip mode for {{count}} players."
       }
     },
     "invisible": {
       "enable": {
-        "successMessage_one": "Invisibility was enabled for {{username}}.",
-        "successMessage_other": "Invisibility was enabled for {{count}} players."
+        "success_one": "Enabled invisibility for {{username}}.",
+        "success_other": "Enabled invisibility for {{count}} players."
       },
       "disable": {
-        "successMessage_one": "Invisibility was disabled for {{username}}.",
-        "successMessage_other": "Invisibility was disabled for {{count}} players."
+        "success_one": "Disabled invisibility for {{username}}.",
+        "success_other": "Disabled invisibility for {{count}} players."
       }
     },
     "voiceBan": {
       "apply": {
-        "successMessage_one": "{{username}}'s voice was banned.",
-        "successMessage_other": "Voice was banned for {{count}} players."
+        "success_one": "Disabled voice chat for {{username}}.",
+        "success_other": "Disabled voice chat for {{count}} players."
       },
       "remove": {
-        "successMessage_one": "{{username}}'s voice was unbanned.",
-        "successMessage_other": "Voice was unbanned for {{count}} players."
+        "success_one": "Enabled voice chat for {{username}}.",
+        "success_other": "Enabled voice chat for {{count}} players."
       }
     },
-    "accessLevel": {
-      "successMessage_one": "{{username}}'s role was updated.",
-      "successMessage_other": "Roles were updated for {{count}} players."
+    "role": {
+      "success_one": "Updated {{username}}'s role.",
+      "success_other": "Updated roles for {{count}} players."
     },
     "setPassword": {
-      "successMessage_one": "{{username}}'s password was changed.",
-      "successMessage_other": "Passwords were changed for {{count}} players."
+      "success_one": "Changed {{username}}'s password.",
+      "success_other": "Changed passwords for {{count}} players."
     },
     "ban": {
-      "successMessage_one": "{{username}} was banned.",
-      "successMessage_other": "{{count}} players were banned."
+      "success_one": "Banned {{username}}.",
+      "success_other": "Banned {{count}} players."
     },
     "kick": {
-      "successMessage_one": "{{username}} was kicked.",
-      "successMessage_other": "{{count}} players were kicked."
+      "success_one": "Kicked {{username}}.",
+      "success_other": "Kicked {{count}} players."
     },
     "unban": {
-      "successMessage_one": "{{username}} was unbanned.",
-      "successMessage_other": "{{count}} players were unbanned."
+      "success_one": "Unbanned {{username}}.",
+      "success_other": "Unbanned {{count}} players."
     },
     "removeFromWhitelist": {
-      "successMessage_one": "{{username}} was removed from the whitelist.",
-      "successMessage_other": "{{count}} players were removed from the whitelist."
+      "success_one": "Removed {{username}} from the whitelist.",
+      "success_other": "Removed {{count}} players from the whitelist."
     },
     "teleport": {
-      "successMessage_one": "{{username}} was teleported.",
-      "successMessage_other": "{{count}} players were teleported."
+      "success_one": "Teleported {{username}}.",
+      "success_other": "Teleported {{count}} players."
     },
     "createHorde": {
-      "successMessage_one": "A horde was created near {{username}}.",
-      "successMessage_other": "Hordes were created near {{count}} players."
+      "success_one": "Created a horde near {{username}}.",
+      "success_other": "Created a horde near each of {{count}} players."
     },
     "lightning": {
-      "successMessage_one": "Lightning was triggered on {{username}}.",
-      "successMessage_other": "Lightning was triggered on {{count}} players."
+      "success_one": "Triggered lightning on {{username}}.",
+      "success_other": "Triggered lightning on {{count}} players."
     },
     "thunder": {
-      "successMessage_one": "Thunder was triggered on {{username}}.",
-      "successMessage_other": "Thunder was triggered on {{count}} players."
+      "success_one": "Triggered thunder on {{username}}.",
+      "success_other": "Triggered thunder on {{count}} players."
     },
     "spawnVehicle": {
-      "successMessage_one": "{{vehicle}} was spawned near {{username}}.",
-      "successMessage_other": "{{vehicle}} was spawned near {{count}} players."
+      "success_one": "Spawned {{vehicle}} near {{username}}.",
+      "success_other": "Spawned {{vehicle}} near each of {{count}} players."
     },
     "giveItems": {
-      "successMessage_one": "Items were given to {{username}}.",
-      "successMessage_other": "Items were given to {{count}} players."
+      "success_one": "Gave items to {{username}}.",
+      "success_other": "Gave items to {{count}} players."
     },
     "addXp": {
-      "successMessage_one": "XP was added to {{username}}.",
-      "successMessage_other": "XP was added to {{count}} players."
+      "success_one": "Added XP to {{username}}.",
+      "success_other": "Added XP to {{count}} players."
     },
-    "result": {
-      "successTitle": "Action Completed",
-      "failureTitle": "Action Failed",
-      "partialFailureTitle": "Action Partially Completed",
-      "failureMessage": "The action could not be completed: {{error}}",
-      "partialFailureMessage": "The action succeeded for {{succeededCount}} of {{totalCount}} players. {{failedCount}} failed: {{error}}"
+    "success": { "title": "Action Completed" },
+    "failure": {
+      "title": "Action Failed",
+      "message": "The action could not be completed: {{error}}"
+    },
+    "partialFailure": {
+      "title": "Action Partially Completed",
+      "message": "The action succeeded for {{succeededCount}} of {{totalCount}} players. {{failedCount}} failed: {{error}}"
     }
   }
 }

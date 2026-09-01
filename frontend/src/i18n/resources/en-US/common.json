@@ -1,30 +1,41 @@
 {
   "actions": {
+    "apply": "Apply",
     "cancel": "Cancel",
+    "clear": "Clear",
+    "close": "Close",
+    "collapseNamed": "Collapse {{name}}",
     "copied": "Copied",
     "copy": "Copy",
-    "delete": "Delete",
-    "remove": "Remove",
-    "retry": "Try Again"
+    "expandNamed": "Expand {{name}}",
+    "retry": "Try Again",
+    "saveChanges": "Save Changes"
   },
-  "fields": {
-    "password": "Password",
-    "reason": "Reason",
-    "username": "Username"
+  "errors": {
+    "unexpected": "Something went wrong. Please try again."
   },
   "gameBuild": {
     "label": "Game build",
     "options": {
-      "auto": "Auto",
-      "41": "Build 41",
-      "42": "Build 42"
+      "auto": "Auto"
+    },
+    "unknown": "Build Unknown",
+    "value": "Build {{version}}"
+  },
+  "search": {
+    "clear": "Clear search",
+    "nameOrId": {
+      "placeholder": "Search by name or ID…"
     }
   },
-  "placeholders": {
-    "optional": "Optional"
-  },
-  "validation": {
-    "passwordRequired": "Password is required",
-    "usernameRequired": "Username is required"
+  "sorting": {
+    "actions": {
+      "changeDirection": "Change sort direction. Current direction: {{direction}}."
+    },
+    "directions": {
+      "ascending": "Ascending",
+      "descending": "Descending"
+    },
+    "label": "Sort by"
   }
 }

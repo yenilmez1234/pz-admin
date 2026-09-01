@@ -163,6 +163,7 @@ export function useVehicleExplorer(
   return {
     changeSort: handleSortChange,
     filters,
+    search,
     searchInputRef,
     setSearch,
     setSortDirection,

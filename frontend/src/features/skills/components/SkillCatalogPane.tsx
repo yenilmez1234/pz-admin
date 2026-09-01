@@ -26,7 +26,7 @@ export function SkillCatalogPane({
   return (
     <Paper className={classes.pane} component={Stack} gap={0} withBorder>
       <Text fw={600} px="sm" py="xs" size="sm">
-        {t("picker.skillsHeading")}
+        {t("picker.catalog.heading")}
       </Text>
       <ScrollArea
         className={classes.scrollRegion}

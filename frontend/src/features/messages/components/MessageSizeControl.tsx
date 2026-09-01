@@ -41,10 +41,10 @@ export function MessageSizeControl({ build }: MessageSizeControlProps) {
         return (
           <RichTextEditor.Control
             active={size === activeSize}
-            aria-label={t(`editor.sizes.${size}`)}
+            aria-label={t(`editor.size.options.${size}`)}
             key={size}
             onClick={() => setSize(size)}
-            title={t(`editor.sizes.${size}`)}
+            title={t(`editor.size.options.${size}`)}
           >
             <IconTextSize aria-hidden="true" size={iconSizes[size]} />
           </RichTextEditor.Control>

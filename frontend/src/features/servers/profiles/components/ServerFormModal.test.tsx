@@ -15,10 +15,14 @@ const profile = new Profile({
 });
 
 function field(
-  label: "form.nameLabel" | "form.hostLabel" | "form.passwordLabel",
+  label:
+    | "form.fields.name.label"
+    | "form.fields.host.label"
+    | "form.fields.password.label",
 ) {
   return screen.getByLabelText(i18n.t(label, { ns: "servers" }), {
     exact: false,
+    selector: "input",
   });
 }
 
@@ -29,18 +33,18 @@ it("requires a password for new servers and submits the entered profile", async 
     <ServerFormModal onClose={onClose} onSave={onSave} opened profile={null} />,
   );
   const submit = screen.getByRole("button", {
-    name: i18n.t("form.addSubmit", { ns: "servers" }),
+    name: i18n.t("form.add.submit", { ns: "servers" }),
   });
 
-  fireEvent.change(field("form.nameLabel"), {
+  fireEvent.change(field("form.fields.name.label"), {
     target: { value: "  New server  " },
   });
-  fireEvent.change(field("form.hostLabel"), {
+  fireEvent.change(field("form.fields.host.label"), {
     target: { value: "  new.example.com  " },
   });
   expect(submit).toBeDisabled();
 
-  fireEvent.change(field("form.passwordLabel"), {
+  fireEvent.change(field("form.fields.password.label"), {
     target: { value: "secret" },
   });
   fireEvent.click(submit);
@@ -74,7 +78,7 @@ it("keeps an edit open and shows the error when saving fails", async () => {
 
   fireEvent.click(
     screen.getByRole("button", {
-      name: i18n.t("form.editSubmit", { ns: "servers" }),
+      name: i18n.t("actions.saveChanges", { ns: "common" }),
     }),
   );
 

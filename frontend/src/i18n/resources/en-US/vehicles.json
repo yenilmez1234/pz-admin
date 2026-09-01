@@ -1,174 +1,25 @@
 {
   "page": {
-    "title": "Vehicles"
+    "title": "Vehicle Browser"
   },
   "errors": {
-    "loadTitle": "Unable to Load Vehicles"
+    "load": { "title": "Unable to Load Vehicles" }
   },
   "picker": {
-    "back": "Go Back",
+    "actions": {
+      "back": "Go Back",
+      "selectVariant": "Select {{variant}} variant"
+    },
     "root": "Vehicles",
-    "selectVariant": "Select {{variant}} variant",
     "variants": "Variants"
   },
-  "catalog": {
-    "categories": {
-      "Heavy-Duty": "Heavy-Duty",
-      "Sports": "Sports",
-      "Standard": "Standard",
-      "Trailers": "Trailers"
-    },
-    "models": {
-      "Ambulance": "Ambulance",
-      "Chevalier Cerise Wagon": "Chevalier Cerise Wagon",
-      "Chevalier Cossette": "Chevalier Cossette",
-      "Chevalier D6": "Chevalier D6",
-      "Chevalier Dart": "Chevalier Dart",
-      "Chevalier Nyala": "Chevalier Nyala",
-      "Chevalier Primani": "Chevalier Primani",
-      "Chevalier Step Van": "Chevalier Step Van",
-      "Dash Bulldriver": "Dash Bulldriver",
-      "Dash Elite": "Dash Elite",
-      "Dash Rancher": "Dash Rancher",
-      "Franklin All-Terrain": "Franklin All-Terrain",
-      "Franklin Valuline": "Franklin Valuline",
-      "Franklin Valuline (6-seater)": "Franklin Valuline (6-seater)",
-      "Horse trailer": "Horse trailer",
-      "LBMW Radio Van": "LBMW Radio Van",
-      "Livestock Trailer": "Livestock Trailer",
-      "Masterson Horizon": "Masterson Horizon",
-      "Mercia Lang 4000": "Mercia Lang 4000",
-      "Race Car": "Race Car",
-      "Trailer": "Trailer",
-      "Trailer (advert)": "Trailer (advert)",
-      "Trailer (cover)": "Trailer (cover)"
-    },
-    "variants": {
-      "34": "34",
-      "58": "58",
-      "Airport": "Airport",
-      "Airport Catering": "Airport Catering",
-      "Airport Franklin Valuline": "Airport Franklin Valuline",
-      "Airport Security": "Airport Security",
-      "Beckman's Building": "Beckman's Building",
-      "Blacksmith": "Blacksmith",
-      "Brewster & Harbin": "Brewster & Harbin",
-      "Bricking It": "Bricking It",
-      "Bug Wipers": "Bug Wipers",
-      "Builder's": "Builder's",
-      "Bulletin Sheriff": "Bulletin Sheriff",
-      "Butchers": "Butchers",
-      "Calloway Landscaping": "Calloway Landscaping",
-      "Camo": "Camo",
-      "Carpenter's": "Carpenter's",
-      "Cereal Delivery": "Cereal Delivery",
-      "Charlemange": "Charlemange",
-      "Citr8": "Citr8",
-      "Coast 2 Coast": "Coast 2 Coast",
-      "Complete Repair Shop": "Complete Repair Shop",
-      "Craft supplies": "Craft supplies",
-      "Creature Cruiser": "Creature Cruiser",
-      "Deer Valley Power": "Deer Valley Power",
-      "Fire Department": "Fire Department",
-      "Florist": "Florist",
-      "Fossoil": "Fossoil",
-      "Franklin Valuline": "Franklin Valuline",
-      "Garden Gods": "Garden Gods",
-      "Gardener's": "Gardener's",
-      "Genuine Beer": "Genuine Beer",
-      "Glass": "Glass",
-      "Greene's": "Greene's",
-      "Helton Metalworking": "Helton Metalworking",
-      "Heritage Tailors": "Heritage Tailors",
-      "Huang's Laundry": "Huang's Laundry",
-      "John McCoy Woodworking": "John McCoy Woodworking",
-      "Jones Fabrication": "Jones Fabrication",
-      "Jorgensen": "Jorgensen",
-      "JP Landscaping": "JP Landscaping",
-      "Kentucky Lumber": "Kentucky Lumber",
-      "Kerr Homes": "Kerr Homes",
-      "Kimbler Konstruction": "Kimbler Konstruction",
-      "Knob Creek Gas": "Knob Creek Gas",
-      "Knox Distillery": "Knox Distillery",
-      "Knox Telecommunications": "Knox Telecommunications",
-      "Korshunov's Car Center": "Korshunov's Car Center",
-      "KY Herald": "KY Herald",
-      "KY Transit": "KY Transit",
-      "LCPD": "LCPD",
-      "Leather": "Leather",
-      "Lectromax": "Lectromax",
-      "Locksmith": "Locksmith",
-      "Louisville Landscaping": "Louisville Landscaping",
-      "Louisville Motorshop": "Louisville Motorshop",
-      "Louisville Police": "Louisville Police",
-      "Louisville SWAT": "Louisville SWAT",
-      "Mail": "Mail",
-      "March Ridge Construction": "March Ridge Construction",
-      "Marine Bites": "Marine Bites",
-      "Masonry": "Masonry",
-      "Mass GenFac": "Mass GenFac",
-      "McCoy": "McCoy",
-      "Meade Sheriff": "Meade Sheriff",
-      "Mechanic's": "Mechanic's",
-      "Melting Point Metal": "Melting Point Metal",
-      "Mesmer Wagon": "Mesmer Wagon",
-      "Metalheads": "Metalheads",
-      "Metalworker's": "Metalworker's",
-      "Michele's Woodshop": "Michele's Woodshop",
-      "Mobile library": "Mobile library",
-      "Mobile Mechanics": "Mobile Mechanics",
-      "Moore Mechanics": "Moore Mechanics",
-      "Muldraugh Police": "Muldraugh Police",
-      "Normal": "Normal",
-      "Old Mill Water Company": "Old Mill Water Company",
-      "Ovo Farms": "Ovo Farms",
-      "Penn S. Ham Construction": "Penn S. Ham Construction",
-      "Perfick Potato": "Perfick Potato",
-      "Platt Auto Repair": "Platt Auto Repair",
-      "Plonkies": "Plonkies",
-      "Plugged In Electrics": "Plugged In Electrics",
-      "Police": "Police",
-      "Prisoner Transport Franklin Valuline": "Prisoner Transport Franklin Valuline",
-      "Propane": "Propane",
-      "Quantum Vessel": "Quantum Vessel",
-      "Randi's Plants": "Randi's Plants",
-      "Ranger": "Ranger",
-      "Ranger_Fossoil": "Ranger_Fossoil",
-      "Riverside Fabrication": "Riverside Fabrication",
-      "Rosewoodworking": "Rosewoodworking",
-      "Scarlet Oak": "Scarlet Oak",
-      "Schwab Sheet Metal": "Schwab Sheet Metal",
-      "Smart Kut": "Smart Kut",
-      "South Eastern Hospitality": "South Eastern Hospitality",
-      "South Eastern Paint": "South Eastern Paint",
-      "Spiffo Van": "Spiffo Van",
-      "State Trooper": "State Trooper",
-      "Taxi (green)": "Taxi (green)",
-      "Taxi (yellow)": "Taxi (yellow)",
-      "The Lady Delighter": "The Lady Delighter",
-      "Transit": "Transit",
-      "Trey Baines": "Trey Baines",
-      "Triple-N Van": "Triple-N Van",
-      "Uncloggers": "Uncloggers",
-      "USL": "USL",
-      "Utility": "Utility",
-      "Valkyrie's Spear": "Valkyrie's Spear",
-      "Van Yings Wood": "Van Yings Wood",
-      "Volt Mojo": "Volt Mojo",
-      "Welding by Camille": "Welding by Camille",
-      "West Point Police": "West Point Police",
-      "Wood paneling": "Wood paneling",
-      "WP Carpentry": "WP Carpentry",
-      "Zippee": "Zippee"
-    }
-  },
   "stats": {
-    "animalSize": "Animal capacity",
+    "animalSize": "Animal size",
     "doors": "Doors",
     "engineLoudness": "Engine loudness",
-    "enginePower": "Power",
+    "enginePower": "Engine power",
     "engineQuality": "Engine quality",
-    "gloveBox": "Glove-box capacity",
+    "gloveBox": "Glove box capacity",
     "lightbar": "Lightbar",
     "occupantProtection": "Occupant protection",
     "offRoadEfficiency": "Off-road efficiency",
@@ -177,22 +28,12 @@
     "suspensionStiffness": "Suspension stiffness",
     "topSpeed": "Top speed",
     "totalStorage": "Total storage",
-    "trunkStorage": "Trunk storage",
+    "trunkStorage": "Trunk capacity",
     "weight": "Weight",
-    "wheels": "Wheels"
-  },
-  "browser": {
-    "accessibleLabel": "Vehicle catalog",
-    "emptyCatalog": "The vehicle catalog is not available yet.",
-    "noSearchResults": "No vehicles match your search.",
-    "resultCount_one": "{{count}} vehicle",
-    "resultCount_other": "{{count}} vehicles",
-    "searchLabel": "Search vehicles",
-    "searchPlaceholder": "Search by name or ID…",
-    "statLabels": {
+    "wheels": "Wheels",
+    "short": {
       "enginePower": "Power",
-      "seats": "Seats",
-      "topSpeed": "Top speed",
+      "topSpeed": "Speed",
       "totalStorage": "Storage"
     },
     "values": {
@@ -203,10 +44,21 @@
       "storage_other": "{{value}} units"
     }
   },
+  "browser": {
+    "results": {
+      "summary_one": "{{count}} vehicle",
+      "summary_other": "{{count}} vehicles"
+    },
+    "search": {
+      "empty": "No vehicles match your search.",
+      "label": "Search vehicles"
+    }
+  },
   "details": {
     "back": "Vehicles",
-    "backLabel": "Back to vehicles",
-    "openVariant": "Open {{variant}} variant",
+    "actions": {
+      "openVariant": "Open {{variant}} variant"
+    },
     "sections": {
       "body": "Body and equipment",
       "capacity": "Capacity",
@@ -215,29 +67,23 @@
     "variants": "Variants"
   },
   "filters": {
-    "advancedSection": "Advanced",
     "boolean": {
-      "any": "Any",
-      "no": "No",
-      "yes": "Yes"
+      "options": {
+        "any": "Any",
+        "no": "No",
+        "yes": "Yes"
+      }
     },
-    "clear": "Clear",
-    "collapse": "Collapse {{name}}",
-    "expand": "Expand {{name}}",
-    "statsSection": "Stats",
+    "sections": {
+      "stats": "Specifications",
+      "vehicle": "Vehicle"
+    },
     "title": "Filters",
-    "vehicleLabel": "Category, model, or variant",
-    "vehicleSection": "Vehicle"
+    "vehicle": { "label": "Category or model" }
   },
   "sorting": {
-    "changeDirection": "Change sort direction. Current direction: {{direction}}",
-    "directions": {
-      "ascending": "Ascending",
-      "descending": "Descending"
-    },
     "fields": {
       "name": "Name"
-    },
-    "label": "Sort by"
+    }
   }
 }

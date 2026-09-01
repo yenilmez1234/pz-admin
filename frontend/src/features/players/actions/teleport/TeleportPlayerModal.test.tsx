@@ -51,21 +51,26 @@ const allPlayers = [
 
 const labels = {
   cancel: i18n.t("actions.cancel", { ns: "common" }),
-  coordinatesMode: i18n.t("dialogs.teleport.coordinatesMode", {
+  coordinatesMode: i18n.t("dialogs.teleport.mode.options.coordinates", {
     ns: "players",
   }),
-  destinationPlayer: i18n.t("dialogs.teleport.destinationPlayerLabel", {
+  destinationPlayer: i18n.t("dialogs.teleport.destinationPlayer.label", {
     ns: "players",
   }),
-  playerMode: i18n.t("dialogs.teleport.playerMode", { ns: "players" }),
+  playerMode: i18n.t("dialogs.teleport.mode.options.player", {
+    ns: "players",
+  }),
   submit: i18n.t("dialogs.teleport.submit", { ns: "players" }),
-  x: i18n.t("dialogs.teleport.xCoordinateLabel", { ns: "players" }),
-  y: i18n.t("dialogs.teleport.yCoordinateLabel", { ns: "players" }),
-  z: i18n.t("dialogs.teleport.zCoordinateLabel", { ns: "players" }),
+  x: i18n.t("dialogs.teleport.coordinates.x.label", { ns: "players" }),
+  y: i18n.t("dialogs.teleport.coordinates.y.label", { ns: "players" }),
+  z: i18n.t("dialogs.teleport.coordinates.z.label", { ns: "players" }),
 };
 
 function coordinateInput(axis: "x" | "y" | "z") {
-  return screen.getByLabelText(labels[axis]);
+  return screen.getByLabelText(labels[axis], {
+    exact: false,
+    selector: `input[name="${axis}"]`,
+  });
 }
 
 function submitButton() {

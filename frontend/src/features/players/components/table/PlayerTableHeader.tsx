@@ -80,7 +80,7 @@ export function PlayerTableHeader({
       <Table.Tr>
         <Table.Th w={44}>
           <Checkbox
-            aria-label={t("table.selectAllLabel")}
+            aria-label={t("selection.selectAll")}
             checked={allVisibleSelected}
             disabled={!hasVisiblePlayers}
             indeterminate={selectedVisibleCount > 0 && !allVisibleSelected}
@@ -89,26 +89,26 @@ export function PlayerTableHeader({
         </Table.Th>
         <SortableHeader
           column="username"
-          label={t("table.playerColumn")}
+          label={t("table.columns.player")}
           onSort={onSort}
           sorting={sorting}
           width="34%"
         />
         <SortableHeader
           column="status"
-          label={t("table.statusColumn")}
+          label={t("table.columns.status")}
           onSort={onSort}
           sorting={sorting}
           width="34%"
         />
         <SortableHeader
           column="accessLevel"
-          label={t("table.accessLevelColumn")}
+          label={t("table.columns.role")}
           onSort={onSort}
           sorting={sorting}
           width="22%"
         />
-        <Table.Th w={44} aria-label={t("table.actionsColumnLabel")} />
+        <Table.Th w={44} aria-label={t("table.columns.actions")} />
       </Table.Tr>
     </Table.Thead>
   );

@@ -53,8 +53,8 @@ export function ConsoleInput({ executing, onExecute }: ConsoleInputProps) {
             onSelect={input.handleSelection}
             onBlur={input.closeSuggestions}
             onKeyDown={input.handleKeyDown}
-            placeholder={t("commandPlaceholder")}
-            aria-label={t("commandLabel")}
+            placeholder={t("command.placeholder")}
+            aria-label={t("command.label")}
             name="server-command"
             autoComplete="off"
             spellCheck={false}

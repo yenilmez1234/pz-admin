@@ -44,15 +44,11 @@ export function ServerFormModal({
     mode: "controlled",
     initialValues: createInitialServerFormValues(profile),
     validate: {
-      name: isNotEmpty(t("form.validation.nameRequired")),
-      host: isNotEmpty(t("form.validation.hostRequired")),
+      name: isNotEmpty(),
+      host: isNotEmpty(),
       port: isInRange({ min: 1, max: 65535 }, t("form.validation.portRange")),
-      version: isOneOf(
-        ["auto", ...gameBuilds],
-        t("form.validation.buildRequired"),
-      ),
-      password: (value) =>
-        editing || value ? null : t("form.validation.passwordRequired"),
+      version: isOneOf(["auto", ...gameBuilds]),
+      password: (value) => (editing || value ? null : true),
     },
   });
 
@@ -78,9 +74,7 @@ export function ServerFormModal({
       );
       onClose();
     } catch (saveError) {
-      setFormError(
-        `${errorMessage(saveError)} ${t("form.errors.saveDetailsSuffix")}`,
-      );
+      setFormError(errorMessage(saveError));
     }
   }
 
@@ -93,7 +87,7 @@ export function ServerFormModal({
     <Modal
       opened={opened}
       onClose={onClose}
-      title={editing ? t("form.editTitle") : t("form.addTitle")}
+      title={editing ? t("form.edit.title") : t("form.add.title")}
       closeOnClickOutside={!form.submitting}
       closeOnEscape={!form.submitting}
       withCloseButton={!form.submitting}
@@ -107,7 +101,7 @@ export function ServerFormModal({
             <Alert
               color="red"
               icon={<IconAlertCircle size={20} aria-hidden="true" />}
-              title={t("form.errors.saveTitle")}
+              title={t("form.errors.save.title")}
               aria-live="polite"
             >
               {formError}
@@ -115,7 +109,7 @@ export function ServerFormModal({
           ) : null}
           <TextInput
             key={form.key("name")}
-            label={t("form.nameLabel")}
+            label={t("form.fields.name.label")}
             name="name"
             autoComplete="off"
             required
@@ -124,7 +118,7 @@ export function ServerFormModal({
           <SimpleGrid cols={{ base: 1, xs: 2 }}>
             <TextInput
               key={form.key("host")}
-              label={t("form.hostLabel")}
+              label={t("form.fields.host.label")}
               name="host"
               autoComplete="off"
               spellCheck={false}
@@ -133,7 +127,7 @@ export function ServerFormModal({
             />
             <NumberInput
               key={form.key("port")}
-              label={t("form.portLabel")}
+              label={t("form.fields.port.label")}
               name="port"
               required
               min={1}
@@ -159,18 +153,21 @@ export function ServerFormModal({
                 <Radio
                   key={build}
                   value={build}
-                  label={t(`gameBuild.options.${build}`, { ns: "common" })}
+                  label={t("gameBuild.value", {
+                    ns: "common",
+                    version: build,
+                  })}
                 />
               ))}
             </Group>
           </Radio.Group>
           <PasswordInput
             key={form.key("password")}
-            label={t("form.passwordLabel")}
+            label={t("form.fields.password.label")}
             description={
               editing
-                ? t("form.passwordDescriptionEdit")
-                : t("form.passwordDescriptionCreate")
+                ? t("form.fields.password.edit.description")
+                : t("form.fields.password.create.description")
             }
             name="password"
             autoComplete="off"
@@ -190,7 +187,9 @@ export function ServerFormModal({
               loading={form.submitting}
               type="submit"
             >
-              {editing ? t("form.editSubmit") : t("form.addSubmit")}
+              {editing
+                ? t("actions.saveChanges", { ns: "common" })
+                : t("form.add.submit")}
             </Button>
           </Group>
         </Stack>

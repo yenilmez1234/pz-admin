@@ -66,7 +66,7 @@ export function PlayerTableRow({
     <Table.Tr>
       <Table.Td>
         <Checkbox
-          aria-label={t("table.selectPlayerLabel", {
+          aria-label={t("selection.selectPlayer", {
             username: player.username,
           })}
           checked={checked}

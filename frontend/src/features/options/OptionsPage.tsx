@@ -141,7 +141,7 @@ function OptionsPageSkeleton() {
 }
 
 export function OptionsPage({ active }: { active: boolean }) {
-  const { t } = useTranslation("options");
+  const { t } = useTranslation(["options", "common"]);
   const { profile } = useSession();
   const build =
     profile && isGameBuild(profile.version) ? profile.version : latestGameBuild;
@@ -176,16 +176,16 @@ export function OptionsPage({ active }: { active: boolean }) {
       if (failedCount === 0) {
         notifications.show({
           color: "green",
-          title: t("notifications.updatedTitle"),
-          message: t("notifications.updatedMessage", {
+          title: t("notifications.updated.title"),
+          message: t("notifications.updated.message", {
             count: result.updated.length,
           }),
         });
       } else if (result.updated.length > 0) {
         notifications.show({
           color: "yellow",
-          title: t("notifications.partiallyUpdatedTitle"),
-          message: t("notifications.partiallyUpdatedMessage", {
+          title: t("notifications.partiallyUpdated.title"),
+          message: t("notifications.partiallyUpdated.message", {
             failed: failedCount,
             updated: result.updated.length,
           }),
@@ -193,8 +193,8 @@ export function OptionsPage({ active }: { active: boolean }) {
       } else {
         notifications.show({
           color: "red",
-          title: t("notifications.updateFailedTitle"),
-          message: t("notifications.updateFailedMessage", {
+          title: t("notifications.updateFailed.title"),
+          message: t("notifications.updateFailed.message", {
             count: failedCount,
           }),
         });
@@ -202,14 +202,14 @@ export function OptionsPage({ active }: { active: boolean }) {
       if (!outcome.refreshed) {
         notifications.show({
           color: "yellow",
-          title: t("notifications.refreshFailedTitle"),
-          message: t("notifications.refreshFailedMessage"),
+          title: t("notifications.refreshFailed.title"),
+          message: t("notifications.refreshFailed.message"),
         });
       }
     } catch (saveError) {
       notifications.show({
         color: "red",
-        title: t("notifications.updateFailedTitle"),
+        title: t("notifications.updateFailed.title"),
         message: errorMessage(saveError),
       });
     }
@@ -230,7 +230,7 @@ export function OptionsPage({ active }: { active: boolean }) {
         <Alert
           color="red"
           icon={<IconAlertCircle size={18} aria-hidden="true" />}
-          title={t("errors.loadTitle")}
+          title={t("errors.load.title")}
         >
           <Stack gap="sm">
             <Text size="sm">{errorMessage(editor.loadError)}</Text>
@@ -240,22 +240,11 @@ export function OptionsPage({ active }: { active: boolean }) {
               w="fit-content"
               onClick={() => void editor.load()}
             >
-              {t("actions.retry")}
+              {t("actions.retry", { ns: "common" })}
             </Button>
           </Stack>
         </Alert>
       </Box>
-    );
-  }
-
-  if (editor.categories.length === 0) {
-    return (
-      <Stack h="100%" align="center" justify="center" p="xl">
-        <Text fw={600}>{t("empty.title")}</Text>
-        <Text c="dimmed" size="sm" ta="center">
-          {t("empty.message")}
-        </Text>
-      </Stack>
     );
   }
 
@@ -296,7 +285,7 @@ export function OptionsPage({ active }: { active: boolean }) {
                 </Stack>
               ) : (
                 <Text c="dimmed" size="sm" ta="center" py="xl">
-                  {t("navigation.noResults")}
+                  {t("navigation.search.empty")}
                 </Text>
               )
             ) : (

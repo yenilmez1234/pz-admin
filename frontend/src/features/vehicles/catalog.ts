@@ -33,6 +33,32 @@ const catalogLoaders = {
 
 const catalogRequests = new Map<string, Promise<VehicleCatalog>>();
 
+type VehicleCatalogSection = "categories" | "models" | "variants";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function vehicleTranslation(
+  language: string,
+  section: VehicleCatalogSection,
+  name: string,
+) {
+  const localized = i18n.getResource(language, "vehicleCatalog", section);
+  if (isRecord(localized)) {
+    const value = localized[name];
+    if (typeof value === "string" && value.trim()) return value;
+  }
+
+  const fallback = i18n.getResource(defaultLanguage, "vehicleCatalog", section);
+  if (isRecord(fallback)) {
+    const value = fallback[name];
+    if (typeof value === "string" && value.trim()) return value;
+  }
+
+  return name;
+}
+
 function normalVariantFirst(
   left: { name: string },
   right: { name: string },
@@ -40,32 +66,20 @@ function normalVariantFirst(
   return Number(right.name === "Normal") - Number(left.name === "Normal");
 }
 
-function translatedName(translations: Record<string, string>, name: string) {
-  return translations[name] ?? name;
-}
-
 function prepareCatalog(
   catalog: RawVehicleCatalog,
   build: GameBuild,
   language: string,
 ): VehicleCatalog {
-  const t = i18n.getFixedT(language, "vehicles");
-  const categoryNames: Record<string, string> = t("catalog.categories", {
-    returnObjects: true,
-  });
-  const modelNames: Record<string, string> = t("catalog.models", {
-    returnObjects: true,
-  });
-  const variantNames: Record<string, string> = t("catalog.variants", {
-    returnObjects: true,
-  });
+  const translatedName = (section: VehicleCatalogSection, name: string) =>
+    vehicleTranslation(language, section, name);
   const vehicles: VehicleCatalogEntry[] = [];
   const hierarchy: VehicleHierarchyCategory[] = [];
   const vehicleIdsByHierarchyNode = new Map<string, string[]>();
   const originalNamesByVehicleId = new Map<string, string[]>();
 
   for (const category of catalog.categories) {
-    const categoryName = translatedName(categoryNames, category.name);
+    const categoryName = translatedName("categories", category.name);
     const preparedCategory: VehicleHierarchyCategory = {
       id: category.name,
       models: [],
@@ -73,7 +87,7 @@ function prepareCatalog(
     };
 
     for (const model of category.children ?? []) {
-      const modelName = translatedName(modelNames, model.name);
+      const modelName = translatedName("models", model.name);
       if (model.type === "type") {
         if (model.id) {
           vehicles.push({
@@ -100,7 +114,7 @@ function prepareCatalog(
       const rawVariants = [...(model.children ?? [])].sort(normalVariantFirst);
       for (const variant of rawVariants) {
         if (variant.type !== "type" || !variant.id) continue;
-        const variantName = translatedName(variantNames, variant.name);
+        const variantName = translatedName("variants", variant.name);
         vehicles.push({
           build,
           category: categoryName,

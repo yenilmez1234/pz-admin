@@ -32,7 +32,7 @@ export function DeleteServerModal({
     } catch (deleteError) {
       notifications.show({
         color: "red",
-        title: t("deleteDialog.errorTitle"),
+        title: t("dialogs.delete.error.title"),
         message: errorMessage(deleteError),
       });
     } finally {
@@ -44,7 +44,7 @@ export function DeleteServerModal({
     <Modal
       opened={opened}
       onClose={onClose}
-      title={t("deleteDialog.title")}
+      title={t("dialogs.delete.title")}
       size={dialogSizes.compact}
       closeOnClickOutside={!deleting}
       closeOnEscape={!deleting}
@@ -52,14 +52,14 @@ export function DeleteServerModal({
     >
       <Stack>
         <Text>
-          {t("deleteDialog.confirm", { serverName: profile?.name ?? "" })}
+          {t("dialogs.delete.confirm", { serverName: profile?.name ?? "" })}
         </Text>
         <Group justify="flex-end">
           <Button variant="default" onClick={onClose} disabled={deleting}>
             {t("actions.cancel", { ns: "common" })}
           </Button>
           <Button color="red" loading={deleting} onClick={handleDelete}>
-            {t("actions.delete", { ns: "common" })}
+            {t("actions.delete")}
           </Button>
         </Group>
       </Stack>

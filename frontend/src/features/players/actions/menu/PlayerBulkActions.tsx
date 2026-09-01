@@ -30,12 +30,12 @@ export function PlayerBulkActions({
   const { t } = useTranslation("players");
   const actions = usePlayerActions();
   const allOnline = players.every(isOnline);
-  const onlineOnlyMessage = t("actions.bulk.onlineOnlyExplanation");
+  const onlineOnlyMessage = t("actions.bulk.restrictions.onlineOnly");
 
   return (
     <Paper
       component={Group}
-      aria-label={t("actions.bulk.accessibleLabel")}
+      aria-label={t("actions.bulk.label")}
       gap="sm"
       maw="100%"
       px="md"
@@ -53,7 +53,7 @@ export function PlayerBulkActions({
         size="sm"
         style={{ whiteSpace: "nowrap" }}
       >
-        {t("actions.bulk.selectedCount", { count: players.length })}
+        {t("selection.summary", { count: players.length })}
       </Text>
 
       <Menu position="top" withinPortal>
@@ -63,7 +63,7 @@ export function PlayerBulkActions({
             size="xs"
             variant="default"
           >
-            {t("actions.bulk.actionsButton")}
+            {t("actions.bulk.open")}
           </Button>
         </Menu.Target>
 
@@ -79,7 +79,7 @@ export function PlayerBulkActions({
                 disabled={!allOnline}
                 onClick={() => actions.openTeleport(players)}
               >
-                {t("actions.labels.teleport")}
+                {t("actions.commands.teleport")}
               </Menu.Item>
             </Box>
           </Tooltip>
@@ -127,7 +127,7 @@ export function PlayerBulkActions({
       </Menu>
 
       <ActionIcon
-        aria-label={t("actions.bulk.clearSelectionLabel")}
+        aria-label={t("selection.clear")}
         color="gray"
         onClick={onClear}
         size="sm"

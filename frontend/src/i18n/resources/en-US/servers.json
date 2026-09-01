@@ -1,55 +1,86 @@
 {
   "profiles": {
     "title": "Saved Servers",
-    "addButton": "Add Server",
-    "emptyTitle": "No saved servers",
-    "emptyDescription": "Add a server to connect with RCON.",
-    "loadingLabel": "Loading servers…",
+    "actions": {
+      "add": "Add Server"
+    },
+    "empty": {
+      "description": "Add a server to get started.",
+      "title": "No saved servers"
+    },
+    "loading": {
+      "label": "Loading servers…"
+    },
     "errors": {
-      "connectionCheckTitle": "Unable to Check Connection",
-      "connectTitle": "Unable to Connect",
-      "connectDetailsSuffix": "Check the server details.",
-      "dismissLabel": "Dismiss error",
-      "loadTitle": "Unable to Load Servers"
+      "connectionCheck": {
+        "title": "Unable to Check Connection"
+      },
+      "actions": { "dismiss": "Dismiss error" },
+      "load": {
+        "title": "Unable to Load Servers"
+      }
     }
   },
-  "card": {
-    "actionsLabel": "Actions for {{serverName}}",
-    "build": "Build {{version}}",
-    "buildUnknown": "Build Unknown",
+  "actions": {
     "connect": "Connect",
-    "edit": "Edit"
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "card": {
+    "actions": {
+      "label": "Actions for {{serverName}}"
+    }
   },
   "form": {
-    "addSubmit": "Add Server",
-    "addTitle": "Add Server",
-    "editSubmit": "Save Changes",
-    "editTitle": "Edit Server",
-    "hostLabel": "Host",
-    "nameLabel": "Server Name",
-    "passwordDescriptionCreate": "Stored securely in your operating system’s keyring.",
-    "passwordDescriptionEdit": "Leave blank to keep the saved password.",
-    "passwordLabel": "RCON Password",
-    "portLabel": "RCON Port",
+    "add": {
+      "submit": "Add Server",
+      "title": "Add Server"
+    },
+    "edit": {
+      "title": "Edit Server"
+    },
+    "fields": {
+      "host": {
+        "label": "Host"
+      },
+      "name": {
+        "label": "Server Name"
+      },
+      "password": {
+        "create": {
+          "description": "Stored securely in your operating system’s keyring."
+        },
+        "edit": {
+          "description": "Leave blank to keep the saved password."
+        },
+        "label": "Password"
+      },
+      "port": {
+        "label": "Port"
+      }
+    },
     "errors": {
-      "saveDetailsSuffix": "Check the details.",
-      "saveTitle": "Unable to Save Server"
+      "save": {
+        "title": "Unable to Save Server"
+      }
     },
     "validation": {
-      "buildRequired": "Select a game build.",
-      "hostRequired": "Enter an IP address or hostname.",
-      "nameRequired": "Enter a server name.",
-      "passwordRequired": "Enter the RCON password.",
       "portRange": "Enter a port between 1 and 65535."
     }
   },
-  "deleteDialog": {
-    "confirm": "Delete {{serverName}}? This cannot be undone.",
-    "errorTitle": "Unable to Delete Server",
-    "title": "Delete Server"
+  "dialogs": {
+    "delete": {
+      "confirm": "Delete {{serverName}}? This cannot be undone.",
+      "error": {
+        "title": "Unable to Delete Server"
+      },
+      "title": "Delete Server"
+    }
   },
   "workspace": {
-    "navigationLabel": "Server Navigation",
+    "navigation": {
+      "label": "Server Navigation"
+    },
     "console": "Console",
     "options": "Options",
     "players": "Players",

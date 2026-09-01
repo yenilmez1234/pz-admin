@@ -23,7 +23,7 @@ export function AddLocalPlayerModal({
     mode: "controlled",
     initialValues: { username: "" },
     validate: {
-      username: isNotEmpty(t("validation.usernameRequired", { ns: "common" })),
+      username: isNotEmpty(),
     },
   });
   const resetForm = useEffectEvent(() => form.reset());
@@ -52,8 +52,9 @@ export function AddLocalPlayerModal({
             key={form.key("username")}
             autoComplete="off"
             data-autofocus
-            label={t("fields.username", { ns: "common" })}
+            label={t("fields.username.label")}
             name="username"
+            required
             {...form.getInputProps("username")}
           />
           <Group justify="flex-end" mt="xs">

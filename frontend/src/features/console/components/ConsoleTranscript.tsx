@@ -26,7 +26,7 @@ export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
       className={classes.transcript}
       role="log"
       aria-live="polite"
-      aria-label={t("outputLabel")}
+      aria-label={t("output.label")}
       onScroll={(event) => {
         const element = event.currentTarget;
         followLatestOutputRef.current =
@@ -35,9 +35,9 @@ export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
     >
       {entries.length === 0 ? (
         <Box className={classes.emptyMessage}>
-          <Text size="sm">{t("welcome")}</Text>
+          <Text size="sm">{t("introduction.welcome")}</Text>
           <Text c="dimmed" size="sm">
-            {t("usageHint")}
+            {t("introduction.usage")}
           </Text>
         </Box>
       ) : (
@@ -59,7 +59,7 @@ export function ConsoleTranscript({ entries }: ConsoleTranscriptProps) {
                 className={classes.result}
                 data-empty={entry.result ? undefined : true}
               >
-                {entry.result || t("noOutput")}
+                {entry.result || t("output.empty")}
               </Text>
             )}
           </Box>

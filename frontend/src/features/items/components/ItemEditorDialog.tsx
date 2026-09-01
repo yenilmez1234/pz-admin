@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useId, useLayoutEffect, useState } from "react";
 import {
   ActionIcon,
   Alert,
@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   Tooltip,
+  VisuallyHidden,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAlertCircle, IconEdit } from "@tabler/icons-react";
@@ -73,7 +74,7 @@ function ItemEditorDialogContent({
         <Alert
           color="red"
           icon={<IconAlertCircle aria-hidden="true" size={20} />}
-          title={t("errors.loadTitle")}
+          title={t("errors.load.title")}
         >
           <Stack align="flex-start" gap="xs">
             <Text size="sm">{error}</Text>
@@ -111,7 +112,7 @@ function ItemEditorDialogContent({
           disabled={overLimit}
           onClick={() => onApply(serializedSelection)}
         >
-          {t("editor.apply")}
+          {t("actions.apply", { ns: "common" })}
         </Button>
       </Group>
     </Stack>
@@ -129,6 +130,7 @@ export function ItemEditorDialog({
   value,
 }: ItemEditorDialogProps) {
   const { t } = useTranslation("items");
+  const selectionSummaryId = useId();
   const [opened, modal] = useDisclosure(false);
   const [visited, setVisited] = useState(false);
   const selectedItems = [...parseItemSelection(value)];
@@ -145,10 +147,7 @@ export function ItemEditorDialog({
   return (
     <>
       <div className={classes.control}>
-        <div
-          aria-label={t("editor.summary", { count: totalQuantity })}
-          className={classes.summary}
-        >
+        <div className={classes.summary}>
           {selectedItems.length > 0 ? (
             selectedItems.map(([itemId, quantity]) => (
               <Tooltip key={itemId} label={`${itemId} ×${quantity}`}>
@@ -171,11 +170,16 @@ export function ItemEditorDialog({
             </Text>
           )}
         </div>
-        <Tooltip label={t("editor.edit")}>
+        <VisuallyHidden id={selectionSummaryId}>
+          {t("editor.summary", { count: totalQuantity })}
+        </VisuallyHidden>
+        <Tooltip label={t("editor.actions.edit")}>
           <ActionIcon
-            aria-describedby={descriptionId}
+            aria-describedby={[descriptionId, selectionSummaryId]
+              .filter(Boolean)
+              .join(" ")}
             aria-invalid={invalid || undefined}
-            aria-label={t("editor.edit")}
+            aria-label={t("editor.actions.edit")}
             disabled={disabled}
             onClick={handleOpen}
             size={36}

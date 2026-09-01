@@ -44,6 +44,7 @@ beforeEach(() => {
     config: { language: "en-US", theme: "system" },
     error: null,
     loading: false,
+    reload: vi.fn(),
     setLanguage: vi.fn(),
     setTheme: vi.fn(),
   });

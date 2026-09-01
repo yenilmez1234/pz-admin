@@ -81,8 +81,8 @@ export function SessionProvider({ children }: SessionProviderProps) {
           if (!disconnectRequested.current) {
             notifications.show({
               color: "red",
-              title: t("connectionLostTitle"),
-              message: t("connectionLostMessage"),
+              title: t("connectionLost.title"),
+              message: t("connectionLost.message"),
             });
           }
           return;

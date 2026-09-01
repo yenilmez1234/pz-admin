@@ -23,7 +23,7 @@ export function useServerAction() {
       try {
         const result = await operation();
         notifications.show({
-          title: t("notifications.successTitle"),
+          title: t("notifications.success.title"),
           message:
             typeof successMessage === "function"
               ? successMessage(result)
@@ -33,7 +33,7 @@ export function useServerAction() {
       } catch (actionError) {
         notifications.show({
           color: "red",
-          title: t("notifications.failureTitle"),
+          title: t("notifications.failure.title"),
           message: errorMessage(actionError),
         });
         return false;

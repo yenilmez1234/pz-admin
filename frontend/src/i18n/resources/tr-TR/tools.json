@@ -1,8 +1,8 @@
 {
   "navigation": {
-    "accessibleLabel": "Araç sayfaları",
-    "messages": "Mesaj Düzenleyici",
-    "items": "Eşyalar",
-    "vehicles": "Araçlar"
+    "label": "Yönetim aracı sayfaları",
+    "messages": "Mesaj düzenleyici",
+    "items": "Eşya kataloğu",
+    "vehicles": "Araç kataloğu"
   }
 }

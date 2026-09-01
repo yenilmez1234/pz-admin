@@ -2,6 +2,7 @@ import common from "./resources/en-US/common.json";
 import console from "./resources/en-US/console.json";
 import items from "./resources/en-US/items.json";
 import messages from "./resources/en-US/messages.json";
+import optionCatalog from "./resources/en-US/optionCatalog.json";
 import options from "./resources/en-US/options.json";
 import players from "./resources/en-US/players.json";
 import servers from "./resources/en-US/servers.json";
@@ -11,6 +12,7 @@ import settings from "./resources/en-US/settings.json";
 import shell from "./resources/en-US/shell.json";
 import skills from "./resources/en-US/skills.json";
 import tools from "./resources/en-US/tools.json";
+import vehicleCatalog from "./resources/en-US/vehicleCatalog.json";
 import vehicles from "./resources/en-US/vehicles.json";
 import type { Resource, ResourceKey } from "i18next";
 import { defaultLanguage } from "./locales";
@@ -23,6 +25,7 @@ export const defaultResources = {
   console,
   items,
   messages,
+  optionCatalog,
   options,
   players,
   servers,
@@ -32,6 +35,7 @@ export const defaultResources = {
   shell,
   skills,
   tools,
+  vehicleCatalog,
   vehicles,
 } as const satisfies Record<ResourceNamespace, ResourceKey>;
 

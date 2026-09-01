@@ -66,9 +66,12 @@ export function MessageEditor({
       data-game-build={build}
       editor={editor}
       labels={{
-        alignCenterControlLabel: t("editor.alignments.center"),
-        alignLeftControlLabel: t("editor.alignments.left"),
-        alignRightControlLabel: t("editor.alignments.right"),
+        alignCenterControlLabel: t("editor.actions.align.center"),
+        alignLeftControlLabel: t("editor.actions.align.left"),
+        alignRightControlLabel: t("editor.actions.align.right"),
+        clearFormattingControlLabel: t("editor.actions.clearFormatting"),
+        redoControlLabel: t("editor.actions.redo"),
+        undoControlLabel: t("editor.actions.undo"),
       }}
       styles={{
         content: {

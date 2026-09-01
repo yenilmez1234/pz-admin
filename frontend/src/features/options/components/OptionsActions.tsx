@@ -19,7 +19,7 @@ export function OptionsActions({
   onReset,
   saving,
 }: OptionsActionsProps) {
-  const { t } = useTranslation("options");
+  const { t } = useTranslation(["options", "common"]);
   const initialValues = form.getInitialValues();
   const dirtyCount = definitions.reduce(
     (count, definition) =>
@@ -38,7 +38,7 @@ export function OptionsActions({
   return (
     <>
       <Text c="dimmed" size="sm">
-        {t("actions.unsaved", { count: dirtyCount })}
+        {t("changes.unsaved", { count: dirtyCount })}
       </Text>
       <Group gap="sm" ml="auto">
         <Button
@@ -54,7 +54,7 @@ export function OptionsActions({
           loading={saving}
           type="submit"
         >
-          {t("actions.save")}
+          {t("actions.saveChanges", { ns: "common" })}
         </Button>
       </Group>
     </>

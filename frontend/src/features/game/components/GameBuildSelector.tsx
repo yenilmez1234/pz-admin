@@ -18,7 +18,7 @@ export function GameBuildSelector({ onChange, value }: GameBuildSelectorProps) {
     <SegmentedControl
       aria-label={t("gameBuild.label")}
       data={gameBuilds.map((build) => ({
-        label: t(`gameBuild.options.${build}`),
+        label: t("gameBuild.value", { version: build }),
         value: build,
       }))}
       onChange={handleChange}

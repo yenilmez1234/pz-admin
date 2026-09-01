@@ -9,6 +9,7 @@ export type OptionType = "boolean" | "integer" | "number" | "string" | "text";
 
 export interface OptionChoice {
   id: string;
+  translationGroup?: "enforcement";
   value: ScalarOptionValue;
 }
 
@@ -531,10 +532,10 @@ const build41Options = {
 } satisfies Record<string, OptionMetadata>;
 
 const antiCheatPolicyChoices: OptionChoice[] = [
-  { id: "ban", value: 1 },
-  { id: "kick", value: 2 },
-  { id: "log", value: 3 },
-  { id: "disabled", value: 4 },
+  { id: "ban", translationGroup: "enforcement", value: 1 },
+  { id: "kick", translationGroup: "enforcement", value: 2 },
+  { id: "log", translationGroup: "enforcement", value: 3 },
+  { id: "disabled", translationGroup: "enforcement", value: 4 },
 ];
 
 export const build42Options = {
@@ -960,11 +961,7 @@ export const build42Options = {
     defaultValue: 3,
     minimum: 1,
     maximum: 3,
-    choices: [
-      { id: "ban", value: 1 },
-      { id: "kick", value: 2 },
-      { id: "log", value: 3 },
-    ],
+    choices: antiCheatPolicyChoices.slice(0, 3),
   },
   BadWordReplacement: {
     type: "string",

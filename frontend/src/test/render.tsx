@@ -1,18 +1,33 @@
-import type { ReactElement, ReactNode } from "react";
+import { useMemo, type ReactElement, type ReactNode } from "react";
 import { MantineProvider } from "@mantine/core";
 import {
   render as testingLibraryRender,
   type RenderOptions,
 } from "@testing-library/react";
-import { I18nextProvider } from "react-i18next";
-import { theme } from "@/app/theme";
+import { I18nextProvider, useTranslation } from "react-i18next";
+import { createAppTheme } from "@/app/theme";
 import i18n from "@/i18n";
+
+function TestMantineProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation("common");
+  const closeButtonLabel = t("actions.close");
+  const theme = useMemo(
+    () => createAppTheme(closeButtonLabel),
+    [closeButtonLabel],
+  );
+
+  return (
+    <MantineProvider env="test" theme={theme}>
+      {children}
+    </MantineProvider>
+  );
+}
 
 function TestProvider({ children }: { children: ReactNode }) {
   return (
-    <MantineProvider env="test" theme={theme}>
-      <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
-    </MantineProvider>
+    <I18nextProvider i18n={i18n}>
+      <TestMantineProvider>{children}</TestMantineProvider>
+    </I18nextProvider>
   );
 }
 

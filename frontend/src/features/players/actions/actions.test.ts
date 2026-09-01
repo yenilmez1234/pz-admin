@@ -62,7 +62,7 @@ describe("player action binding routes", () => {
     expect(Ban).toHaveBeenCalledWith(playerIds, "Repeated griefing", true);
     expect(executePlayerAction).toHaveBeenCalledWith({
       execute: expect.any(Function),
-      successKey: "notifications.ban.successMessage",
+      successKey: "notifications.ban.success",
       targets: players,
     });
   });
@@ -85,7 +85,7 @@ describe("player action binding routes", () => {
     expect(AddVehicle).toHaveBeenCalledWith(playerIds, vehicle.id);
     expect(executePlayerAction).toHaveBeenCalledWith({
       execute: expect.any(Function),
-      successKey: "notifications.spawnVehicle.successMessage",
+      successKey: "notifications.spawnVehicle.success",
       successValues: { vehicle: vehicle.name },
       targets: players,
     });
@@ -99,7 +99,7 @@ describe("player action binding routes", () => {
     expect(SetGodMode).toHaveBeenCalledWith(playerIds, false);
     expect(executePlayerAction).toHaveBeenCalledWith({
       execute: expect.any(Function),
-      successKey: "notifications.godMode.disable.successMessage",
+      successKey: "notifications.godMode.disable.success",
       targets: players,
     });
   });

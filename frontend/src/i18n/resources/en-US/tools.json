@@ -1,8 +1,8 @@
 {
   "navigation": {
-    "accessibleLabel": "Tools pages",
+    "label": "Tools pages",
     "messages": "Message Editor",
-    "items": "Items",
-    "vehicles": "Vehicles"
+    "items": "Item Browser",
+    "vehicles": "Vehicle Browser"
   }
 }

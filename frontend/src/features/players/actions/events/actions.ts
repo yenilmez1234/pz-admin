@@ -10,7 +10,7 @@ export function createHorde(targets: Player[], count: number) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => CreateHorde(playerIds, count),
-    successKey: "notifications.createHorde.successMessage",
+    successKey: "notifications.createHorde.success",
   });
 }
 
@@ -18,7 +18,7 @@ export function lightning(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Lightning(playerIds),
-    successKey: "notifications.lightning.successMessage",
+    successKey: "notifications.lightning.success",
   });
 }
 
@@ -26,6 +26,6 @@ export function thunder(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Thunder(playerIds),
-    successKey: "notifications.thunder.successMessage",
+    successKey: "notifications.thunder.success",
   });
 }

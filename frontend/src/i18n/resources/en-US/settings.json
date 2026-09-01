@@ -3,20 +3,25 @@
     "title": "Settings"
   },
   "errors": {
-    "loadTitle": "Unable to Load Settings",
-    "loadRetryInstruction": "Restart the application to try again.",
-    "saveRetryInstruction": "Try changing the setting again.",
-    "saveTitle": "Unable to Save Settings"
+    "load": {
+      "title": "Unable to Load Settings"
+    },
+    "save": {
+      "recovery": "Try changing the setting again.",
+      "title": "Unable to Save Settings"
+    }
   },
-  "appearance": {
-    "colorSchemeLabel": "Color Scheme",
+  "colorScheme": {
     "description": "Choose how the application selects its colors.",
-    "dark": "Dark",
-    "light": "Light",
-    "system": "System"
+    "label": "Color Scheme",
+    "options": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    }
   },
   "language": {
-    "description": "Choose the application language. Missing translations are shown in English.",
-    "label": "Display Language"
+    "description": "Choose the application language.",
+    "label": "Language"
   }
 }

@@ -1,7 +1,20 @@
 {
-  "connectionLostTitle": "Connection Lost",
-  "connectionLostMessage": "The server connection was closed. Connect again to continue.",
-  "loadingLabel": "Loading session…",
-  "disconnect": "Disconnect",
-  "disconnectErrorTitle": "Unable to Disconnect"
+  "connectionLost": {
+    "message": "The server connection was closed. Connect again to continue.",
+    "title": "Connection Lost"
+  },
+  "loading": {
+    "label": "Loading session…"
+  },
+  "actions": {
+    "disconnect": "Disconnect"
+  },
+  "errors": {
+    "connect": {
+      "title": "Unable to Connect"
+    },
+    "disconnect": {
+      "title": "Unable to Disconnect"
+    }
+  }
 }

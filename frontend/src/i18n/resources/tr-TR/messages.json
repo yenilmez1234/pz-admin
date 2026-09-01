@@ -1,35 +1,48 @@
 {
   "page": {
-    "title": "Mesaj Düzenleyici"
+    "title": "Mesaj düzenleyici"
   },
   "dialog": {
-    "title": "Mesajı Düzenle"
+    "title": "Mesajı düzenle"
   },
   "editor": {
-    "color": "Metin rengi",
-    "size": "Metin boyutu",
-    "alignments": {
-      "left": "Sola hizala",
-      "center": "Ortala",
-      "right": "Sağa hizala"
+    "actions": {
+      "align": {
+        "center": "Ortala",
+        "left": "Sola hizala",
+        "right": "Sağa hizala"
+      },
+      "clearFormatting": "Biçimlendirmeyi temizle",
+      "redo": "Yinele",
+      "undo": "Geri al"
     },
-    "sizes": {
-      "small": "Küçük",
-      "medium": "Orta",
-      "large": "Büyük"
+    "color": {
+      "actions": {
+        "useDefault": "Varsayılan rengi kullan"
+      },
+      "label": "Metin rengi"
     },
-    "useDefaultColor": "Varsayılan Rengi Kullan",
     "colorPicker": {
-      "hue": "Renk tonu",
-      "saturation": "Doygunluk"
+      "hue": {
+        "label": "Renk tonu"
+      },
+      "saturation": {
+        "label": "Doygunluk"
+      }
+    },
+    "size": {
+      "options": {
+        "large": "Büyük",
+        "medium": "Orta",
+        "small": "Küçük"
+      }
     }
   },
   "preview": {
-    "title": "Biçimlendirilmiş Mesaj",
+    "title": "Biçimlendirilmiş mesaj",
     "empty": "Biçimlendirilmiş mesaj burada görüntülenecek."
   },
   "actions": {
-    "apply": "Uygula",
-    "edit": "Mesajı Düzenle"
+    "edit": "Mesajı düzenle"
   }
 }

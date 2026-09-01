@@ -14,13 +14,13 @@ export function PlayerGiveMenuItems({ players }: PlayerGiveMenuItemsProps) {
   return (
     <>
       <Menu.Item onClick={() => actions.openAddXp(players)}>
-        {t("actions.labels.addXp")}
+        {t("actions.commands.addXp")}
       </Menu.Item>
       <Menu.Item onClick={() => actions.openGiveItems(players)}>
-        {t("actions.labels.addItem")}
+        {t("actions.commands.addItem")}
       </Menu.Item>
       <Menu.Item onClick={() => actions.openSpawnVehicle(players)}>
-        {t("actions.labels.spawnVehicle")}
+        {t("actions.commands.spawnVehicle")}
       </Menu.Item>
     </>
   );

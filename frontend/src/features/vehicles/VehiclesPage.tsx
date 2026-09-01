@@ -56,7 +56,7 @@ export function VehiclesPage({ build, onBuildChange }: VehiclesPageProps) {
           <Alert
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={t("errors.loadTitle")}
+            title={t("errors.load.title")}
           >
             <Stack gap="xs" align="flex-start">
               {error}
@@ -67,12 +67,14 @@ export function VehiclesPage({ build, onBuildChange }: VehiclesPageProps) {
           </Alert>
         ) : null}
 
-        <VehicleExplorer
-          key={build}
-          catalog={catalog}
-          loading={loading}
-          onVehicleSelect={setSelectedVehicle}
-        />
+        {!error ? (
+          <VehicleExplorer
+            key={build}
+            catalog={catalog}
+            loading={loading}
+            onVehicleSelect={setSelectedVehicle}
+          />
+        ) : null}
       </GameToolPageLayout>
     </>
   );

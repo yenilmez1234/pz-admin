@@ -31,11 +31,14 @@ export function ServerCard({
   onEdit,
 }: ServerCardProps) {
   const { t } = useTranslation(["servers", "common"]);
-  let buildLabel = t("card.buildUnknown");
+  let buildLabel = t("gameBuild.unknown", { ns: "common" });
   if (profile.version === "auto") {
     buildLabel = t("gameBuild.options.auto", { ns: "common" });
   } else if (profile.version) {
-    buildLabel = t("card.build", { version: profile.version });
+    buildLabel = t("gameBuild.value", {
+      ns: "common",
+      version: profile.version,
+    });
   }
 
   return (
@@ -72,7 +75,7 @@ export function ServerCard({
               <ActionIcon
                 variant="subtle"
                 color="gray"
-                aria-label={t("card.actionsLabel", {
+                aria-label={t("card.actions.label", {
                   serverName: profile.name,
                 })}
                 disabled={disabled}
@@ -85,7 +88,7 @@ export function ServerCard({
                 leftSection={<IconPencil size={14} aria-hidden="true" />}
                 onClick={() => onEdit(profile)}
               >
-                {t("card.edit")}
+                {t("actions.edit")}
               </Menu.Item>
               <Menu.Divider />
               <Menu.Item
@@ -93,7 +96,7 @@ export function ServerCard({
                 leftSection={<IconTrash size={14} aria-hidden="true" />}
                 onClick={() => onDelete(profile)}
               >
-                {t("actions.delete", { ns: "common" })}
+                {t("actions.delete")}
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
@@ -109,7 +112,7 @@ export function ServerCard({
             disabled={disabled && !connecting}
             onClick={() => onConnect(profile)}
           >
-            {t("card.connect")}
+            {t("actions.connect")}
           </Button>
         </Group>
       </Stack>

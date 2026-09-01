@@ -23,8 +23,8 @@ type BanAction = (
   banIP: boolean,
 ) => Promise<boolean>;
 
-const reasonName = i18n.t("fields.reason", { ns: "common" });
-const banIpName = i18n.t("dialogs.ban.banIpLabel", { ns: "players" });
+const reasonName = i18n.t("fields.reason.label", { ns: "players" });
+const banIpName = i18n.t("dialogs.ban.banIp.label", { ns: "players" });
 const submitName = i18n.t("dialogs.ban.submit", { ns: "players" });
 
 function submitButton() {

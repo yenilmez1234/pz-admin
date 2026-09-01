@@ -17,7 +17,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
   const { t } = useTranslation("players");
   const actions = usePlayerActions();
   const online = isOnline(player);
-  const onlineOnlyMessage = t("actions.menu.onlineOnlyExplanation");
+  const onlineOnlyMessage = t("actions.menu.restrictions.onlineOnly");
 
   return (
     <Menu
@@ -32,7 +32,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
     >
       <Menu.Target>
         <ActionIcon
-          aria-label={t("actions.menu.accessibleLabel", {
+          aria-label={t("actions.menu.label", {
             username: player.username,
           })}
           color="gray"
@@ -56,7 +56,7 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
               disabled={!online}
               onClick={() => actions.openTeleport([player])}
             >
-              {t("actions.labels.teleport")}
+              {t("actions.commands.teleport")}
             </Menu.Item>
           </Box>
         </Tooltip>

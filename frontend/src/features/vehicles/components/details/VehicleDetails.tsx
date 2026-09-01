@@ -49,11 +49,7 @@ export function VehicleDetails({
             contentWidth={showVariants ? "wide" : "standard"}
             py="xs"
           >
-            <UnstyledButton
-              aria-label={t("details.backLabel")}
-              className={classes.backLink}
-              onClick={onBack}
-            >
+            <UnstyledButton className={classes.backLink} onClick={onBack}>
               <IconArrowLeft size={16} aria-hidden="true" />
               <Text fw={500} size="sm">
                 {t("details.back")}

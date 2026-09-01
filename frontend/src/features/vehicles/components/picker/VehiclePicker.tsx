@@ -93,7 +93,7 @@ export function VehiclePicker({
     <Stack className={classes.content} h={dialogBrowserViewportHeight}>
       <Group gap={6} wrap="nowrap">
         <ActionIcon
-          aria-label={t("picker.back")}
+          aria-label={t("picker.actions.back")}
           disabled={categoryIndex === null}
           onClick={handleBack}
           size="sm"

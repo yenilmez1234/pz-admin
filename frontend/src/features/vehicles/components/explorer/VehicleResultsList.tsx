@@ -27,14 +27,13 @@ const summaryStats = [
   "topSpeed",
 ] as const;
 const summaryStatLabels = {
-  enginePower: "browser.statLabels.enginePower",
-  seats: "browser.statLabels.seats",
-  topSpeed: "browser.statLabels.topSpeed",
-  totalStorage: "browser.statLabels.totalStorage",
+  enginePower: "stats.short.enginePower",
+  seats: "stats.seats",
+  topSpeed: "stats.short.topSpeed",
+  totalStorage: "stats.short.totalStorage",
 } as const;
 
 interface VehicleResultsListProps {
-  catalogEmpty: boolean;
   loading: boolean;
   onVehicleSelect: (vehicle: VehicleCatalogEntry) => void;
   vehicles: VehicleCatalogEntry[];
@@ -65,7 +64,6 @@ function VehicleStat({ icon, label, value }: VehicleStatProps) {
 }
 
 export const VehicleResultsList = memo(function VehicleResultsList({
-  catalogEmpty,
   loading,
   onVehicleSelect,
   vehicles,
@@ -76,13 +74,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
   return (
     <Paper className={classes.root} withBorder>
       <ScrollArea className={classes.scrollArea} h="100%" type="auto">
-        <Box
-          aria-busy={loading}
-          aria-label={t("browser.accessibleLabel")}
-          component="ul"
-          m={0}
-          p={0}
-        >
+        <Box aria-busy={loading} component="ul" m={0} p={0}>
           {skeleton.visible
             ? Array.from({ length: 7 }, (_row, index) => (
                 <Box
@@ -205,9 +197,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
 
         {!loading && vehicles.length === 0 ? (
           <Text c="dimmed" py="xl" ta="center">
-            {catalogEmpty
-              ? t("browser.emptyCatalog")
-              : t("browser.noSearchResults")}
+            {t("browser.search.empty")}
           </Text>
         ) : null}
       </ScrollArea>

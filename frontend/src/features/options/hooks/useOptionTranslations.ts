@@ -16,20 +16,27 @@ function textAt(root: unknown, path: readonly string[], fallback: string) {
 
 /** Provides names for the dynamic IDs stored in the option catalog. */
 export function useOptionTranslations() {
-  const { t } = useTranslation("options");
+  const { t } = useTranslation("optionCatalog");
 
   return useMemo(() => {
     // Catalog IDs are dynamic, so i18next cannot validate their complete key
     // at compile time. Keep the checked lookup and fallback in one place.
     const categories = t("categories", { returnObjects: true });
+    const choiceSets = t("choiceSets", { returnObjects: true });
     const fields = t("fields", { returnObjects: true });
     const sections = t("sections", { returnObjects: true });
     const specialValues = t("specialValues", { returnObjects: true });
 
     return {
       categoryLabel: (id: string) => textAt(categories, [id], id),
-      choiceLabel: (option: string, choice: string) =>
-        textAt(fields, [option, "choices", choice], choice),
+      choiceLabel: (
+        option: string,
+        choice: string,
+        translationGroup?: string,
+      ) =>
+        translationGroup
+          ? textAt(choiceSets, [translationGroup, choice], choice)
+          : textAt(fields, [option, "choices", choice], choice),
       fieldDescription: (name: string) =>
         textAt(fields, [name, "description"], ""),
       fieldLabel: (name: string) => textAt(fields, [name, "label"], name),

@@ -73,16 +73,16 @@ export function BanPlayerModal({
           <Textarea
             key={form.key("reason")}
             autosize
-            label={t("fields.reason", { ns: "common" })}
+            label={t("fields.reason.label")}
             maxRows={5}
             minRows={3}
             name="reason"
-            placeholder={t("placeholders.optional", { ns: "common" })}
+            placeholder={t("fields.reason.placeholder")}
             {...form.getInputProps("reason")}
           />
           <Checkbox
             key={form.key("banIP")}
-            label={t("dialogs.ban.banIpLabel")}
+            label={t("dialogs.ban.banIp.label")}
             {...form.getInputProps("banIP", { type: "checkbox" })}
           />
           <Group justify="flex-end" mt="xs">

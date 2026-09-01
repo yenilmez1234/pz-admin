@@ -54,12 +54,12 @@ interface HarnessProps {
 
 function addItem(item: ItemCatalogEntry) {
   const customItem = screen.getByRole("textbox", {
-    name: i18n.t("selection.customItemLabel", { ns: "items" }),
+    name: i18n.t("selection.customItem.label", { ns: "items" }),
   });
   fireEvent.change(customItem, { target: { value: item.id } });
   fireEvent.click(
     screen.getByRole("button", {
-      name: i18n.t("selection.addCustomItem", { ns: "items" }),
+      name: i18n.t("selection.customItem.actions.add", { ns: "items" }),
     }),
   );
 }
@@ -95,13 +95,13 @@ describe("GiveItemsModal", () => {
     addItem(apple);
     addItem(banana);
     const bananaQuantity = screen.getByRole("textbox", {
-      name: i18n.t("selection.quantityLabel", {
+      name: i18n.t("selection.quantity.label", {
         name: banana.name,
         ns: "items",
       }),
     });
     const appleQuantity = screen.getByRole("textbox", {
-      name: i18n.t("selection.quantityLabel", {
+      name: i18n.t("selection.quantity.label", {
         name: apple.name,
         ns: "items",
       }),

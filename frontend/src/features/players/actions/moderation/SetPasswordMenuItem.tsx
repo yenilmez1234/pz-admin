@@ -14,7 +14,7 @@ export function SetPasswordMenuItem({ players }: { players: Player[] }) {
 
   return (
     <Menu.Item onClick={() => actions.openSetPassword(players)}>
-      {t("actions.labels.setPassword")}
+      {t("actions.commands.setPassword")}
     </Menu.Item>
   );
 }

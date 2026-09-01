@@ -21,10 +21,10 @@ export function MessageColorControl() {
     <Popover position="bottom-start" shadow="md" width={220}>
       <Popover.Target>
         <RichTextEditor.Control
-          aria-label={t("editor.color")}
+          aria-label={t("editor.color.label")}
           p={0}
           style={{ overflow: "hidden" }}
-          title={t("editor.color")}
+          title={t("editor.color.label")}
         >
           <ColorSwatch
             color={color ?? defaultGameMessageColor}
@@ -40,9 +40,9 @@ export function MessageColorControl() {
             focusable
             format="hex"
             fullWidth
-            hueLabel={t("editor.colorPicker.hue")}
+            hueLabel={t("editor.colorPicker.hue.label")}
             onChange={(value) => editor?.chain().focus().setColor(value).run()}
-            saturationLabel={t("editor.colorPicker.saturation")}
+            saturationLabel={t("editor.colorPicker.saturation.label")}
             swatches={messageColorSwatches}
             swatchesPerRow={9}
             value={color ?? defaultGameMessageColor}
@@ -53,7 +53,7 @@ export function MessageColorControl() {
             size="xs"
             variant="default"
           >
-            {t("editor.useDefaultColor")}
+            {t("editor.color.actions.useDefault")}
           </Button>
         </Stack>
       </Popover.Dropdown>

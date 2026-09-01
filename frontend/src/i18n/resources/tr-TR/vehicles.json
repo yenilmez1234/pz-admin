@@ -1,212 +1,64 @@
 {
   "page": {
-    "title": "Araçlar"
+    "title": "Araç kataloğu"
   },
   "errors": {
-    "loadTitle": "Araçlar Yüklenemedi"
+    "load": { "title": "Araçlar yüklenemedi" }
   },
   "picker": {
-    "back": "Geri Dön",
+    "actions": {
+      "back": "Geri dön",
+      "selectVariant": "{{variant}} varyantını seç"
+    },
     "root": "Araçlar",
-    "selectVariant": "{{variant}} varyantını seç",
     "variants": "Varyantlar"
   },
-  "catalog": {
-    "categories": {
-      "Heavy-Duty": "Ağır Hizmet",
-      "Sports": "Spor",
-      "Standard": "Standart",
-      "Trailers": "Römorklar"
-    },
-    "models": {
-      "Ambulance": "Ambulans",
-      "Chevalier Cerise Wagon": "Chevalier Cerise Wagon",
-      "Chevalier Cossette": "Chevalier Cossette",
-      "Chevalier D6": "Chevalier D6",
-      "Chevalier Dart": "Chevalier Dart",
-      "Chevalier Nyala": "Chevalier Nyala",
-      "Chevalier Primani": "Chevalier Primani",
-      "Chevalier Step Van": "Chevalier Step Van",
-      "Dash Bulldriver": "Dash Bulldriver",
-      "Dash Elite": "Dash Elite",
-      "Dash Rancher": "Dash Rancher",
-      "Franklin All-Terrain": "Franklin All-Terrain",
-      "Franklin Valuline": "Franklin Valuline",
-      "Franklin Valuline (6-seater)": "Franklin Valuline (6 kişilik)",
-      "Horse trailer": "At römorku",
-      "LBMW Radio Van": "LBMW radyo minibüsü",
-      "Livestock Trailer": "Hayvan römorku",
-      "Masterson Horizon": "Masterson Horizon",
-      "Mercia Lang 4000": "Mercia Lang 4000",
-      "Race Car": "Yarış arabası",
-      "Trailer": "Römork",
-      "Trailer (advert)": "Römork (reklam)",
-      "Trailer (cover)": "Römork (kapalı)"
-    },
-    "variants": {
-      "34": "34",
-      "58": "58",
-      "Airport": "Havalimanı",
-      "Airport Catering": "Havalimanı ikram hizmetleri",
-      "Airport Franklin Valuline": "Havalimanı Franklin Valuline",
-      "Airport Security": "Havalimanı güvenliği",
-      "Beckman's Building": "Beckman İnşaat",
-      "Blacksmith": "Demirci",
-      "Brewster & Harbin": "Brewster & Harbin",
-      "Bricking It": "Bricking It",
-      "Bug Wipers": "Böcek avcıları",
-      "Builder's": "İnşaatçı",
-      "Bulletin Sheriff": "Bulletin şerifi",
-      "Butchers": "Kasap",
-      "Calloway Landscaping": "Calloway Peyzaj",
-      "Camo": "Kamuflaj",
-      "Carpenter's": "Marangoz",
-      "Cereal Delivery": "Tahıl gevreği teslimatı",
-      "Charlemange": "Charlemange",
-      "Citr8": "Citr8",
-      "Coast 2 Coast": "Coast 2 Coast",
-      "Complete Repair Shop": "Komple tamirhane",
-      "Craft supplies": "El işi malzemeleri",
-      "Creature Cruiser": "Yaratık kruvazörü",
-      "Deer Valley Power": "Deer Valley Enerji",
-      "Fire Department": "İtfaiye",
-      "Florist": "Çiçekçi",
-      "Fossoil": "Fossoil",
-      "Franklin Valuline": "Franklin Valuline",
-      "Garden Gods": "Bahçe tanrıları",
-      "Gardener's": "Bahçıvan",
-      "Genuine Beer": "Hakiki bira",
-      "Glass": "Cam",
-      "Greene's": "Greene's",
-      "Helton Metalworking": "Helton Metal İşleri",
-      "Heritage Tailors": "Heritage Terzileri",
-      "Huang's Laundry": "Huang Çamaşırhanesi",
-      "John McCoy Woodworking": "John McCoy Ahşap İşleri",
-      "Jones Fabrication": "Jones İmalat",
-      "Jorgensen": "Jorgensen",
-      "JP Landscaping": "JP Peyzaj",
-      "Kentucky Lumber": "Kentucky Kereste",
-      "Kerr Homes": "Kerr Evleri",
-      "Kimbler Konstruction": "Kimbler Konstruction",
-      "Knob Creek Gas": "Knob Creek Gaz",
-      "Knox Distillery": "Knox Damıtımevi",
-      "Knox Telecommunications": "Knox Telekomünikasyon",
-      "Korshunov's Car Center": "Korshunov Otomotiv Merkezi",
-      "KY Herald": "KY Herald",
-      "KY Transit": "KY Toplu Taşıma",
-      "LCPD": "LCPD",
-      "Leather": "Deri",
-      "Lectromax": "Lectromax",
-      "Locksmith": "Çilingir",
-      "Louisville Landscaping": "Louisville Peyzaj",
-      "Louisville Motorshop": "Louisville Oto Servisi",
-      "Louisville Police": "Louisville Polisi",
-      "Louisville SWAT": "Louisville SWAT",
-      "Mail": "Posta",
-      "March Ridge Construction": "March Ridge İnşaat",
-      "Marine Bites": "Marine Bites",
-      "Masonry": "Duvarcılık",
-      "Mass GenFac": "Mass GenFac",
-      "McCoy": "McCoy",
-      "Meade Sheriff": "Meade Şerifi",
-      "Mechanic's": "Tamirci",
-      "Melting Point Metal": "Erime Noktası Metal",
-      "Mesmer Wagon": "Mesmer Wagon",
-      "Metalheads": "Metalheads",
-      "Metalworker's": "Metal işçisi",
-      "Michele's Woodshop": "Michele'in Ahşap Atölyesi",
-      "Mobile library": "Gezici kütüphane",
-      "Mobile Mechanics": "Gezici tamirciler",
-      "Moore Mechanics": "Moore Tamircileri",
-      "Muldraugh Police": "Muldraugh Polisi",
-      "Normal": "Normal",
-      "Old Mill Water Company": "Old Mill Su Şirketi",
-      "Ovo Farms": "Ovo Çiftlikleri",
-      "Penn S. Ham Construction": "Penn S. Ham İnşaat",
-      "Perfick Potato": "Perfick Potato",
-      "Platt Auto Repair": "Platt Oto Tamir",
-      "Plonkies": "Plonkies",
-      "Plugged In Electrics": "Plugged In Elektrik",
-      "Police": "Polis",
-      "Prisoner Transport Franklin Valuline": "Mahkum nakil Franklin Valuline",
-      "Propane": "Propan",
-      "Quantum Vessel": "Quantum Vessel",
-      "Randi's Plants": "Randi'nin Bitkileri",
-      "Ranger": "Korucu",
-      "Ranger_Fossoil": "Fossoil korucusu",
-      "Riverside Fabrication": "Riverside İmalat",
-      "Rosewoodworking": "Rosewood Ahşap İşleri",
-      "Scarlet Oak": "Scarlet Oak",
-      "Schwab Sheet Metal": "Schwab Sac Metal",
-      "Smart Kut": "Smart Kut",
-      "South Eastern Hospitality": "Güneydoğu Konaklama",
-      "South Eastern Paint": "Güneydoğu Boya",
-      "Spiffo Van": "Spiffo minibüsü",
-      "State Trooper": "Eyalet polisi",
-      "Taxi (green)": "Taksi (yeşil)",
-      "Taxi (yellow)": "Taksi (sarı)",
-      "The Lady Delighter": "The Lady Delighter",
-      "Transit": "Toplu taşıma",
-      "Trey Baines": "Trey Baines",
-      "Triple-N Van": "Triple-N minibüsü",
-      "Uncloggers": "Tıkanıklık açıcılar",
-      "USL": "USL",
-      "Utility": "Hizmet",
-      "Valkyrie's Spear": "Valkür'ün Mızrağı",
-      "Van Yings Wood": "Van Yings Ahşap",
-      "Volt Mojo": "Volt Mojo",
-      "Welding by Camille": "Camille Kaynak",
-      "West Point Police": "West Point Polisi",
-      "Wood paneling": "Ahşap kaplama",
-      "WP Carpentry": "WP Marangozluk",
-      "Zippee": "Zippee"
-    }
-  },
   "stats": {
-    "animalSize": "Hayvan kapasitesi",
+    "animalSize": "Hayvan boyutu",
     "doors": "Kapılar",
-    "engineLoudness": "Motor sesi",
-    "enginePower": "Güç",
+    "engineLoudness": "Motor gürültüsü",
+    "enginePower": "Motor gücü",
     "engineQuality": "Motor kalitesi",
     "gloveBox": "Torpido gözü kapasitesi",
     "lightbar": "Tepe lambası",
     "occupantProtection": "Yolcu koruması",
     "offRoadEfficiency": "Arazi verimliliği",
     "rollInfluence": "Devrilme etkisi",
-    "seats": "Koltuk",
-    "suspensionStiffness": "Süspansiyon sertliği",
-    "topSpeed": "Maksimum hız",
-    "totalStorage": "Toplam depolama",
-    "trunkStorage": "Bagaj depolama",
-    "weight": "Ağırlık",
-    "wheels": "Tekerlekler"
-  },
-  "browser": {
-    "accessibleLabel": "Araç kataloğu",
-    "emptyCatalog": "Araç kataloğu henüz mevcut değil.",
-    "noSearchResults": "Aramanızla eşleşen araç bulunamadı.",
-    "resultCount_one": "{{count}} araç",
-    "resultCount_other": "{{count}} araç",
-    "searchLabel": "Araçları ara",
-    "searchPlaceholder": "Ad veya ID ile arayın…",
-    "statLabels": {
+    "seats": "Koltuk sayısı",
+    "short": {
       "enginePower": "Güç",
-      "seats": "Koltuk",
-      "topSpeed": "Maks. hız",
+      "topSpeed": "Hız",
       "totalStorage": "Depolama"
     },
+    "suspensionStiffness": "Süspansiyon sertliği",
+    "topSpeed": "Azami hız",
+    "totalStorage": "Toplam depolama",
+    "trunkStorage": "Bagaj kapasitesi",
     "values": {
       "enginePower": "{{value}} bg",
       "seats_one": "{{value}} koltuk",
       "seats_other": "{{value}} koltuk",
       "storage_one": "{{value}} birim",
       "storage_other": "{{value}} birim"
+    },
+    "weight": "Ağırlık",
+    "wheels": "Tekerlekler"
+  },
+  "browser": {
+    "results": {
+      "summary_one": "{{count}} araç",
+      "summary_other": "{{count}} araç"
+    },
+    "search": {
+      "empty": "Aramanızla eşleşen araç bulunamadı.",
+      "label": "Araçları ara"
     }
   },
   "details": {
     "back": "Araçlar",
-    "backLabel": "Araçlara dön",
-    "openVariant": "{{variant}} varyantını aç",
+    "actions": {
+      "openVariant": "{{variant}} varyantını aç"
+    },
     "sections": {
       "body": "Gövde ve donanım",
       "capacity": "Kapasite",
@@ -215,29 +67,23 @@
     "variants": "Varyantlar"
   },
   "filters": {
-    "advancedSection": "Gelişmiş",
     "boolean": {
-      "any": "Tümü",
-      "no": "Hayır",
-      "yes": "Evet"
+      "options": {
+        "any": "Fark etmez",
+        "no": "Hayır",
+        "yes": "Evet"
+      }
     },
-    "clear": "Temizle",
-    "collapse": "{{name}} alanını daralt",
-    "expand": "{{name}} alanını genişlet",
-    "statsSection": "İstatistikler",
+    "sections": {
+      "stats": "Teknik özellikler",
+      "vehicle": "Araç"
+    },
     "title": "Filtreler",
-    "vehicleLabel": "Kategori, model veya varyant",
-    "vehicleSection": "Araç"
+    "vehicle": { "label": "Kategori veya model" }
   },
   "sorting": {
-    "changeDirection": "Sıralama yönünü değiştir. Mevcut yön: {{direction}}",
-    "directions": {
-      "ascending": "Artan",
-      "descending": "Azalan"
-    },
     "fields": {
       "name": "Ad"
-    },
-    "label": "Sırala"
+    }
   }
 }

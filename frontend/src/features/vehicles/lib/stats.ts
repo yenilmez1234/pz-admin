@@ -2,16 +2,13 @@ import type { TFunction } from "i18next";
 import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
 import type { VehicleNumericStat, VehicleStats } from "../types";
 
-export const primaryVehicleFilterStats = [
+export const vehicleNumericStats = [
   "enginePower",
   "topSpeed",
   "seats",
   "totalStorage",
   "trunkStorage",
   "weight",
-] as const satisfies readonly VehicleNumericStat[];
-
-export const advancedVehicleFilterStats = [
   "engineQuality",
   "engineLoudness",
   "suspensionStiffness",
@@ -23,11 +20,6 @@ export const advancedVehicleFilterStats = [
   "wheels",
   "animalSize",
 ] as const satisfies readonly VehicleNumericStat[];
-
-export const vehicleNumericStats = [
-  ...primaryVehicleFilterStats,
-  ...advancedVehicleFilterStats,
-] as const;
 
 export type VehicleRangeFilterStat = (typeof vehicleNumericStats)[number];
 
@@ -80,11 +72,13 @@ export function formatVehicleStat(
 ): string {
   if (value === undefined) return "—";
   if (stat === "lightbar") {
-    return t(value ? "filters.boolean.yes" : "filters.boolean.no");
+    return t(
+      value ? "filters.boolean.options.yes" : "filters.boolean.options.no",
+    );
   }
   if (typeof value !== "number") return String(value);
   if (stat === "enginePower") {
-    return t("browser.values.enginePower", {
+    return t("stats.values.enginePower", {
       value: formatNumber(locale, value),
     });
   }
@@ -93,7 +87,7 @@ export function formatVehicleStat(
   }
   if (stat === "weight") return formatUnit(locale, value, "kilogram");
   if (stat === "seats") {
-    return t("browser.values.seats", {
+    return t("stats.values.seats", {
       count: value,
       value: formatNumber(locale, value),
     });
@@ -103,7 +97,7 @@ export function formatVehicleStat(
     stat === "totalStorage" ||
     stat === "trunkStorage"
   ) {
-    return t("browser.values.storage", {
+    return t("stats.values.storage", {
       count: value,
       value: formatNumber(locale, value),
     });

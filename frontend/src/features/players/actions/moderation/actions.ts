@@ -15,8 +15,8 @@ export function setVoiceBanned(targets: Player[], banned: boolean) {
     targets,
     execute: (playerIds) => SetVoiceBanned(playerIds, banned),
     successKey: banned
-      ? "notifications.voiceBan.apply.successMessage"
-      : "notifications.voiceBan.remove.successMessage",
+      ? "notifications.voiceBan.apply.success"
+      : "notifications.voiceBan.remove.success",
   });
 }
 
@@ -24,7 +24,7 @@ export function setAccessLevel(targets: Player[], accessLevel: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetAccessLevel(playerIds, accessLevel),
-    successKey: "notifications.accessLevel.successMessage",
+    successKey: "notifications.role.success",
   });
 }
 
@@ -32,7 +32,7 @@ export function setPassword(targets: Player[], password: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => SetPassword(playerIds, password),
-    successKey: "notifications.setPassword.successMessage",
+    successKey: "notifications.setPassword.success",
   });
 }
 
@@ -40,7 +40,7 @@ export function ban(targets: Player[], reason: string, banIP: boolean) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Ban(playerIds, reason, banIP),
-    successKey: "notifications.ban.successMessage",
+    successKey: "notifications.ban.success",
   });
 }
 
@@ -48,7 +48,7 @@ export function kick(targets: Player[], reason: string) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Kick(playerIds, reason),
-    successKey: "notifications.kick.successMessage",
+    successKey: "notifications.kick.success",
   });
 }
 
@@ -56,7 +56,7 @@ export function unban(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => Unban(playerIds),
-    successKey: "notifications.unban.successMessage",
+    successKey: "notifications.unban.success",
   });
 }
 
@@ -64,6 +64,6 @@ export function removeFromWhitelist(targets: Player[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => RemoveFromWhitelist(playerIds),
-    successKey: "notifications.removeFromWhitelist.successMessage",
+    successKey: "notifications.removeFromWhitelist.success",
   });
 }

@@ -1,58 +1,89 @@
 {
   "profiles": {
-    "title": "Kayıtlı Sunucular",
-    "addButton": "Sunucu Ekle",
-    "emptyTitle": "Kayıtlı sunucu yok",
-    "emptyDescription": "RCON ile bağlanmak için bir sunucu ekleyin.",
-    "loadingLabel": "Sunucular yükleniyor…",
+    "title": "Kayıtlı sunucular",
+    "actions": {
+      "add": "Sunucu ekle"
+    },
+    "empty": {
+      "description": "Başlamak için bir sunucu ekleyin.",
+      "title": "Kayıtlı sunucu yok"
+    },
+    "loading": {
+      "label": "Sunucular yükleniyor…"
+    },
     "errors": {
-      "connectionCheckTitle": "Bağlantı Kontrol Edilemedi",
-      "connectTitle": "Bağlanılamadı",
-      "connectDetailsSuffix": "Sunucu bilgilerini kontrol edin.",
-      "dismissLabel": "Hatayı kapat",
-      "loadTitle": "Sunucular Yüklenemedi"
+      "connectionCheck": {
+        "title": "Bağlantı kontrol edilemedi"
+      },
+      "actions": { "dismiss": "Hatayı kapat" },
+      "load": {
+        "title": "Sunucular yüklenemedi"
+      }
     }
   },
-  "card": {
-    "actionsLabel": "{{serverName}} için işlemler",
-    "build": "Build {{version}}",
-    "buildUnknown": "Bilinmeyen Build",
+  "actions": {
     "connect": "Bağlan",
-    "edit": "Düzenle"
+    "edit": "Düzenle",
+    "delete": "Sil"
+  },
+  "card": {
+    "actions": {
+      "label": "{{serverName}} için işlemler"
+    }
   },
   "form": {
-    "addSubmit": "Sunucu Ekle",
-    "addTitle": "Sunucu Ekle",
-    "editSubmit": "Değişiklikleri Kaydet",
-    "editTitle": "Sunucuyu Düzenle",
-    "hostLabel": "Sunucu Adresi (Host)",
-    "nameLabel": "Sunucu Adı",
-    "passwordDescriptionCreate": "İşletim sisteminizin anahtarlığında güvenli bir şekilde saklanır.",
-    "passwordDescriptionEdit": "Kayıtlı şifreyi korumak için boş bırakın.",
-    "passwordLabel": "RCON Şifresi",
-    "portLabel": "RCON Portu",
+    "add": {
+      "submit": "Sunucu ekle",
+      "title": "Sunucu ekle"
+    },
+    "edit": {
+      "title": "Sunucuyu düzenle"
+    },
+    "fields": {
+      "host": {
+        "label": "Sunucu adresi"
+      },
+      "name": {
+        "label": "Sunucu adı"
+      },
+      "password": {
+        "create": {
+          "description": "İşletim sisteminizin anahtarlığında güvenli bir şekilde saklanır."
+        },
+        "edit": {
+          "description": "Kayıtlı parolayı korumak için boş bırakın."
+        },
+        "label": "Parola"
+      },
+      "port": {
+        "label": "Port"
+      }
+    },
     "errors": {
-      "saveDetailsSuffix": "Bilgileri kontrol edin.",
-      "saveTitle": "Sunucu Kaydedilemedi"
+      "save": {
+        "title": "Sunucu kaydedilemedi"
+      }
     },
     "validation": {
-      "buildRequired": "Bir oyun sürümü seçin.",
-      "hostRequired": "Bir IP adresi veya ana bilgisayar adı girin.",
-      "nameRequired": "Bir sunucu adı girin.",
-      "passwordRequired": "RCON şifresini girin.",
       "portRange": "1 ile 65535 arasında bir port girin."
     }
   },
-  "deleteDialog": {
-    "confirm": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
-    "errorTitle": "Sunucu Silinemedi",
-    "title": "Sunucuyu Sil"
+  "dialogs": {
+    "delete": {
+      "confirm": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
+      "error": {
+        "title": "Sunucu silinemedi"
+      },
+      "title": "Sunucuyu sil"
+    }
   },
   "workspace": {
-    "navigationLabel": "Sunucu Menüsü",
+    "navigation": {
+      "label": "Sunucu menüsü"
+    },
     "console": "Konsol",
     "options": "Seçenekler",
     "players": "Oyuncular",
-    "serverActions": "Sunucu İşlemleri"
+    "serverActions": "Sunucu işlemleri"
   }
 }

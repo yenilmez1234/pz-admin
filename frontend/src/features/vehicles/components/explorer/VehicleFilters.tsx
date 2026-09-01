@@ -4,7 +4,6 @@ import {
   Group,
   Paper,
   ScrollArea,
-  Stack,
   Text,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -14,10 +13,7 @@ import {
   VehicleLightbarFilter,
   VehicleStatFilters,
 } from "./VehicleStatFilters";
-import {
-  advancedVehicleFilterStats,
-  primaryVehicleFilterStats,
-} from "@/features/vehicles/lib/stats";
+import { vehicleNumericStats } from "@/features/vehicles/lib/stats";
 import type { VehicleFilterController } from "@/features/vehicles/hooks/useVehicleExplorer";
 import classes from "./VehicleFilters.module.css";
 
@@ -26,7 +22,7 @@ interface VehicleFiltersProps {
 }
 
 export function VehicleFilters({ filters }: VehicleFiltersProps) {
-  const { t } = useTranslation("vehicles");
+  const { t } = useTranslation(["vehicles", "common"]);
 
   return (
     <Paper className={classes.root} h="100%" withBorder>
@@ -39,7 +35,7 @@ export function VehicleFilters({ filters }: VehicleFiltersProps) {
           size="compact-xs"
           variant="subtle"
         >
-          {t("filters.clear")}
+          {t("actions.clear", { ns: "common" })}
         </Button>
       </Group>
 
@@ -57,7 +53,9 @@ export function VehicleFilters({ filters }: VehicleFiltersProps) {
           styles={{ content: { paddingTop: 0 } }}
         >
           <Accordion.Item value="vehicle">
-            <Accordion.Control>{t("filters.vehicleSection")}</Accordion.Control>
+            <Accordion.Control>
+              {t("filters.sections.vehicle")}
+            </Accordion.Control>
             <Accordion.Panel>
               <VehicleHierarchyFilter
                 data={filters.hierarchy}
@@ -68,36 +66,20 @@ export function VehicleFilters({ filters }: VehicleFiltersProps) {
           </Accordion.Item>
 
           <Accordion.Item value="stats">
-            <Accordion.Control>{t("filters.statsSection")}</Accordion.Control>
+            <Accordion.Control>{t("filters.sections.stats")}</Accordion.Control>
             <Accordion.Panel>
               <VehicleStatFilters
                 onChange={filters.changeRange}
                 ranges={filters.ranges}
-                stats={primaryVehicleFilterStats}
+                stats={vehicleNumericStats}
                 values={filters.rangeFilters}
               />
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item value="advanced">
-            <Accordion.Control>
-              {t("filters.advancedSection")}
-            </Accordion.Control>
-            <Accordion.Panel>
-              <Stack gap="md">
-                <VehicleStatFilters
-                  onChange={filters.changeRange}
-                  ranges={filters.ranges}
-                  stats={advancedVehicleFilterStats}
-                  values={filters.rangeFilters}
+              {filters.lightbarAvailable ? (
+                <VehicleLightbarFilter
+                  onChange={filters.changeLightbar}
+                  value={filters.lightbarFilter}
                 />
-                {filters.lightbarAvailable ? (
-                  <VehicleLightbarFilter
-                    onChange={filters.changeLightbar}
-                    value={filters.lightbarFilter}
-                  />
-                ) : null}
-              </Stack>
+              ) : null}
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>

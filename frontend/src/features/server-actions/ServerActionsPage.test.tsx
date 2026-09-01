@@ -58,7 +58,7 @@ describe("ServerActionsPage", () => {
     render(<ServerActionsPage />);
 
     const intensity = screen.getByLabelText(
-      i18n.t("fields.intensity", { ns: "serverActions" }),
+      i18n.t("fields.intensity.label", { ns: "serverActions" }),
     );
     const startRain = screen.getByRole("button", {
       name: i18n.t("actions.startRain", { ns: "serverActions" }),

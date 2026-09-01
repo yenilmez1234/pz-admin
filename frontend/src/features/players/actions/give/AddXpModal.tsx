@@ -103,7 +103,7 @@ export function AddXpModal({
       onExitTransitionEnd={selection.clear}
       opened={opened}
       size={dialogSizes.browser}
-      title={t("dialogs.addXp.title", { count: players.length })}
+      title={t("dialogs.addXp.title")}
       withCloseButton={!submitting}
     >
       <Stack gap="md">
@@ -119,7 +119,7 @@ export function AddXpModal({
             aria-live="polite"
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={skillT("errors.loadTitle")}
+            title={skillT("errors.load.title")}
           >
             <Stack align="flex-start" gap="xs">
               <Text size="sm">{error}</Text>
@@ -149,7 +149,7 @@ export function AddXpModal({
             onClick={selectMaximumXp}
             variant="default"
           >
-            {skillT("picker.maxAll")}
+            {skillT("picker.actions.maxAll")}
           </Button>
           <Group>
             <Button disabled={submitting} onClick={onClose} variant="default">

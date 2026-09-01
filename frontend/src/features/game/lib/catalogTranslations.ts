@@ -1,26 +1,31 @@
 import { canonicalLanguage, defaultLanguage } from "@/i18n/locales";
 import type { GameBuild } from "@/features/game/types";
 
+export type CatalogTranslationResource<Translations> = {
+  [Section in keyof Translations]: Record<string, string>;
+};
+
 export interface CatalogTranslations {
   categories: Record<string, string>;
   names: Record<string, string>;
 }
 
-export type CatalogTranslationModules = Record<
-  string,
-  () => Promise<{ default: CatalogTranslations }>
->;
+export type CatalogTranslationModules<
+  Translations extends CatalogTranslationResource<Translations> =
+    CatalogTranslations,
+> = Record<string, () => Promise<{ default: Translations }>>;
 
-interface CatalogTranslationLoaderOptions {
+interface CatalogTranslationLoaderOptions<
+  Translations extends CatalogTranslationResource<Translations>,
+> {
   moduleKey: (build: GameBuild, language: string) => string;
-  modules: CatalogTranslationModules;
+  modules: CatalogTranslationModules<Translations>;
 }
 
-export function createCatalogTranslationLoader({
-  moduleKey,
-  modules,
-}: CatalogTranslationLoaderOptions) {
-  const resources = new Map<string, CatalogTranslations>();
+export function createCatalogTranslationLoader<
+  Translations extends CatalogTranslationResource<Translations>,
+>({ moduleKey, modules }: CatalogTranslationLoaderOptions<Translations>) {
+  const resources = new Map<string, Translations>();
   const resourceRequests = new Map<string, Promise<void>>();
 
   function loadResource(build: GameBuild, language: string) {
@@ -59,7 +64,7 @@ export function createCatalogTranslationLoader({
   function get(
     build: GameBuild,
     language: string,
-    section: keyof CatalogTranslations,
+    section: keyof Translations,
     id: string,
   ) {
     const languageTag = canonicalLanguage(language);

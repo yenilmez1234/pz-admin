@@ -26,7 +26,7 @@ import { useProfileDialog } from "./hooks/useProfileDialog";
 import { useServerProfiles } from "./hooks/useServerProfiles";
 
 export function ServerProfilesPage() {
-  const { t } = useTranslation(["servers", "common"]);
+  const { t } = useTranslation(["servers", "common", "session"]);
   const { config } = useAppConfig();
   const {
     connect,
@@ -48,8 +48,8 @@ export function ServerProfilesPage() {
     } catch (connectionError) {
       notifications.show({
         color: "red",
-        title: t("profiles.errors.connectTitle"),
-        message: `${errorMessage(connectionError)} ${t("profiles.errors.connectDetailsSuffix")}`,
+        title: t("errors.connect.title", { ns: "session" }),
+        message: errorMessage(connectionError),
       });
     }
   }
@@ -66,7 +66,7 @@ export function ServerProfilesPage() {
                 disabled={connecting}
                 onClick={() => formDialog.open(null)}
               >
-                {t("profiles.addButton")}
+                {t("profiles.actions.add")}
               </Button>
             )}
           </Group>
@@ -75,7 +75,7 @@ export function ServerProfilesPage() {
             <Alert
               color="red"
               icon={<IconAlertCircle size={20} aria-hidden="true" />}
-              title={t("profiles.errors.connectionCheckTitle")}
+              title={t("profiles.errors.connectionCheck.title")}
               aria-live="polite"
             >
               <Stack gap="xs" align="flex-start">
@@ -95,10 +95,10 @@ export function ServerProfilesPage() {
             <Alert
               color="red"
               icon={<IconAlertCircle size={20} aria-hidden="true" />}
-              title={t("profiles.errors.loadTitle")}
+              title={t("profiles.errors.load.title")}
               aria-live="polite"
               withCloseButton={profiles.length > 0}
-              closeButtonLabel={t("profiles.errors.dismissLabel")}
+              closeButtonLabel={t("profiles.errors.actions.dismiss")}
               onClose={clearLoadError}
             >
               <Stack gap="xs" align="flex-start">
@@ -116,7 +116,7 @@ export function ServerProfilesPage() {
             <SimpleGrid
               minColWidth={260}
               aria-busy="true"
-              aria-label={t("profiles.loadingLabel")}
+              aria-label={t("profiles.loading.label")}
             >
               <Skeleton height={112} />
               <Skeleton height={112} />
@@ -134,10 +134,10 @@ export function ServerProfilesPage() {
                 />
                 <Box>
                   <Title order={2} size="h3">
-                    {t("profiles.emptyTitle")}
+                    {t("profiles.empty.title")}
                   </Title>
                   <Text c="dimmed" mt={4}>
-                    {t("profiles.emptyDescription")}
+                    {t("profiles.empty.description")}
                   </Text>
                 </Box>
                 <Button
@@ -145,7 +145,7 @@ export function ServerProfilesPage() {
                   disabled={connecting}
                   onClick={() => formDialog.open(null)}
                 >
-                  {t("profiles.addButton")}
+                  {t("profiles.actions.add")}
                 </Button>
               </Stack>
             </Paper>

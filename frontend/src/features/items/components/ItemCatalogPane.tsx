@@ -44,7 +44,7 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
   selectedQuantities,
   visibleItems,
 }: ItemCatalogPaneProps) {
-  const { t } = useTranslation("items");
+  const { t } = useTranslation(["items", "common"]);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const skeleton = useSkeletonVisibility(loading);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
@@ -65,7 +65,7 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
     <Paper aria-busy={loading} className={classes.catalogPane}>
       <Stack gap="xs" h="100%" style={{ minHeight: 0 }}>
         <TextInput
-          aria-label={t("browser.searchLabel")}
+          aria-label={t("browser.search.label")}
           autoComplete="off"
           disabled={loading}
           leftSection={<IconSearch aria-hidden="true" size={15} />}
@@ -74,12 +74,12 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
           onKeyDown={(event) => {
             if (event.key === "Escape" && search) onSearchChange("");
           }}
-          placeholder={t("browser.searchPlaceholder")}
+          placeholder={t("search.nameOrId.placeholder", { ns: "common" })}
           ref={searchInputRef}
           rightSection={
             search ? (
               <ActionIcon
-                aria-label={t("browser.clearSearch")}
+                aria-label={t("search.clear", { ns: "common" })}
                 color="gray"
                 onClick={() => {
                   onSearchChange("");
@@ -149,7 +149,7 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
                               selectedQuantities.get(item.id) ?? 0;
                             return (
                               <UnstyledButton
-                                aria-label={t("browser.addItem", {
+                                aria-label={t("browser.actions.addItem", {
                                   name: item.name,
                                 })}
                                 className={classes.catalogItem}
@@ -190,7 +190,7 @@ export const ItemCatalogPane = memo(function ItemCatalogPane({
           ) : (
             <Center mih={120}>
               <Text c="dimmed" size="sm">
-                {t("browser.noResults")}
+                {t("browser.search.empty")}
               </Text>
             </Center>
           )}

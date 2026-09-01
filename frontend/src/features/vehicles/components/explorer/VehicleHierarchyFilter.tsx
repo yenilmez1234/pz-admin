@@ -26,7 +26,7 @@ export function VehicleHierarchyFilter({
   onChange,
   value,
 }: VehicleHierarchyFilterProps) {
-  const { t } = useTranslation("vehicles");
+  const { t } = useTranslation(["vehicles", "common"]);
   const tree = useTree({
     selectedState: value ? [value] : [],
     onSelectedStateChange: (values) => onChange(values[0] ?? null),
@@ -34,7 +34,7 @@ export function VehicleHierarchyFilter({
 
   return (
     <Tree
-      aria-label={t("filters.vehicleLabel")}
+      aria-label={t("filters.vehicle.label")}
       data={data}
       expandOnClick={false}
       levelOffset="xs"
@@ -54,11 +54,13 @@ export function VehicleHierarchyFilter({
             <UnstyledButton
               aria-label={
                 expanded
-                  ? t("filters.collapse", {
+                  ? t("actions.collapseNamed", {
                       name: accessibleNodeName(node.label),
+                      ns: "common",
                     })
-                  : t("filters.expand", {
+                  : t("actions.expandNamed", {
                       name: accessibleNodeName(node.label),
+                      ns: "common",
                     })
               }
               display="flex"

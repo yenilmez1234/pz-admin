@@ -43,7 +43,7 @@ export function ToolsPage() {
     <SectionNavigation
       activePage={navigation.activePage}
       items={navigationItems}
-      label={t("navigation.accessibleLabel")}
+      label={t("navigation.label")}
       onPageChange={navigation.changePage}
     >
       <SectionNavigationPanel page="messages" scrollable={false}>

@@ -1,30 +1,41 @@
 {
   "actions": {
+    "apply": "Uygula",
     "cancel": "İptal",
+    "clear": "Temizle",
+    "close": "Kapat",
+    "collapseNamed": "{{name}} öğesini daralt",
     "copied": "Kopyalandı",
     "copy": "Kopyala",
-    "delete": "Sil",
-    "remove": "Kaldır",
-    "retry": "Tekrar Dene"
+    "expandNamed": "{{name}} öğesini genişlet",
+    "retry": "Tekrar dene",
+    "saveChanges": "Değişiklikleri kaydet"
   },
-  "fields": {
-    "password": "Şifre",
-    "reason": "Sebep",
-    "username": "Kullanıcı Adı"
+  "errors": {
+    "unexpected": "Bir sorun oluştu. Lütfen tekrar deneyin."
   },
   "gameBuild": {
     "label": "Oyun sürümü",
     "options": {
-      "auto": "Otomatik",
-      "41": "Build 41",
-      "42": "Build 42"
+      "auto": "Otomatik"
+    },
+    "unknown": "Bilinmeyen sürüm",
+    "value": "Sürüm {{version}}"
+  },
+  "search": {
+    "clear": "Aramayı temizle",
+    "nameOrId": {
+      "placeholder": "Ada veya kimliğe göre ara…"
     }
   },
-  "placeholders": {
-    "optional": "İsteğe bağlı"
-  },
-  "validation": {
-    "passwordRequired": "Şifre zorunludur",
-    "usernameRequired": "Kullanıcı adı zorunludur"
+  "sorting": {
+    "actions": {
+      "changeDirection": "Sıralama yönünü değiştir. Mevcut yön: {{direction}}."
+    },
+    "directions": {
+      "ascending": "Artan",
+      "descending": "Azalan"
+    },
+    "label": "Sıralama ölçütü"
   }
 }

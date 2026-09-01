@@ -29,7 +29,7 @@ export function ItemsPage({ build, onBuildChange }: ItemsPageProps) {
         <Alert
           color="red"
           icon={<IconAlertCircle aria-hidden="true" size={20} />}
-          title={t("errors.loadTitle")}
+          title={t("errors.load.title")}
         >
           <Stack align="flex-start" gap="xs">
             {error}

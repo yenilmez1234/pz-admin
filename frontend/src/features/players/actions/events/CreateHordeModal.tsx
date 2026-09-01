@@ -68,7 +68,7 @@ export function CreateHordeModal({
           <NumberInput
             allowDecimal={false}
             clampBehavior="none"
-            label={t("dialogs.createHorde.sizeLabel")}
+            label={t("dialogs.createHorde.size.label")}
             max={2_147_483_647}
             min={1}
             name="count"

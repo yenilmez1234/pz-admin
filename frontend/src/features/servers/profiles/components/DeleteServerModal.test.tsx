@@ -10,7 +10,7 @@ vi.mock("@mantine/notifications", () => ({
   notifications: { show: vi.fn() },
 }));
 
-const deleteName = i18n.t("actions.delete", { ns: "common" });
+const deleteName = i18n.t("actions.delete", { ns: "servers" });
 
 function deleteButton() {
   return screen.getByRole("button", { name: deleteName });
@@ -57,6 +57,11 @@ it("disables repeat deletion and closes after success", async () => {
   );
 
   expect(screen.getByRole("dialog")).toHaveTextContent(profile.name);
+  expect(
+    screen.getByRole("button", {
+      name: i18n.t("actions.close", { ns: "common" }),
+    }),
+  ).toBeInTheDocument();
 
   await user.click(deleteButton());
 
@@ -107,7 +112,7 @@ it("surfaces a normalized deletion failure", async () => {
   expect(notifications.show).toHaveBeenCalledWith({
     color: "red",
     message: "delete-context: delete-error-sentinel",
-    title: i18n.t("deleteDialog.errorTitle", { ns: "servers" }),
+    title: i18n.t("dialogs.delete.error.title", { ns: "servers" }),
   });
   expect(onClose).not.toHaveBeenCalled();
   expect(screen.getByRole("dialog")).toBeInTheDocument();

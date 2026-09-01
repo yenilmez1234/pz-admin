@@ -27,38 +27,61 @@
     "startStorm": "Starts a storm. Duration is optional and measured in game hours.",
     "events": "Targets a randomly selected online player with the chosen event.",
     "reloadOptions": "Reloads the server options from disk.",
-    "reloadLua": "Reloads the first loaded Lua file whose path ends with the entered value.",
+    "reloadLua": "Reloads the first loaded Lua file matching the specified file name or path suffix.",
     "reloadAllLua": "Reloads all currently loaded Lua files."
   },
   "fields": {
-    "intensity": "Intensity",
-    "duration": "Duration (game hours)",
-    "luaFile": "File name or path ending"
+    "intensity": { "label": "Intensity" },
+    "duration": { "label": "Duration (game hours)" },
+    "luaFile": { "label": "File name" }
   },
-  "events": { "onlinePlayers": "Online players:", "noPlayers": "None" },
+  "events": {
+    "players": {
+      "empty": "None",
+      "label": "Online players:"
+    }
+  },
   "dialogs": {
-    "messageTitle": "Send Server Message",
-    "stopTitle": "Stop Server",
-    "stopDescription": "This saves the world, disconnects all players, and stops the server."
+    "message": {
+      "title": "Send Server Message"
+    },
+    "stop": {
+      "description": "This saves the world, disconnects all players, and stops the server.",
+      "title": "Stop Server"
+    }
   },
   "notifications": {
-    "successTitle": "Action completed",
-    "failureTitle": "Action failed"
-  },
-  "success": {
-    "worldSaved": "World saved.",
-    "messageSent": "Message sent to all online players.",
-    "rainStarted": "Rain started.",
-    "rainStopped": "Rain stopped.",
-    "stormStarted": "Storm started.",
-    "weatherStopped": "All weather effects stopped.",
-    "helicopter": "Helicopter event triggered for a random online player.",
-    "gunshot": "Gunshot triggered near a random online player.",
-    "lightning": "Lightning struck {{target}}.",
-    "thunder": "Thunder triggered near {{target}}.",
-    "optionsReloaded": "Server options reloaded from disk.",
-    "luaReloaded": "Lua file reloaded.",
-    "allLuaReloaded": "All loaded Lua files reloaded.",
-    "serverStopped": "Server stopped."
+    "failure": {
+      "title": "Action Failed"
+    },
+    "success": {
+      "title": "Action Completed"
+    },
+    "worldSaved": { "message": "World saved." },
+    "messageSent": {
+      "message": "Message sent to all online players."
+    },
+    "rainStarted": { "message": "Rain started." },
+    "rainStopped": { "message": "Rain stopped." },
+    "stormStarted": { "message": "Storm started." },
+    "weatherStopped": {
+      "message": "All weather effects stopped."
+    },
+    "helicopter": {
+      "message": "Helicopter event triggered."
+    },
+    "gunshot": {
+      "message": "Gunshot triggered."
+    },
+    "lightning": { "message": "Triggered lightning on {{target}}." },
+    "thunder": { "message": "Triggered thunder on {{target}}." },
+    "optionsReloaded": {
+      "message": "Options reloaded."
+    },
+    "luaReloaded": { "message": "Lua file reloaded." },
+    "allLuaReloaded": {
+      "message": "Lua files reloaded."
+    },
+    "serverStopped": { "message": "Server stopped." }
   }
 }

@@ -29,7 +29,7 @@ export function SelectedItemsPane({
   catalog,
   selection,
 }: SelectedItemsPaneProps) {
-  const { t } = useTranslation("items");
+  const { t } = useTranslation(["items", "common"]);
   const [customItemId, setCustomItemId] = useState("");
   const selectedItems = [...selection.selection];
   const customId = customItemId.trim();
@@ -62,9 +62,9 @@ export function SelectedItemsPane({
           <Title order={2} size="h4" textWrap="nowrap">
             {t("selection.title")}
           </Title>
-          <Tooltip label={t("selection.clear")}>
+          <Tooltip label={t("actions.clear", { ns: "common" })}>
             <ActionIcon
-              aria-label={t("selection.clear")}
+              aria-label={t("actions.clear", { ns: "common" })}
               color="gray"
               disabled={selectedItems.length === 0}
               onClick={selection.clear}
@@ -76,7 +76,7 @@ export function SelectedItemsPane({
         </Group>
 
         <TextInput
-          aria-label={t("selection.customItemLabel")}
+          aria-label={t("selection.customItem.label")}
           autoCapitalize="none"
           autoComplete="off"
           name="custom-item-id"
@@ -84,10 +84,10 @@ export function SelectedItemsPane({
           onKeyDown={(event) => {
             if (event.key === "Enter") handleCustomItemAdd();
           }}
-          placeholder={t("selection.customItemPlaceholder")}
+          placeholder={t("selection.customItem.placeholder")}
           rightSection={
             <ActionIcon
-              aria-label={t("selection.addCustomItem")}
+              aria-label={t("selection.customItem.actions.add")}
               disabled={!customId}
               onClick={handleCustomItemAdd}
               size="sm"
@@ -164,7 +164,7 @@ export function SelectedItemsPane({
                     <NumberInput
                       allowDecimal={false}
                       allowNegative={false}
-                      aria-label={t("selection.quantityLabel", {
+                      aria-label={t("selection.quantity.label", {
                         name: item?.name ?? itemId,
                       })}
                       min={0}

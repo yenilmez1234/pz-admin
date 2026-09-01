@@ -63,7 +63,11 @@ export function OptionInput({
         {...commonProps}
         clearable
         data={definition.choices.map((choice) => ({
-          label: labels.choiceLabel(definition.name, choice.id),
+          label: labels.choiceLabel(
+            definition.name,
+            choice.id,
+            choice.translationGroup,
+          ),
           value: formatServerValue(choice.value),
         }))}
         value={Array.isArray(value) ? value : []}
@@ -78,7 +82,11 @@ export function OptionInput({
         {...commonProps}
         allowDeselect={false}
         data={definition.choices.map((choice) => ({
-          label: labels.choiceLabel(definition.name, choice.id),
+          label: labels.choiceLabel(
+            definition.name,
+            choice.id,
+            choice.translationGroup,
+          ),
           value: formatServerValue(choice.value),
         }))}
         value={value === undefined ? null : formatServerValue(value)}

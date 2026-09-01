@@ -1,11 +1,17 @@
 {
-  "commandLabel": "Sunucu komutu",
-  "commandPlaceholder": "Bir sunucu komutu girin",
+  "command": {
+    "label": "Sunucu komutu",
+    "placeholder": "Bir sunucu komutu girin"
+  },
   "help": {
     "cls": "Konsolda görüntülenen tüm çıktıyı temizler."
   },
-  "noOutput": "Komut çıktı olmadan tamamlandı.",
-  "outputLabel": "Konsol çıktısı",
-  "usageHint": "Öneriler için Tab tuşunu, komut geçmişinde gezinmek için Yukarı ve Aşağı oklarını kullanın.",
-  "welcome": "Hoş geldiniz. Sunucu komutları için 'help', konsolu temizlemek için 'cls' yazın."
+  "introduction": {
+    "usage": "Öneriler için Tab tuşunu, komut geçmişinde gezinmek için Yukarı ve Aşağı ok tuşlarını kullanın.",
+    "welcome": "Hoş geldiniz. Sunucu komutları için 'help', konsolu temizlemek için 'cls' yazın."
+  },
+  "output": {
+    "empty": "Komut çıktı üretmeden tamamlandı.",
+    "label": "Konsol çıktısı"
+  }
 }

@@ -33,7 +33,7 @@ describe("createCatalogTranslationLoader", () => {
       "42:en-US": loadEnglish,
       "42:tr-TR": loadTurkish,
     } satisfies CatalogTranslationModules;
-    const translations = createCatalogTranslationLoader({
+    const translations = createCatalogTranslationLoader<CatalogTranslations>({
       moduleKey,
       modules,
     });
@@ -62,7 +62,7 @@ describe("createCatalogTranslationLoader", () => {
       .fn<() => Promise<{ default: CatalogTranslations }>>()
       .mockRejectedValueOnce(new Error("translation unavailable"))
       .mockResolvedValueOnce({ default: english });
-    const translations = createCatalogTranslationLoader({
+    const translations = createCatalogTranslationLoader<CatalogTranslations>({
       moduleKey,
       modules: { "42:en-US": loadEnglish },
     });

@@ -72,7 +72,7 @@ describe("useServerAction", () => {
     expect(result.current.pending).toBeNull();
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.successTitle",
+      title: "translated:notifications.success.title",
       message: "success-message",
     });
   });
@@ -94,7 +94,7 @@ describe("useServerAction", () => {
     expect(successMessage).toHaveBeenCalledOnce();
     expect(successMessage).toHaveBeenCalledWith(42);
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.successTitle",
+      title: "translated:notifications.success.title",
       message: "result:42",
     });
     expect(result.current.pending).toBeNull();
@@ -120,7 +120,7 @@ describe("useServerAction", () => {
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
       color: "red",
-      title: "translated:notifications.failureTitle",
+      title: "translated:notifications.failure.title",
       message: "backend-failure",
     });
   });

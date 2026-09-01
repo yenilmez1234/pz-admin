@@ -71,7 +71,7 @@ export function SpawnVehicleModal({
       onExitTransitionEnd={resetPicker}
       opened={opened}
       size={dialogSizes.browser}
-      title={t("dialogs.spawnVehicle.title", { count: players.length })}
+      title={t("dialogs.spawnVehicle.title")}
       withCloseButton={!submitting}
     >
       <Stack gap="md">
@@ -87,7 +87,7 @@ export function SpawnVehicleModal({
             aria-live="polite"
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={vehicleT("errors.loadTitle")}
+            title={vehicleT("errors.load.title")}
           >
             <Stack align="flex-start" gap="xs">
               <Text size="sm">{error}</Text>

@@ -5,6 +5,7 @@ import { frontendRoot } from "../shared/paths.mjs";
 const i18nRoot = join(frontendRoot, "src", "i18n");
 const resourcesRoot = join(i18nRoot, "resources");
 const defaultLanguage = "en-US";
+const completeUiLanguages = new Set([defaultLanguage, "tr-TR"]);
 const localeRegistry = readJson(join(i18nRoot, "locales.json"));
 const namespaceManifest = readJson(join(i18nRoot, "namespaces.json"));
 const supportedLanguages = sortedStrings(Object.keys(localeRegistry));
@@ -17,6 +18,7 @@ const resourceLanguages = sortedStrings(
     .map((entry) => entry.name),
 );
 const errors = [];
+const catalogNamespaces = new Set(["optionCatalog", "vehicleCatalog"]);
 
 validateLocaleRegistry();
 validateOrdering("locale registry", Object.keys(localeRegistry));
@@ -44,9 +46,18 @@ const defaultResources = new Map(
   ]),
 );
 
+for (const namespace of defaultNamespaces) {
+  if (catalogNamespaces.has(namespace)) continue;
+  validateResourceKeySyntax(namespace, defaultResources.get(namespace).keys());
+}
+
 for (const language of supportedLanguages) {
   const namespaces = namespaceFiles(language);
-  rejectUnknown(`${language} namespaces`, defaultNamespaces, namespaces);
+  if (completeUiLanguages.has(language)) {
+    compareSets(`${language} namespaces`, defaultNamespaces, namespaces);
+  } else {
+    rejectUnknown(`${language} namespaces`, defaultNamespaces, namespaces);
+  }
 
   for (const namespace of defaultNamespaces) {
     if (!namespaces.includes(namespace)) continue;
@@ -56,11 +67,13 @@ for (const language of supportedLanguages) {
       readJson(resourceFile(language, namespace)),
       `${language}:${namespace}`,
     );
-    rejectUnknown(
-      `${language}:${namespace} keys`,
-      sortedStrings(expected.keys()),
-      sortedStrings(actual.keys()),
-    );
+    const expectedKeys = sortedStrings(expected.keys());
+    const actualKeys = sortedStrings(actual.keys());
+    if (completeUiLanguages.has(language)) {
+      compareSets(`${language}:${namespace} keys`, expectedKeys, actualKeys);
+    } else {
+      rejectUnknown(`${language}:${namespace} keys`, expectedKeys, actualKeys);
+    }
 
     for (const [key, expectedValue] of expected) {
       if (!actual.has(key)) continue;
@@ -78,7 +91,7 @@ if (errors.length > 0) {
   process.exitCode = 1;
 } else {
   console.log(
-    `Translation validation passed for ${supportedLanguages.length} locales and ${defaultNamespaces.length} namespaces.`,
+    `Translation validation passed for ${supportedLanguages.length} registered locales, ${resourceLanguages.length} UI resource locales, and ${defaultNamespaces.length} UI namespaces.`,
   );
 }
 
@@ -167,6 +180,21 @@ function interpolationVariables(value) {
   const pattern = /{{\s*([^,}\s]+)(?:,[^}]*)?}}/g;
   for (const match of value.matchAll(pattern)) variables.add(match[1]);
   return sortedStrings(variables);
+}
+
+function validateResourceKeySyntax(namespace, keys) {
+  const semanticSegment =
+    /^[a-z][A-Za-z0-9]*(?:_(?:zero|one|two|few|many|other|minimum|maximum))?$/;
+
+  for (const key of keys) {
+    for (const segment of key.split(".")) {
+      if (!/^\d+$/.test(segment) && !semanticSegment.test(segment)) {
+        errors.push(
+          `${defaultLanguage}:${namespace}.${key}: key segment ${segment} must use lowerCamelCase`,
+        );
+      }
+    }
+  }
 }
 
 function compareSets(context, expected, actual) {

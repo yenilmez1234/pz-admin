@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Anchor,
   Button,
+  CloseButton,
   Group,
   Paper,
   Skeleton,
@@ -38,9 +39,10 @@ export function PlayerTable({
   selectedPlayerIds,
   showEmptyState,
 }: PlayerTableProps) {
-  const { i18n, t } = useTranslation("players");
+  const { i18n, t } = useTranslation(["players", "common"]);
   const language = i18n.language;
   const actions = usePlayerActions();
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const skeleton = useSkeletonVisibility(loading && players.length === 0);
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<PlayerSorting>({
@@ -101,25 +103,38 @@ export function PlayerTable({
     <Stack gap="md">
       <Group justify="space-between">
         <TextInput
-          aria-label={t("table.searchLabel")}
+          aria-label={t("table.search.label")}
           autoComplete="off"
           leftSection={<IconSearch size={16} aria-hidden="true" />}
           maw={360}
           name="player-search"
-          placeholder={t("table.searchPlaceholder")}
+          placeholder={t("table.search.placeholder")}
+          ref={searchInputRef}
+          rightSection={
+            search ? (
+              <CloseButton
+                aria-label={t("search.clear", { ns: "common" })}
+                onClick={() => {
+                  setSearch("");
+                  searchInputRef.current?.focus();
+                }}
+                size="sm"
+              />
+            ) : null
+          }
           spellCheck={false}
           value={search}
           onChange={(event) => setSearch(event.currentTarget.value)}
         />
         <Button onClick={actions.openAddServerUser}>
-          {t("table.addPlayerButton")}
+          {t("table.actions.addPlayer")}
         </Button>
       </Group>
 
       <Paper withBorder style={{ overflow: "hidden" }}>
         <Table.ScrollContainer minWidth={680} type="native">
           <Table
-            aria-label={t("table.accessibleLabel")}
+            aria-label={t("table.label")}
             highlightOnHover
             layout="fixed"
             stickyHeader
@@ -174,8 +189,8 @@ export function PlayerTable({
                   <Table.Td colSpan={5}>
                     <Text c="dimmed" ta="center" py="xl">
                       {players.length === 0
-                        ? t("table.empty")
-                        : t("table.noSearchResults")}
+                        ? t("table.empty.default")
+                        : t("table.empty.search")}
                     </Text>
                   </Table.Td>
                 </Table.Tr>
@@ -191,7 +206,7 @@ export function PlayerTable({
         ta="center"
         onClick={actions.openAddLocalPlayer}
       >
-        {t("table.missingPlayerLink")}
+        {t("table.actions.addLocalPlayer")}
       </Anchor>
     </Stack>
   );

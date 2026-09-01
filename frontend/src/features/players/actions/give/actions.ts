@@ -11,7 +11,7 @@ export function spawnVehicle(targets: Player[], vehicle: VehicleCatalogEntry) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => AddVehicle(playerIds, vehicle.id),
-    successKey: "notifications.spawnVehicle.successMessage",
+    successKey: "notifications.spawnVehicle.success",
     successValues: { vehicle: vehicle.name },
   });
 }
@@ -20,7 +20,7 @@ export function giveItems(targets: Player[], items: ItemGrant[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => AddItems(playerIds, items),
-    successKey: "notifications.giveItems.successMessage",
+    successKey: "notifications.giveItems.success",
   });
 }
 
@@ -28,6 +28,6 @@ export function addXp(targets: Player[], grants: XPGrant[]) {
   return executePlayerAction({
     targets,
     execute: (playerIds) => AddXP(playerIds, grants),
-    successKey: "notifications.addXp.successMessage",
+    successKey: "notifications.addXp.success",
   });
 }

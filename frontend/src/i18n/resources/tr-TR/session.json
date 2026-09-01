@@ -1,7 +1,20 @@
 {
-  "connectionLostTitle": "Bağlantı Kesildi",
-  "connectionLostMessage": "Sunucu bağlantısı kapandı. Devam etmek için tekrar bağlanın.",
-  "loadingLabel": "Oturum yükleniyor…",
-  "disconnect": "Bağlantıyı Kes",
-  "disconnectErrorTitle": "Bağlantı Kesilemedi"
+  "connectionLost": {
+    "message": "Sunucu bağlantısı kapandı. Devam etmek için tekrar bağlanın.",
+    "title": "Bağlantı kesildi"
+  },
+  "loading": {
+    "label": "Oturum yükleniyor…"
+  },
+  "actions": {
+    "disconnect": "Bağlantıyı kes"
+  },
+  "errors": {
+    "connect": {
+      "title": "Bağlanılamadı"
+    },
+    "disconnect": {
+      "title": "Bağlantı kesilemedi"
+    }
+  }
 }

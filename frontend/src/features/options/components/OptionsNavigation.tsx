@@ -23,7 +23,7 @@ export function OptionsNavigation({
   query,
   searching,
 }: OptionsNavigationProps) {
-  const { t } = useTranslation("options");
+  const { t } = useTranslation(["options", "common"]);
   const labels = useOptionTranslations();
 
   function handleCategoryChange(category: OptionCategory) {
@@ -64,14 +64,14 @@ export function OptionsNavigation({
       </nav>
 
       <TextInput
-        aria-label={t("navigation.searchLabel")}
+        aria-label={t("navigation.search.label")}
         className={classes.search}
         leftSection={<IconSearch size={15} aria-hidden="true" />}
-        placeholder={t("navigation.searchPlaceholder")}
+        placeholder={t("navigation.search.placeholder")}
         rightSection={
           query ? (
             <CloseButton
-              aria-label={t("navigation.clearSearch")}
+              aria-label={t("search.clear", { ns: "common" })}
               size="sm"
               onClick={() => onQueryChange("")}
             />

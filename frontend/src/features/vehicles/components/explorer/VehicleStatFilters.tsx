@@ -117,9 +117,9 @@ export function VehicleLightbarFilter({
       <SegmentedControl
         aria-label={t("stats.lightbar")}
         data={[
-          { label: t("filters.boolean.any"), value: "any" },
-          { label: t("filters.boolean.yes"), value: "yes" },
-          { label: t("filters.boolean.no"), value: "no" },
+          { label: t("filters.boolean.options.any"), value: "any" },
+          { label: t("filters.boolean.options.yes"), value: "yes" },
+          { label: t("filters.boolean.options.no"), value: "no" },
         ]}
         fullWidth
         onChange={(nextValue) => {

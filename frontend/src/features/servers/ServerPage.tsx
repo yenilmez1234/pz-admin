@@ -17,7 +17,7 @@ export function ServerPage() {
         contentWidth="standard"
         py="xl"
         aria-busy="true"
-        aria-label={t("loadingLabel")}
+        aria-label={t("loading.label")}
       >
         {skeleton.visible ? (
           <Stack gap="lg">

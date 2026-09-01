@@ -80,7 +80,7 @@ export function MessageEditorDialog({
               {t("actions.cancel", { ns: "common" })}
             </Button>
             <Button disabled={overLimit} onClick={applyChanges}>
-              {t("actions.apply", { ns: "messages" })}
+              {t("actions.apply", { ns: "common" })}
             </Button>
           </Group>
         </Stack>

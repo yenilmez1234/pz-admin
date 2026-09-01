@@ -63,7 +63,7 @@ export function ServerWorkspace() {
     } catch (disconnectError) {
       notifications.show({
         color: "red",
-        title: t("disconnectErrorTitle", { ns: "session" }),
+        title: t("errors.disconnect.title", { ns: "session" }),
         message: errorMessage(disconnectError),
       });
     }
@@ -73,7 +73,7 @@ export function ServerWorkspace() {
     <SectionNavigation
       activePage={navigation.activePage}
       items={navigationItems}
-      label={t("workspace.navigationLabel")}
+      label={t("workspace.navigation.label")}
       onPageChange={navigation.changePage}
       sidebarWidth={208}
       footer={

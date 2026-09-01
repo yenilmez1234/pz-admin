@@ -43,7 +43,9 @@ export function VehicleVariants({
               <Tooltip key={variant.id} label={label} withArrow>
                 <UnstyledButton
                   aria-current={selected ? "true" : undefined}
-                  aria-label={t("details.openVariant", { variant: label })}
+                  aria-label={t("details.actions.openVariant", {
+                    variant: label,
+                  })}
                   className={classes.variant}
                   data-selected={selected || undefined}
                   onClick={() => {

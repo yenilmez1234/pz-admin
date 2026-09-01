@@ -1,11 +1,35 @@
 {
   "version": 1,
   "skills": {
+    "context-extraction": {
+      "source": "crowdin/skills",
+      "sourceType": "github",
+      "skillPath": "skills/context-extraction/SKILL.md",
+      "computedHash": "289458903e997c46d33f100555324a6b8abdef38ec376b2b0cca6af9ce205a1c"
+    },
+    "crowdin-cli": {
+      "source": "crowdin/skills",
+      "sourceType": "github",
+      "skillPath": "skills/crowdin-cli/SKILL.md",
+      "computedHash": "3b72c7871dfbbd77beb8bb425bb0878d2c6a92f4f3ae4ca6a50c2583d3351cb7"
+    },
+    "crowdin-context-cli": {
+      "source": "crowdin/skills",
+      "sourceType": "github",
+      "skillPath": "skills/crowdin-context-cli/SKILL.md",
+      "computedHash": "17dd529c3614efd3685928565a74a496bbe03a6e9020a0b8ba950a21ddbf6390"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
+    },
+    "i18n-expert": {
+      "source": "daymade/claude-code-skills",
+      "sourceType": "github",
+      "skillPath": "i18n-expert/SKILL.md",
+      "computedHash": "721f2a026b95f0c1e24a7bfa2a8971a25e59b6af5a98525e0bf3aa87f3334827"
     },
     "mantine-combobox": {
       "source": "mantinedev/skills",

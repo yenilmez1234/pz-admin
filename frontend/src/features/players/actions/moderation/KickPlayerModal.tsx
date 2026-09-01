@@ -60,11 +60,11 @@ export function KickPlayerModal({
           <Textarea
             key={form.key("reason")}
             autosize
-            label={t("fields.reason", { ns: "common" })}
+            label={t("fields.reason.label")}
             maxRows={5}
             minRows={3}
             name="reason"
-            placeholder={t("placeholders.optional", { ns: "common" })}
+            placeholder={t("fields.reason.placeholder")}
             {...form.getInputProps("reason")}
           />
           <Group justify="flex-end" mt="xs">

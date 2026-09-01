@@ -39,7 +39,7 @@ export function PlayersWorkspace() {
           <Alert
             color="red"
             icon={<IconAlertCircle size={20} aria-hidden="true" />}
-            title={t("loadError.title")}
+            title={t("errors.load.title")}
             aria-live="polite"
           >
             <Stack gap="xs" align="flex-start">
