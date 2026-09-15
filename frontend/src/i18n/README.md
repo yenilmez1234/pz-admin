@@ -3,8 +3,18 @@
 Translation keys are stable semantic identifiers. They describe what a message
 means, not its current English wording or the component prop that renders it.
 These semantic conventions are maintained through review. Automated validation
-only checks objective resource structure, key syntax, locale parity, and
-interpolation compatibility.
+only checks objective resource structure, English key syntax and coverage, and
+the validity and interpolation compatibility of translations that exist.
+
+English (`en-US`) is the source of truth and the only locale required to contain
+every namespace and key. Other locales may omit namespaces or individual keys;
+i18next falls back to English for those messages. A non-English resource may not
+introduce a namespace or key that does not exist in English, and any translated
+message must preserve the English interpolation variables.
+
+Static translation calls are type-checked against the English resources by
+TypeScript. Dynamic calls must use bounded domain values or typed key unions so
+they cannot silently construct invalid keys.
 
 ## Namespaces and structure
 
@@ -58,7 +68,8 @@ to identifiers, not to surrounding UI translation keys.
 Treat a key rename as a migration:
 
 1. Rename one coherent subtree at a time.
-2. Update every locale and every call site atomically.
+2. Update English and every call site atomically. Migrate the old key in each
+   non-English locale where that translation currently exists.
 3. Preserve interpolation variables and complete plural families.
 4. Remove the old keys only after their usages have moved.
 5. Run `pnpm check:translations` after each batch and `pnpm check` before

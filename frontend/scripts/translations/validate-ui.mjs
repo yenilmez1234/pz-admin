@@ -5,7 +5,6 @@ import { frontendRoot } from "../shared/paths.mjs";
 const i18nRoot = join(frontendRoot, "src", "i18n");
 const resourcesRoot = join(i18nRoot, "resources");
 const defaultLanguage = "en-US";
-const completeUiLanguages = new Set([defaultLanguage, "tr-TR"]);
 const localeRegistry = readJson(join(i18nRoot, "locales.json"));
 const namespaceManifest = readJson(join(i18nRoot, "namespaces.json"));
 const supportedLanguages = sortedStrings(Object.keys(localeRegistry));
@@ -53,7 +52,7 @@ for (const namespace of defaultNamespaces) {
 
 for (const language of supportedLanguages) {
   const namespaces = namespaceFiles(language);
-  if (completeUiLanguages.has(language)) {
+  if (language === defaultLanguage) {
     compareSets(`${language} namespaces`, defaultNamespaces, namespaces);
   } else {
     rejectUnknown(`${language} namespaces`, defaultNamespaces, namespaces);
@@ -69,7 +68,7 @@ for (const language of supportedLanguages) {
     );
     const expectedKeys = sortedStrings(expected.keys());
     const actualKeys = sortedStrings(actual.keys());
-    if (completeUiLanguages.has(language)) {
+    if (language === defaultLanguage) {
       compareSets(`${language}:${namespace} keys`, expectedKeys, actualKeys);
     } else {
       rejectUnknown(`${language}:${namespace} keys`, expectedKeys, actualKeys);
@@ -90,8 +89,11 @@ if (errors.length > 0) {
   console.error(`Translation validation failed:\n- ${errors.join("\n- ")}`);
   process.exitCode = 1;
 } else {
+  const partialResourceLanguages = resourceLanguages.filter(
+    (language) => language !== defaultLanguage,
+  ).length;
   console.log(
-    `Translation validation passed for ${supportedLanguages.length} registered locales, ${resourceLanguages.length} UI resource locales, and ${defaultNamespaces.length} UI namespaces.`,
+    `Translation validation passed: ${defaultLanguage} covers ${defaultNamespaces.length} UI namespaces; ${partialResourceLanguages} non-default resource locale(s) contain only valid keys; ${supportedLanguages.length} locales are registered.`,
   );
 }
 
