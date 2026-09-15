@@ -51,12 +51,6 @@
     }
   },
   "notifications": {
-    "failure": {
-      "title": "İşlem başarısız"
-    },
-    "success": {
-      "title": "İşlem tamamlandı"
-    },
     "worldSaved": { "message": "Dünya kaydedildi." },
     "messageSent": {
       "message": "Mesaj çevrim içi tüm oyunculara gönderildi."

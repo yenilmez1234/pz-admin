@@ -17,7 +17,7 @@ export function PlayerGiveMenuItems({ players }: PlayerGiveMenuItemsProps) {
         {t("actions.commands.addXp")}
       </Menu.Item>
       <Menu.Item onClick={() => actions.openGiveItems(players)}>
-        {t("actions.commands.addItem")}
+        {t("actions.commands.giveItems")}
       </Menu.Item>
       <Menu.Item onClick={() => actions.openSpawnVehicle(players)}>
         {t("actions.commands.spawnVehicle")}

@@ -67,7 +67,7 @@
       "powers": "Yetkiler"
     },
     "commands": {
-      "addItem": "Eşya ekle",
+      "giveItems": "Eşya ver",
       "spawnVehicle": "Araç oluştur",
       "addXp": "XP ekle",
       "ban": "Yasakla",
@@ -81,7 +81,7 @@
       "teleport": "Işınla",
       "thunderStrike": "Gök gürültüsü",
       "unban": "Yasağı kaldır",
-      "voiceBan": "Ses yasağı"
+      "applyVoiceBan": "Ses yasağı uygula"
     },
     "powers": {
       "invisible": {
@@ -324,9 +324,7 @@
       "success_one": "{{username}} kullanıcısına XP eklendi.",
       "success_other": "{{count}} oyuncuya XP eklendi."
     },
-    "success": { "title": "İşlem tamamlandı" },
     "failure": {
-      "title": "İşlem başarısız",
       "message": "İşlem tamamlanamadı: {{error}}"
     },
     "partialFailure": {

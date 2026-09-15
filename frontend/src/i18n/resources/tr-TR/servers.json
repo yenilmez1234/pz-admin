@@ -70,7 +70,7 @@
   },
   "dialogs": {
     "delete": {
-      "confirm": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
+      "description": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
       "error": {
         "title": "Sunucu silinemedi"
       },

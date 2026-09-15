@@ -6,7 +6,7 @@ import { errorMessage } from "@/shared/lib/errors";
 type SuccessMessage<Result> = string | ((result: Result) => string);
 
 export function useServerAction() {
-  const { t } = useTranslation("serverActions");
+  const { t } = useTranslation(["serverActions", "common"]);
   const [pending, setPending] = useState<string | null>(null);
   const pendingRef = useRef(false);
 
@@ -23,7 +23,7 @@ export function useServerAction() {
       try {
         const result = await operation();
         notifications.show({
-          title: t("notifications.success.title"),
+          title: t("notifications.action.success.title", { ns: "common" }),
           message:
             typeof successMessage === "function"
               ? successMessage(result)
@@ -33,7 +33,7 @@ export function useServerAction() {
       } catch (actionError) {
         notifications.show({
           color: "red",
-          title: t("notifications.failure.title"),
+          title: t("notifications.action.failure.title", { ns: "common" }),
           message: errorMessage(actionError),
         });
         return false;

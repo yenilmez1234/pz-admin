@@ -52,7 +52,9 @@ export function DeleteServerModal({
     >
       <Stack>
         <Text>
-          {t("dialogs.delete.confirm", { serverName: profile?.name ?? "" })}
+          {t("dialogs.delete.description", {
+            serverName: profile?.name ?? "",
+          })}
         </Text>
         <Group justify="flex-end">
           <Button variant="default" onClick={onClose} disabled={deleting}>

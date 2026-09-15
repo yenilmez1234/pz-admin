@@ -22,6 +22,12 @@
     "unknown": "Bilinmeyen sürüm",
     "value": "Sürüm {{version}}"
   },
+  "notifications": {
+    "action": {
+      "failure": { "title": "İşlem başarısız" },
+      "success": { "title": "İşlem tamamlandı" }
+    }
+  },
   "search": {
     "clear": "Aramayı temizle",
     "nameOrId": {

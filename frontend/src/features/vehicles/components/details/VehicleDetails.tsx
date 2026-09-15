@@ -52,7 +52,7 @@ export function VehicleDetails({
             <UnstyledButton className={classes.backLink} onClick={onBack}>
               <IconArrowLeft size={16} aria-hidden="true" />
               <Text fw={500} size="sm">
-                {t("details.back")}
+                {t("details.actions.back")}
               </Text>
             </UnstyledButton>
           </PageContainer>

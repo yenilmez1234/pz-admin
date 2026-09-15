@@ -10,9 +10,9 @@
       "back": "Geri dön",
       "selectVariant": "{{variant}} varyantını seç"
     },
-    "root": "Araçlar",
-    "variants": "Varyantlar"
+    "root": "Araçlar"
   },
+  "variants": { "title": "Varyantlar" },
   "stats": {
     "animalSize": "Hayvan boyutu",
     "doors": "Kapılar",
@@ -55,16 +55,15 @@
     }
   },
   "details": {
-    "back": "Araçlar",
     "actions": {
+      "back": "Araçlar",
       "openVariant": "{{variant}} varyantını aç"
     },
     "sections": {
       "body": "Gövde ve donanım",
       "capacity": "Kapasite",
       "performance": "Performans"
-    },
-    "variants": "Varyantlar"
+    }
   },
   "filters": {
     "boolean": {

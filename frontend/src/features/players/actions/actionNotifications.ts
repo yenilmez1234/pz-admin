@@ -27,7 +27,7 @@ interface ExecutePlayerOperationOptions {
 function showFailure(error: unknown) {
   notifications.show({
     color: "red",
-    title: t("notifications.failure.title"),
+    title: i18n.t("notifications.action.failure.title", { ns: "common" }),
     message: t("notifications.failure.message", {
       error: errorMessage(error),
     }),
@@ -42,7 +42,7 @@ export async function executePlayerOperation({
   try {
     await execute();
     notifications.show({
-      title: t("notifications.success.title"),
+      title: i18n.t("notifications.action.success.title", { ns: "common" }),
       message: t(successKey, successValues),
     });
     return true;
@@ -80,7 +80,7 @@ export async function executePlayerAction({
     }
 
     notifications.show({
-      title: t("notifications.success.title"),
+      title: i18n.t("notifications.action.success.title", { ns: "common" }),
       message: t(successKey, {
         count: targets.length,
         username: targets[0]?.username,

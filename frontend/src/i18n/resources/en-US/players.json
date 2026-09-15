@@ -67,7 +67,7 @@
       "powers": "Powers"
     },
     "commands": {
-      "addItem": "Add Item",
+      "giveItems": "Give Items",
       "spawnVehicle": "Spawn Vehicle",
       "addXp": "Add XP",
       "ban": "Ban",
@@ -81,7 +81,7 @@
       "teleport": "Teleport",
       "thunderStrike": "Thunder Strike",
       "unban": "Unban",
-      "voiceBan": "Voice Ban"
+      "applyVoiceBan": "Apply Voice Ban"
     },
     "powers": {
       "invisible": {
@@ -147,7 +147,7 @@
     "createHorde": {
       "description_one": "Create a horde near {{username}}.",
       "description_other": "Create a horde near each of {{count}} players.",
-      "size": { "label": "Horde Size" },
+      "size": { "label": "Horde size" },
       "submit": "Create Horde",
       "title": "Create Horde",
       "validation": {
@@ -170,7 +170,7 @@
       "description_one": "Choose where to teleport {{username}}.",
       "description_other": "Choose where to teleport {{count}} players.",
       "destinationPlayer": {
-        "label": "Destination Player",
+        "label": "Destination player",
         "placeholder": "Select a player",
         "empty": "No other online players found"
       },
@@ -324,9 +324,7 @@
       "success_one": "Added XP to {{username}}.",
       "success_other": "Added XP to {{count}} players."
     },
-    "success": { "title": "Action Completed" },
     "failure": {
-      "title": "Action Failed",
       "message": "The action could not be completed: {{error}}"
     },
     "partialFailure": {

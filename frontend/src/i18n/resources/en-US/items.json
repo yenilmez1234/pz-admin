@@ -19,7 +19,7 @@
   "browser": {
     "search": {
       "label": "Search items",
-      "empty": "No matching items"
+      "empty": "No items match your search."
     },
     "actions": {
       "addItem": "Add {{name}}"

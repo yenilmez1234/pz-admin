@@ -104,7 +104,7 @@ export function PlayerModerationMenuItems({
           >
             {player.voiceBanned
               ? t("actions.commands.removeVoiceBan")
-              : t("actions.commands.voiceBan")}
+              : t("actions.commands.applyVoiceBan")}
           </GuardedMenuItem>
         </>
       ) : (
@@ -133,7 +133,7 @@ export function PlayerModerationMenuItems({
             disabledReason={onlineOnlyMessage}
             onClick={() => actions.setVoiceBanned(players, true)}
           >
-            {t("actions.commands.voiceBan")}
+            {t("actions.commands.applyVoiceBan")}
           </GuardedMenuItem>
           <GuardedMenuItem
             disabled={!allOnline}

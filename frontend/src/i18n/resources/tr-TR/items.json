@@ -19,7 +19,7 @@
   "browser": {
     "search": {
       "label": "Eşyalarda ara",
-      "empty": "Eşleşen eşya bulunamadı"
+      "empty": "Aramanızla eşleşen eşya bulunamadı."
     },
     "actions": {
       "addItem": "{{name}} ekle"

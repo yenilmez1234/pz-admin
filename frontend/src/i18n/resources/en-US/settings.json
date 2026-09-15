@@ -13,7 +13,7 @@
   },
   "colorScheme": {
     "description": "Choose how the application selects its colors.",
-    "label": "Color Scheme",
+    "label": "Color scheme",
     "options": {
       "dark": "Dark",
       "light": "Light",

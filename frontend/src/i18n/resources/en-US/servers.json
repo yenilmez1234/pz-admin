@@ -44,7 +44,7 @@
         "label": "Host"
       },
       "name": {
-        "label": "Server Name"
+        "label": "Server name"
       },
       "password": {
         "create": {
@@ -70,7 +70,7 @@
   },
   "dialogs": {
     "delete": {
-      "confirm": "Delete {{serverName}}? This cannot be undone.",
+      "description": "Delete {{serverName}}? This cannot be undone.",
       "error": {
         "title": "Unable to Delete Server"
       },
@@ -79,7 +79,7 @@
   },
   "workspace": {
     "navigation": {
-      "label": "Server Navigation"
+      "label": "Server navigation"
     },
     "console": "Console",
     "options": "Options",

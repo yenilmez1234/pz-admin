@@ -51,12 +51,6 @@
     }
   },
   "notifications": {
-    "failure": {
-      "title": "Action Failed"
-    },
-    "success": {
-      "title": "Action Completed"
-    },
     "worldSaved": { "message": "World saved." },
     "messageSent": {
       "message": "Message sent to all online players."

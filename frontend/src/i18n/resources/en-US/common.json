@@ -19,8 +19,14 @@
     "options": {
       "auto": "Auto"
     },
-    "unknown": "Build Unknown",
+    "unknown": "Unknown build",
     "value": "Build {{version}}"
+  },
+  "notifications": {
+    "action": {
+      "failure": { "title": "Action Failed" },
+      "success": { "title": "Action Completed" }
+    }
   },
   "search": {
     "clear": "Clear search",

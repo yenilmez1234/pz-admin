@@ -117,7 +117,7 @@ export function VehiclePickerSelection({
       {variants.length > 1 ? (
         <Stack gap="xs" h={0} style={{ flex: 1, minHeight: 0 }}>
           <Text fw={600} size="sm">
-            {t("picker.variants")}
+            {t("variants.title")}
           </Text>
           <ScrollArea
             h={0}

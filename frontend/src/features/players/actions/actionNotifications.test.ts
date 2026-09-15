@@ -73,7 +73,7 @@ describe("executePlayerAction", () => {
     );
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.success.title",
+      title: "translated:notifications.action.success.title",
       message: "translated:notifications.spawnVehicle.success",
     });
   });
@@ -136,7 +136,7 @@ describe("executePlayerAction", () => {
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
       color: "red",
-      title: "translated:notifications.failure.title",
+      title: "translated:notifications.action.failure.title",
       message: "translated:notifications.failure.message",
     });
   });
@@ -161,7 +161,7 @@ describe("executePlayerOperation", () => {
     );
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.success.title",
+      title: "translated:notifications.action.success.title",
       message: "translated:notifications.addServerUser.success",
     });
   });

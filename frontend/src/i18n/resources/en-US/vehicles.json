@@ -7,12 +7,12 @@
   },
   "picker": {
     "actions": {
-      "back": "Go Back",
+      "back": "Back",
       "selectVariant": "Select {{variant}} variant"
     },
-    "root": "Vehicles",
-    "variants": "Variants"
+    "root": "Vehicles"
   },
+  "variants": { "title": "Variants" },
   "stats": {
     "animalSize": "Animal size",
     "doors": "Doors",
@@ -55,16 +55,15 @@
     }
   },
   "details": {
-    "back": "Vehicles",
     "actions": {
+      "back": "Vehicles",
       "openVariant": "Open {{variant}} variant"
     },
     "sections": {
       "body": "Body and equipment",
       "capacity": "Capacity",
       "performance": "Performance"
-    },
-    "variants": "Variants"
+    }
   },
   "filters": {
     "boolean": {

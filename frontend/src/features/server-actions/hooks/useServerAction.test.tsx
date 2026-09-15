@@ -8,9 +8,13 @@ const { translate } = vi.hoisted(() => ({
 }));
 
 vi.mock("react-i18next", () => ({
-  useTranslation: (namespace: string) => {
-    if (namespace !== "serverActions") {
-      throw new Error("Expected the serverActions translation namespace");
+  useTranslation: (namespaces: string[]) => {
+    if (
+      namespaces.length !== 2 ||
+      namespaces[0] !== "serverActions" ||
+      namespaces[1] !== "common"
+    ) {
+      throw new Error("Expected the serverActions and common namespaces");
     }
     return { t: translate };
   },
@@ -72,7 +76,7 @@ describe("useServerAction", () => {
     expect(result.current.pending).toBeNull();
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.success.title",
+      title: "translated:notifications.action.success.title",
       message: "success-message",
     });
   });
@@ -94,7 +98,7 @@ describe("useServerAction", () => {
     expect(successMessage).toHaveBeenCalledOnce();
     expect(successMessage).toHaveBeenCalledWith(42);
     expect(notifications.show).toHaveBeenCalledWith({
-      title: "translated:notifications.success.title",
+      title: "translated:notifications.action.success.title",
       message: "result:42",
     });
     expect(result.current.pending).toBeNull();
@@ -120,7 +124,7 @@ describe("useServerAction", () => {
     expect(notifications.show).toHaveBeenCalledOnce();
     expect(notifications.show).toHaveBeenCalledWith({
       color: "red",
-      title: "translated:notifications.failure.title",
+      title: "translated:notifications.action.failure.title",
       message: "backend-failure",
     });
   });

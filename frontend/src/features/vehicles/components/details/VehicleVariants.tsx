@@ -29,7 +29,7 @@ export function VehicleVariants({
     <Paper className={classes.scrollPanel} h="100%" p="md" withBorder>
       <Stack gap="sm">
         <Title order={2} size="h4">
-          {t("details.variants")}
+          {t("variants.title")}
         </Title>
         <SimpleGrid
           cols={{ base: 1, "8rem": 2, "15rem": 3, "24rem": 4 }}
