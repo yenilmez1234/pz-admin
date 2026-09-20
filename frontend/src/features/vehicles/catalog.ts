@@ -59,11 +59,13 @@ function vehicleTranslation(
   return name;
 }
 
-function standardVariantFirst(
+function baseVariantFirst(
   left: { name: string },
   right: { name: string },
 ): number {
-  return Number(right.name === "Standard") - Number(left.name === "Standard");
+  return (
+    Number(right.name === "Base Model") - Number(left.name === "Base Model")
+  );
 }
 
 function prepareCatalog(
@@ -111,9 +113,7 @@ function prepareCatalog(
       }
 
       const variants = [];
-      const rawVariants = [...(model.children ?? [])].sort(
-        standardVariantFirst,
-      );
+      const rawVariants = [...(model.children ?? [])].sort(baseVariantFirst);
       for (const variant of rawVariants) {
         if (variant.type !== "type" || !variant.id) continue;
         const variantName = translatedName("variants", variant.name);
