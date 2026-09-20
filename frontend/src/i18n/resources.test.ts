@@ -21,13 +21,22 @@ describe("interface translation coverage", () => {
     expect(interfaceTranslationCoverage(testLanguage)).toBe(100);
   });
 
-  it("gives a missing catalog the same weight as any other namespace", () => {
-    const namespaceCount = Object.keys(defaultResources).length;
-    const expected = Math.round(((namespaceCount - 1) / namespaceCount) * 100);
+  it("calculates the percentage of English strings with translations", () => {
+    function stringCount(value: unknown): number {
+      if (typeof value === "string") return 1;
+      if (!value || typeof value !== "object") return 0;
+      return Object.values(value).reduce<number>(
+        (total, child) => total + stringCount(child),
+        0,
+      );
+    }
+    const totalStrings = stringCount(defaultResources);
 
     for (const namespace of ["optionCatalog", "settings"] as const) {
       resources[testLanguage] = { ...defaultResources };
       delete resources[testLanguage][namespace];
+      const missingStrings = stringCount(defaultResources[namespace]);
+      const expected = Math.round((1 - missingStrings / totalStrings) * 100);
       expect(interfaceTranslationCoverage(testLanguage)).toBe(expected);
     }
   });
