@@ -400,11 +400,11 @@ async function main() {
         });
       } else {
         // Base vehicles use the model page's statistics and image. The wiki
-        // gives the base variant no distinct name, so it remains `Normal` to
+        // gives the base variant no distinct name, so it remains `Standard` to
         // match the hand-curated Build 41 tree.
-        let name = "Normal";
+        let name = "Standard";
         if (usedNames.has(name)) {
-          name = `Normal ${usedNames.size}`;
+          name = `Standard ${usedNames.size}`;
         }
         usedNames.add(name);
         accepted.push({

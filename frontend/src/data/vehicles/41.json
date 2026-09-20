@@ -73,10 +73,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.PickUpTruck",
-              "image": "/vehicles/41/Heavy-Duty/Chevalier D6/Normal/Base.PickUpTruck/image.png",
+              "image": "/vehicles/41/Heavy-Duty/Chevalier D6/Standard/Base.PickUpTruck/image.png",
               "stats": {
                 "weight": 1030,
                 "enginePower": 400,
@@ -163,10 +163,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.StepVan",
-              "image": "/vehicles/41/Heavy-Duty/Chevalier Step Van/Normal/Base.StepVan/image.png",
+              "image": "/vehicles/41/Heavy-Duty/Chevalier Step Van/Standard/Base.StepVan/image.png",
               "stats": {
                 "weight": 1160,
                 "enginePower": 370,
@@ -253,10 +253,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.PickUpVan",
-              "image": "/vehicles/41/Heavy-Duty/Dash Bulldriver/Normal/Base.PickUpVan/image.png",
+              "image": "/vehicles/41/Heavy-Duty/Dash Bulldriver/Standard/Base.PickUpVan/image.png",
               "stats": {
                 "weight": 1104,
                 "enginePower": 400,
@@ -448,10 +448,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.Van",
-              "image": "/vehicles/41/Heavy-Duty/Franklin Valuline/Normal/Base.Van/image.png",
+              "image": "/vehicles/41/Heavy-Duty/Franklin Valuline/Standard/Base.Van/image.png",
               "stats": {
                 "weight": 816,
                 "enginePower": 370,
@@ -495,7 +495,7 @@
           "name": "Franklin Valuline (6-seater)",
           "type": "type",
           "id": "Base.VanSeats",
-          "image": "/vehicles/41/Heavy-Duty/Franklin Valuline (6-seater)/Normal/Base.VanSeats/image.png",
+          "image": "/vehicles/41/Heavy-Duty/Franklin Valuline (6-seater)/Standard/Base.VanSeats/image.png",
           "stats": {
             "weight": 916,
             "enginePower": 260,
@@ -517,10 +517,10 @@
           "type": "model",
           "children": [
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.VanRadio",
-              "image": "/vehicles/41/Heavy-Duty/LBMW Radio Van/Normal/Base.VanRadio/image.png",
+              "image": "/vehicles/41/Heavy-Duty/LBMW Radio Van/Standard/Base.VanRadio/image.png",
               "stats": {
                 "weight": 956,
                 "enginePower": 270,
@@ -661,10 +661,10 @@
           "type": "model",
           "children": [
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.CarStationWagon",
-              "image": "/vehicles/41/Standard/Chevalier Cerise Wagon/Normal/Base.CarStationWagon/image.png",
+              "image": "/vehicles/41/Standard/Chevalier Cerise Wagon/Standard/Base.CarStationWagon/image.png",
               "stats": {
                 "weight": 900,
                 "enginePower": 420,
@@ -730,10 +730,10 @@
           "type": "model",
           "children": [
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.CarNormal",
-              "image": "/vehicles/41/Standard/Chevalier Nyala/Normal/Base.CarNormal/image.png",
+              "image": "/vehicles/41/Standard/Chevalier Nyala/Standard/Base.CarNormal/image.png",
               "stats": {
                 "weight": 800,
                 "enginePower": 400,

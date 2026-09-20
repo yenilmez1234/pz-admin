@@ -33,11 +33,11 @@ const vehicles = [
   {
     build: "42",
     category: "Utility",
-    id: "alpha-normal",
+    id: "alpha-standard",
     image: null,
     name: "Alpha",
     stats: { seats: 4, weight: 1200 },
-    variant: "Normal",
+    variant: "Standard",
   },
   {
     build: "42",
@@ -96,7 +96,7 @@ describe("queryVehicles filtering", () => {
   it.each([
     { expected: ["alpha-police"], lightbar: true },
     {
-      expected: ["alpha-normal", "bravo", "charlie", "delta"],
+      expected: ["alpha-standard", "bravo", "charlie", "delta"],
       lightbar: false,
     },
   ])(
@@ -111,21 +111,21 @@ describe("queryVehicles filtering", () => {
       queryIds({
         rangeFilters: [{ maximum: 1200, minimum: 1000, stat: "weight" }],
       }),
-    ).toEqual(["alpha-normal", "alpha-police", "bravo", "delta"]);
+    ).toEqual(["alpha-police", "alpha-standard", "bravo", "delta"]);
 
     expect(
       queryIds({
         rangeFilters: [{ maximum: 4, minimum: 4, stat: "seats" }],
       }),
-    ).toEqual(["alpha-normal", "alpha-police", "charlie"]);
+    ).toEqual(["alpha-police", "alpha-standard", "charlie"]);
   });
 });
 
 describe("queryVehicles sorting", () => {
   it("sorts names and uses variants to break ties", () => {
     expect(queryIds()).toEqual([
-      "alpha-normal",
       "alpha-police",
+      "alpha-standard",
       "bravo",
       "charlie",
       "delta",
@@ -137,14 +137,14 @@ describe("queryVehicles sorting", () => {
       "bravo",
       "delta",
       "charlie",
-      "alpha-normal",
       "alpha-police",
+      "alpha-standard",
     ]);
   });
 
   it("sorts numeric values descending with missing values last", () => {
     expect(
       queryIds({ sortDirection: "descending", sortField: "weight" }),
-    ).toEqual(["alpha-police", "alpha-normal", "bravo", "delta", "charlie"]);
+    ).toEqual(["alpha-police", "alpha-standard", "bravo", "delta", "charlie"]);
   });
 });

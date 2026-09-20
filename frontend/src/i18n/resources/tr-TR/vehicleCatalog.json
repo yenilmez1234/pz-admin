@@ -1,6 +1,6 @@
 {
   "categories": {
-    "Heavy-Duty": "Ağır hizmet araçları",
+    "Heavy-Duty": "Ağır hizmet",
     "Sports": "Spor",
     "Standard": "Standart",
     "Trailers": "Römorklar"
@@ -40,7 +40,7 @@
     "Fossoil": "Fossoil",
     "JP Landscaping": "JP Peyzaj",
     "McCoy": "McCoy",
-    "Normal": "Standart",
+    "Standard": "Standart",
     "Ranger": "Korucu",
     "Ranger_Fossoil": "Korucu / Fossoil",
     "Airport Catering": "Havalimanı ikram hizmetleri",

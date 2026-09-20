@@ -199,10 +199,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.PickUpTruck",
-              "image": "/vehicles/42/Heavy-Duty/Chevalier D6/Normal/Base.PickUpTruck/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Chevalier D6/Standard/Base.PickUpTruck/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 2,
@@ -689,10 +689,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.StepVan",
-              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Normal/Base.StepVan/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Standard/Base.StepVan/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -1252,10 +1252,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.PickUpVan",
-              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Normal/Base.PickUpVan/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Standard/Base.PickUpVan/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 2,
@@ -2296,10 +2296,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.Van",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Normal/Base.Van/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Standard/Base.Van/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -2785,10 +2785,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.VanSeats",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline (6-seater)/Normal/Base.VanSeats/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline (6-seater)/Standard/Base.VanSeats/image.png",
               "stats": {
                 "seats": 6,
                 "doors": 5,
@@ -2906,10 +2906,10 @@
           "type": "model",
           "children": [
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.VanRadio",
-              "image": "/vehicles/42/Heavy-Duty/LBMW Radio Van/Normal/Base.VanRadio/image.png",
+              "image": "/vehicles/42/Heavy-Duty/LBMW Radio Van/Standard/Base.VanRadio/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -3058,10 +3058,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.ModernCar",
-              "image": "/vehicles/42/Sports/Dash Elite/Normal/Base.ModernCar/image.png",
+              "image": "/vehicles/42/Sports/Dash Elite/Standard/Base.ModernCar/image.png",
               "stats": {
                 "seats": 4,
                 "doors": 4,
@@ -3180,10 +3180,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.RaceCar12",
-              "image": "/vehicles/42/Sports/Race Car/Normal/Base.RaceCar12/image.png",
+              "image": "/vehicles/42/Sports/Race Car/Standard/Base.RaceCar12/image.png",
               "stats": {
                 "seats": 4,
                 "doors": 2,
@@ -3215,10 +3215,10 @@
           "type": "model",
           "children": [
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.CarStationWagon",
-              "image": "/vehicles/42/Standard/Chevalier Cerise Wagon/Normal/Base.CarStationWagon/image.png",
+              "image": "/vehicles/42/Standard/Chevalier Cerise Wagon/Standard/Base.CarStationWagon/image.png",
               "stats": {
                 "seats": 4,
                 "doors": 4,
@@ -3362,10 +3362,10 @@
               }
             },
             {
-              "name": "Normal",
+              "name": "Standard",
               "type": "type",
               "id": "Base.CarNormal",
-              "image": "/vehicles/42/Standard/Chevalier Nyala/Normal/Base.CarNormal/image.png",
+              "image": "/vehicles/42/Standard/Chevalier Nyala/Standard/Base.CarNormal/image.png",
               "stats": {
                 "seats": 4,
                 "doors": 4,
