@@ -64,10 +64,21 @@ resources[defaultLanguage] = defaultResources;
 
 export function interfaceTranslationCoverage(language: string) {
   const languageResources = resources[language];
-  const coverage = countTranslatedStrings(defaultResources, languageResources);
-  return coverage.total === 0
-    ? 0
-    : Math.round((coverage.translated / coverage.total) * 100);
+  let coverage = 0;
+  let namespaces = 0;
+
+  // Give each namespace equal weight, regardless of its number of strings.
+  for (const [namespace, reference] of Object.entries(defaultResources)) {
+    const { total, translated } = countTranslatedStrings(
+      reference,
+      languageResources?.[namespace],
+    );
+    if (total === 0) continue;
+    coverage += translated / total;
+    namespaces += 1;
+  }
+
+  return namespaces === 0 ? 0 : Math.round((coverage / namespaces) * 100);
 }
 
 interface TranslationCount {
