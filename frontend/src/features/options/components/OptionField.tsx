@@ -135,11 +135,6 @@ export function OptionField({
               </ActionIcon>
             </Tooltip>
           ) : null}
-          {unmet.length > 0 ? (
-            <Badge color="gray" size="xs" variant="light">
-              {t("field.notInEffect")}
-            </Badge>
-          ) : null}
           {definition.writeOnly ? (
             <Tooltip label={t("field.writeOnly.description")}>
               <Badge color="gray" size="xs" variant="light">

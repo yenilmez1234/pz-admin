@@ -40,6 +40,9 @@
       "title": "Sunucuyu düzenle"
     },
     "fields": {
+      "connectionMethod": {
+        "label": "Bağlantı yöntemi"
+      },
       "host": {
         "label": "Sunucu adresi"
       },

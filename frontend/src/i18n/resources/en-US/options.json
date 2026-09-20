@@ -11,7 +11,6 @@
     "actions": {
       "restoreCatalogDefault": "Restore default"
     },
-    "notInEffect": "Not in effect",
     "numericRange": "Minimum {{minimum}}, maximum {{maximum}}",
     "numericRange_minimum": "Minimum {{minimum}}",
     "numericRange_maximum": "Maximum {{maximum}}",

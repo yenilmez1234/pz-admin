@@ -2,8 +2,8 @@
   "categories": {
     "server": "Server",
     "gameplay": "Gameplay",
-    "communities": "Communities",
-    "operations": "Operations",
+    "social": "Social",
+    "maintenance": "Maintenance",
     "security": "Security"
   },
   "sections": {
@@ -25,28 +25,24 @@
     "integrations": "Integrations",
     "vehicles": "Vehicles",
     "admissionAndQueue": "Admission and queue",
-    "connectionQuality": "Connection quality",
     "timeAndSleep": "Time and sleep",
     "spawningAndRespawn": "Spawning and respawn",
     "identityAndVisibility": "Identity and visibility",
     "playerBehavior": "Player behavior",
-    "performanceAndSimulation": "Performance and simulation"
+    "performance": "Performance"
   },
   "choiceSets": {
     "enforcement": {
       "ban": "Ban",
       "disabled": "Disabled",
       "kick": "Kick",
-      "log": "Log only"
+      "log": "Log"
     }
   },
   "specialValues": {
     "disabled": "Disabled",
     "forever": "Forever",
-    "instant": "Instant",
     "never": "Never",
-    "noCooldown": "No cooldown",
-    "noRequirement": "No requirement",
     "unlimited": "Unlimited",
     "useSpawnRegions": "Use spawn regions"
   },
@@ -68,7 +64,7 @@
       "description": "Removes a safehouse when none of its members have visited it for the specified number of real-world hours."
     },
     "DisableSafehouseWhenPlayerConnected": {
-      "label": "Protect only while offline",
+      "label": "Disable protection while members are online",
       "description": "Disables safehouse protection while any member is connected."
     },
     "SafehouseAllowTrepass": {
@@ -84,7 +80,7 @@
       "description": "Allows fire to damage safehouses."
     },
     "SafehouseAllowRespawn": {
-      "label": "Allow respawning",
+      "label": "Allow safehouse respawning",
       "description": "Allows members to choose their safehouse as a respawn location."
     },
     "SafehouseAllowNonResidential": {
@@ -97,7 +93,7 @@
     },
     "FactionDaySurvivedToCreate": {
       "label": "Required survival days",
-      "description": "Number of in-game days a player must survive before creating a faction."
+      "description": "Number of in-game days a player must survive before being able to create a faction."
     },
     "FactionPlayersRequiredForTag": {
       "label": "Members required for a tag",
@@ -125,7 +121,7 @@
     },
     "AutoCreateUserInWhiteList": {
       "label": "Create accounts on join",
-      "description": "Adds unknown usernames to the whitelist when they join an open server. Players provide their own username and password."
+      "description": "Adds new players to the whitelist when they join an open server."
     },
     "MaxAccountsPerUser": {
       "label": "Accounts per Steam user",
@@ -137,7 +133,7 @@
     },
     "AllowNonAsciiUsername": {
       "label": "Non-ASCII usernames",
-      "description": "Allows usernames containing non-ASCII characters, such as Cyrillic letters."
+      "description": "Allows usernames containing non-ASCII characters."
     },
     "AllowCoop": {
       "label": "Split-screen players",
@@ -165,7 +161,7 @@
     },
     "SleepAllowed": {
       "label": "Allow sleeping",
-      "description": "Allows players to sleep; this does not make sleep necessary."
+      "description": "Allows players to sleep."
     },
     "SleepNeeded": {
       "label": "Require sleeping",
@@ -214,7 +210,7 @@
     },
     "BloodSplatLifespanDays": {
       "label": "Blood stain lifetime",
-      "description": "Number of in-game days before old blood stains are removed when their map chunks load."
+      "description": "Number of in-game days before old blood stains are removed."
     },
     "RemovePlayerCorpsesOnCorpseRemoval": {
       "label": "Clean up player corpses",
@@ -230,7 +226,7 @@
     },
     "CarEngineAttractionModifier": {
       "label": "Engine noise attraction",
-      "description": "Multiplier applied to the distance at which vehicle engines attract zombies. Lower values may reduce server load."
+      "description": "Multiplier applied to the distance at which vehicle engines attract zombies."
     },
     "HoursForLootRespawn": {
       "label": "Loot respawn interval",
@@ -254,7 +250,7 @@
     },
     "SledgehammerOnlyInSafehouse": {
       "label": "Sledgehammers in safehouses only",
-      "description": "Restricts players to destroying world objects with sledgehammers inside their own safehouses."
+      "description": "Allows players to destroy world objects with sledgehammers only inside safehouses they own or belong to."
     },
     "PVP": {
       "label": "Allow PvP",
@@ -274,7 +270,7 @@
     },
     "SafetyCooldownTimer": {
       "label": "PvP toggle cooldown",
-      "description": "Real-world seconds added after an unsafe player attacks, delaying safety reactivation."
+      "description": "Real-world seconds added after a player attacks, delaying safety reactivation."
     },
     "PVPFirearmDamageModifier": {
       "label": "PvP firearm damage",
@@ -290,7 +286,7 @@
     },
     "PlayerBumpPlayer": {
       "label": "Player collisions",
-      "description": "Allows running players to bump into and knock over other players."
+      "description": "Allows running players to bump into and knock down other players."
     },
     "KnockedDownAllowed": {
       "label": "Allow knockdowns",
@@ -344,11 +340,11 @@
     },
     "VoiceMinDistance": {
       "label": "Full-volume range",
-      "description": "Distance in tiles within which voice chat is heard at full volume."
+      "description": "How far away a player can be heard at full volume in voice chat."
     },
     "VoiceMaxDistance": {
       "label": "Maximum voice range",
-      "description": "Maximum distance in tiles at which voice chat can be heard."
+      "description": "How far away a player can be heard in voice chat."
     },
     "DisableRadioStaff": {
       "label": "Mute all staff radios",
@@ -384,11 +380,11 @@
     },
     "DiscordChannel": {
       "label": "Channel name",
-      "description": "The Discord channel name used by the integration."
+      "description": "The name of the Discord channel to use."
     },
     "DiscordChannelID": {
       "label": "Channel ID",
-      "description": "An optional Discord channel ID to use when the channel name does not work."
+      "description": "The ID of the Discord channel to use."
     },
     "DiscordChatChannel": {
       "label": "Discord chat channel",
@@ -420,7 +416,7 @@
       "choices": {
         "hidden": "Hidden",
         "factionAndSafehouseMembers": "Faction and safehouse members",
-        "friendsAndNearbyPlayers": "Friends and nearby players",
+        "friendsAndNearbyPlayers": "Faction and safehouse members, and nearby players",
         "everyone": "Everyone"
       }
     },
@@ -454,7 +450,7 @@
     },
     "ResetID": {
       "label": "Reset ID",
-      "description": "Generated world-reset identifier used to determine whether existing characters remain compatible."
+      "description": "Generated identifier used to detect a server world reset."
     },
     "ServerPlayerID": {
       "label": "Server player ID",
@@ -474,7 +470,7 @@
     },
     "PingLimit": {
       "label": "Ping limit",
-      "description": "Maximum ping in milliseconds before a non-privileged player is removed."
+      "description": "Maximum allowed ping in milliseconds before a player is kicked."
     },
     "KickFastPlayers": {
       "label": "Remove unusually fast players",
@@ -501,176 +497,144 @@
       "description": "Kicks clients whose game files do not match the server."
     },
     "AntiCheatProtectionType1": {
-      "label": "Anti-cheat protection 1",
-      "description": "Enables the game's anti-cheat protection type 1."
+      "label": "Anti-cheat protection 1"
     },
     "AntiCheatProtectionType2": {
-      "label": "Anti-cheat protection 2",
-      "description": "Enables the game's anti-cheat protection type 2."
+      "label": "Anti-cheat protection 2"
     },
     "AntiCheatProtectionType2ThresholdMultiplier": {
-      "label": "Anti-cheat protection 2 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 2."
+      "label": "Anti-cheat protection 2 threshold"
     },
     "AntiCheatProtectionType3": {
-      "label": "Anti-cheat protection 3",
-      "description": "Enables the game's anti-cheat protection type 3."
+      "label": "Anti-cheat protection 3"
     },
     "AntiCheatProtectionType3ThresholdMultiplier": {
-      "label": "Anti-cheat protection 3 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 3."
+      "label": "Anti-cheat protection 3 threshold"
     },
     "AntiCheatProtectionType4": {
-      "label": "Anti-cheat protection 4",
-      "description": "Enables the game's anti-cheat protection type 4."
+      "label": "Anti-cheat protection 4"
     },
     "AntiCheatProtectionType4ThresholdMultiplier": {
-      "label": "Anti-cheat protection 4 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 4."
+      "label": "Anti-cheat protection 4 threshold"
     },
     "AntiCheatProtectionType5": {
-      "label": "Anti-cheat protection 5",
-      "description": "Enables the game's anti-cheat protection type 5."
+      "label": "Anti-cheat protection 5"
     },
     "AntiCheatProtectionType6": {
-      "label": "Anti-cheat protection 6",
-      "description": "Enables the game's anti-cheat protection type 6."
+      "label": "Anti-cheat protection 6"
     },
     "AntiCheatProtectionType7": {
-      "label": "Anti-cheat protection 7",
-      "description": "Enables the game's anti-cheat protection type 7."
+      "label": "Anti-cheat protection 7"
     },
     "AntiCheatProtectionType8": {
-      "label": "Anti-cheat protection 8",
-      "description": "Enables the game's anti-cheat protection type 8."
+      "label": "Anti-cheat protection 8"
     },
     "AntiCheatProtectionType9": {
-      "label": "Anti-cheat protection 9",
-      "description": "Enables the game's anti-cheat protection type 9."
+      "label": "Anti-cheat protection 9"
     },
     "AntiCheatProtectionType9ThresholdMultiplier": {
-      "label": "Anti-cheat protection 9 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 9."
+      "label": "Anti-cheat protection 9 threshold"
     },
     "AntiCheatProtectionType10": {
-      "label": "Anti-cheat protection 10",
-      "description": "Enables the game's anti-cheat protection type 10."
+      "label": "Anti-cheat protection 10"
     },
     "AntiCheatProtectionType11": {
-      "label": "Anti-cheat protection 11",
-      "description": "Enables the game's anti-cheat protection type 11."
+      "label": "Anti-cheat protection 11"
     },
     "AntiCheatProtectionType12": {
-      "label": "Anti-cheat protection 12",
-      "description": "Enables the game's anti-cheat protection type 12."
+      "label": "Anti-cheat protection 12"
     },
     "AntiCheatProtectionType13": {
-      "label": "Anti-cheat protection 13",
-      "description": "Enables the game's anti-cheat protection type 13."
+      "label": "Anti-cheat protection 13"
     },
     "AntiCheatProtectionType14": {
-      "label": "Anti-cheat protection 14",
-      "description": "Enables the game's anti-cheat protection type 14."
+      "label": "Anti-cheat protection 14"
     },
     "AntiCheatProtectionType15": {
-      "label": "Anti-cheat protection 15",
-      "description": "Enables the game's anti-cheat protection type 15."
+      "label": "Anti-cheat protection 15"
     },
     "AntiCheatProtectionType15ThresholdMultiplier": {
-      "label": "Anti-cheat protection 15 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 15."
+      "label": "Anti-cheat protection 15 threshold"
     },
     "AntiCheatProtectionType16": {
-      "label": "Anti-cheat protection 16",
-      "description": "Enables the game's anti-cheat protection type 16."
+      "label": "Anti-cheat protection 16"
     },
     "AntiCheatProtectionType17": {
-      "label": "Anti-cheat protection 17",
-      "description": "Enables the game's anti-cheat protection type 17."
+      "label": "Anti-cheat protection 17"
     },
     "AntiCheatProtectionType18": {
-      "label": "Anti-cheat protection 18",
-      "description": "Enables the game's anti-cheat protection type 18."
+      "label": "Anti-cheat protection 18"
     },
     "AntiCheatProtectionType19": {
-      "label": "Anti-cheat protection 19",
-      "description": "Enables the game's anti-cheat protection type 19."
+      "label": "Anti-cheat protection 19"
     },
     "AntiCheatProtectionType20": {
-      "label": "Anti-cheat protection 20",
-      "description": "Enables the game's anti-cheat protection type 20."
+      "label": "Anti-cheat protection 20"
     },
     "AntiCheatProtectionType20ThresholdMultiplier": {
-      "label": "Anti-cheat protection 20 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 20."
+      "label": "Anti-cheat protection 20 threshold"
     },
     "AntiCheatProtectionType21": {
-      "label": "Anti-cheat protection 21",
-      "description": "Enables the game's anti-cheat protection type 21."
+      "label": "Anti-cheat protection 21"
     },
     "AntiCheatProtectionType22": {
-      "label": "Anti-cheat protection 22",
-      "description": "Enables the game's anti-cheat protection type 22."
+      "label": "Anti-cheat protection 22"
     },
     "AntiCheatProtectionType22ThresholdMultiplier": {
-      "label": "Anti-cheat protection 22 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 22."
+      "label": "Anti-cheat protection 22 threshold"
     },
     "AntiCheatProtectionType23": {
-      "label": "Anti-cheat protection 23",
-      "description": "Enables the game's anti-cheat protection type 23."
+      "label": "Anti-cheat protection 23"
     },
     "AntiCheatProtectionType24": {
-      "label": "Anti-cheat protection 24",
-      "description": "Enables the game's anti-cheat protection type 24."
+      "label": "Anti-cheat protection 24"
     },
     "AntiCheatProtectionType24ThresholdMultiplier": {
-      "label": "Anti-cheat protection 24 threshold",
-      "description": "Adjusts the threshold for anti-cheat protection type 24."
+      "label": "Anti-cheat protection 24 threshold"
     },
     "AntiCheatChecksum": {
       "label": "Checksum anti-cheat",
-      "description": "Controls the action taken when checksum validation detects suspicious client data."
+      "description": "Controls the action taken when client data fails checksum checks."
     },
     "AntiCheatHit": {
       "label": "Hit anti-cheat",
-      "description": "Controls the action taken when character hit validation detects suspicious damage, distance, or weapon data."
+      "description": "Controls the action taken when character hits fail anti-cheat checks."
     },
     "AntiCheatNoClip": {
       "label": "No-clip anti-cheat",
-      "description": "Controls the action taken when character movement appears to bypass collision or movement rules."
+      "description": "Controls the action taken when character movement fails no-clip checks."
     },
     "AntiCheatPacketException": {
       "label": "Packet exception anti-cheat",
-      "description": "Controls the action taken when packet validation detects malformed or unexpected packets."
+      "description": "Controls the action taken when a network packet cannot be processed due to an error."
     },
     "AntiCheatPermission": {
       "label": "Permission anti-cheat",
-      "description": "Controls the action taken when player powers or capabilities are invalid."
+      "description": "Controls the action taken when player actions fail permission checks."
     },
     "AntiCheatPlayer": {
       "label": "Player anti-cheat",
-      "description": "Controls the action taken when player state or player updates fail anti-cheat validation."
+      "description": "Controls the action taken when player data fails anti-cheat checks."
     },
     "AntiCheatSafeHouse": {
       "label": "Safehouse anti-cheat",
-      "description": "Controls the action taken when safehouse ownership, membership, or access fails anti-cheat validation."
+      "description": "Controls the action taken when safehouse-related activity fails anti-cheat checks."
     },
     "AntiCheatSafety": {
       "label": "Safety anti-cheat",
-      "description": "Controls the action taken when the player safety system fails anti-cheat validation."
+      "description": "Controls the action taken when PvP safety-related activity fails anti-cheat checks."
     },
     "AntiCheatSpeed": {
       "label": "Speed anti-cheat",
-      "description": "Controls the action taken when character speed fails anti-cheat validation."
+      "description": "Controls the action taken when character speed fails anti-cheat checks."
     },
     "AntiCheatXP": {
       "label": "XP anti-cheat",
-      "description": "Controls the action taken when player XP updates fail anti-cheat validation."
+      "description": "Controls the action taken when player XP fails anti-cheat checks."
     },
     "BadWordListFile": {
       "label": "Banned word list file",
-      "description": "Path to the file containing prohibited words. Each word must be on a separate line."
+      "description": "Path to the file containing prohibited words."
     },
     "BadWordPolicy": {
       "label": "Banned word policy",
@@ -698,7 +662,7 @@
     },
     "HideDisguisedUserName": {
       "label": "Hide disguised usernames",
-      "description": "Hides the username of disguised players from players who cannot see player statistics."
+      "description": "Hides disguised players' usernames."
     },
     "DisableBurntTowing": {
       "label": "Disable burnt vehicle towing",
@@ -706,7 +670,7 @@
     },
     "DisableSafehouseWhenOwnerConnected": {
       "label": "Disable protection while members are online",
-      "description": "Disables safehouse protection while its owner or any member is connected."
+      "description": "Disables safehouse protection while any member is connected."
     },
     "DisableTrailerTowing": {
       "label": "Disable trailer towing",
@@ -730,7 +694,7 @@
     },
     "SafetyDisconnectDelay": {
       "label": "Safety disconnect delay",
-      "description": "Delay in seconds before a disconnected player is removed from the server."
+      "description": "Seconds before removing disconnected players from the server during a PvP safety change or cooldown."
     },
     "MultiplayerStatisticsPeriod": {
       "label": "Multiplayer statistics update period",
@@ -746,7 +710,7 @@
     },
     "Seed": {
       "label": "World generation seed",
-      "description": "The seed used to generate the world. To apply a new value, delete map_worldgen.bin from the save directory after changing it."
+      "description": "The seed used to generate the world."
     },
     "ShowCoordinates": {
       "label": "Show coordinates",
@@ -778,7 +742,7 @@
     },
     "WarSafehouseHitPoints": {
       "label": "Safehouse war hit points",
-      "description": "Number of hits a safehouse can take during a war. A value of 0 prevents the safehouse from being destroyed by war attacks."
+      "description": "Number of hits a safehouse can take during a war."
     },
     "WarStartDelay": {
       "label": "War start delay",
@@ -794,7 +758,7 @@
     },
     "GoodWordListFile": {
       "label": "Allowed word list file",
-      "description": "Path to the file containing words that should be allowed even if they contain a banned word. Each word must be on a separate line."
+      "description": "Path to the file containing words that should be allowed even if they contain a banned word."
     },
     "MaxPacketsPerSecond": {
       "label": "Maximum packets per second",

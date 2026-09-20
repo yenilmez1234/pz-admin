@@ -19,15 +19,7 @@ export interface OptionRequirement {
 }
 
 export interface OptionSpecialValue {
-  meaning:
-    | "disabled"
-    | "forever"
-    | "instant"
-    | "never"
-    | "noCooldown"
-    | "noRequirement"
-    | "unlimited"
-    | "useSpawnRegions";
+  meaning: "disabled" | "forever" | "never" | "unlimited" | "useSpawnRegions";
   value: ScalarOptionValue;
 }
 
@@ -273,7 +265,6 @@ const build41Options = {
     minimum: 0,
     maximum: 2147483647,
     requirements: [{ option: "Faction", equals: true }],
-    specialValue: { value: 0, meaning: "noRequirement" },
   },
   FactionPlayersRequiredForTag: {
     type: "integer",
@@ -416,7 +407,6 @@ const build41Options = {
     defaultValue: 0,
     minimum: 0,
     maximum: 2147483647,
-    specialValue: { value: 0, meaning: "noRequirement" },
   },
   SafetyCooldownTimer: {
     type: "integer",
@@ -427,7 +417,6 @@ const build41Options = {
       { option: "PVP", equals: true },
       { option: "SafetySystem", equals: true },
     ],
-    specialValue: { value: 0, meaning: "noCooldown" },
   },
   SafetySystem: {
     type: "boolean",
@@ -443,7 +432,6 @@ const build41Options = {
       { option: "PVP", equals: true },
       { option: "SafetySystem", equals: true },
     ],
-    specialValue: { value: 0, meaning: "instant" },
   },
   SaveWorldEveryMinutes: {
     type: "integer",
@@ -638,7 +626,6 @@ export const build42Options = {
     minimum: 0,
     maximum: 2147483647,
     requirements: [{ option: "Faction", equals: true }],
-    specialValue: { value: 0, meaning: "noRequirement" },
   },
   FactionPlayersRequiredForTag: {
     type: "integer",
@@ -738,7 +725,6 @@ export const build42Options = {
     defaultValue: 0,
     minimum: 0,
     maximum: 2147483647,
-    specialValue: { value: 0, meaning: "noRequirement" },
   },
   SafetyCooldownTimer: {
     type: "integer",
@@ -749,7 +735,6 @@ export const build42Options = {
       { option: "PVP", equals: true },
       { option: "SafetySystem", equals: true },
     ],
-    specialValue: { value: 0, meaning: "noCooldown" },
   },
   SafetySystem: {
     type: "boolean",
@@ -765,7 +750,6 @@ export const build42Options = {
       { option: "PVP", equals: true },
       { option: "SafetySystem", equals: true },
     ],
-    specialValue: { value: 0, meaning: "instant" },
   },
   SaveWorldEveryMinutes: {
     type: "integer",
@@ -1018,6 +1002,7 @@ export const build42Options = {
     defaultValue: 20000,
     minimum: 0,
     maximum: 2147483647,
+    specialValue: { value: 0, meaning: "unlimited" },
   },
   MultiplayerStatisticsPeriod: {
     type: "integer",
@@ -1047,7 +1032,6 @@ export const build42Options = {
     defaultValue: 60,
     minimum: 0,
     maximum: 60,
-    specialValue: { value: 0, meaning: "instant" },
   },
   Seed: { type: "string", defaultValue: "", dynamicDefault: true },
   ShowCoordinates: { type: "boolean", defaultValue: false },
@@ -1137,7 +1121,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
           ]),
         },
         {
-          id: "connectionQuality",
+          id: "performance",
           options: b41(["PingLimit"]),
         },
         {
@@ -1237,7 +1221,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       ],
     },
     {
-      id: "communities",
+      id: "social",
       sections: [
         {
           id: "safehouses",
@@ -1284,7 +1268,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       ],
     },
     {
-      id: "operations",
+      id: "maintenance",
       sections: [
         {
           id: "savingAndBackups",
@@ -1395,8 +1379,12 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
           ]),
         },
         {
-          id: "connectionQuality",
-          options: b42(["PingLimit", "MaxPacketsPerSecond"]),
+          id: "performance",
+          options: b42([
+            "PingLimit",
+            "MaxPacketsPerSecond",
+            "SwitchZombiesOwnershipEachUpdate",
+          ]),
         },
         {
           id: "modsAndWorkshop",
@@ -1510,7 +1498,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       ],
     },
     {
-      id: "communities",
+      id: "social",
       sections: [
         {
           id: "safehouses",
@@ -1571,7 +1559,7 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
       ],
     },
     {
-      id: "operations",
+      id: "maintenance",
       sections: [
         {
           id: "savingAndBackups",
@@ -1585,13 +1573,11 @@ export const optionCatalogs: Record<GameBuild, OptionCategory[]> = {
         },
         {
           id: "loggingAndDiagnostics",
-          options: b42(["PerkLogs", "ClientActionLogs", "ClientCommandFilter"]),
-        },
-        {
-          id: "performanceAndSimulation",
           options: b42([
+            "PerkLogs",
+            "ClientActionLogs",
+            "ClientCommandFilter",
             "MultiplayerStatisticsPeriod",
-            "SwitchZombiesOwnershipEachUpdate",
           ]),
         },
         {

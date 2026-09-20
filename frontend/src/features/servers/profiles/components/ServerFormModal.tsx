@@ -115,28 +115,6 @@ export function ServerFormModal({
             required
             {...form.getInputProps("name")}
           />
-          <SimpleGrid cols={{ base: 1, xs: 2 }}>
-            <TextInput
-              key={form.key("host")}
-              label={t("form.fields.host.label")}
-              name="host"
-              autoComplete="off"
-              spellCheck={false}
-              required
-              {...form.getInputProps("host")}
-            />
-            <NumberInput
-              key={form.key("port")}
-              label={t("form.fields.port.label")}
-              name="port"
-              required
-              min={1}
-              max={65535}
-              allowDecimal={false}
-              clampBehavior="none"
-              {...form.getInputProps("port")}
-            />
-          </SimpleGrid>
           <Radio.Group
             key={form.key("version")}
             label={t("gameBuild.label", { ns: "common" })}
@@ -161,6 +139,37 @@ export function ServerFormModal({
               ))}
             </Group>
           </Radio.Group>
+          <Radio.Group
+            label={t("form.fields.connectionMethod.label")}
+            value="rcon"
+            name="connectionMethod"
+          >
+            <Group mt="xs">
+              <Radio value="rcon" label="RCON" />
+            </Group>
+          </Radio.Group>
+          <SimpleGrid cols={{ base: 1, xs: 2 }}>
+            <TextInput
+              key={form.key("host")}
+              label={t("form.fields.host.label")}
+              name="host"
+              autoComplete="off"
+              spellCheck={false}
+              required
+              {...form.getInputProps("host")}
+            />
+            <NumberInput
+              key={form.key("port")}
+              label={t("form.fields.port.label")}
+              name="port"
+              required
+              min={1}
+              max={65535}
+              allowDecimal={false}
+              clampBehavior="none"
+              {...form.getInputProps("port")}
+            />
+          </SimpleGrid>
           <PasswordInput
             key={form.key("password")}
             label={t("form.fields.password.label")}

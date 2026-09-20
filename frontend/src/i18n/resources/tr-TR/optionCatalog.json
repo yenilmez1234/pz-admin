@@ -2,8 +2,8 @@
   "categories": {
     "server": "Sunucu",
     "gameplay": "Oynanış",
-    "communities": "Topluluklar",
-    "operations": "İşletim",
+    "social": "Sosyal",
+    "maintenance": "Bakım",
     "security": "Güvenlik"
   },
   "sections": {
@@ -25,28 +25,24 @@
     "integrations": "Entegrasyonlar",
     "vehicles": "Araçlar",
     "admissionAndQueue": "Kabul ve sıra",
-    "connectionQuality": "Bağlantı kalitesi",
     "timeAndSleep": "Zaman ve uyku",
     "spawningAndRespawn": "Doğma ve yeniden doğma",
     "identityAndVisibility": "Kimlik ve görünürlük",
     "playerBehavior": "Oyuncu davranışı",
-    "performanceAndSimulation": "Performans ve simülasyon"
+    "performance": "Performans"
   },
   "choiceSets": {
     "enforcement": {
       "ban": "Yasakla",
       "disabled": "Devre dışı",
       "kick": "At",
-      "log": "Yalnızca günlüğe kaydet"
+      "log": "Günlüğe kaydet"
     }
   },
   "specialValues": {
     "disabled": "Devre dışı",
     "forever": "Süresiz",
-    "instant": "Anında",
     "never": "Asla",
-    "noCooldown": "Bekleme süresi yok",
-    "noRequirement": "Gereklilik yok",
     "unlimited": "Sınırsız",
     "useSpawnRegions": "Doğma bölgelerini kullan"
   },
@@ -68,8 +64,8 @@
       "description": "Belirtilen gerçek zamanlı saat sayısı boyunca hiçbir üyesi ziyaret etmediğinde güvenli evi kaldırır."
     },
     "DisableSafehouseWhenPlayerConnected": {
-      "label": "Yalnızca çevrim dışıyken koru",
-      "description": "Herhangi bir üyesi bağlıyken güvenli ev korumasını devre dışı bırakır."
+      "label": "Üyeler çevrim içiyken korumayı kapat",
+      "description": "Güvenli ev üyelerinden biri bağlıyken korumayı devre dışı bırakır."
     },
     "SafehouseAllowTrepass": {
       "label": "İzinsiz girişe izin ver",
@@ -84,7 +80,7 @@
       "description": "Yangının güvenli evlere hasar vermesine izin verir."
     },
     "SafehouseAllowRespawn": {
-      "label": "Yeniden doğmaya izin ver",
+      "label": "Güvenli evde yeniden doğmaya izin ver",
       "description": "Üyelerin güvenli evlerini yeniden doğma konumu olarak seçmesine izin verir."
     },
     "SafehouseAllowNonResidential": {
@@ -97,7 +93,7 @@
     },
     "FactionDaySurvivedToCreate": {
       "label": "Gerekli hayatta kalma günü",
-      "description": "Oyuncunun grup oluşturmadan önce hayatta kalması gereken oyun içi gün sayısı."
+      "description": "Oyuncunun grup oluşturabilmek için hayatta kalması gereken oyun içi gün sayısı."
     },
     "FactionPlayersRequiredForTag": {
       "label": "Etiket için gerekli üyeler",
@@ -125,7 +121,7 @@
     },
     "AutoCreateUserInWhiteList": {
       "label": "Katılırken hesap oluştur",
-      "description": "Açık sunucuya katılan bilinmeyen kullanıcı adlarını beyaz listeye ekler. Oyuncular kendi kullanıcı adı ve parolalarını sağlar."
+      "description": "Açık sunucuya katılan yeni oyuncuları beyaz listeye ekler."
     },
     "MaxAccountsPerUser": {
       "label": "Steam kullanıcısı başına hesap",
@@ -137,7 +133,7 @@
     },
     "AllowNonAsciiUsername": {
       "label": "ASCII dışı kullanıcı adları",
-      "description": "Kiril harfleri gibi ASCII dışı karakterler içeren kullanıcı adlarına izin verir."
+      "description": "ASCII dışı karakterler içeren kullanıcı adlarına izin verir."
     },
     "AllowCoop": {
       "label": "Bölünmüş ekran oyuncuları",
@@ -165,7 +161,7 @@
     },
     "SleepAllowed": {
       "label": "Uyumaya izin ver",
-      "description": "Oyuncuların uyumasına izin verir; uykuyu zorunlu kılmaz."
+      "description": "Oyuncuların uyumasına izin verir."
     },
     "SleepNeeded": {
       "label": "Uykuyu zorunlu tut",
@@ -214,7 +210,7 @@
     },
     "BloodSplatLifespanDays": {
       "label": "Kan lekesi ömrü",
-      "description": "Eski kan lekelerinin, bulundukları harita parçaları yüklendiğinde kaldırılmadan önce kalacağı oyun içi gün sayısı."
+      "description": "Eski kan lekelerinin kaldırılmadan önce kalacağı oyun içi gün sayısı."
     },
     "RemovePlayerCorpsesOnCorpseRemoval": {
       "label": "Oyuncu cesetlerini temizle",
@@ -230,7 +226,7 @@
     },
     "CarEngineAttractionModifier": {
       "label": "Motor sesi çekim gücü",
-      "description": "Araç motorlarının zombileri çektiği mesafeye uygulanan çarpan. Daha düşük değerler sunucu yükünü azaltabilir."
+      "description": "Araç motorlarının zombileri çektiği mesafeye uygulanan çarpan."
     },
     "HoursForLootRespawn": {
       "label": "Ganimet yenilenme aralığı",
@@ -254,7 +250,7 @@
     },
     "SledgehammerOnlyInSafehouse": {
       "label": "Balyozla yıkımı güvenli evlerle sınırla",
-      "description": "Oyuncuların dünya nesnelerini balyozla yalnızca kendi güvenli evlerinde yok etmesine izin verir."
+      "description": "Oyuncuların dünya nesnelerini balyozla yalnızca sahibi veya üyesi oldukları güvenli evlerde yok etmesine izin verir."
     },
     "PVP": {
       "label": "PvP'ye izin ver",
@@ -274,7 +270,7 @@
     },
     "SafetyCooldownTimer": {
       "label": "PvP geçiş bekleme süresi",
-      "description": "Güvenliği kapalı bir oyuncu saldırdığında güvenliğin yeniden etkinleşmesi için gereken süreyi gerçek zamanlı saniye cinsinden belirler."
+      "description": "Bir oyuncu saldırdığında güvenliğin yeniden etkinleşmesi için gereken süreyi gerçek zamanlı saniye cinsinden belirler."
     },
     "PVPFirearmDamageModifier": {
       "label": "PvP ateşli silah hasarı",
@@ -344,11 +340,11 @@
     },
     "VoiceMinDistance": {
       "label": "Tam ses menzili",
-      "description": "Sesli sohbetin tam ses seviyesinde duyulduğu karo cinsinden mesafe."
+      "description": "Sesli sohbetin tam ses seviyesinde duyulduğu mesafe."
     },
     "VoiceMaxDistance": {
       "label": "Azami ses menzili",
-      "description": "Sesli sohbetin duyulabildiği karo cinsinden azami mesafe."
+      "description": "Sesli sohbetin duyulabildiği azami mesafe."
     },
     "DisableRadioStaff": {
       "label": "Tüm yetkili telsizlerini sustur",
@@ -384,11 +380,11 @@
     },
     "DiscordChannel": {
       "label": "Kanal adı",
-      "description": "Entegrasyonun kullandığı Discord kanalının adı."
+      "description": "Kullanılacak Discord kanalının adı."
     },
     "DiscordChannelID": {
       "label": "Kanal kimliği",
-      "description": "Kanal adı çalışmadığında kullanılabilecek isteğe bağlı Discord kanal kimliği."
+      "description": "Kullanılacak Discord kanalının kimliği."
     },
     "DiscordChatChannel": {
       "label": "Discord sohbet kanalı",
@@ -420,7 +416,7 @@
       "choices": {
         "hidden": "Gizli",
         "factionAndSafehouseMembers": "Grup ve güvenli ev üyeleri",
-        "friendsAndNearbyPlayers": "Arkadaşlar ve yakındaki oyuncular",
+        "friendsAndNearbyPlayers": "Grup ve güvenli ev üyeleri ile yakındaki oyuncular",
         "everyone": "Herkes"
       }
     },
@@ -454,7 +450,7 @@
     },
     "ResetID": {
       "label": "Sıfırlama kimliği",
-      "description": "Mevcut karakterlerin uyumlu kalıp kalmadığını belirlemek için kullanılan, otomatik oluşturulan dünya sıfırlama kimliği."
+      "description": "Sunucu dünyasının sıfırlandığını tespit etmek için kullanılan, otomatik oluşturulan kimlik."
     },
     "ServerPlayerID": {
       "label": "Sunucu oyuncu kimliği",
@@ -474,7 +470,7 @@
     },
     "PingLimit": {
       "label": "Ping sınırı",
-      "description": "Yetkili olmayan bir oyuncu çıkarılmadan önce izin verilen en yüksek ping değeri (milisaniye)."
+      "description": "Bir oyuncu sunucudan atılmadan önce izin verilen en yüksek ping değeri (milisaniye)."
     },
     "KickFastPlayers": {
       "label": "Olağan dışı hızlı oyuncuları çıkar",
@@ -501,176 +497,144 @@
       "description": "Oyun dosyaları sunucuyla eşleşmeyen istemcileri sunucudan atar."
     },
     "AntiCheatProtectionType1": {
-      "label": "Hile koruması 1",
-      "description": "Oyunun 1 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 1"
     },
     "AntiCheatProtectionType2": {
-      "label": "Hile koruması 2",
-      "description": "Oyunun 2 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 2"
     },
     "AntiCheatProtectionType2ThresholdMultiplier": {
-      "label": "Hile koruması 2 eşiği",
-      "description": "2 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 2 eşiği"
     },
     "AntiCheatProtectionType3": {
-      "label": "Hile koruması 3",
-      "description": "Oyunun 3 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 3"
     },
     "AntiCheatProtectionType3ThresholdMultiplier": {
-      "label": "Hile koruması 3 eşiği",
-      "description": "3 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 3 eşiği"
     },
     "AntiCheatProtectionType4": {
-      "label": "Hile koruması 4",
-      "description": "Oyunun 4 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 4"
     },
     "AntiCheatProtectionType4ThresholdMultiplier": {
-      "label": "Hile koruması 4 eşiği",
-      "description": "4 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 4 eşiği"
     },
     "AntiCheatProtectionType5": {
-      "label": "Hile koruması 5",
-      "description": "Oyunun 5 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 5"
     },
     "AntiCheatProtectionType6": {
-      "label": "Hile koruması 6",
-      "description": "Oyunun 6 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 6"
     },
     "AntiCheatProtectionType7": {
-      "label": "Hile koruması 7",
-      "description": "Oyunun 7 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 7"
     },
     "AntiCheatProtectionType8": {
-      "label": "Hile koruması 8",
-      "description": "Oyunun 8 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 8"
     },
     "AntiCheatProtectionType9": {
-      "label": "Hile koruması 9",
-      "description": "Oyunun 9 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 9"
     },
     "AntiCheatProtectionType9ThresholdMultiplier": {
-      "label": "Hile koruması 9 eşiği",
-      "description": "9 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 9 eşiği"
     },
     "AntiCheatProtectionType10": {
-      "label": "Hile koruması 10",
-      "description": "Oyunun 10 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 10"
     },
     "AntiCheatProtectionType11": {
-      "label": "Hile koruması 11",
-      "description": "Oyunun 11 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 11"
     },
     "AntiCheatProtectionType12": {
-      "label": "Hile koruması 12",
-      "description": "Oyunun 12 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 12"
     },
     "AntiCheatProtectionType13": {
-      "label": "Hile koruması 13",
-      "description": "Oyunun 13 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 13"
     },
     "AntiCheatProtectionType14": {
-      "label": "Hile koruması 14",
-      "description": "Oyunun 14 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 14"
     },
     "AntiCheatProtectionType15": {
-      "label": "Hile koruması 15",
-      "description": "Oyunun 15 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 15"
     },
     "AntiCheatProtectionType15ThresholdMultiplier": {
-      "label": "Hile koruması 15 eşiği",
-      "description": "15 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 15 eşiği"
     },
     "AntiCheatProtectionType16": {
-      "label": "Hile koruması 16",
-      "description": "Oyunun 16 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 16"
     },
     "AntiCheatProtectionType17": {
-      "label": "Hile koruması 17",
-      "description": "Oyunun 17 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 17"
     },
     "AntiCheatProtectionType18": {
-      "label": "Hile koruması 18",
-      "description": "Oyunun 18 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 18"
     },
     "AntiCheatProtectionType19": {
-      "label": "Hile koruması 19",
-      "description": "Oyunun 19 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 19"
     },
     "AntiCheatProtectionType20": {
-      "label": "Hile koruması 20",
-      "description": "Oyunun 20 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 20"
     },
     "AntiCheatProtectionType20ThresholdMultiplier": {
-      "label": "Hile koruması 20 eşiği",
-      "description": "20 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 20 eşiği"
     },
     "AntiCheatProtectionType21": {
-      "label": "Hile koruması 21",
-      "description": "Oyunun 21 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 21"
     },
     "AntiCheatProtectionType22": {
-      "label": "Hile koruması 22",
-      "description": "Oyunun 22 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 22"
     },
     "AntiCheatProtectionType22ThresholdMultiplier": {
-      "label": "Hile koruması 22 eşiği",
-      "description": "22 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 22 eşiği"
     },
     "AntiCheatProtectionType23": {
-      "label": "Hile koruması 23",
-      "description": "Oyunun 23 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 23"
     },
     "AntiCheatProtectionType24": {
-      "label": "Hile koruması 24",
-      "description": "Oyunun 24 numaralı hile korumasını etkinleştirir."
+      "label": "Hile koruması 24"
     },
     "AntiCheatProtectionType24ThresholdMultiplier": {
-      "label": "Hile koruması 24 eşiği",
-      "description": "24 numaralı hile korumasının eşiğini ayarlar."
+      "label": "Hile koruması 24 eşiği"
     },
     "AntiCheatChecksum": {
       "label": "Sağlama toplamı hile koruması",
-      "description": "Sağlama toplamı doğrulaması şüpheli istemci verileri tespit ettiğinde uygulanacak işlemi belirler."
+      "description": "İstemci verileri sağlama toplamı kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatHit": {
       "label": "Vuruş hile koruması",
-      "description": "Bir karakterin vuruş, hasar, mesafe veya silah verileri doğrulamadan geçemediğinde uygulanacak işlemi belirler."
+      "description": "Karakter vuruşları hile koruması kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatNoClip": {
       "label": "No-clip hile koruması",
-      "description": "Karakter hareketi çarpışma veya hareket kurallarını aşıyor gibi göründüğünde uygulanacak işlemi belirler."
+      "description": "Karakter hareketi no-clip kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatPacketException": {
       "label": "Paket istisnası hile koruması",
-      "description": "Paket doğrulaması hatalı veya beklenmeyen paketler tespit ettiğinde uygulanacak işlemi belirler."
+      "description": "Bir ağ paketi hata nedeniyle işlenemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatPermission": {
       "label": "İzin hile koruması",
-      "description": "Oyuncu yetkileri veya erişebildiği özellikler geçersiz olduğunda uygulanacak işlemi belirler."
+      "description": "Oyuncu eylemleri yetki kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatPlayer": {
       "label": "Oyuncu hile koruması",
-      "description": "Oyuncu durumu veya güncellemeleri hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler."
+      "description": "Oyuncu verileri hile koruması kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatSafeHouse": {
       "label": "Güvenli ev hile koruması",
-      "description": "Güvenli ev sahipliği, üyeliği veya erişimi hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler."
+      "description": "Güvenli evlerle ilgili işlemler hile koruması kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatSafety": {
       "label": "Güvenlik sistemi hile koruması",
-      "description": "Oyuncu güvenlik sistemi hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler."
+      "description": "PvP güvenliğiyle ilgili işlemler hile koruması kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatSpeed": {
       "label": "Hız hile koruması",
-      "description": "Karakter hızı hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler."
+      "description": "Karakter hızı hile koruması kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "AntiCheatXP": {
       "label": "XP hile koruması",
-      "description": "Oyuncu XP güncellemeleri hile koruması doğrulamasından geçemediğinde uygulanacak işlemi belirler."
+      "description": "Oyuncu XP verileri hile koruması kontrollerinden geçemediğinde uygulanacak işlemi belirler."
     },
     "BadWordListFile": {
       "label": "Yasaklı kelime listesi dosyası",
-      "description": "Yasaklanacak kelimeleri içeren dosyanın yolu. Her kelime ayrı bir satırda olmalıdır."
+      "description": "Yasaklanacak kelimeleri içeren dosyanın yolu."
     },
     "BadWordPolicy": {
       "label": "Yasaklı kelime politikası",
@@ -698,7 +662,7 @@
     },
     "HideDisguisedUserName": {
       "label": "Kılık değiştirmiş kullanıcı adlarını gizle",
-      "description": "Oyuncu istatistiklerini görme yetkisi olmayan oyuncular için kılık değiştirmiş oyuncuların kullanıcı adını gizler."
+      "description": "Kılık değiştirmiş oyuncuların kullanıcı adlarını gizler."
     },
     "DisableBurntTowing": {
       "label": "Yanmış araç çekmeyi devre dışı bırak",
@@ -706,7 +670,7 @@
     },
     "DisableSafehouseWhenOwnerConnected": {
       "label": "Üyeler çevrim içiyken korumayı kapat",
-      "description": "Güvenli ev sahibi veya üyelerinden biri bağlıyken korumayı devre dışı bırakır."
+      "description": "Güvenli ev üyelerinden biri bağlıyken korumayı devre dışı bırakır."
     },
     "DisableTrailerTowing": {
       "label": "Römork çekmeyi devre dışı bırak",
@@ -730,7 +694,7 @@
     },
     "SafetyDisconnectDelay": {
       "label": "Güvenlik bağlantı kesme gecikmesi",
-      "description": "Bağlantısı kesilen oyuncunun sunucudan çıkarılmasından önce beklenecek süreyi saniye cinsinden belirler."
+      "description": "PvP güvenliği değişirken veya bekleme süresindeyken bağlantısı kesilen oyuncuların sunucudan çıkarılması için beklenecek saniye sayısı."
     },
     "MultiplayerStatisticsPeriod": {
       "label": "Çok oyunculu istatistik güncelleme aralığı",
@@ -746,7 +710,7 @@
     },
     "Seed": {
       "label": "Dünya oluşturma tohumu",
-      "description": "Dünya üretiminde kullanılan tohum değeri. Değişikliğin uygulanması için yeni değeri girdikten sonra kayıt klasöründeki map_worldgen.bin dosyasını silin."
+      "description": "Dünya üretiminde kullanılan tohum değeri."
     },
     "ShowCoordinates": {
       "label": "Koordinatları göster",
@@ -778,7 +742,7 @@
     },
     "WarSafehouseHitPoints": {
       "label": "Güvenli ev savaş dayanıklılığı",
-      "description": "Bir güvenli evin savaş sırasında dayanabileceği saldırı sayısıdır. 0 değeri, güvenli evin savaş saldırılarıyla yok edilmesini engeller."
+      "description": "Bir güvenli evin savaş sırasında dayanabileceği saldırı sayısıdır."
     },
     "WarStartDelay": {
       "label": "Savaş başlangıç gecikmesi",
@@ -794,7 +758,7 @@
     },
     "GoodWordListFile": {
       "label": "İzin verilen kelime listesi dosyası",
-      "description": "Yasaklı bir kelimeyi içerse bile izin verilecek kelimeleri içeren dosyanın yolu. Her kelime ayrı bir satırda olmalıdır."
+      "description": "Yasaklı bir kelimeyi içerse bile izin verilecek kelimeleri içeren dosyanın yolu."
     },
     "MaxPacketsPerSecond": {
       "label": "Saniye başına azami paket sayısı",

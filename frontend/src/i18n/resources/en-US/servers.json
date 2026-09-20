@@ -40,6 +40,9 @@
       "title": "Edit Server"
     },
     "fields": {
+      "connectionMethod": {
+        "label": "Connection method"
+      },
       "host": {
         "label": "Host"
       },
