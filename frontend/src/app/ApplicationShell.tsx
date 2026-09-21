@@ -52,7 +52,7 @@ export function ApplicationShell({
   children,
   onSectionChange,
 }: ApplicationShellProps) {
-  const { t } = useTranslation("shell");
+  const { t } = useTranslation(["servers", "tools", "settings"]);
 
   return (
     <Tabs
@@ -70,12 +70,12 @@ export function ApplicationShell({
       }}
     >
       <Tabs.List>
-        <Tabs.Tab value="server">{t("navigation.server")}</Tabs.Tab>
-        <Tabs.Tab value="tools">{t("navigation.tools")}</Tabs.Tab>
-        <Tooltip label={t("navigation.settings")}>
+        <Tabs.Tab value="server">{t("page.title", { ns: "servers" })}</Tabs.Tab>
+        <Tabs.Tab value="tools">{t("page.title", { ns: "tools" })}</Tabs.Tab>
+        <Tooltip label={t("page.title", { ns: "settings" })}>
           <Tabs.Tab
             value="settings"
-            aria-label={t("navigation.settings")}
+            aria-label={t("page.title", { ns: "settings" })}
             ml="auto"
           >
             <IconSettings size={16} aria-hidden="true" />

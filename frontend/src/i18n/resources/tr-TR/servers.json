@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Sunucu"
+  },
   "profiles": {
     "title": "Kayıtlı sunucular",
     "actions": {
@@ -83,10 +86,6 @@
   "workspace": {
     "navigation": {
       "label": "Sunucu menüsü"
-    },
-    "console": "Konsol",
-    "options": "Seçenekler",
-    "players": "Oyuncular",
-    "serverActions": "Sunucu işlemleri"
+    }
   }
 }

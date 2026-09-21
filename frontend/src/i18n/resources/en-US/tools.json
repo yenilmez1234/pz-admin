@@ -1,8 +1,8 @@
 {
+  "page": {
+    "title": "Tools"
+  },
   "navigation": {
-    "label": "Tools pages",
-    "messages": "Message editor",
-    "items": "Item browser",
-    "vehicles": "Vehicle browser"
+    "label": "Tools pages"
   }
 }

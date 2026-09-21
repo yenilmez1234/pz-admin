@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Options"
+  },
   "navigation": {
     "label": "Option sections",
     "search": {

@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Server"
+  },
   "profiles": {
     "title": "Saved servers",
     "actions": {
@@ -83,10 +86,6 @@
   "workspace": {
     "navigation": {
       "label": "Server menu"
-    },
-    "console": "Console",
-    "options": "Options",
-    "players": "Players",
-    "serverActions": "Server actions"
+    }
   }
 }

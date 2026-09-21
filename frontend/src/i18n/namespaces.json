@@ -10,7 +10,6 @@
   "serverActions": true,
   "session": true,
   "settings": true,
-  "shell": true,
   "skills": true,
   "tools": true,
   "vehicleCatalog": true,

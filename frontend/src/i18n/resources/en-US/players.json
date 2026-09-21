@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Players"
+  },
   "table": {
     "label": "Players",
     "columns": {

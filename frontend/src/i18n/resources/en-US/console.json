@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Console"
+  },
   "command": {
     "label": "Server command",
     "placeholder": "Enter a server command"

@@ -9,7 +9,6 @@ import servers from "./resources/en-US/servers.json";
 import serverActions from "./resources/en-US/serverActions.json";
 import session from "./resources/en-US/session.json";
 import settings from "./resources/en-US/settings.json";
-import shell from "./resources/en-US/shell.json";
 import skills from "./resources/en-US/skills.json";
 import tools from "./resources/en-US/tools.json";
 import vehicleCatalog from "./resources/en-US/vehicleCatalog.json";
@@ -32,7 +31,6 @@ export const defaultResources = {
   serverActions,
   session,
   settings,
-  shell,
   skills,
   tools,
   vehicleCatalog,

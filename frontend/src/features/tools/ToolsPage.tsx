@@ -20,17 +20,17 @@ export function ToolsPage() {
   const navigationItems = [
     {
       value: "messages",
-      label: t("navigation.messages"),
+      label: t("page.title", { ns: "messages" }),
       icon: <IconMessage size={16} aria-hidden="true" />,
     },
     {
       value: "items",
-      label: t("navigation.items"),
+      label: t("page.title", { ns: "items" }),
       icon: <IconPackage size={16} aria-hidden="true" />,
     },
     {
       value: "vehicles",
-      label: t("navigation.vehicles"),
+      label: t("page.title", { ns: "vehicles" }),
       icon: <IconCar size={16} aria-hidden="true" />,
     },
   ] satisfies Array<{

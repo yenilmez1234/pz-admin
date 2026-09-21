@@ -29,22 +29,22 @@ export function ServerWorkspace() {
   const navigationItems = [
     {
       value: "players",
-      label: t("workspace.players"),
+      label: t("page.title", { ns: "players" }),
       icon: <IconUsers size={16} aria-hidden="true" />,
     },
     {
       value: "options",
-      label: t("workspace.options"),
+      label: t("page.title", { ns: "options" }),
       icon: <IconAdjustments size={16} aria-hidden="true" />,
     },
     {
       value: "serverActions",
-      label: t("workspace.serverActions"),
+      label: t("page.title", { ns: "serverActions" }),
       icon: <IconBolt size={16} aria-hidden="true" />,
     },
     {
       value: "console",
-      label: t("workspace.console"),
+      label: t("page.title", { ns: "console" }),
       icon: <IconTerminal2 size={16} aria-hidden="true" />,
     },
   ] satisfies Array<{
