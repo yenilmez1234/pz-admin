@@ -7,7 +7,7 @@
 		<key>CFBundleExecutable</key>
 		<string>pz-admin</string>
 		<key>CFBundleGetInfoString</key>
-		<string>Manage Project Zomboid servers via RCON</string>
+		<string>Project Zomboid server administration tool</string>
 		<key>CFBundleIdentifier</key>
 		<string>com.bedirhanyenilmez.pzadmin.dev</string>
 		<key>CFBundleName</key>

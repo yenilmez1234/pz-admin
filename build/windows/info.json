@@ -9,7 +9,7 @@
 			"FileDescription": "Project Zomboid server administration tool",
 			"LegalCopyright": "Copyright © 2026 Bedirhan Yenilmez",
 			"ProductName": "PZ Admin",
-			"Comments": "Manage Project Zomboid servers via RCON"
+			"Comments": "Project Zomboid server administration tool"
 		}
 	}
 }
