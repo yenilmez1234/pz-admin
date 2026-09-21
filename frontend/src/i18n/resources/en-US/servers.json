@@ -1,37 +1,16 @@
 {
-  "page": {
-    "title": "Server"
-  },
-  "profiles": {
-    "title": "Saved servers",
-    "actions": {
-      "add": "Add server"
-    },
-    "empty": {
-      "description": "Add a server to get started.",
-      "title": "No saved servers"
-    },
-    "loading": {
-      "label": "Loading servers…"
-    },
-    "errors": {
-      "connectionCheck": {
-        "title": "Unable to check connection"
-      },
-      "actions": { "dismiss": "Dismiss error" },
-      "load": {
-        "title": "Unable to load servers"
-      }
-    }
-  },
-  "actions": {
-    "connect": "Connect",
-    "edit": "Edit",
-    "delete": "Delete"
-  },
   "card": {
     "actions": {
       "label": "Actions for {{serverName}}"
+    }
+  },
+  "dialogs": {
+    "delete": {
+      "description": "Delete {{serverName}}? This cannot be undone.",
+      "error": {
+        "title": "Unable to delete server"
+      },
+      "title": "Delete server"
     }
   },
   "form": {
@@ -41,6 +20,11 @@
     },
     "edit": {
       "title": "Edit server"
+    },
+    "errors": {
+      "save": {
+        "title": "Unable to save server"
+      }
     },
     "fields": {
       "connectionMethod": {
@@ -58,30 +42,42 @@
         },
         "edit": {
           "description": "Leave blank to keep the saved password."
-        },
-        "label": "Password"
+        }
       },
       "port": {
         "label": "Port"
-      }
-    },
-    "errors": {
-      "save": {
-        "title": "Unable to save server"
       }
     },
     "validation": {
       "portRange": "Enter a port between 1 and 65535."
     }
   },
-  "dialogs": {
-    "delete": {
-      "description": "Delete {{serverName}}? This cannot be undone.",
-      "error": {
-        "title": "Unable to delete server"
+  "page": {
+    "title": "Server"
+  },
+  "profiles": {
+    "actions": {
+      "add": "Add server"
+    },
+    "empty": {
+      "description": "Add a server to get started.",
+      "title": "No saved servers"
+    },
+    "errors": {
+      "actions": {
+        "dismiss": "Dismiss error"
       },
-      "title": "Delete server"
-    }
+      "connectionCheck": {
+        "title": "Unable to check connection"
+      },
+      "load": {
+        "title": "Unable to load servers"
+      }
+    },
+    "loading": {
+      "label": "Loading servers…"
+    },
+    "title": "Saved servers"
   },
   "workspace": {
     "navigation": {

@@ -68,7 +68,7 @@ export function SetPasswordModal({
             key={form.key("password")}
             autoComplete="new-password"
             data-autofocus
-            label={t("fields.password.label")}
+            label={t("fields.password.label", { ns: "common" })}
             name="password"
             required
             {...form.getInputProps("password")}

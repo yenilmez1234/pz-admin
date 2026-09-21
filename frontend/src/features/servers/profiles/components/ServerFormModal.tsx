@@ -172,7 +172,7 @@ export function ServerFormModal({
           </SimpleGrid>
           <PasswordInput
             key={form.key("password")}
-            label={t("form.fields.password.label")}
+            label={t("fields.password.label", { ns: "common" })}
             description={
               editing
                 ? t("form.fields.password.edit.description")

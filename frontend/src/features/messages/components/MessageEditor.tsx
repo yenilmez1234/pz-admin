@@ -70,8 +70,8 @@ export function MessageEditor({
         alignLeftControlLabel: t("editor.actions.align.left"),
         alignRightControlLabel: t("editor.actions.align.right"),
         clearFormattingControlLabel: t("editor.actions.clearFormatting"),
-        redoControlLabel: t("editor.actions.redo"),
-        undoControlLabel: t("editor.actions.undo"),
+        redoControlLabel: t("actions.redo", { ns: "common" }),
+        undoControlLabel: t("actions.undo", { ns: "common" }),
       }}
       styles={{
         content: {

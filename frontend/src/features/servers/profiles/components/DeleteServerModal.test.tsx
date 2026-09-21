@@ -10,7 +10,7 @@ vi.mock("@mantine/notifications", () => ({
   notifications: { show: vi.fn() },
 }));
 
-const deleteName = i18n.t("actions.delete", { ns: "servers" });
+const deleteName = i18n.t("actions.delete", { ns: "common" });
 
 function deleteButton() {
   return screen.getByRole("button", { name: deleteName });

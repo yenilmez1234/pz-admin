@@ -46,7 +46,7 @@ export function OptionsActions({
           variant="default"
           onClick={onReset}
         >
-          {t("actions.reset")}
+          {t("actions.reset", { ns: "common" })}
         </Button>
         <Button
           disabled={dirtyCount === 0 || invalid}

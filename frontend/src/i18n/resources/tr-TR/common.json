@@ -1,18 +1,36 @@
 {
   "actions": {
+    "add": "Ekle",
     "apply": "Uygula",
+    "back": "Geri dön",
     "cancel": "İptal",
     "clear": "Temizle",
+    "clearAll": "Tümünü temizle",
     "close": "Kapat",
     "collapseNamed": "{{name}} öğesini daralt",
+    "connect": "Bağlan",
     "copied": "Kopyalandı",
     "copy": "Kopyala",
+    "delete": "Sil",
+    "disconnect": "Bağlantıyı kes",
+    "edit": "Düzenle",
     "expandNamed": "{{name}} öğesini genişlet",
+    "label": "İşlemler",
+    "redo": "Yinele",
+    "remove": "Kaldır",
+    "reset": "Sıfırla",
+    "restoreDefault": "Varsayılana döndür",
     "retry": "Tekrar dene",
-    "saveChanges": "Değişiklikleri kaydet"
+    "saveChanges": "Değişiklikleri kaydet",
+    "undo": "Geri al"
   },
   "errors": {
     "unexpected": "Bir sorun oluştu. Lütfen tekrar deneyin."
+  },
+  "fields": {
+    "password": {
+      "label": "Parola"
+    }
   },
   "gameBuild": {
     "label": "Oyun sürümü",
@@ -24,8 +42,12 @@
   },
   "notifications": {
     "action": {
-      "failure": { "title": "İşlem başarısız" },
-      "success": { "title": "İşlem tamamlandı" }
+      "failure": {
+        "title": "İşlem başarısız"
+      },
+      "success": {
+        "title": "İşlem tamamlandı"
+      }
     }
   },
   "search": {

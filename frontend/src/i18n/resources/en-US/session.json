@@ -3,12 +3,6 @@
     "message": "The server connection was closed. Connect again to continue.",
     "title": "Connection lost"
   },
-  "loading": {
-    "label": "Loading session…"
-  },
-  "actions": {
-    "disconnect": "Disconnect"
-  },
   "errors": {
     "connect": {
       "title": "Unable to connect"
@@ -16,5 +10,8 @@
     "disconnect": {
       "title": "Unable to disconnect"
     }
+  },
+  "loading": {
+    "label": "Loading session…"
   }
 }

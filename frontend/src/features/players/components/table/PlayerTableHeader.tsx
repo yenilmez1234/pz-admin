@@ -108,7 +108,7 @@ export function PlayerTableHeader({
           sorting={sorting}
           width="22%"
         />
-        <Table.Th w={44} aria-label={t("table.columns.actions")} />
+        <Table.Th w={44} aria-label={t("actions.label", { ns: "common" })} />
       </Table.Tr>
     </Table.Thead>
   );

@@ -1,37 +1,16 @@
 {
-  "page": {
-    "title": "Sunucu"
-  },
-  "profiles": {
-    "title": "Kayıtlı sunucular",
-    "actions": {
-      "add": "Sunucu ekle"
-    },
-    "empty": {
-      "description": "Başlamak için bir sunucu ekleyin.",
-      "title": "Kayıtlı sunucu yok"
-    },
-    "loading": {
-      "label": "Sunucular yükleniyor…"
-    },
-    "errors": {
-      "connectionCheck": {
-        "title": "Bağlantı kontrol edilemedi"
-      },
-      "actions": { "dismiss": "Hatayı kapat" },
-      "load": {
-        "title": "Sunucular yüklenemedi"
-      }
-    }
-  },
-  "actions": {
-    "connect": "Bağlan",
-    "edit": "Düzenle",
-    "delete": "Sil"
-  },
   "card": {
     "actions": {
       "label": "{{serverName}} için işlemler"
+    }
+  },
+  "dialogs": {
+    "delete": {
+      "description": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
+      "error": {
+        "title": "Sunucu silinemedi"
+      },
+      "title": "Sunucuyu sil"
     }
   },
   "form": {
@@ -41,6 +20,11 @@
     },
     "edit": {
       "title": "Sunucuyu düzenle"
+    },
+    "errors": {
+      "save": {
+        "title": "Sunucu kaydedilemedi"
+      }
     },
     "fields": {
       "connectionMethod": {
@@ -58,30 +42,42 @@
         },
         "edit": {
           "description": "Kayıtlı parolayı korumak için boş bırakın."
-        },
-        "label": "Parola"
+        }
       },
       "port": {
         "label": "Port"
-      }
-    },
-    "errors": {
-      "save": {
-        "title": "Sunucu kaydedilemedi"
       }
     },
     "validation": {
       "portRange": "1 ile 65535 arasında bir port numarası girin."
     }
   },
-  "dialogs": {
-    "delete": {
-      "description": "{{serverName}} sunucusu silinsin mi? Bu işlem geri alınamaz.",
-      "error": {
-        "title": "Sunucu silinemedi"
+  "page": {
+    "title": "Sunucu"
+  },
+  "profiles": {
+    "actions": {
+      "add": "Sunucu ekle"
+    },
+    "empty": {
+      "description": "Başlamak için bir sunucu ekleyin.",
+      "title": "Kayıtlı sunucu yok"
+    },
+    "errors": {
+      "actions": {
+        "dismiss": "Hatayı kapat"
       },
-      "title": "Sunucuyu sil"
-    }
+      "connectionCheck": {
+        "title": "Bağlantı kontrol edilemedi"
+      },
+      "load": {
+        "title": "Sunucular yüklenemedi"
+      }
+    },
+    "loading": {
+      "label": "Sunucular yükleniyor…"
+    },
+    "title": "Kayıtlı sunucular"
   },
   "workspace": {
     "navigation": {

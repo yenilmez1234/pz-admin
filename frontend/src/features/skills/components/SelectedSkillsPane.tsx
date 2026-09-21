@@ -51,7 +51,7 @@ export function SelectedSkillsPane({
           size="compact-xs"
           variant="subtle"
         >
-          {t("picker.actions.clear")}
+          {t("actions.clearAll", { ns: "common" })}
         </Button>
       </Group>
 

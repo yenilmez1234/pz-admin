@@ -123,9 +123,9 @@ export function OptionField({
             </OptionSearchHighlight>
           </Text>
           {canRestoreDefault ? (
-            <Tooltip label={t("field.actions.restoreCatalogDefault")}>
+            <Tooltip label={t("actions.restoreDefault", { ns: "common" })}>
               <ActionIcon
-                aria-label={t("field.actions.restoreCatalogDefault")}
+                aria-label={t("actions.restoreDefault", { ns: "common" })}
                 color="gray"
                 onClick={restoreCatalogDefault}
                 size="xs"

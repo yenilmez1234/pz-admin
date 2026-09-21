@@ -43,7 +43,7 @@ export function ServerConnectionFooter({
         loading={disconnecting}
         onClick={onDisconnect}
       >
-        {t("actions.disconnect")}
+        {t("actions.disconnect", { ns: "common" })}
       </Button>
     </Stack>
   );

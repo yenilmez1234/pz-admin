@@ -1,6 +1,12 @@
 {
-  "page": {
-    "title": "Settings"
+  "colorScheme": {
+    "description": "Choose how the application selects its colors.",
+    "label": "Color scheme",
+    "options": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    }
   },
   "errors": {
     "load": {
@@ -11,17 +17,11 @@
       "title": "Unable to save settings"
     }
   },
-  "colorScheme": {
-    "description": "Choose how the application selects its colors.",
-    "label": "Color scheme",
-    "options": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "System"
-    }
-  },
   "language": {
     "description": "Choose the application language.",
     "label": "Language"
+  },
+  "page": {
+    "title": "Settings"
   }
 }

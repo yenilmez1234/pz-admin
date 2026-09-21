@@ -69,7 +69,7 @@ export function AddServerUserModal({
           <PasswordInput
             key={form.key("password")}
             autoComplete="new-password"
-            label={t("fields.password.label")}
+            label={t("fields.password.label", { ns: "common" })}
             name="password"
             required
             {...form.getInputProps("password")}

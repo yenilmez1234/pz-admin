@@ -6,7 +6,6 @@
   },
   "picker": {
     "actions": {
-      "clear": "Clear all",
       "maxAll": "Maximize all",
       "removeSkill": "Remove {{skill}}"
     },

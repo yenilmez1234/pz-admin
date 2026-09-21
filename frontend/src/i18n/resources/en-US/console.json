@@ -1,7 +1,4 @@
 {
-  "page": {
-    "title": "Console"
-  },
   "command": {
     "label": "Server command",
     "placeholder": "Enter a server command"
@@ -16,5 +13,8 @@
   "output": {
     "empty": "Command completed without output.",
     "label": "Console output"
+  },
+  "page": {
+    "title": "Console"
   }
 }

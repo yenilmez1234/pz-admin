@@ -1,33 +1,31 @@
 {
-  "page": {
-    "title": "Eşya kataloğu"
-  },
-  "errors": {
-    "load": {
-      "title": "Eşyalar yüklenemedi"
+  "browser": {
+    "actions": {
+      "addItem": "{{name}} ekle"
+    },
+    "search": {
+      "empty": "Aramanızla eşleşen eşya bulunamadı.",
+      "label": "Eşya ara"
     }
   },
   "editor": {
     "actions": {
       "edit": "Eşyaları düzenle"
     },
-    "title": "Başlangıç eşyalarını düzenle",
     "empty": "Eşya seçilmedi",
     "summary_one": "{{count}} eşya seçildi",
-    "summary_other": "{{count}} eşya seçildi"
+    "summary_other": "{{count}} eşya seçildi",
+    "title": "Başlangıç eşyalarını düzenle"
   },
-  "browser": {
-    "search": {
-      "label": "Eşya ara",
-      "empty": "Aramanızla eşleşen eşya bulunamadı."
-    },
-    "actions": {
-      "addItem": "{{name}} ekle"
+  "errors": {
+    "load": {
+      "title": "Eşyalar yüklenemedi"
     }
   },
+  "page": {
+    "title": "Eşya kataloğu"
+  },
   "selection": {
-    "title": "Seçilen eşyalar",
-    "empty": "Bir liste oluşturmak için katalogdan eşya seçin.",
     "customItem": {
       "actions": {
         "add": "Özel eşya ekle"
@@ -35,8 +33,10 @@
       "label": "Özel eşya kimliği",
       "placeholder": "Özel bir eşya kimliği girin…"
     },
+    "empty": "Bir liste oluşturmak için katalogdan eşya seçin.",
     "quantity": {
       "label": "{{name}} miktarı"
-    }
+    },
+    "title": "Seçilen eşyalar"
   }
 }

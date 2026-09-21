@@ -40,6 +40,21 @@ they cannot silently construct invalid keys.
   `browser.actions.addItem`. Name the action itself; do not add a suffix based on
   whether it is visible text or an `aria-label`.
 
+## File formatting
+
+Hand-maintained `resources/**/*.json` files use two-space indentation, expanded
+objects, LF line endings, and one final newline. Object keys are sorted recursively
+using case-sensitive, locale-independent JavaScript string order (integer index
+keys follow JSON.stringify's numeric ordering). Array order and all message values
+are preserved. Catalog identifiers are sorted, never renamed. Generated game
+translations are excluded.
+
+Run `pnpm format:translations` to apply this format, or `pnpm format` to format the
+whole frontend. `pnpm format:check` checks it without writing and runs as part of
+`pnpm check`. Prettier's translation-only `json-stringify` override keeps editor
+whitespace formatting consistent; the translation formatter also sorts keys.
+This is a formatting rule, not a requirement for complete non-English locales.
+
 ## Messages
 
 - Use sentence case for English and Turkish UI text, including headings,

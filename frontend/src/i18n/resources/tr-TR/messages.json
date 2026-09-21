@@ -1,6 +1,6 @@
 {
-  "page": {
-    "title": "Mesaj düzenleyici"
+  "actions": {
+    "edit": "Mesajı düzenle"
   },
   "dialog": {
     "title": "Mesajı düzenle"
@@ -12,9 +12,7 @@
         "left": "Sola hizala",
         "right": "Sağa hizala"
       },
-      "clearFormatting": "Biçimlendirmeyi temizle",
-      "redo": "Yinele",
-      "undo": "Geri al"
+      "clearFormatting": "Biçimlendirmeyi temizle"
     },
     "color": {
       "actions": {
@@ -38,11 +36,11 @@
       }
     }
   },
-  "preview": {
-    "title": "Biçimlendirilmiş mesaj",
-    "empty": "Biçimlendirilmiş mesaj burada görüntülenecek."
+  "page": {
+    "title": "Mesaj düzenleyici"
   },
-  "actions": {
-    "edit": "Mesajı düzenle"
+  "preview": {
+    "empty": "Biçimlendirilmiş mesaj burada görüntülenecek.",
+    "title": "Biçimlendirilmiş mesaj"
   }
 }

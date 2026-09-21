@@ -68,7 +68,7 @@ const players = [
 
 function submitButton() {
   return screen.getByRole("button", {
-    name: i18n.t("dialogs.addXp.submit", { ns: "players" }),
+    name: i18n.t("actions.add", { ns: "common" }),
   });
 }
 

@@ -1,6 +1,12 @@
 {
-  "page": {
-    "title": "Ayarlar"
+  "colorScheme": {
+    "description": "Uygulamanın hangi renk düzenini kullanacağını seçin.",
+    "label": "Renk düzeni",
+    "options": {
+      "dark": "Koyu",
+      "light": "Açık",
+      "system": "Sistem"
+    }
   },
   "errors": {
     "load": {
@@ -11,17 +17,11 @@
       "title": "Ayarlar kaydedilemedi"
     }
   },
-  "colorScheme": {
-    "description": "Uygulamanın hangi renk düzenini kullanacağını seçin.",
-    "label": "Renk düzeni",
-    "options": {
-      "dark": "Koyu",
-      "light": "Açık",
-      "system": "Sistem"
-    }
-  },
   "language": {
     "description": "Uygulama dilini seçin.",
     "label": "Dil"
+  },
+  "page": {
+    "title": "Ayarlar"
   }
 }

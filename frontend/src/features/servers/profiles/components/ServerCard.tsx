@@ -88,7 +88,7 @@ export function ServerCard({
                 leftSection={<IconPencil size={14} aria-hidden="true" />}
                 onClick={() => onEdit(profile)}
               >
-                {t("actions.edit")}
+                {t("actions.edit", { ns: "common" })}
               </Menu.Item>
               <Menu.Divider />
               <Menu.Item
@@ -96,7 +96,7 @@ export function ServerCard({
                 leftSection={<IconTrash size={14} aria-hidden="true" />}
                 onClick={() => onDelete(profile)}
               >
-                {t("actions.delete")}
+                {t("actions.delete", { ns: "common" })}
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
@@ -112,7 +112,7 @@ export function ServerCard({
             disabled={disabled && !connecting}
             onClick={() => onConnect(profile)}
           >
-            {t("actions.connect")}
+            {t("actions.connect", { ns: "common" })}
           </Button>
         </Group>
       </Stack>

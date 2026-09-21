@@ -63,7 +63,7 @@ export function PlayerBulkActions({
             size="xs"
             variant="default"
           >
-            {t("actions.bulk.open")}
+            {t("actions.label", { ns: "common" })}
           </Button>
         </Menu.Target>
 

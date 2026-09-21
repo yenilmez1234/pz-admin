@@ -1,8 +1,8 @@
 {
-  "page": {
-    "title": "Tools"
-  },
   "navigation": {
     "label": "Tools pages"
+  },
+  "page": {
+    "title": "Tools"
   }
 }

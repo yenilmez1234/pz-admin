@@ -1,49 +1,4 @@
 {
-  "page": {
-    "title": "Araç kataloğu"
-  },
-  "errors": {
-    "load": { "title": "Araçlar yüklenemedi" }
-  },
-  "picker": {
-    "actions": {
-      "back": "Geri dön",
-      "selectVariant": "{{variant}} varyantını seç"
-    },
-    "root": "Araçlar"
-  },
-  "variants": { "title": "Varyantlar" },
-  "stats": {
-    "animalSize": "Hayvan boyutu",
-    "doors": "Kapı sayısı",
-    "engineLoudness": "Motor ses düzeyi",
-    "enginePower": "Motor gücü",
-    "engineQuality": "Motor kalitesi",
-    "gloveBox": "Torpido kapasitesi",
-    "lightbar": "Tepe lambası",
-    "occupantProtection": "Yolcu koruması",
-    "offRoadEfficiency": "Arazi verimliliği",
-    "rollInfluence": "Yana yatma etkisi",
-    "seats": "Koltuk sayısı",
-    "suspensionStiffness": "Süspansiyon sertliği",
-    "topSpeed": "Azami hız",
-    "totalStorage": "Toplam depolama kapasitesi",
-    "trunkStorage": "Bagaj kapasitesi",
-    "weight": "Ağırlık",
-    "wheels": "Tekerlek sayısı",
-    "short": {
-      "enginePower": "Güç",
-      "topSpeed": "Hız",
-      "totalStorage": "Depolama"
-    },
-    "values": {
-      "enginePower": "{{value}} bg",
-      "seats_one": "{{value}} koltuk",
-      "seats_other": "{{value}} koltuk",
-      "storage_one": "{{value}} birim",
-      "storage_other": "{{value}} birim"
-    }
-  },
   "browser": {
     "results": {
       "summary_one": "{{count}} araç",
@@ -65,6 +20,11 @@
       "performance": "Performans"
     }
   },
+  "errors": {
+    "load": {
+      "title": "Araçlar yüklenemedi"
+    }
+  },
   "filters": {
     "boolean": {
       "options": {
@@ -78,11 +38,56 @@
       "vehicle": "Araç"
     },
     "title": "Filtreler",
-    "vehicle": { "label": "Kategori veya model" }
+    "vehicle": {
+      "label": "Kategori veya model"
+    }
+  },
+  "page": {
+    "title": "Araç kataloğu"
+  },
+  "picker": {
+    "actions": {
+      "selectVariant": "{{variant}} varyantını seç"
+    },
+    "root": "Araçlar"
   },
   "sorting": {
     "fields": {
       "name": "Ad"
     }
+  },
+  "stats": {
+    "animalSize": "Hayvan boyutu",
+    "doors": "Kapı sayısı",
+    "engineLoudness": "Motor ses düzeyi",
+    "enginePower": "Motor gücü",
+    "engineQuality": "Motor kalitesi",
+    "gloveBox": "Torpido kapasitesi",
+    "lightbar": "Tepe lambası",
+    "occupantProtection": "Yolcu koruması",
+    "offRoadEfficiency": "Arazi verimliliği",
+    "rollInfluence": "Yana yatma etkisi",
+    "seats": "Koltuk sayısı",
+    "short": {
+      "enginePower": "Güç",
+      "topSpeed": "Hız",
+      "totalStorage": "Depolama"
+    },
+    "suspensionStiffness": "Süspansiyon sertliği",
+    "topSpeed": "Azami hız",
+    "totalStorage": "Toplam depolama kapasitesi",
+    "trunkStorage": "Bagaj kapasitesi",
+    "values": {
+      "enginePower": "{{value}} bg",
+      "seats_one": "{{value}} koltuk",
+      "seats_other": "{{value}} koltuk",
+      "storage_one": "{{value}} birim",
+      "storage_other": "{{value}} birim"
+    },
+    "weight": "Ağırlık",
+    "wheels": "Tekerlek sayısı"
+  },
+  "variants": {
+    "title": "Varyantlar"
   }
 }

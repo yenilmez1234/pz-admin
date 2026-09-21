@@ -53,7 +53,7 @@ export function RemoveFromWhitelistModal({
             loading={submitting}
             onClick={() => void handleRemove()}
           >
-            {t("dialogs.removeFromWhitelist.submit")}
+            {t("actions.remove", { ns: "common" })}
           </Button>
         </Group>
       </Stack>

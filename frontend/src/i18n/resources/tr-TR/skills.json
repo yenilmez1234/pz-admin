@@ -6,7 +6,6 @@
   },
   "picker": {
     "actions": {
-      "clear": "Tümünü temizle",
       "maxAll": "Tümünü en yüksek değere ayarla",
       "removeSkill": "{{skill}} becerisini kaldır"
     },

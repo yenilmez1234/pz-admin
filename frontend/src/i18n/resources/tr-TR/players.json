@@ -1,60 +1,34 @@
 {
-  "page": {
-    "title": "Oyuncular"
-  },
-  "table": {
-    "label": "Oyuncular",
-    "columns": {
-      "player": "Oyuncu",
-      "lastSeen": "Son görülme",
-      "role": "Rol",
-      "actions": "İşlemler"
-    },
-    "actions": {
-      "addLocalPlayer": "Aradığınız oyuncu listede yok mu? Çevrim dışı bir oyuncuyu listeye ekleyin.",
-      "addPlayer": "Oyuncu ekle"
-    },
-    "empty": {
-      "default": "Gösterilecek oyuncu yok.",
-      "search": "Aramanızla eşleşen oyuncu bulunamadı."
-    },
-    "search": {
-      "label": "Oyuncu ara",
-      "placeholder": "Oyuncu ara…"
-    }
-  },
-  "selection": {
-    "selectAll": "Görünen tüm oyuncuları seç",
-    "selectPlayer": "{{username}} adlı oyuncuyu seç",
-    "clear": "Oyuncu seçimini temizle",
-    "summary_one": "{{count}} seçildi",
-    "summary_other": "{{count}} seçildi"
-  },
-  "lastSeen": {
-    "neverSeen": "Daha önce görülmedi",
-    "online": "Çevrim içi"
-  },
-  "fields": {
-    "password": { "label": "Parola" },
-    "reason": {
-      "label": "Gerekçe",
-      "placeholder": "İsteğe bağlı"
-    },
-    "username": { "label": "Kullanıcı adı" }
-  },
-  "roles": {
-    "admin": "Yönetici",
-    "banned": "Yasaklı",
-    "gm": "Oyun yöneticisi (GM)",
-    "moderator": "Moderatör",
-    "none": "Yok",
-    "observer": "Gözlemci",
-    "overseer": "Denetleyici",
-    "priority": "Öncelikli",
-    "user": "Kullanıcı",
-    "unknown": "Bilinmiyor"
-  },
   "actions": {
+    "bulk": {
+      "label": "Seçili oyuncu işlemleri",
+      "restrictions": {
+        "onlineOnly": "Seçilen tüm oyuncular çevrim içi olmalıdır."
+      }
+    },
+    "commands": {
+      "addXp": "XP ekle",
+      "applyVoiceBan": "Ses yasağı uygula",
+      "ban": "Yasakla",
+      "createHorde": "Zombi sürüsü oluştur",
+      "giveItems": "Eşya ver",
+      "kick": "At",
+      "lightningStrike": "Yıldırım çarpması",
+      "removeFromWhitelist": "Beyaz listeden kaldır",
+      "removeVoiceBan": "Ses yasağını kaldır",
+      "setPassword": "Parolayı değiştir",
+      "setRole": "Rol belirle",
+      "spawnVehicle": "Araç oluştur",
+      "teleport": "Işınla",
+      "thunderStrike": "Gök gürültüsü",
+      "unban": "Yasağı kaldır"
+    },
+    "groups": {
+      "events": "Olaylar",
+      "give": "Ver",
+      "moderation": "Moderasyon",
+      "powers": "Özel güçler"
+    },
     "menu": {
       "label": "{{username}} için işlemleri aç",
       "restrictions": {
@@ -62,75 +36,70 @@
         "protectedRoles": "Yöneticiler ve moderatörler yasaklanamaz veya sunucudan atılamaz."
       }
     },
-    "groups": {
-      "moderation": "Moderasyon",
-      "events": "Olaylar",
-      "give": "Ver",
-      "powers": "Özel güçler"
-    },
-    "commands": {
-      "giveItems": "Eşya ver",
-      "spawnVehicle": "Araç oluştur",
-      "addXp": "XP ekle",
-      "ban": "Yasakla",
-      "createHorde": "Zombi sürüsü oluştur",
-      "kick": "At",
-      "lightningStrike": "Yıldırım çarpması",
-      "removeFromWhitelist": "Beyaz listeden kaldır",
-      "removeVoiceBan": "Ses yasağını kaldır",
-      "setRole": "Rol belirle",
-      "setPassword": "Parolayı değiştir",
-      "teleport": "Işınla",
-      "thunderStrike": "Gök gürültüsü",
-      "unban": "Yasağı kaldır",
-      "applyVoiceBan": "Ses yasağı uygula"
-    },
     "powers": {
-      "invisible": {
-        "label": "Görünmezlik",
-        "enable": "Görünmezliği aç",
-        "disable": "Görünmezliği kapat"
-      },
       "godMode": {
-        "label": "Ölümsüzlük modu",
+        "disable": "Ölümsüzlük modunu kapat",
         "enable": "Ölümsüzlük modunu aç",
-        "disable": "Ölümsüzlük modunu kapat"
+        "label": "Ölümsüzlük modu"
+      },
+      "invisible": {
+        "disable": "Görünmezliği kapat",
+        "enable": "Görünmezliği aç",
+        "label": "Görünmezlik"
       },
       "noClip": {
-        "label": "Çarpışmasız mod",
+        "disable": "Çarpışmasız modu kapat",
         "enable": "Çarpışmasız modu aç",
-        "disable": "Çarpışmasız modu kapat"
+        "label": "Çarpışmasız mod"
       },
       "states": {
-        "enabled": "açık",
         "disabled": "kapalı",
+        "enabled": "açık",
         "unknown": "bilinmiyor"
-      }
-    },
-    "bulk": {
-      "label": "Seçili oyuncu işlemleri",
-      "open": "İşlemler",
-      "restrictions": {
-        "onlineOnly": "Seçilen tüm oyuncular çevrim içi olmalıdır."
       }
     }
   },
   "dialogs": {
-    "addServerUser": {
-      "submit": "Beyaz listeye ekle",
-      "title": "Oyuncuyu beyaz listeye ekle"
-    },
     "addLocalPlayer": {
       "submit": "Oyuncu ekle",
       "title": "Yerel oyuncu ekle"
     },
+    "addServerUser": {
+      "submit": "Beyaz listeye ekle",
+      "title": "Oyuncuyu beyaz listeye ekle"
+    },
+    "addXp": {
+      "description_one": "{{username}} adlı oyuncu için becerileri ve bu becerilere eklenecek XP miktarlarını seçin.",
+      "description_other": "{{count}} oyuncunun her biri için becerileri ve bu becerilere eklenecek XP miktarlarını seçin.",
+      "title": "XP ekle"
+    },
     "ban": {
-      "banIp": { "label": "Mevcut IP adresini de yasakla" },
+      "banIp": {
+        "label": "Mevcut IP adresini de yasakla"
+      },
       "description_one": "{{username}} adlı oyuncuyu sunucudan yasaklayın.",
       "description_other": "{{count}} oyuncuyu sunucudan yasaklayın.",
       "submit": "Yasakla",
       "title_one": "Oyuncuyu yasakla",
       "title_other": "Oyuncuları yasakla"
+    },
+    "createHorde": {
+      "description_one": "{{username}} adlı oyuncunun yakınında bir zombi sürüsü oluşturun.",
+      "description_other": "{{count}} oyuncunun her birinin yakınında bir zombi sürüsü oluşturun.",
+      "size": {
+        "label": "Sürü büyüklüğü"
+      },
+      "submit": "Sürü oluştur",
+      "title": "Zombi sürüsü oluştur",
+      "validation": {
+        "sizeRange": "Sıfırdan büyük bir tam sayı girin."
+      }
+    },
+    "giveItems": {
+      "description_one": "{{username}} adlı oyuncuya verilecek eşyaları seçin.",
+      "description_other": "{{count}} oyuncunun her birine verilecek eşyaları seçin.",
+      "submit": "Ver",
+      "title": "Eşya ver"
     },
     "kick": {
       "description_one": "{{username}} adlı oyuncuyu sunucudan atın.",
@@ -139,42 +108,58 @@
       "title_one": "Oyuncuyu at",
       "title_other": "Oyuncuları at"
     },
-    "removeFromWhitelist": {
-      "description_one": "{{username}} sunucu beyaz listesinden kaldırılsın mı?",
-      "description_other": "{{count}} oyuncu sunucu beyaz listesinden kaldırılsın mı?",
-      "submit": "Kaldır",
-      "title_one": "Oyuncuyu beyaz listeden kaldır",
-      "title_other": "Oyuncuları beyaz listeden kaldır"
-    },
-    "createHorde": {
-      "description_one": "{{username}} adlı oyuncunun yakınında bir zombi sürüsü oluşturun.",
-      "description_other": "{{count}} oyuncunun her birinin yakınında bir zombi sürüsü oluşturun.",
-      "size": { "label": "Sürü büyüklüğü" },
-      "submit": "Sürü oluştur",
-      "title": "Zombi sürüsü oluştur",
-      "validation": {
-        "sizeRange": "Sıfırdan büyük bir tam sayı girin."
-      }
-    },
     "lightning": {
       "description_one": "{{username}} adlı oyuncunun üzerine yıldırım düşürülsün mü?",
       "description_other": "{{count}} oyuncunun üzerine yıldırım düşürülsün mü?",
       "submit": "Yıldırım düşür",
       "title": "Yıldırım çarpması"
     },
-    "thunder": {
-      "description_one": "{{username}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturulsun mu?",
-      "description_other": "{{count}} oyuncunun bulunduğu yerlerde gök gürültüsü oluşturulsun mu?",
-      "submit": "Gök gürültüsü oluştur",
-      "title": "Gök gürültüsü"
+    "removeFromWhitelist": {
+      "description_one": "{{username}} sunucu beyaz listesinden kaldırılsın mı?",
+      "description_other": "{{count}} oyuncu sunucu beyaz listesinden kaldırılsın mı?",
+      "title_one": "Oyuncuyu beyaz listeden kaldır",
+      "title_other": "Oyuncuları beyaz listeden kaldır"
+    },
+    "setPassword": {
+      "description_one": "{{username}} için yeni bir parola girin.",
+      "description_other": "{{count}} oyuncu için yeni bir parola girin.",
+      "submit": "Parolayı değiştir",
+      "title_one": "Oyuncu parolasını değiştir",
+      "title_other": "Oyuncu parolalarını değiştir"
+    },
+    "setRole": {
+      "description_one": "{{username}} için bir rol seçin.",
+      "description_other": "{{count}} oyuncu için bir rol seçin.",
+      "role": {
+        "label": "Rol"
+      },
+      "submit": "Belirle",
+      "title": "Rol belirle"
+    },
+    "spawnVehicle": {
+      "description_one": "{{username}} adlı oyuncunun yakınında oluşturulacak aracı seçin.",
+      "description_other": "{{count}} oyuncunun her birinin yakınında oluşturulacak aracı seçin.",
+      "submit": "Oluştur",
+      "title": "Araç oluştur"
     },
     "teleport": {
+      "coordinates": {
+        "x": {
+          "label": "X"
+        },
+        "y": {
+          "label": "Y"
+        },
+        "z": {
+          "label": "Z"
+        }
+      },
       "description_one": "{{username}} adlı oyuncunun nereye ışınlanacağını seçin.",
       "description_other": "{{count}} oyuncunun nereye ışınlanacağını seçin.",
       "destinationPlayer": {
+        "empty": "Başka çevrim içi oyuncu bulunamadı",
         "label": "Hedef oyuncu",
-        "placeholder": "Bir oyuncu seçin",
-        "empty": "Başka çevrim içi oyuncu bulunamadı"
+        "placeholder": "Bir oyuncu seçin"
       },
       "mode": {
         "options": {
@@ -183,86 +168,129 @@
         }
       },
       "submit": "Işınla",
-      "coordinates": {
-        "x": { "label": "X" },
-        "y": { "label": "Y" },
-        "z": { "label": "Z" }
-      },
       "title_one": "Oyuncuyu ışınla",
       "title_other": "Oyuncuları ışınla"
     },
-    "spawnVehicle": {
-      "description_one": "{{username}} adlı oyuncunun yakınında oluşturulacak aracı seçin.",
-      "description_other": "{{count}} oyuncunun her birinin yakınında oluşturulacak aracı seçin.",
-      "submit": "Oluştur",
-      "title": "Araç oluştur"
-    },
-    "giveItems": {
-      "description_one": "{{username}} adlı oyuncuya verilecek eşyaları seçin.",
-      "description_other": "{{count}} oyuncunun her birine verilecek eşyaları seçin.",
-      "submit": "Ver",
-      "title": "Eşya ver"
-    },
-    "addXp": {
-      "description_one": "{{username}} adlı oyuncu için becerileri ve bu becerilere eklenecek XP miktarlarını seçin.",
-      "description_other": "{{count}} oyuncunun her biri için becerileri ve bu becerilere eklenecek XP miktarlarını seçin.",
-      "submit": "Ekle",
-      "title": "XP ekle"
-    },
-    "setRole": {
-      "description_one": "{{username}} için bir rol seçin.",
-      "description_other": "{{count}} oyuncu için bir rol seçin.",
-      "role": { "label": "Rol" },
-      "submit": "Belirle",
-      "title": "Rol belirle"
-    },
-    "setPassword": {
-      "description_one": "{{username}} için yeni bir parola girin.",
-      "description_other": "{{count}} oyuncu için yeni bir parola girin.",
-      "submit": "Parolayı değiştir",
-      "title_one": "Oyuncu parolasını değiştir",
-      "title_other": "Oyuncu parolalarını değiştir"
+    "thunder": {
+      "description_one": "{{username}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturulsun mu?",
+      "description_other": "{{count}} oyuncunun bulunduğu yerlerde gök gürültüsü oluşturulsun mu?",
+      "submit": "Gök gürültüsü oluştur",
+      "title": "Gök gürültüsü"
     }
   },
   "errors": {
-    "load": { "title": "Oyuncular yüklenemedi" }
+    "load": {
+      "title": "Oyuncular yüklenemedi"
+    }
+  },
+  "fields": {
+    "reason": {
+      "label": "Gerekçe",
+      "placeholder": "İsteğe bağlı"
+    },
+    "username": {
+      "label": "Kullanıcı adı"
+    }
+  },
+  "lastSeen": {
+    "neverSeen": "Daha önce görülmedi",
+    "online": "Çevrim içi"
   },
   "notifications": {
-    "addServerUser": {
-      "success": "{{username}} sunucu beyaz listesine eklendi."
-    },
     "addLocalPlayer": {
       "success": "{{username}} oyuncu listesine eklendi."
     },
+    "addServerUser": {
+      "success": "{{username}} sunucu beyaz listesine eklendi."
+    },
+    "addXp": {
+      "success_one": "{{username}} adlı oyuncuya XP eklendi.",
+      "success_other": "{{count}} oyuncuya XP eklendi."
+    },
+    "ban": {
+      "success_one": "{{username}} yasaklandı.",
+      "success_other": "{{count}} oyuncu yasaklandı."
+    },
+    "createHorde": {
+      "success_one": "{{username}} adlı oyuncunun yakınında bir zombi sürüsü oluşturuldu.",
+      "success_other": "{{count}} oyuncunun her birinin yakınında bir zombi sürüsü oluşturuldu."
+    },
+    "failure": {
+      "message": "İşlem tamamlanamadı: {{error}}"
+    },
+    "giveItems": {
+      "success_one": "Eşyalar {{username}} adlı oyuncuya verildi.",
+      "success_other": "Eşyalar {{count}} oyuncuya verildi."
+    },
     "godMode": {
-      "enable": {
-        "success_one": "{{username}} için ölümsüzlük modu açıldı.",
-        "success_other": "{{count}} oyuncu için ölümsüzlük modu açıldı."
-      },
       "disable": {
         "success_one": "{{username}} için ölümsüzlük modu kapatıldı.",
         "success_other": "{{count}} oyuncu için ölümsüzlük modu kapatıldı."
-      }
-    },
-    "noClip": {
-      "enable": {
-        "success_one": "{{username}} için çarpışmasız mod açıldı.",
-        "success_other": "{{count}} oyuncu için çarpışmasız mod açıldı."
       },
-      "disable": {
-        "success_one": "{{username}} için çarpışmasız mod kapatıldı.",
-        "success_other": "{{count}} oyuncu için çarpışmasız mod kapatıldı."
+      "enable": {
+        "success_one": "{{username}} için ölümsüzlük modu açıldı.",
+        "success_other": "{{count}} oyuncu için ölümsüzlük modu açıldı."
       }
     },
     "invisible": {
-      "enable": {
-        "success_one": "{{username}} için görünmezlik açıldı.",
-        "success_other": "{{count}} oyuncu için görünmezlik açıldı."
-      },
       "disable": {
         "success_one": "{{username}} için görünmezlik kapatıldı.",
         "success_other": "{{count}} oyuncu için görünmezlik kapatıldı."
+      },
+      "enable": {
+        "success_one": "{{username}} için görünmezlik açıldı.",
+        "success_other": "{{count}} oyuncu için görünmezlik açıldı."
       }
+    },
+    "kick": {
+      "success_one": "{{username}} sunucudan atıldı.",
+      "success_other": "{{count}} oyuncu sunucudan atıldı."
+    },
+    "lightning": {
+      "success_one": "{{username}} adlı oyuncunun üzerine yıldırım düşürüldü.",
+      "success_other": "{{count}} oyuncunun üzerine yıldırım düşürüldü."
+    },
+    "noClip": {
+      "disable": {
+        "success_one": "{{username}} için çarpışmasız mod kapatıldı.",
+        "success_other": "{{count}} oyuncu için çarpışmasız mod kapatıldı."
+      },
+      "enable": {
+        "success_one": "{{username}} için çarpışmasız mod açıldı.",
+        "success_other": "{{count}} oyuncu için çarpışmasız mod açıldı."
+      }
+    },
+    "partialFailure": {
+      "message": "İşlem {{totalCount}} oyuncudan {{succeededCount}} tanesi için tamamlandı; {{failedCount}} tanesi için başarısız oldu: {{error}}",
+      "title": "İşlem kısmen tamamlandı"
+    },
+    "removeFromWhitelist": {
+      "success_one": "{{username}} beyaz listeden kaldırıldı.",
+      "success_other": "{{count}} oyuncu beyaz listeden kaldırıldı."
+    },
+    "role": {
+      "success_one": "{{username}} adlı oyuncunun rolü güncellendi.",
+      "success_other": "{{count}} oyuncunun rolü güncellendi."
+    },
+    "setPassword": {
+      "success_one": "{{username}} adlı oyuncunun parolası değiştirildi.",
+      "success_other": "{{count}} oyuncunun parolası değiştirildi."
+    },
+    "spawnVehicle": {
+      "success_one": "{{username}} adlı oyuncunun yakınında {{vehicle}} oluşturuldu.",
+      "success_other": "{{count}} oyuncunun her birinin yakınında {{vehicle}} oluşturuldu."
+    },
+    "teleport": {
+      "success_one": "{{username}} ışınlandı.",
+      "success_other": "{{count}} oyuncu ışınlandı."
+    },
+    "thunder": {
+      "success_one": "{{username}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturuldu.",
+      "success_other": "{{count}} oyuncunun bulunduğu yerlerde gök gürültüsü oluşturuldu."
+    },
+    "unban": {
+      "success_one": "{{username}} adlı oyuncunun yasağı kaldırıldı.",
+      "success_other": "{{count}} oyuncunun yasağı kaldırıldı."
     },
     "voiceBan": {
       "apply": {
@@ -273,65 +301,48 @@
         "success_one": "{{username}} adlı oyuncunun ses yasağı kaldırıldı.",
         "success_other": "{{count}} oyuncunun ses yasağı kaldırıldı."
       }
+    }
+  },
+  "page": {
+    "title": "Oyuncular"
+  },
+  "roles": {
+    "admin": "Yönetici",
+    "banned": "Yasaklı",
+    "gm": "Oyun yöneticisi (GM)",
+    "moderator": "Moderatör",
+    "none": "Yok",
+    "observer": "Gözlemci",
+    "overseer": "Denetleyici",
+    "priority": "Öncelikli",
+    "unknown": "Bilinmiyor",
+    "user": "Kullanıcı"
+  },
+  "selection": {
+    "clear": "Oyuncu seçimini temizle",
+    "selectAll": "Görünen tüm oyuncuları seç",
+    "selectPlayer": "{{username}} adlı oyuncuyu seç",
+    "summary_one": "{{count}} seçildi",
+    "summary_other": "{{count}} seçildi"
+  },
+  "table": {
+    "actions": {
+      "addLocalPlayer": "Aradığınız oyuncu listede yok mu? Çevrim dışı bir oyuncuyu listeye ekleyin.",
+      "addPlayer": "Oyuncu ekle"
     },
-    "role": {
-      "success_one": "{{username}} adlı oyuncunun rolü güncellendi.",
-      "success_other": "{{count}} oyuncunun rolü güncellendi."
+    "columns": {
+      "lastSeen": "Son görülme",
+      "player": "Oyuncu",
+      "role": "Rol"
     },
-    "setPassword": {
-      "success_one": "{{username}} adlı oyuncunun parolası değiştirildi.",
-      "success_other": "{{count}} oyuncunun parolası değiştirildi."
+    "empty": {
+      "default": "Gösterilecek oyuncu yok.",
+      "search": "Aramanızla eşleşen oyuncu bulunamadı."
     },
-    "ban": {
-      "success_one": "{{username}} yasaklandı.",
-      "success_other": "{{count}} oyuncu yasaklandı."
-    },
-    "kick": {
-      "success_one": "{{username}} sunucudan atıldı.",
-      "success_other": "{{count}} oyuncu sunucudan atıldı."
-    },
-    "unban": {
-      "success_one": "{{username}} adlı oyuncunun yasağı kaldırıldı.",
-      "success_other": "{{count}} oyuncunun yasağı kaldırıldı."
-    },
-    "removeFromWhitelist": {
-      "success_one": "{{username}} beyaz listeden kaldırıldı.",
-      "success_other": "{{count}} oyuncu beyaz listeden kaldırıldı."
-    },
-    "teleport": {
-      "success_one": "{{username}} ışınlandı.",
-      "success_other": "{{count}} oyuncu ışınlandı."
-    },
-    "createHorde": {
-      "success_one": "{{username}} adlı oyuncunun yakınında bir zombi sürüsü oluşturuldu.",
-      "success_other": "{{count}} oyuncunun her birinin yakınında bir zombi sürüsü oluşturuldu."
-    },
-    "lightning": {
-      "success_one": "{{username}} adlı oyuncunun üzerine yıldırım düşürüldü.",
-      "success_other": "{{count}} oyuncunun üzerine yıldırım düşürüldü."
-    },
-    "thunder": {
-      "success_one": "{{username}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturuldu.",
-      "success_other": "{{count}} oyuncunun bulunduğu yerlerde gök gürültüsü oluşturuldu."
-    },
-    "spawnVehicle": {
-      "success_one": "{{username}} adlı oyuncunun yakınında {{vehicle}} oluşturuldu.",
-      "success_other": "{{count}} oyuncunun her birinin yakınında {{vehicle}} oluşturuldu."
-    },
-    "giveItems": {
-      "success_one": "Eşyalar {{username}} adlı oyuncuya verildi.",
-      "success_other": "Eşyalar {{count}} oyuncuya verildi."
-    },
-    "addXp": {
-      "success_one": "{{username}} adlı oyuncuya XP eklendi.",
-      "success_other": "{{count}} oyuncuya XP eklendi."
-    },
-    "failure": {
-      "message": "İşlem tamamlanamadı: {{error}}"
-    },
-    "partialFailure": {
-      "title": "İşlem kısmen tamamlandı",
-      "message": "İşlem {{totalCount}} oyuncudan {{succeededCount}} tanesi için tamamlandı; {{failedCount}} tanesi için başarısız oldu: {{error}}"
+    "label": "Oyuncular",
+    "search": {
+      "label": "Oyuncu ara",
+      "placeholder": "Oyuncu ara…"
     }
   }
 }

@@ -61,7 +61,7 @@ export function DeleteServerModal({
             {t("actions.cancel", { ns: "common" })}
           </Button>
           <Button color="red" loading={deleting} onClick={handleDelete}>
-            {t("actions.delete")}
+            {t("actions.delete", { ns: "common" })}
           </Button>
         </Group>
       </Stack>

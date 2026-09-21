@@ -1,49 +1,4 @@
 {
-  "page": {
-    "title": "Vehicle browser"
-  },
-  "errors": {
-    "load": { "title": "Unable to load vehicles" }
-  },
-  "picker": {
-    "actions": {
-      "back": "Back",
-      "selectVariant": "Select {{variant}} variant"
-    },
-    "root": "Vehicles"
-  },
-  "variants": { "title": "Variants" },
-  "stats": {
-    "animalSize": "Animal size",
-    "doors": "Doors",
-    "engineLoudness": "Engine loudness",
-    "enginePower": "Engine power",
-    "engineQuality": "Engine quality",
-    "gloveBox": "Glove box capacity",
-    "lightbar": "Lightbar",
-    "occupantProtection": "Occupant protection",
-    "offRoadEfficiency": "Off-road efficiency",
-    "rollInfluence": "Roll influence",
-    "seats": "Seats",
-    "suspensionStiffness": "Suspension stiffness",
-    "topSpeed": "Top speed",
-    "totalStorage": "Total storage",
-    "trunkStorage": "Trunk capacity",
-    "weight": "Weight",
-    "wheels": "Wheels",
-    "short": {
-      "enginePower": "Power",
-      "topSpeed": "Speed",
-      "totalStorage": "Storage"
-    },
-    "values": {
-      "enginePower": "{{value}} hp",
-      "seats_one": "{{value}} seat",
-      "seats_other": "{{value}} seats",
-      "storage_one": "{{value}} unit",
-      "storage_other": "{{value}} units"
-    }
-  },
   "browser": {
     "results": {
       "summary_one": "{{count}} vehicle",
@@ -65,6 +20,11 @@
       "performance": "Performance"
     }
   },
+  "errors": {
+    "load": {
+      "title": "Unable to load vehicles"
+    }
+  },
   "filters": {
     "boolean": {
       "options": {
@@ -78,11 +38,56 @@
       "vehicle": "Vehicle"
     },
     "title": "Filters",
-    "vehicle": { "label": "Category or model" }
+    "vehicle": {
+      "label": "Category or model"
+    }
+  },
+  "page": {
+    "title": "Vehicle browser"
+  },
+  "picker": {
+    "actions": {
+      "selectVariant": "Select {{variant}} variant"
+    },
+    "root": "Vehicles"
   },
   "sorting": {
     "fields": {
       "name": "Name"
     }
+  },
+  "stats": {
+    "animalSize": "Animal size",
+    "doors": "Doors",
+    "engineLoudness": "Engine loudness",
+    "enginePower": "Engine power",
+    "engineQuality": "Engine quality",
+    "gloveBox": "Glove box capacity",
+    "lightbar": "Lightbar",
+    "occupantProtection": "Occupant protection",
+    "offRoadEfficiency": "Off-road efficiency",
+    "rollInfluence": "Roll influence",
+    "seats": "Seats",
+    "short": {
+      "enginePower": "Power",
+      "topSpeed": "Speed",
+      "totalStorage": "Storage"
+    },
+    "suspensionStiffness": "Suspension stiffness",
+    "topSpeed": "Top speed",
+    "totalStorage": "Total storage",
+    "trunkStorage": "Trunk capacity",
+    "values": {
+      "enginePower": "{{value}} hp",
+      "seats_one": "{{value}} seat",
+      "seats_other": "{{value}} seats",
+      "storage_one": "{{value}} unit",
+      "storage_other": "{{value}} units"
+    },
+    "weight": "Weight",
+    "wheels": "Wheels"
+  },
+  "variants": {
+    "title": "Variants"
   }
 }

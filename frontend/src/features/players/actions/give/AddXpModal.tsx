@@ -160,7 +160,7 @@ export function AddXpModal({
               loading={submitting}
               onClick={() => void handleAdd()}
             >
-              {t("dialogs.addXp.submit")}
+              {t("actions.add", { ns: "common" })}
             </Button>
           </Group>
         </Group>

@@ -18,9 +18,13 @@ function field(
   label:
     | "form.fields.name.label"
     | "form.fields.host.label"
-    | "form.fields.password.label",
+    | "fields.password.label",
 ) {
-  return screen.getByLabelText(i18n.t(label, { ns: "servers" }), {
+  const text =
+    label === "fields.password.label"
+      ? i18n.t(label, { ns: "common" })
+      : i18n.t(label, { ns: "servers" });
+  return screen.getByLabelText(text, {
     exact: false,
     selector: "input",
   });
@@ -44,7 +48,7 @@ it("requires a password for new servers and submits the entered profile", async 
   });
   expect(submit).toBeDisabled();
 
-  fireEvent.change(field("form.fields.password.label"), {
+  fireEvent.change(field("fields.password.label"), {
     target: { value: "secret" },
   });
   fireEvent.click(submit);

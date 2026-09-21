@@ -1,7 +1,4 @@
 {
-  "page": {
-    "title": "Konsol"
-  },
   "command": {
     "label": "Sunucu komutu",
     "placeholder": "Bir sunucu komutu girin"
@@ -16,5 +13,8 @@
   "output": {
     "empty": "Komut çıktı üretmeden tamamlandı.",
     "label": "Konsol çıktısı"
+  },
+  "page": {
+    "title": "Konsol"
   }
 }

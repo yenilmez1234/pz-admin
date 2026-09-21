@@ -1,6 +1,6 @@
 {
-  "page": {
-    "title": "Message editor"
+  "actions": {
+    "edit": "Edit message"
   },
   "dialog": {
     "title": "Edit message"
@@ -12,9 +12,7 @@
         "left": "Align left",
         "right": "Align right"
       },
-      "clearFormatting": "Clear formatting",
-      "redo": "Redo",
-      "undo": "Undo"
+      "clearFormatting": "Clear formatting"
     },
     "color": {
       "actions": {
@@ -38,11 +36,11 @@
       }
     }
   },
-  "preview": {
-    "title": "Formatted message",
-    "empty": "The formatted message will appear here."
+  "page": {
+    "title": "Message editor"
   },
-  "actions": {
-    "edit": "Edit message"
+  "preview": {
+    "empty": "The formatted message will appear here.",
+    "title": "Formatted message"
   }
 }
