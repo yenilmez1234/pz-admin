@@ -22,7 +22,7 @@
   },
   "selection": {
     "selectAll": "Görünen tüm oyuncuları seç",
-    "selectPlayer": "{{username}} kullanıcısını seç",
+    "selectPlayer": "{{username}} adlı oyuncuyu seç",
     "clear": "Oyuncu seçimini temizle",
     "summary_one": "{{count}} seçildi",
     "summary_other": "{{count}} seçildi"
@@ -47,7 +47,7 @@
     "moderator": "Moderatör",
     "none": "Yok",
     "observer": "Gözlemci",
-    "overseer": "Gözetmen",
+    "overseer": "Denetleyici",
     "priority": "Öncelikli",
     "user": "Kullanıcı",
     "unknown": "Bilinmiyor"
@@ -57,26 +57,26 @@
       "label": "{{username}} için işlemleri aç",
       "restrictions": {
         "onlineOnly": "Bu işlem için oyuncunun çevrim içi olması gerekir.",
-        "protectedRoles": "Yönetici ve moderatör rollerine sahip oyuncular yasaklanamaz veya atılamaz."
+        "protectedRoles": "Yöneticiler ve moderatörler yasaklanamaz veya sunucudan atılamaz."
       }
     },
     "groups": {
       "moderation": "Moderasyon",
       "events": "Olaylar",
       "give": "Ver",
-      "powers": "Yetkiler"
+      "powers": "Özel güçler"
     },
     "commands": {
       "giveItems": "Eşya ver",
       "spawnVehicle": "Araç oluştur",
       "addXp": "XP ekle",
       "ban": "Yasakla",
-      "createHorde": "Sürü oluştur",
+      "createHorde": "Zombi sürüsü oluştur",
       "kick": "At",
       "lightningStrike": "Yıldırım çarpması",
       "removeFromWhitelist": "Beyaz listeden kaldır",
       "removeVoiceBan": "Ses yasağını kaldır",
-      "setRole": "Rolü ayarla",
+      "setRole": "Rol belirle",
       "setPassword": "Parolayı değiştir",
       "teleport": "Işınla",
       "thunderStrike": "Gök gürültüsü",
@@ -124,15 +124,15 @@
     },
     "ban": {
       "banIp": { "label": "Mevcut IP adresini de yasakla" },
-      "description_one": "{{username}} kullanıcısını sunucudan yasaklayın.",
+      "description_one": "{{username}} adlı oyuncuyu sunucudan yasaklayın.",
       "description_other": "{{count}} oyuncuyu sunucudan yasaklayın.",
       "submit": "Yasakla",
       "title_one": "Oyuncuyu yasakla",
       "title_other": "Oyuncuları yasakla"
     },
     "kick": {
-      "description_one": "{{username}} kullanıcısının sunucu bağlantısını kesin.",
-      "description_other": "{{count}} oyuncunun sunucu bağlantısını kesin.",
+      "description_one": "{{username}} adlı oyuncuyu sunucudan atın.",
+      "description_other": "{{count}} oyuncuyu sunucudan atın.",
       "submit": "At",
       "title_one": "Oyuncuyu at",
       "title_other": "Oyuncuları at"
@@ -145,29 +145,29 @@
       "title_other": "Oyuncuları beyaz listeden kaldır"
     },
     "createHorde": {
-      "description_one": "{{username}} yakınına bir sürü oluşturun.",
-      "description_other": "{{count}} oyuncunun her birinin yakınına bir sürü oluşturun.",
+      "description_one": "{{username}} adlı oyuncunun yakınında bir zombi sürüsü oluşturun.",
+      "description_other": "{{count}} oyuncunun her birinin yakınında bir zombi sürüsü oluşturun.",
       "size": { "label": "Sürü büyüklüğü" },
       "submit": "Sürü oluştur",
-      "title": "Sürü oluştur",
+      "title": "Zombi sürüsü oluştur",
       "validation": {
         "sizeRange": "Sıfırdan büyük bir tam sayı girin."
       }
     },
     "lightning": {
-      "description_one": "{{username}} üzerine yıldırım düşürülsün mü?",
-      "description_other": "{{count}} oyuncu üzerine yıldırım düşürülsün mü?",
+      "description_one": "{{username}} adlı oyuncunun üzerine yıldırım düşürülsün mü?",
+      "description_other": "{{count}} oyuncunun üzerine yıldırım düşürülsün mü?",
       "submit": "Yıldırım düşür",
       "title": "Yıldırım çarpması"
     },
     "thunder": {
-      "description_one": "{{username}} üzerinde gök gürültüsü tetiklensin mi?",
-      "description_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklensin mi?",
-      "submit": "Gök gürültüsü tetikle",
+      "description_one": "{{username}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturulsun mu?",
+      "description_other": "{{count}} oyuncunun bulunduğu yerlerde gök gürültüsü oluşturulsun mu?",
+      "submit": "Gök gürültüsü oluştur",
       "title": "Gök gürültüsü"
     },
     "teleport": {
-      "description_one": "{{username}} kullanıcısının nereye ışınlanacağını seçin.",
+      "description_one": "{{username}} adlı oyuncunun nereye ışınlanacağını seçin.",
       "description_other": "{{count}} oyuncunun nereye ışınlanacağını seçin.",
       "destinationPlayer": {
         "label": "Hedef oyuncu",
@@ -190,20 +190,20 @@
       "title_other": "Oyuncuları ışınla"
     },
     "spawnVehicle": {
-      "description_one": "{{username}} yakınında oluşturulacak aracı seçin.",
+      "description_one": "{{username}} adlı oyuncunun yakınında oluşturulacak aracı seçin.",
       "description_other": "{{count}} oyuncunun her birinin yakınında oluşturulacak aracı seçin.",
       "submit": "Oluştur",
       "title": "Araç oluştur"
     },
     "giveItems": {
-      "description_one": "{{username}} kullanıcısına verilecek eşyaları seçin.",
+      "description_one": "{{username}} adlı oyuncuya verilecek eşyaları seçin.",
       "description_other": "{{count}} oyuncunun her birine verilecek eşyaları seçin.",
       "submit": "Ver",
       "title": "Eşya ver"
     },
     "addXp": {
-      "description_one": "{{username}} kullanıcısına eklenecek yetenekleri ve XP miktarlarını seçin.",
-      "description_other": "{{count}} oyuncunun her birine eklenecek yetenekleri ve XP miktarlarını seçin.",
+      "description_one": "{{username}} adlı oyuncu için becerileri ve bu becerilere eklenecek XP miktarlarını seçin.",
+      "description_other": "{{count}} oyuncunun her biri için becerileri ve bu becerilere eklenecek XP miktarlarını seçin.",
       "submit": "Ekle",
       "title": "XP ekle"
     },
@@ -211,8 +211,8 @@
       "description_one": "{{username}} için bir rol seçin.",
       "description_other": "{{count}} oyuncu için bir rol seçin.",
       "role": { "label": "Rol" },
-      "submit": "Ayarla",
-      "title": "Rolü ayarla"
+      "submit": "Belirle",
+      "title": "Rol belirle"
     },
     "setPassword": {
       "description_one": "{{username}} için yeni bir parola girin.",
@@ -264,20 +264,20 @@
     },
     "voiceBan": {
       "apply": {
-        "success_one": "{{username}} kullanıcısının sesli sohbeti devre dışı bırakıldı.",
-        "success_other": "{{count}} oyuncunun sesli sohbeti devre dışı bırakıldı."
+        "success_one": "{{username}} için ses yasağı uygulandı.",
+        "success_other": "{{count}} oyuncu için ses yasağı uygulandı."
       },
       "remove": {
-        "success_one": "{{username}} kullanıcısının sesli sohbeti etkinleştirildi.",
-        "success_other": "{{count}} oyuncunun sesli sohbeti etkinleştirildi."
+        "success_one": "{{username}} adlı oyuncunun ses yasağı kaldırıldı.",
+        "success_other": "{{count}} oyuncunun ses yasağı kaldırıldı."
       }
     },
     "role": {
-      "success_one": "{{username}} kullanıcısının rolü güncellendi.",
+      "success_one": "{{username}} adlı oyuncunun rolü güncellendi.",
       "success_other": "{{count}} oyuncunun rolü güncellendi."
     },
     "setPassword": {
-      "success_one": "{{username}} kullanıcısının parolası değiştirildi.",
+      "success_one": "{{username}} adlı oyuncunun parolası değiştirildi.",
       "success_other": "{{count}} oyuncunun parolası değiştirildi."
     },
     "ban": {
@@ -285,11 +285,11 @@
       "success_other": "{{count}} oyuncu yasaklandı."
     },
     "kick": {
-      "success_one": "{{username}} oyundan atıldı.",
-      "success_other": "{{count}} oyuncu oyundan atıldı."
+      "success_one": "{{username}} sunucudan atıldı.",
+      "success_other": "{{count}} oyuncu sunucudan atıldı."
     },
     "unban": {
-      "success_one": "{{username}} kullanıcısının yasağı kaldırıldı.",
+      "success_one": "{{username}} adlı oyuncunun yasağı kaldırıldı.",
       "success_other": "{{count}} oyuncunun yasağı kaldırıldı."
     },
     "removeFromWhitelist": {
@@ -301,27 +301,27 @@
       "success_other": "{{count}} oyuncu ışınlandı."
     },
     "createHorde": {
-      "success_one": "{{username}} yakınında bir sürü oluşturuldu.",
-      "success_other": "{{count}} oyuncunun yakınında sürüler oluşturuldu."
+      "success_one": "{{username}} adlı oyuncunun yakınında bir zombi sürüsü oluşturuldu.",
+      "success_other": "{{count}} oyuncunun her birinin yakınında bir zombi sürüsü oluşturuldu."
     },
     "lightning": {
-      "success_one": "{{username}} üzerine yıldırım düşürüldü.",
-      "success_other": "{{count}} oyuncu üzerine yıldırım düşürüldü."
+      "success_one": "{{username}} adlı oyuncunun üzerine yıldırım düşürüldü.",
+      "success_other": "{{count}} oyuncunun üzerine yıldırım düşürüldü."
     },
     "thunder": {
-      "success_one": "{{username}} üzerinde gök gürültüsü tetiklendi.",
-      "success_other": "{{count}} oyuncu üzerinde gök gürültüsü tetiklendi."
+      "success_one": "{{username}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturuldu.",
+      "success_other": "{{count}} oyuncunun bulunduğu yerlerde gök gürültüsü oluşturuldu."
     },
     "spawnVehicle": {
-      "success_one": "{{username}} yakınında {{vehicle}} oluşturuldu.",
+      "success_one": "{{username}} adlı oyuncunun yakınında {{vehicle}} oluşturuldu.",
       "success_other": "{{count}} oyuncunun her birinin yakınında {{vehicle}} oluşturuldu."
     },
     "giveItems": {
-      "success_one": "Eşyalar {{username}} kullanıcısına verildi.",
+      "success_one": "Eşyalar {{username}} adlı oyuncuya verildi.",
       "success_other": "Eşyalar {{count}} oyuncuya verildi."
     },
     "addXp": {
-      "success_one": "{{username}} kullanıcısına XP eklendi.",
+      "success_one": "{{username}} adlı oyuncuya XP eklendi.",
       "success_other": "{{count}} oyuncuya XP eklendi."
     },
     "failure": {
@@ -329,7 +329,7 @@
     },
     "partialFailure": {
       "title": "İşlem kısmen tamamlandı",
-      "message": "İşlem {{totalCount}} oyuncudan {{succeededCount}} tanesi için tamamlandı; {{failedCount}} tanesi başarısız oldu: {{error}}"
+      "message": "İşlem {{totalCount}} oyuncudan {{succeededCount}} tanesi için tamamlandı; {{failedCount}} tanesi için başarısız oldu: {{error}}"
     }
   }
 }

@@ -131,8 +131,8 @@
       "title_other": "Ban Players"
     },
     "kick": {
-      "description_one": "Disconnect {{username}} from the server.",
-      "description_other": "Disconnect {{count}} players from the server.",
+      "description_one": "Kick {{username}} from the server.",
+      "description_other": "Kick {{count}} players from the server.",
       "submit": "Kick",
       "title_one": "Kick Player",
       "title_other": "Kick Players"

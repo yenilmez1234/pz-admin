@@ -9,7 +9,7 @@
     "saveWorld": "Dünyayı kaydet",
     "stopServer": "Sunucuyu durdur",
     "sendMessage": "Mesaj gönder",
-    "startRain": "Yağmuru başlat",
+    "startRain": "Yağmur başlat",
     "startStorm": "Fırtına başlat",
     "stopRain": "Yağmuru durdur",
     "stopWeather": "Hava olaylarını durdur",
@@ -23,11 +23,11 @@
     "reloadAllLua": "Tüm Lua dosyalarını yeniden yükle"
   },
   "descriptions": {
-    "startRain": "Yağmuru başlatır. Yoğunluk isteğe bağlıdır ve 1 ile 100 arasındadır.",
-    "startStorm": "Fırtınayı başlatır. Süre isteğe bağlıdır ve oyun saati cinsindendir.",
-    "events": "Seçilen olayı rastgele seçilen bir çevrim içi oyuncu üzerinde tetikler.",
-    "reloadOptions": "Sunucu seçeneklerini dosyadan yeniden yükler.",
-    "reloadLua": "Belirtilen dosya adı veya yol son ekiyle eşleşen ilk yüklü Lua dosyasını yeniden yükler.",
+    "startRain": "Yağmur başlatır. Yoğunluk isteğe bağlıdır ve 1 ile 100 arasındadır.",
+    "startStorm": "Fırtına başlatır. Süre isteğe bağlıdır ve oyun saati cinsindendir.",
+    "events": "Seçilen olay için çevrim içi oyunculardan birini rastgele hedef alır.",
+    "reloadOptions": "Sunucu seçeneklerini diskten yeniden yükler.",
+    "reloadLua": "Yüklü Lua dosyaları arasından adı eşleşen ilk dosyayı yeniden yükler.",
     "reloadAllLua": "Yüklü tüm Lua dosyalarını yeniden yükler."
   },
   "fields": {
@@ -67,8 +67,12 @@
     "gunshot": {
       "message": "Silah sesi tetiklendi."
     },
-    "lightning": { "message": "{{target}} üzerinde yıldırım tetiklendi." },
-    "thunder": { "message": "{{target}} üzerinde gök gürültüsü tetiklendi." },
+    "lightning": {
+      "message": "{{target}} adlı oyuncunun üzerine yıldırım düşürüldü."
+    },
+    "thunder": {
+      "message": "{{target}} adlı oyuncunun bulunduğu yerde gök gürültüsü oluşturuldu."
+    },
     "optionsReloaded": {
       "message": "Seçenekler yeniden yüklendi."
     },

@@ -1,6 +1,6 @@
 {
   "connectionLost": {
-    "message": "Sunucu bağlantısı kapandı. Devam etmek için tekrar bağlanın.",
+    "message": "Sunucuyla bağlantı kesildi. Devam etmek için yeniden bağlanın.",
     "title": "Bağlantı kesildi"
   },
   "loading": {

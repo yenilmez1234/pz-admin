@@ -15,34 +15,34 @@
   "variants": { "title": "Varyantlar" },
   "stats": {
     "animalSize": "Hayvan boyutu",
-    "doors": "Kapılar",
-    "engineLoudness": "Motor gürültüsü",
+    "doors": "Kapı sayısı",
+    "engineLoudness": "Motor ses düzeyi",
     "enginePower": "Motor gücü",
     "engineQuality": "Motor kalitesi",
-    "gloveBox": "Torpido gözü kapasitesi",
+    "gloveBox": "Torpido kapasitesi",
     "lightbar": "Tepe lambası",
     "occupantProtection": "Yolcu koruması",
     "offRoadEfficiency": "Arazi verimliliği",
-    "rollInfluence": "Devrilme etkisi",
+    "rollInfluence": "Yana yatma etkisi",
     "seats": "Koltuk sayısı",
+    "suspensionStiffness": "Süspansiyon sertliği",
+    "topSpeed": "Azami hız",
+    "totalStorage": "Toplam depolama kapasitesi",
+    "trunkStorage": "Bagaj kapasitesi",
+    "weight": "Ağırlık",
+    "wheels": "Tekerlek sayısı",
     "short": {
       "enginePower": "Güç",
       "topSpeed": "Hız",
       "totalStorage": "Depolama"
     },
-    "suspensionStiffness": "Süspansiyon sertliği",
-    "topSpeed": "Azami hız",
-    "totalStorage": "Toplam depolama",
-    "trunkStorage": "Bagaj kapasitesi",
     "values": {
       "enginePower": "{{value}} bg",
       "seats_one": "{{value}} koltuk",
       "seats_other": "{{value}} koltuk",
       "storage_one": "{{value}} birim",
       "storage_other": "{{value}} birim"
-    },
-    "weight": "Ağırlık",
-    "wheels": "Tekerlekler"
+    }
   },
   "browser": {
     "results": {
@@ -51,7 +51,7 @@
     },
     "search": {
       "empty": "Aramanızla eşleşen araç bulunamadı.",
-      "label": "Araçları ara"
+      "label": "Araç ara"
     }
   },
   "details": {
@@ -68,7 +68,7 @@
   "filters": {
     "boolean": {
       "options": {
-        "any": "Fark etmez",
+        "any": "Tümü",
         "no": "Hayır",
         "yes": "Evet"
       }

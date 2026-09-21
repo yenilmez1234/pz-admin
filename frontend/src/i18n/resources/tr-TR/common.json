@@ -31,7 +31,7 @@
   "search": {
     "clear": "Aramayı temizle",
     "nameOrId": {
-      "placeholder": "Ada veya kimliğe göre ara…"
+      "placeholder": "Ad veya kimlik ile ara…"
     }
   },
   "sorting": {

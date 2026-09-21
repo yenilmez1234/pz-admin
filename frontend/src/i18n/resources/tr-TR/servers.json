@@ -51,7 +51,7 @@
       },
       "password": {
         "create": {
-          "description": "İşletim sisteminizin anahtarlığında güvenli bir şekilde saklanır."
+          "description": "İşletim sisteminizin anahtarlığında güvenle saklanır."
         },
         "edit": {
           "description": "Kayıtlı parolayı korumak için boş bırakın."
@@ -68,7 +68,7 @@
       }
     },
     "validation": {
-      "portRange": "1 ile 65535 arasında bir port girin."
+      "portRange": "1 ile 65535 arasında bir port numarası girin."
     }
   },
   "dialogs": {

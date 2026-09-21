@@ -2,8 +2,8 @@
   "navigation": {
     "label": "Seçenek bölümleri",
     "search": {
-      "label": "Seçeneklerde ara",
-      "placeholder": "Seçeneklerde ara…",
+      "label": "Seçenek ara",
+      "placeholder": "Seçenek ara…",
       "empty": "Aramanızla eşleşen seçenek bulunamadı."
     }
   },
@@ -14,10 +14,10 @@
     "numericRange": "En az {{minimum}}, en fazla {{maximum}}",
     "numericRange_minimum": "En az {{minimum}}",
     "numericRange_maximum": "En fazla {{maximum}}",
-    "requirement": "{{option}} {{value}} olduğunda uygulanır.",
+    "requirement": "{{option}} seçeneği {{value}} olduğunda uygulanır.",
     "writeOnly": {
       "label": "Yalnızca yazılabilir",
-      "description": "Sunucu mevcut değeri döndürmez. Yalnızca değiştirmek istediğinizde bir değer girin."
+      "description": "Mevcut değer sunucudan okunamaz. Yalnızca bu değeri değiştirmek istiyorsanız yeni bir değer girin."
     }
   },
   "values": {

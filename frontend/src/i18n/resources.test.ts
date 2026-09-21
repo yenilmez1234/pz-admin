@@ -7,6 +7,15 @@ import {
 
 const testLanguage = "coverage-test";
 
+function stringCount(value: unknown): number {
+  if (typeof value === "string") return 1;
+  if (!value || typeof value !== "object") return 0;
+  return Object.values(value).reduce<number>(
+    (total, child) => total + stringCount(child),
+    0,
+  );
+}
+
 afterEach(() => {
   delete resources[testLanguage];
 });
@@ -22,14 +31,6 @@ describe("interface translation coverage", () => {
   });
 
   it("calculates the percentage of English strings with translations", () => {
-    function stringCount(value: unknown): number {
-      if (typeof value === "string") return 1;
-      if (!value || typeof value !== "object") return 0;
-      return Object.values(value).reduce<number>(
-        (total, child) => total + stringCount(child),
-        0,
-      );
-    }
     const totalStrings = stringCount(defaultResources);
 
     for (const namespace of ["optionCatalog", "settings"] as const) {

@@ -1,17 +1,17 @@
 {
   "errors": {
     "load": {
-      "title": "Yetenekler yüklenemedi"
+      "title": "Beceriler yüklenemedi"
     }
   },
   "picker": {
     "actions": {
       "clear": "Tümünü temizle",
-      "maxAll": "Tümünü en üst düzeye çıkar",
-      "removeSkill": "{{skill}} yeteneğini kaldır"
+      "maxAll": "Tümünü en yüksek değere ayarla",
+      "removeSkill": "{{skill}} becerisini kaldır"
     },
     "catalog": {
-      "heading": "Yetenekler"
+      "heading": "Beceriler"
     },
     "customXp": {
       "input": {
@@ -24,12 +24,12 @@
     },
     "level": {
       "label": "{{skill}}, seviye {{level}}: {{amount}} XP",
-      "short": "Sv {{level}}"
+      "short": "Sv. {{level}}"
     },
     "selection": {
-      "empty": "XP'sini yapılandırmak için bir yetenek seçin.",
-      "heading_one": "{{count}} yetenek seçildi",
-      "heading_other": "{{count}} yetenek seçildi"
+      "empty": "XP miktarını ayarlamak için bir beceri seçin.",
+      "heading_one": "{{count}} beceri seçildi",
+      "heading_other": "{{count}} beceri seçildi"
     },
     "summary": {
       "total": "{{amount}} XP"
