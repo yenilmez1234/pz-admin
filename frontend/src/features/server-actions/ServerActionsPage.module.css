@@ -26,7 +26,7 @@
 
 .weatherControl {
   display: grid;
-  grid-template-columns: 6.5rem minmax(9rem, 11rem);
+  grid-template-columns: 10rem minmax(9rem, 11rem);
   gap: var(--mantine-spacing-xs);
   align-items: end;
 }
