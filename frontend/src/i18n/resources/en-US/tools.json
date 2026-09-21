@@ -1,8 +1,8 @@
 {
   "navigation": {
     "label": "Tools pages",
-    "messages": "Message Editor",
-    "items": "Item Browser",
-    "vehicles": "Vehicle Browser"
+    "messages": "Message editor",
+    "items": "Item browser",
+    "vehicles": "Vehicle browser"
   }
 }

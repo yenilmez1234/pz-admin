@@ -42,27 +42,27 @@
   },
   "notifications": {
     "updated": {
-      "title": "Options Updated",
+      "title": "Options updated",
       "message_one": "Updated {{count}} option.",
       "message_other": "Updated {{count}} options."
     },
     "partiallyUpdated": {
-      "title": "Some Options Were Not Updated",
+      "title": "Some options were not updated",
       "message": "Updated {{updated}} options; {{failed}} failed."
     },
     "updateFailed": {
-      "title": "Unable to Update Options",
+      "title": "Unable to update options",
       "message_one": "{{count}} option could not be updated.",
       "message_other": "{{count}} options could not be updated."
     },
     "refreshFailed": {
-      "title": "Unable to Reload Options",
+      "title": "Unable to reload options",
       "message": "The update finished, but the current server values could not be reloaded. Your edits were kept."
     }
   },
   "errors": {
     "load": {
-      "title": "Unable to Load Options"
+      "title": "Unable to load options"
     }
   }
 }

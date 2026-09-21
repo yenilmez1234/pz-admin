@@ -1,9 +1,9 @@
 {
   "page": {
-    "title": "Message Editor"
+    "title": "Message editor"
   },
   "dialog": {
-    "title": "Edit Message"
+    "title": "Edit message"
   },
   "editor": {
     "actions": {
@@ -39,10 +39,10 @@
     }
   },
   "preview": {
-    "title": "Formatted Message",
+    "title": "Formatted message",
     "empty": "The formatted message will appear here."
   },
   "actions": {
-    "edit": "Edit Message"
+    "edit": "Edit message"
   }
 }

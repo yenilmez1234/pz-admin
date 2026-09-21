@@ -1,13 +1,13 @@
 {
   "errors": {
     "load": {
-      "title": "Unable to Load Skills"
+      "title": "Unable to load skills"
     }
   },
   "picker": {
     "actions": {
-      "clear": "Clear All",
-      "maxAll": "Maximize All",
+      "clear": "Clear all",
+      "maxAll": "Maximize all",
       "removeSkill": "Remove {{skill}}"
     },
     "catalog": {

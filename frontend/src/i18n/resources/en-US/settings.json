@@ -4,11 +4,11 @@
   },
   "errors": {
     "load": {
-      "title": "Unable to Load Settings"
+      "title": "Unable to load settings"
     },
     "save": {
       "recovery": "Try changing the setting again.",
-      "title": "Unable to Save Settings"
+      "title": "Unable to save settings"
     }
   },
   "colorScheme": {

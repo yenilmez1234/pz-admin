@@ -8,8 +8,8 @@
     "copied": "Copied",
     "copy": "Copy",
     "expandNamed": "Expand {{name}}",
-    "retry": "Try Again",
-    "saveChanges": "Save Changes"
+    "retry": "Try again",
+    "saveChanges": "Save changes"
   },
   "errors": {
     "unexpected": "Something went wrong. Please try again."
@@ -24,8 +24,8 @@
   },
   "notifications": {
     "action": {
-      "failure": { "title": "Action Failed" },
-      "success": { "title": "Action Completed" }
+      "failure": { "title": "Action failed" },
+      "success": { "title": "Action completed" }
     }
   },
   "search": {

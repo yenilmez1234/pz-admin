@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "title": "Saved Servers",
+    "title": "Saved servers",
     "actions": {
-      "add": "Add Server"
+      "add": "Add server"
     },
     "empty": {
       "description": "Add a server to get started.",
@@ -13,11 +13,11 @@
     },
     "errors": {
       "connectionCheck": {
-        "title": "Unable to Check Connection"
+        "title": "Unable to check connection"
       },
       "actions": { "dismiss": "Dismiss error" },
       "load": {
-        "title": "Unable to Load Servers"
+        "title": "Unable to load servers"
       }
     }
   },
@@ -33,11 +33,11 @@
   },
   "form": {
     "add": {
-      "submit": "Add Server",
-      "title": "Add Server"
+      "submit": "Add server",
+      "title": "Add server"
     },
     "edit": {
-      "title": "Edit Server"
+      "title": "Edit server"
     },
     "fields": {
       "connectionMethod": {
@@ -64,7 +64,7 @@
     },
     "errors": {
       "save": {
-        "title": "Unable to Save Server"
+        "title": "Unable to save server"
       }
     },
     "validation": {
@@ -75,9 +75,9 @@
     "delete": {
       "description": "Delete {{serverName}}? This cannot be undone.",
       "error": {
-        "title": "Unable to Delete Server"
+        "title": "Unable to delete server"
       },
-      "title": "Delete Server"
+      "title": "Delete server"
     }
   },
   "workspace": {
@@ -87,6 +87,6 @@
     "console": "Console",
     "options": "Options",
     "players": "Players",
-    "serverActions": "Server Actions"
+    "serverActions": "Server actions"
   }
 }

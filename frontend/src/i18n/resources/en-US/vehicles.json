@@ -1,9 +1,9 @@
 {
   "page": {
-    "title": "Vehicle Browser"
+    "title": "Vehicle browser"
   },
   "errors": {
-    "load": { "title": "Unable to Load Vehicles" }
+    "load": { "title": "Unable to load vehicles" }
   },
   "picker": {
     "actions": {

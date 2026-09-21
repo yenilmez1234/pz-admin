@@ -42,6 +42,15 @@ they cannot silently construct invalid keys.
 
 ## Messages
 
+- Use sentence case for English and Turkish UI text, including headings,
+  buttons, labels, and generic catalog descriptions: `Item browser`,
+  `Edit starting items`, `Eşya kataloğu`. Follow each language's conventions
+  for other locales.
+- Preserve proper names, brands, acronyms, named keyboard keys, and technical
+  identifiers. Keep fragments interpolated into sentences in their appropriate
+  case. Do not change lookup keys or imported game names to match UI casing.
+- Review capitalization in context; do not enforce it with automatic lowercasing
+  or a casing validator.
 - Translate complete messages. Do not concatenate translated fragments or
   assume English word order.
 - Use named, semantic interpolation variables such as `{{name}}`, `{{count}}`,

@@ -1,26 +1,26 @@
 {
-  "page": { "title": "Server Actions" },
+  "page": { "title": "Server actions" },
   "sections": {
     "weather": "Weather",
-    "events": "World Events",
-    "reload": "Reload Commands"
+    "events": "World events",
+    "reload": "Reload commands"
   },
   "actions": {
-    "saveWorld": "Save World",
-    "stopServer": "Stop Server",
-    "sendMessage": "Send Message",
-    "startRain": "Start Rain",
-    "startStorm": "Start Storm",
-    "stopRain": "Stop Rain",
-    "stopWeather": "Stop Weather",
+    "saveWorld": "Save world",
+    "stopServer": "Stop server",
+    "sendMessage": "Send message",
+    "startRain": "Start rain",
+    "startStorm": "Start storm",
+    "stopRain": "Stop rain",
+    "stopWeather": "Stop weather",
     "helicopter": "Helicopter",
     "gunshot": "Gunshot",
     "lightning": "Lightning",
     "thunder": "Thunder",
-    "reloadOptions": "Reload Options",
-    "reloadLua": "Reload Lua File",
-    "reloadFile": "Reload File",
-    "reloadAllLua": "Reload All Lua Files"
+    "reloadOptions": "Reload options",
+    "reloadLua": "Reload Lua file",
+    "reloadFile": "Reload file",
+    "reloadAllLua": "Reload all Lua files"
   },
   "descriptions": {
     "startRain": "Starts rain. Intensity is optional and ranges from 1 to 100.",
@@ -43,11 +43,11 @@
   },
   "dialogs": {
     "message": {
-      "title": "Send Server Message"
+      "title": "Send server message"
     },
     "stop": {
       "description": "This saves the world, disconnects all players, and stops the server.",
-      "title": "Stop Server"
+      "title": "Stop server"
     }
   },
   "notifications": {
