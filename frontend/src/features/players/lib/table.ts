@@ -6,7 +6,7 @@ import {
 } from "./accessLevel";
 import { isOnline, playerTimestamp } from "../status";
 
-export type SortColumn = "accessLevel" | "status" | "username";
+export type SortColumn = "accessLevel" | "lastSeen" | "username";
 export type SortDirection = "asc" | "desc";
 
 export interface PlayerSorting {
@@ -62,7 +62,7 @@ export function filterAndSortPlayers(
           language,
         );
         break;
-      case "status":
+      case "lastSeen":
         comparison =
           playerTimestamp(firstPlayer.lastSeenOnlineAt) -
           playerTimestamp(secondPlayer.lastSeenOnlineAt);

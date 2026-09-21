@@ -46,7 +46,7 @@ export function PlayerTable({
   const skeleton = useSkeletonVisibility(loading && players.length === 0);
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<PlayerSorting>({
-    column: "status",
+    column: "lastSeen",
     direction: "desc",
   });
   const relativeTime = useMemo(

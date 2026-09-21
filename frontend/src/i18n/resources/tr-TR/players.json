@@ -3,7 +3,7 @@
     "label": "Oyuncular",
     "columns": {
       "player": "Oyuncu",
-      "status": "Durum",
+      "lastSeen": "Son görülme",
       "role": "Rol",
       "actions": "İşlemler"
     },
@@ -27,9 +27,8 @@
     "summary_one": "{{count}} seçildi",
     "summary_other": "{{count}} seçildi"
   },
-  "status": {
+  "lastSeen": {
     "neverSeen": "Daha önce görülmedi",
-    "offline": "Çevrim dışı",
     "online": "Çevrim içi"
   },
   "fields": {

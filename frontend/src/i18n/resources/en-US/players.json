@@ -3,7 +3,7 @@
     "label": "Players",
     "columns": {
       "player": "Player",
-      "status": "Status",
+      "lastSeen": "Last seen",
       "role": "Role",
       "actions": "Actions"
     },
@@ -27,9 +27,8 @@
     "summary_one": "{{count}} selected",
     "summary_other": "{{count}} selected"
   },
-  "status": {
+  "lastSeen": {
     "neverSeen": "Never seen",
-    "offline": "Offline",
     "online": "Online"
   },
   "fields": {

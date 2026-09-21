@@ -1,4 +1,4 @@
-import { Badge, Checkbox, Group, Table, Text } from "@mantine/core";
+import { Badge, Checkbox, Table, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import {
@@ -9,39 +9,31 @@ import {
 import { lastSeenLabel } from "../../lib/table";
 import { PlayerActionsMenu } from "../../actions/menu/PlayerActionsMenu";
 
-interface PlayerStatusProps {
+interface PlayerLastSeenProps {
   player: Player;
   relativeTime: Intl.RelativeTimeFormat;
 }
 
-function PlayerStatus({ player, relativeTime }: PlayerStatusProps) {
+function PlayerLastSeen({ player, relativeTime }: PlayerLastSeenProps) {
   const { t } = useTranslation("players");
   const lastSeen = lastSeenLabel(player, relativeTime);
-  const lastSeenText = lastSeen ?? t("status.neverSeen");
+  const lastSeenText =
+    lastSeen === "online"
+      ? t("lastSeen.online")
+      : (lastSeen ?? t("lastSeen.neverSeen"));
 
   return (
-    <Group gap="xs" wrap="wrap">
-      <Badge
-        color={lastSeen === "online" ? "green" : "gray"}
-        variant="light"
-        style={{ userSelect: "text", WebkitUserSelect: "text" }}
-      >
-        {lastSeen === "online" ? t("status.online") : t("status.offline")}
-      </Badge>
-      {lastSeen !== "online" ? (
-        <Text
-          c="dimmed"
-          size="xs"
-          style={{
-            fontVariantNumeric: "tabular-nums",
-            userSelect: "text",
-            WebkitUserSelect: "text",
-          }}
-        >
-          {lastSeenText}
-        </Text>
-      ) : null}
-    </Group>
+    <Text
+      c={lastSeen === "online" ? "green" : "dimmed"}
+      size="sm"
+      style={{
+        fontVariantNumeric: "tabular-nums",
+        userSelect: "text",
+        WebkitUserSelect: "text",
+      }}
+    >
+      {lastSeenText}
+    </Text>
   );
 }
 
@@ -85,7 +77,7 @@ export function PlayerTableRow({
         </Text>
       </Table.Td>
       <Table.Td>
-        <PlayerStatus player={player} relativeTime={relativeTime} />
+        <PlayerLastSeen player={player} relativeTime={relativeTime} />
       </Table.Td>
       <Table.Td>
         <Badge

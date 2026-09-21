@@ -95,8 +95,8 @@ export function PlayerTableHeader({
           width="34%"
         />
         <SortableHeader
-          column="status"
-          label={t("table.columns.status")}
+          column="lastSeen"
+          label={t("table.columns.lastSeen")}
           onSort={onSort}
           sorting={sorting}
           width="34%"
