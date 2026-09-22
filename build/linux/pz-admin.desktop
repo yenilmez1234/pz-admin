@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Name=pz-admin
+Name=PZ Admin
 Exec=pz-admin
 Icon=pz-admin
-Categories=Development;
+Categories=Utility;
+Comment=Project Zomboid server administration tool
 Terminal=false
-Keywords=wails
+Keywords=Project Zomboid;Server;Administration;
 Version=1.0
-StartupNotify=false

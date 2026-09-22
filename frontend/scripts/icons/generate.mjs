@@ -47,6 +47,16 @@ const outputs = [
   ["appicon.icon/Assets/pz-admin.svg", Buffer.from(foreground)],
   [composerPath, Buffer.from(`${JSON.stringify(composer, null, 2)}\n`)],
 ];
+// PNG fallbacks for desktop environments without SVG icon support.
+for (const size of [16, 24, 32, 48, 64, 96, 128, 256, 512]) {
+  const fallback = new Resvg(source, {
+    fitTo: { mode: "width", value: size },
+    font: { loadSystemFonts: false },
+  }).render();
+  assert.equal(fallback.width, size);
+  assert.equal(fallback.height, size);
+  outputs.push([`linux/icons/${size}x${size}/pz-admin.png`, fallback.asPng()]);
+}
 let changed = 0;
 for (const [relativePath, contents] of outputs) {
   const target = path.join(buildRoot, relativePath);
