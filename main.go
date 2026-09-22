@@ -7,6 +7,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"sync/atomic"
 
 	"github.com/beyenilmez/pz-admin/internal/config"
 	"github.com/beyenilmez/pz-admin/internal/console"
@@ -17,6 +18,7 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/serveraction"
 	"github.com/beyenilmez/pz-admin/internal/session"
 	"github.com/wailsapp/wails/v3/pkg/application"
+	"github.com/wailsapp/wails/v3/pkg/events"
 )
 
 //go:embed VERSION
@@ -27,17 +29,14 @@ func buildVersion() string {
 	return strings.TrimSpace(rawVersion)
 }
 
-// Wails uses Go's `embed` package to embed the frontend files into the binary.
-// Any files in the frontend/dist folder will be embedded into the binary and
-// made available to the frontend.
-// See https://pkg.go.dev/embed for more information.
-
+// Embed the built frontend for Wails' asset server.
+//
 //go:embed all:frontend/dist
 var assets embed.FS
 
-// main function serves as the application's entry point. It initializes the application, creates a window,
-// and starts a goroutine that emits a time-based event every second. It subsequently runs the application and
-// logs any error that might occur.
+const mainWindowName = "main"
+
+// main reports startup or runtime failures and exits with a nonzero status.
 func main() {
 	if err := run(); err != nil {
 		fmt.Fprintf(os.Stderr, "pz-admin exited with error: %v\n", err)
@@ -69,7 +68,7 @@ func run() error {
 		"arch", runtime.GOARCH,
 	)
 
-	// Service creations
+	// Service instances
 	configSvc := config.NewService()
 	frontendLogSvc := logger.NewService()
 	playerSvc := player.NewService()
@@ -79,15 +78,28 @@ func run() error {
 	serverActionSvc := serveraction.NewService()
 	sessionSvc := session.NewService(profileSvc, playerSvc, consoleSvc, optionsSvc, serverActionSvc)
 
-	// Create a new Wails application by providing the necessary options.
-	// Variables 'Name' and 'Description' are for application metadata.
-	// 'Assets' configures the asset server with the 'FS' variable pointing to the frontend files.
-	// 'Bind' is a list of Go struct instances. The frontend has access to the methods of these instances.
-	// 'Mac' options tailor the application when running an macOS.
+	// Keep one instance per app identity; subsequent launches focus its main window.
+	var started atomic.Bool
 	app := application.New(application.Options{
-		Name:        "pz-admin",
-		Description: "A demo of using raw HTML & CSS",
+		Name:        "PZ Admin",
+		Description: "Project Zomboid server administration tool",
 		Logger:      lg.Logger,
+		SingleInstance: &application.SingleInstanceOptions{
+			UniqueID: "com.bedirhanyenilmez.pzadmin",
+			OnSecondInstanceLaunch: func(_ application.SecondInstanceData) {
+				// During startup the first instance will show its window normally.
+				if !started.Load() {
+					return
+				}
+				application.InvokeAsync(func() {
+					if window, ok := application.Get().Window.GetByName(mainWindowName); ok {
+						window.UnMinimise()
+						window.Show()
+						window.Focus()
+					}
+				})
+			},
+		},
 		Services: []application.Service{
 			application.NewService(configSvc),
 			application.NewService(frontendLogSvc),
@@ -105,28 +117,31 @@ func run() error {
 		Mac: application.MacOptions{
 			ApplicationShouldTerminateAfterLastWindowClosed: true,
 		},
+		Linux: application.LinuxOptions{
+			// Keep the desktop-facing program name separate from the display name.
+			ProgramName: "pz-admin",
+		},
+	})
+	app.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {
+		started.Store(true)
 	})
 
-	// Create a new window with the necessary options.
-	// 'Title' is the title of the window.
-	// 'Mac' options tailor the window when running on macOS.
-	// 'BackgroundColour' is the background colour of the window.
-	// 'URL' is the URL that will be loaded into the webview.
+	// Use a named, resizable main window with native window decorations.
 	app.Window.NewWithOptions(application.WebviewWindowOptions{
-		Title: "Window 1",
-		// Window sized to the golden ratio (1000 / 618 ≈ 1.618).
+		Name:   mainWindowName,
+		Title:  "PZ Admin",
 		Width:  1000,
 		Height: 618,
 		Mac: application.MacWindow{
-			InvisibleTitleBarHeight: 50,
-			Backdrop:                application.MacBackdropTranslucent,
-			TitleBar:                application.MacTitleBarHiddenInset,
+			Backdrop: application.MacBackdropNormal,
+			TitleBar: application.MacTitleBarDefault,
 		},
-		BackgroundColour: application.NewRGB(6, 7, 15),
+		// The frontend synchronizes this opaque background with its active theme.
+		BackgroundColour: application.NewRGB(255, 255, 255),
 		URL:              "/",
 	})
 
-	// Run the application. This blocks until the application has been exited.
+	// Run until the app exits; Wails invokes service shutdown hooks on exit.
 	if err := app.Run(); err != nil {
 		return fmt.Errorf("app run: %w", err)
 	}

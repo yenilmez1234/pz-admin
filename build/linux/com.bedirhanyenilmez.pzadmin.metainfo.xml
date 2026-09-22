@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.bedirhanyenilmez.pzadmin</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>PZ Admin</name>
+  <summary>Project Zomboid server administration tool</summary>
+  <description>
+    <p>
+      PZ Admin brings player management, server settings, and console commands
+      together in a graphical interface for Project Zomboid server administrators.
+    </p>
+    <ul>
+      <li>Edit server options and run console commands.</li>
+      <li>Manage players, assign roles, grant XP, and take moderation actions.</li>
+      <li>Give items to players and spawn vehicles using searchable catalogs.</li>
+      <li>Compose messages with a rich text editor that supports Project Zomboid formatting.</li>
+      <li>Control the weather and save the world.</li>
+      <li>Save connection profiles for your servers.</li>
+    </ul>
+  </description>
+  <developer id="com.bedirhanyenilmez">
+    <name>Bedirhan Yenilmez</name>
+  </developer>
+  <url type="homepage">https://github.com/beyenilmez/pz-admin</url>
+  <url type="vcs-browser">https://github.com/beyenilmez/pz-admin</url>
+  <url type="bugtracker">https://github.com/beyenilmez/pz-admin/issues</url>
+  <launchable type="desktop-id">pz-admin.desktop</launchable>
+  <provides>
+    <binary>pz-admin</binary>
+  </provides>
+  <categories>
+    <category>Utility</category>
+  </categories>
+</component>

@@ -7,6 +7,7 @@ import { nonPersistentColorSchemeManager } from "@/features/config/colorSchemeMa
 import { PlayersProvider } from "@/features/players/PlayersProvider";
 import { SessionProvider } from "@/features/session/SessionProvider";
 import { createAppTheme } from "./theme";
+import { NativeWindowTheme } from "./NativeWindowTheme";
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -26,6 +27,7 @@ export function AppProviders({ children }: AppProvidersProps) {
       defaultColorScheme="auto"
       theme={theme}
     >
+      <NativeWindowTheme />
       <Notifications />
       <AppConfigProvider>
         <SessionProvider>

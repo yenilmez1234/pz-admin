@@ -13,7 +13,7 @@ maintainer: "Bedirhan Yenilmez <contact@bedirhanyenilmez.com>"
 description: "Project Zomboid server administration tool"
 vendor: "Bedirhan Yenilmez"
 homepage: "https://github.com/beyenilmez/pz-admin"
-license: "MIT"
+license: "GPL-3.0-or-later"
 release: "1"
 
 contents:
@@ -41,6 +41,8 @@ contents:
     dst: "/usr/share/icons/hicolor/512x512/apps/pz-admin.png"
   - src: "./build/linux/pz-admin.desktop"
     dst: "/usr/share/applications/pz-admin.desktop"
+  - src: "./build/linux/com.bedirhanyenilmez.pzadmin.metainfo.xml"
+    dst: "/usr/share/metainfo/com.bedirhanyenilmez.pzadmin.metainfo.xml"
 
 # Default dependencies for the GTK4 + WebKitGTK 6.0 stack (Ubuntu 24.04+ / Debian 13+)
 depends:
