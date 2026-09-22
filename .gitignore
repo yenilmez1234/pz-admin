@@ -6,6 +6,8 @@ frontend/coverage
 # Temporary reference and scratch files
 ~*
 build/linux/appimage/build
+build/linux/appimage/pz-admin
+build/linux/appimage/pz-admin.png
 build/windows/nsis/MicrosoftEdgeWebview2Setup.exe
 # Mobile generated (per-machine; overlays hold absolute paths)
 build/ios/xcode/overlay.json

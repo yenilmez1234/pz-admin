@@ -120,7 +120,7 @@ tasks:
       APP_NAME: '{{.APP_NAME}}'
       APP_BINARY: '../../../bin/{{.APP_NAME}}'
       ICON: '{{.APP_NAME}}.png'
-      DESKTOP_FILE: '../{{.APP_NAME}}.desktop'
+      DESKTOP_FILE: '../com.bedirhanyenilmez.pzadmin.desktop'
       OUTPUT_DIR: '../../../bin'
 
   create:deb:

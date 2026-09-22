@@ -118,8 +118,8 @@ func run() error {
 			ApplicationShouldTerminateAfterLastWindowClosed: true,
 		},
 		Linux: application.LinuxOptions{
-			// Keep the desktop-facing program name separate from the display name.
-			ProgramName: "pz-admin",
+			// Match the desktop file; Wails also uses this as the Wayland program name.
+			ApplicationID: "com.bedirhanyenilmez.pzadmin",
 		},
 	})
 	app.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {

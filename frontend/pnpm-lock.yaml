@@ -54,8 +54,8 @@ importers:
         specifier: 3.30.3
         version: 3.30.3
       '@wailsio/runtime':
-        specifier: 3.0.0-beta.16
-        version: 3.0.0-beta.16
+        specifier: 3.0.0-beta.24
+        version: 3.0.0-beta.24
       i18next:
         specifier: 26.3.6
         version: 26.3.6(typescript@7.0.2)
@@ -1034,8 +1034,8 @@ packages:
   '@vitest/utils@4.1.11':
     resolution: {integrity: sha512-zTCVGpyFsGWBhllOyKlTw/vnr6D9qxsfSDyfbyZmTyjHw5N/VuvzHpHoQjm2ZJzn4RJgx5w4r7V0er69CmLgPQ==}
 
-  '@wailsio/runtime@3.0.0-beta.16':
-    resolution: {integrity: sha512-IzaYrUKYDmvWDXf3Pqfl0onT1R5T5YHTx+AnK9vX4MyuE1PF3lXZmQrtvtfYNAsBnL+9e+iCJvIROGhjyf1rew==}
+  '@wailsio/runtime@3.0.0-beta.24':
+    resolution: {integrity: sha512-lm4AjsohsTn6jheQ1QYCT3+7WG3QZM15R5mKVabSp2GyptjKFNLcOxCdp1+lbdQTxi0qEdTfEsjNezNQFNtjGw==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -2582,7 +2582,7 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.1
 
-  '@wailsio/runtime@3.0.0-beta.16': {}
+  '@wailsio/runtime@3.0.0-beta.24': {}
 
   ansi-regex@5.0.1: {}
 

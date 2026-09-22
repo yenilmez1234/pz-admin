@@ -25,7 +25,7 @@
   <url type="homepage">https://github.com/beyenilmez/pz-admin</url>
   <url type="vcs-browser">https://github.com/beyenilmez/pz-admin</url>
   <url type="bugtracker">https://github.com/beyenilmez/pz-admin/issues</url>
-  <launchable type="desktop-id">pz-admin.desktop</launchable>
+  <launchable type="desktop-id">com.bedirhanyenilmez.pzadmin.desktop</launchable>
   <provides>
     <binary>pz-admin</binary>
   </provides>
