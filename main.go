@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"runtime"
 	"strings"
 	"sync/atomic"
 
@@ -64,8 +63,6 @@ func run() error {
 
 	lg.Logger.Info("pz-admin starting",
 		"version", buildVersion(),
-		"os", runtime.GOOS,
-		"arch", runtime.GOARCH,
 	)
 
 	// Service instances
@@ -124,6 +121,23 @@ func run() error {
 	})
 	app.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {
 		application.InvokeAsync(func() {
+			envInfo := app.Env.Info()
+			attributes := []any{
+				"os", envInfo.OS,
+				"arch", envInfo.Arch,
+				"debug", envInfo.Debug,
+			}
+			if envInfo.OSInfo != nil {
+				attributes = append(attributes, slog.Group("os_details",
+					"name", envInfo.OSInfo.Name,
+					"version", envInfo.OSInfo.Version,
+				))
+			}
+			if len(envInfo.PlatformInfo) > 0 {
+				attributes = append(attributes, "platform", envInfo.PlatformInfo)
+			}
+			app.Logger.Info("environment information", attributes...)
+
 			// Native theme detection and saved settings are ready only after startup.
 			theme := configSvc.Config().Theme
 			background := application.NewRGB(255, 255, 255)

@@ -17,6 +17,7 @@ import {
 } from "@/features/config/AppConfigProvider";
 import { defaultLanguage, isSupportedLanguage, locales } from "@/i18n/locales";
 import { interfaceTranslationCoverage } from "@/i18n/resources";
+import { DiagnosticsSection } from "./DiagnosticsSection";
 
 const languageCoverage = new Map(
   locales.map(({ code }) => [code, interfaceTranslationCoverage(code)]),
@@ -128,6 +129,7 @@ export function SettingsPage() {
           </Skeleton>
         </Stack>
       )}
+      <DiagnosticsSection />
     </Stack>
   );
 }

@@ -8,6 +8,18 @@
       "system": "Sistem"
     }
   },
+  "diagnostics": {
+    "actions": {
+      "copy": "Tanılama bilgilerini kopyala"
+    },
+    "description": "Bir sorun bildirirken bu bilgileri paylaşın.",
+    "errors": {
+      "load": {
+        "title": "Tanılama bilgileri yüklenemedi"
+      }
+    },
+    "title": "Tanılama"
+  },
   "errors": {
     "load": {
       "title": "Ayarlar yüklenemedi"

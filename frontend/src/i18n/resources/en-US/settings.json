@@ -8,6 +8,18 @@
       "system": "System"
     }
   },
+  "diagnostics": {
+    "actions": {
+      "copy": "Copy diagnostic information"
+    },
+    "description": "Share this information when reporting a problem.",
+    "errors": {
+      "load": {
+        "title": "Unable to load diagnostic information"
+      }
+    },
+    "title": "Diagnostics"
+  },
   "errors": {
     "load": {
       "title": "Unable to load settings"

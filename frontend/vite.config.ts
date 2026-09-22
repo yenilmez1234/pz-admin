@@ -1,8 +1,14 @@
+import { readFileSync } from "node:fs";
 import react from "@vitejs/plugin-react";
 import wails from "@wailsio/runtime/plugins/vite";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(
+      readFileSync(new URL("../VERSION", import.meta.url), "utf8").trim(),
+    ),
+  },
   resolve: {
     tsconfigPaths: true,
   },

@@ -4,11 +4,12 @@ import type { ReactNode } from "react";
 import classes from "./CopyValueButton.module.css";
 
 interface CopyValueButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   copiedLabel: string;
   copyLabel: string;
   disabled?: boolean;
   value: string;
+  variant?: "default" | "subtle";
 }
 
 export function CopyValueButton({
@@ -17,6 +18,7 @@ export function CopyValueButton({
   copyLabel,
   disabled,
   value,
+  variant = "default",
 }: CopyValueButtonProps) {
   return (
     <CopyButton timeout={2000} value={value}>
@@ -29,6 +31,7 @@ export function CopyValueButton({
               aria-label={label}
               className={classes.root}
               data-copied={copied || undefined}
+              data-variant={variant}
               disabled={disabled}
               onClick={copy}
             >
