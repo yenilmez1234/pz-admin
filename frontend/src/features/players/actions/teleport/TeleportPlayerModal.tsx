@@ -66,9 +66,10 @@ export function TeleportPlayerModal({
 }: TeleportPlayerModalProps) {
   const { t } = useTranslation(["players", "common"]);
   const { profile } = useSession();
-  const mapUrl = profile?.version === "41"
-    ? "https://pzmap.org/?v=Build%2041"
-    : "https://pzmap.org/";
+  const mapUrl =
+    profile?.version === "41"
+      ? "https://pzmap.org/?v=Build%2041"
+      : "https://pzmap.org/";
   const form = useForm<TeleportFormValues>({
     mode: "controlled",
     initialValues,
