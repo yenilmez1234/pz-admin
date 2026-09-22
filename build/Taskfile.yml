@@ -191,16 +191,25 @@ tasks:
       - wails3 generate bindings -f '{{.BUILD_FLAGS}}' -clean=true -time-type=Date{{if eq .OBFUSCATED "true"}} -obfuscated{{end}} -ts
 
   generate:icons:
-    summary: Generates Windows `.ico` and Mac `.icns` from an image; on macOS, `-iconcomposerinput appicon.icon -macassetdir darwin` also produces `Assets.car` from a `.icon` file (skipped on other platforms).
+    summary: Renders `appicon.svg` to PNG and generates Windows `.ico` and Mac `.icns`; on macOS, `-iconcomposerinput appicon.icon -macassetdir darwin` also produces `Assets.car` from a `.icon` file (skipped on other platforms, which use the PNG fallback).
     run: once
     dir: build
+    deps:
+      - task: install:frontend:deps
     sources:
-      - "appicon.png"
-      - "appicon.icon"
+      - "appicon.svg"
+      - "appicon.icon/icon.json"
+      - "../frontend/scripts/icons/generate.mjs"
+      - "../frontend/package.json"
+      - "../frontend/pnpm-lock.yaml"
     generates:
+      - "appicon.png"
+      - "appicon.icon/Assets/pz-admin.svg"
       - "darwin/icons.icns"
       - "windows/icon.ico"
+      - '{{if eq OS "darwin"}}darwin/Assets.car{{else}}darwin/icons.icns{{end}}'
     cmds:
+      - node ../frontend/scripts/icons/generate.mjs
       - wails3 generate icons -input appicon.png -macfilename darwin/icons.icns -windowsfilename windows/icon.ico -iconcomposerinput appicon.icon -macassetdir darwin
 
   dev:frontend:

@@ -19,6 +19,7 @@
     "lint": "oxlint --deny-warnings --report-unused-disable-directives src scripts vite.config.ts",
     "lint:fix": "oxlint --deny-warnings --report-unused-disable-directives --fix src scripts vite.config.ts",
     "scrape:vehicles:42": "node ./scripts/catalogs/vehicles/scrape-build-42.mjs",
+    "generate:icons": "node ./scripts/icons/generate.mjs",
     "generate:items": "node ./scripts/catalogs/items/generate.mjs",
     "generate:vehicles": "node ./scripts/catalogs/vehicles/generate.mjs",
     "generate:options:reference": "node ./scripts/catalogs/options/generate-reference.mjs",
@@ -48,6 +49,7 @@
     "react-i18next": "17.0.11"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "2.6.2",
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
