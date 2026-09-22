@@ -146,6 +146,13 @@ func run() error {
 				},
 				BackgroundColour: background,
 				URL:              "/",
+				Permissions: map[application.PermissionType]application.Permission{
+					application.PermissionMicrophone:    application.PermissionDeny,
+					application.PermissionCamera:        application.PermissionDeny,
+					application.PermissionGeolocation:   application.PermissionDeny,
+					application.PermissionNotifications: application.PermissionDeny,
+					application.PermissionClipboardRead: application.PermissionDeny,
+				},
 			})
 			started.Store(true)
 		})
