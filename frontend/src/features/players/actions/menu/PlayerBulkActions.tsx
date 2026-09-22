@@ -1,12 +1,10 @@
 import {
   ActionIcon,
-  Box,
   Button,
   Group,
   Menu,
   Paper,
   Text,
-  Tooltip,
 } from "@mantine/core";
 import { IconChevronDown, IconX } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
@@ -30,7 +28,6 @@ export function PlayerBulkActions({
   const { t } = useTranslation("players");
   const actions = usePlayerActions();
   const allOnline = players.every(isOnline);
-  const onlineOnlyMessage = t("actions.bulk.restrictions.onlineOnly");
 
   return (
     <Paper
@@ -68,30 +65,24 @@ export function PlayerBulkActions({
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Tooltip
-            disabled={allOnline}
-            label={onlineOnlyMessage}
-            position="right"
-            withinPortal
-          >
-            <Box component="span" display="block">
-              <Menu.Item
-                disabled={!allOnline}
-                onClick={() => actions.openTeleport(players)}
-              >
-                {t("actions.commands.teleport")}
-              </Menu.Item>
-            </Box>
-          </Tooltip>
+          {allOnline ? (
+            <Menu.Item onClick={() => actions.openTeleport(players)}>
+              {t("actions.commands.teleport")}
+            </Menu.Item>
+          ) : null}
 
-          <Menu.Sub>
-            <Menu.Sub.Target>
-              <Menu.Sub.Item>{t("actions.groups.moderation")}</Menu.Sub.Item>
-            </Menu.Sub.Target>
-            <Menu.Sub.Dropdown>
-              <PlayerModerationMenuItems mode="bulk" players={players} />
-            </Menu.Sub.Dropdown>
-          </Menu.Sub>
+          {allOnline ? (
+            <Menu.Sub>
+              <Menu.Sub.Target>
+                <Menu.Sub.Item>{t("actions.groups.moderation")}</Menu.Sub.Item>
+              </Menu.Sub.Target>
+              <Menu.Sub.Dropdown>
+                <PlayerModerationMenuItems mode="bulk" players={players} />
+              </Menu.Sub.Dropdown>
+            </Menu.Sub>
+          ) : (
+            <PlayerModerationMenuItems mode="bulk" players={players} />
+          )}
 
           {allOnline ? (
             <>

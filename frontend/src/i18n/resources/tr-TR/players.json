@@ -143,6 +143,9 @@
       "title": "Araç oluştur"
     },
     "teleport": {
+      "actions": {
+        "openMap": "Haritayı tarayıcıda aç"
+      },
       "coordinates": {
         "x": {
           "label": "X"

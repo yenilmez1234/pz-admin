@@ -1,5 +1,6 @@
 import { useEffectEvent, useLayoutEffect, useMemo } from "react";
 import {
+  Anchor,
   Button,
   Group,
   Modal,
@@ -12,6 +13,8 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useTranslation } from "react-i18next";
+import { Browser } from "@wailsio/runtime";
+import { useSession } from "@/features/session/SessionProvider";
 import { dialogSizes } from "@/shared/layout/dialogs";
 import type { Player } from "@bindings/internal/player/models";
 import { isOnline } from "../../status";
@@ -62,6 +65,10 @@ export function TeleportPlayerModal({
   players,
 }: TeleportPlayerModalProps) {
   const { t } = useTranslation(["players", "common"]);
+  const { profile } = useSession();
+  const mapUrl = profile?.version === "41"
+    ? "https://pzmap.org/?v=Build%2041"
+    : "https://pzmap.org/";
   const form = useForm<TeleportFormValues>({
     mode: "controlled",
     initialValues,
@@ -141,29 +148,42 @@ export function TeleportPlayerModal({
           />
 
           {form.values.mode === "coordinates" ? (
-            <SimpleGrid cols={3}>
-              <NumberInput
-                label={t("dialogs.teleport.coordinates.x.label")}
-                name="x"
-                placeholder="0"
-                required
-                {...form.getInputProps("x")}
-              />
-              <NumberInput
-                label={t("dialogs.teleport.coordinates.y.label")}
-                name="y"
-                placeholder="0"
-                required
-                {...form.getInputProps("y")}
-              />
-              <NumberInput
-                label={t("dialogs.teleport.coordinates.z.label")}
-                name="z"
-                placeholder="0"
-                required
-                {...form.getInputProps("z")}
-              />
-            </SimpleGrid>
+            <Stack gap="xs">
+              <SimpleGrid cols={3}>
+                <NumberInput
+                  label={t("dialogs.teleport.coordinates.x.label")}
+                  name="x"
+                  placeholder="0"
+                  required
+                  {...form.getInputProps("x")}
+                />
+                <NumberInput
+                  label={t("dialogs.teleport.coordinates.y.label")}
+                  name="y"
+                  placeholder="0"
+                  required
+                  {...form.getInputProps("y")}
+                />
+                <NumberInput
+                  label={t("dialogs.teleport.coordinates.z.label")}
+                  name="z"
+                  placeholder="0"
+                  required
+                  {...form.getInputProps("z")}
+                />
+              </SimpleGrid>
+              <Anchor
+                href={mapUrl}
+                size="sm"
+                style={{ alignSelf: "flex-start" }}
+                onClick={(event) => {
+                  event.preventDefault();
+                  void Browser.OpenURL(mapUrl);
+                }}
+              >
+                {t("dialogs.teleport.actions.openMap")}
+              </Anchor>
+            </Stack>
           ) : (
             <Select
               data={destinationPlayers.map((player) => ({

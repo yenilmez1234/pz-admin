@@ -5,6 +5,10 @@ import i18n from "@/i18n";
 import { fireEvent, render, screen, waitFor } from "@/test/render";
 import { TeleportPlayerModal } from "./TeleportPlayerModal";
 
+vi.mock("@/features/session/SessionProvider", () => ({
+  useSession: () => ({ profile: { version: "42" } }),
+}));
+
 const earlier = new Date("2026-01-01T00:00:00.000Z");
 const later = new Date("2026-01-02T00:00:00.000Z");
 

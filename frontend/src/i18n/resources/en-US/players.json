@@ -143,6 +143,9 @@
       "title": "Spawn vehicle"
     },
     "teleport": {
+      "actions": {
+        "openMap": "Open map in browser"
+      },
       "coordinates": {
         "x": {
           "label": "X"

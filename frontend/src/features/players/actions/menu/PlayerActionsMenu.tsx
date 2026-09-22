@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Menu, Tooltip } from "@mantine/core";
+import { ActionIcon, Menu } from "@mantine/core";
 import { IconDots } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
@@ -17,7 +17,6 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
   const { t } = useTranslation("players");
   const actions = usePlayerActions();
   const online = isOnline(player);
-  const onlineOnlyMessage = t("actions.menu.restrictions.onlineOnly");
 
   return (
     <Menu
@@ -45,30 +44,24 @@ export function PlayerActionsMenu({ player }: PlayerActionsMenuProps) {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Tooltip
-          disabled={online}
-          label={onlineOnlyMessage}
-          position="right"
-          withinPortal
-        >
-          <Box component="span" display="block">
-            <Menu.Item
-              disabled={!online}
-              onClick={() => actions.openTeleport([player])}
-            >
-              {t("actions.commands.teleport")}
-            </Menu.Item>
-          </Box>
-        </Tooltip>
+        {online ? (
+          <Menu.Item onClick={() => actions.openTeleport([player])}>
+            {t("actions.commands.teleport")}
+          </Menu.Item>
+        ) : null}
 
-        <Menu.Sub>
-          <Menu.Sub.Target>
-            <Menu.Sub.Item>{t("actions.groups.moderation")}</Menu.Sub.Item>
-          </Menu.Sub.Target>
-          <Menu.Sub.Dropdown>
-            <PlayerModerationMenuItems mode="single" players={[player]} />
-          </Menu.Sub.Dropdown>
-        </Menu.Sub>
+        {online ? (
+          <Menu.Sub>
+            <Menu.Sub.Target>
+              <Menu.Sub.Item>{t("actions.groups.moderation")}</Menu.Sub.Item>
+            </Menu.Sub.Target>
+            <Menu.Sub.Dropdown>
+              <PlayerModerationMenuItems mode="single" players={[player]} />
+            </Menu.Sub.Dropdown>
+          </Menu.Sub>
+        ) : (
+          <PlayerModerationMenuItems mode="single" players={[player]} />
+        )}
 
         {online ? (
           <>
