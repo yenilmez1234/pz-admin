@@ -123,24 +123,32 @@ func run() error {
 		},
 	})
 	app.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {
-		started.Store(true)
-	})
+		application.InvokeAsync(func() {
+			// Native theme detection and saved settings are ready only after startup.
+			theme := configSvc.Config().Theme
+			background := application.NewRGB(255, 255, 255)
+			if theme == config.ThemeDark || (theme == config.ThemeSystem && app.Env.IsDarkMode()) {
+				// Mantine's default dark body background; the frontend keeps it in sync.
+				background = application.NewRGB(36, 36, 36)
+			}
 
-	// Use a named, resizable main window with native window decorations.
-	app.Window.NewWithOptions(application.WebviewWindowOptions{
-		Name:      mainWindowName,
-		Title:     "PZ Admin",
-		Width:     1200,
-		Height:    757,
-		MinWidth:  992,
-		MinHeight: 568,
-		Mac: application.MacWindow{
-			Backdrop: application.MacBackdropNormal,
-			TitleBar: application.MacTitleBarDefault,
-		},
-		// The frontend synchronizes this opaque background with its active theme.
-		BackgroundColour: application.NewRGB(255, 255, 255),
-		URL:              "/",
+			// Use a named, resizable main window with native window decorations.
+			app.Window.NewWithOptions(application.WebviewWindowOptions{
+				Name:      mainWindowName,
+				Title:     "PZ Admin",
+				Width:     1200,
+				Height:    757,
+				MinWidth:  992,
+				MinHeight: 568,
+				Mac: application.MacWindow{
+					Backdrop: application.MacBackdropNormal,
+					TitleBar: application.MacTitleBarDefault,
+				},
+				BackgroundColour: background,
+				URL:              "/",
+			})
+			started.Store(true)
+		})
 	})
 
 	// Run until the app exits; Wails invokes service shutdown hooks on exit.
