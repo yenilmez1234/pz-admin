@@ -128,10 +128,12 @@ func run() error {
 
 	// Use a named, resizable main window with native window decorations.
 	app.Window.NewWithOptions(application.WebviewWindowOptions{
-		Name:   mainWindowName,
-		Title:  "PZ Admin",
-		Width:  1000,
-		Height: 618,
+		Name:      mainWindowName,
+		Title:     "PZ Admin",
+		Width:     1200,
+		Height:    757,
+		MinWidth:  992,
+		MinHeight: 568,
 		Mac: application.MacWindow{
 			Backdrop: application.MacBackdropNormal,
 			TitleBar: application.MacTitleBarDefault,

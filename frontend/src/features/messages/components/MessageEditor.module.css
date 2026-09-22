@@ -22,7 +22,7 @@
 .content :global(.ProseMirror) {
   flex: 1;
   min-height: 14rem;
-  padding: 0.75rem 0.5rem;
+  padding: 0.25rem 0.5rem;
   letter-spacing: normal;
   background: transparent;
 }
