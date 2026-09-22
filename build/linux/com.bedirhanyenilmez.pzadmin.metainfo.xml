@@ -5,20 +5,35 @@
   <project_license>GPL-3.0-or-later</project_license>
   <name>PZ Admin</name>
   <summary>Project Zomboid server administration tool</summary>
+  <summary xml:lang="tr">Project Zomboid sunucu yönetim aracı</summary>
   <description>
     <p>
       PZ Admin brings player management, server settings, and console commands
       together in a graphical interface for Project Zomboid server administrators.
     </p>
+    <p xml:lang="tr">
+      PZ Admin; oyuncu yönetimi, sunucu ayarları ve konsol komutlarını Project Zomboid
+      sunucu yöneticileri için tek bir grafik arayüzde toplar.
+    </p>
     <ul>
       <li>Edit server options and run console commands.</li>
+      <li xml:lang="tr">Sunucu ayarlarını düzenleyin ve konsol komutlarını çalıştırın.</li>
       <li>Manage players, assign roles, grant XP, and take moderation actions.</li>
+      <li xml:lang="tr">Oyuncuları yönetin, roller atayın, XP verin ve moderasyon işlemlerini uygulayın.</li>
       <li>Give items to players and spawn vehicles using searchable catalogs.</li>
+      <li xml:lang="tr">Aranabilir katalogları kullanarak oyunculara eşya verin ve araç oluşturun.</li>
       <li>Compose messages with a rich text editor that supports Project Zomboid formatting.</li>
+      <li xml:lang="tr">Project Zomboid formatını destekleyen zengin metin düzenleyici ile mesajlar oluşturun.</li>
       <li>Control the weather and save the world.</li>
+      <li xml:lang="tr">Hava durumunu kontrol edin ve dünyayı kaydedin.</li>
       <li>Save connection profiles for your servers.</li>
+      <li xml:lang="tr">Sunucularınız için bağlantı profillerini kaydedin.</li>
     </ul>
   </description>
+  <branding>
+    <color type="primary" scheme_preference="light">#357c61</color>
+    <color type="primary" scheme_preference="dark">#357c61</color>
+  </branding>
   <developer id="com.bedirhanyenilmez">
     <name>Bedirhan Yenilmez</name>
   </developer>
