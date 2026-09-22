@@ -24,7 +24,7 @@ type DiagnosticEnvironment = Omit<
 
 export function formatDiagnostics(info: DiagnosticEnvironment): string {
   const fields: Record<string, unknown> = {
-    version: __APP_VERSION__,
+    version: APP_VERSION,
     os: info.OS,
     arch: info.Arch,
     debug: info.Debug,
@@ -35,7 +35,6 @@ export function formatDiagnostics(info: DiagnosticEnvironment): string {
   }
   const platformEntries = Object.entries(info.PlatformInfo ?? {});
   // Sort a fresh array; toSorted is outside our ES2022 target.
-  // oxlint-disable-next-line unicorn/no-array-sort
   platformEntries.sort(([a], [b]) => a.localeCompare(b));
   for (const [key, value] of platformEntries) {
     fields[`platform.${key}`] = value;

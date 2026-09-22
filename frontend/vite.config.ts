@@ -5,7 +5,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   define: {
-    __APP_VERSION__: JSON.stringify(
+    APP_VERSION: JSON.stringify(
       readFileSync(new URL("../VERSION", import.meta.url), "utf8").trim(),
     ),
   },
