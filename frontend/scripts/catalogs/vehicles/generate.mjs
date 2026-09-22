@@ -38,7 +38,8 @@ async function processDirectory(dirPath, type, baseImagePath, rootDir) {
     const fullPath = path.join(dirPath, entry.name);
 
     if (entry.isDirectory()) {
-      const item = { name: entry.name, type };
+      // Apostrophes are encoded on disk because Go embed excludes them.
+      const item = { name: entry.name.replace(/%27/g, "'"), type };
 
       if (type === "type") {
         const idEntries = await fs.readdir(fullPath, { withFileTypes: true });
@@ -64,7 +65,8 @@ async function processDirectory(dirPath, type, baseImagePath, rootDir) {
                   baseImagePath,
                   path.relative(rootDir, path.join(fullPath, file.name)),
                 )
-                .replace(/\\/g, "/"),
+                .replace(/\\/g, "/")
+                .replace(/%/g, "%25"),
             )[0];
           if (image) item.image = image;
           await attachStats(item, fullPath);
@@ -106,7 +108,8 @@ async function listImages(dirPath, baseImagePath, rootDir) {
     .map((file) =>
       path
         .join(baseImagePath, path.relative(rootDir, path.join(dirPath, file)))
-        .replace(/\\/g, "/"),
+        .replace(/\\/g, "/")
+        .replace(/%/g, "%25"),
     );
 }
 

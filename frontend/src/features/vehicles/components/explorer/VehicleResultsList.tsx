@@ -76,7 +76,7 @@ export const VehicleResultsList = memo(function VehicleResultsList({
       <ScrollArea className={classes.scrollArea} h="100%" type="auto">
         <Box aria-busy={loading} component="ul" m={0} p={0}>
           {skeleton.visible
-            ? Array.from({ length: 7 }, (_row, index) => (
+            ? Array.from({ length: 12 }, (_row, index) => (
                 <Box
                   component="li"
                   className={classes.item}

@@ -206,7 +206,12 @@ function variantRows(html) {
   return [];
 }
 
-const sanitize = (name) => name.replace(/[/\\:*?"<>|]/g, "").trim();
+// Go embed excludes names containing apostrophes; preserve them as encoded text.
+const sanitize = (name) =>
+  name
+    .replace(/[/\\:*?"<>|]/g, "")
+    .replace(/'/g, "%27")
+    .trim();
 
 function stripModelSuffix(name, modelName) {
   if (name.endsWith(modelName)) {

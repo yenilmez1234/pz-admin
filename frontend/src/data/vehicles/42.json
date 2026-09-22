@@ -462,7 +462,7 @@
               "name": "Huang's Laundry",
               "type": "type",
               "id": "Base.StepVan_HuangsLaundry",
-              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Huang's Laundry/Base.StepVan_HuangsLaundry/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Huang%2527s Laundry/Base.StepVan_HuangsLaundry/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -646,7 +646,7 @@
               "name": "Mechanic's",
               "type": "type",
               "id": "Base.StepVan_Mechanic",
-              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Mechanic's/Base.StepVan_Mechanic/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Mechanic%2527s/Base.StepVan_Mechanic/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -761,7 +761,7 @@
               "name": "Randi's Plants",
               "type": "type",
               "id": "Base.StepVan_RandisPlants",
-              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Randi's Plants/Base.StepVan_RandisPlants/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Chevalier Step Van/Randi%2527s Plants/Base.StepVan_RandisPlants/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -951,7 +951,7 @@
               "name": "Builder's",
               "type": "type",
               "id": "Base.PickUpVanBuilder",
-              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Builder's/Base.PickUpVanBuilder/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Builder%2527s/Base.PickUpVanBuilder/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 2,
@@ -1020,7 +1020,7 @@
               "name": "Carpenter's",
               "type": "type",
               "id": "Base.PickUpVanLightsCarpenter",
-              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Carpenter's/Base.PickUpVanLightsCarpenter/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Carpenter%2527s/Base.PickUpVanLightsCarpenter/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 2,
@@ -1232,7 +1232,7 @@
               "name": "Metalworker's",
               "type": "type",
               "id": "Base.PickUpVanMetalworker",
-              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Metalworker's/Base.PickUpVanMetalworker/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Dash Bulldriver/Metalworker%2527s/Base.PickUpVanMetalworker/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 2,
@@ -1425,7 +1425,7 @@
               "name": "Beckman's Building",
               "type": "type",
               "id": "Base.VanBeckmans",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Beckman's Building/Base.VanBeckmans/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Beckman%2527s Building/Base.VanBeckmans/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -1517,7 +1517,7 @@
               "name": "Builder's",
               "type": "type",
               "id": "Base.VanBuilder",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Builder's/Base.VanBuilder/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Builder%2527s/Base.VanBuilder/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -1540,7 +1540,7 @@
               "name": "Carpenter's",
               "type": "type",
               "id": "Base.VanCarpenter",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Carpenter's/Base.VanCarpenter/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Carpenter%2527s/Base.VanCarpenter/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -1701,7 +1701,7 @@
               "name": "Gardener's",
               "type": "type",
               "id": "Base.VanGardener",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Gardener's/Base.VanGardener/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Gardener%2527s/Base.VanGardener/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -1747,7 +1747,7 @@
               "name": "Greene's",
               "type": "type",
               "id": "Base.VanGreenes",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Greene's/Base.VanGreenes/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Greene%2527s/Base.VanGreenes/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -1931,7 +1931,7 @@
               "name": "Korshunov's Car Center",
               "type": "type",
               "id": "Base.VanKorshunovs",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Korshunov's Car Center/Base.VanKorshunovs/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Korshunov%2527s Car Center/Base.VanKorshunovs/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -2138,7 +2138,7 @@
               "name": "Mechanic's",
               "type": "type",
               "id": "Base.VanMechanic",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Mechanic's/Base.VanMechanic/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Mechanic%2527s/Base.VanMechanic/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -2207,7 +2207,7 @@
               "name": "Metalworker's",
               "type": "type",
               "id": "Base.VanMetalworker",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Metalworker's/Base.VanMetalworker/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Metalworker%2527s/Base.VanMetalworker/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -2230,7 +2230,7 @@
               "name": "Michele's Woodshop",
               "type": "type",
               "id": "Base.VanMicheles",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Michele's Woodshop/Base.VanMicheles/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline/Michele%2527s Woodshop/Base.VanMicheles/image.png",
               "stats": {
                 "seats": 2,
                 "doors": 3,
@@ -2880,7 +2880,7 @@
               "name": "Valkyrie's Spear",
               "type": "type",
               "id": "Base.VanSeats_Valkyrie",
-              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline (6-seater)/Valkyrie's Spear/Base.VanSeats_Valkyrie/image.png",
+              "image": "/vehicles/42/Heavy-Duty/Franklin Valuline (6-seater)/Valkyrie%2527s Spear/Base.VanSeats_Valkyrie/image.png",
               "stats": {
                 "seats": 6,
                 "doors": 5,
