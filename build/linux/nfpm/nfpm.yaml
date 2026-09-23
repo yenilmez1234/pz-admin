@@ -43,6 +43,8 @@ contents:
     dst: "/usr/share/applications/com.bedirhanyenilmez.pzadmin.desktop"
   - src: "./build/linux/com.bedirhanyenilmez.pzadmin.metainfo.xml"
     dst: "/usr/share/metainfo/com.bedirhanyenilmez.pzadmin.metainfo.xml"
+  - src: "./LICENSE"
+    dst: "/usr/share/licenses/pz-admin/GPL-3.0-or-later.txt"
   - src: "./bin/THIRD-PARTY-NOTICES.json"
     dst: "/usr/share/doc/pz-admin/THIRD-PARTY-NOTICES.json"
 
