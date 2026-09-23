@@ -1,0 +1,58 @@
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+
+const root = process.cwd();
+const target = process.argv[2] ?? `${process.platform}-${process.arch}`;
+const licenseRoot = path.join(root, ".generated", "licenses");
+const frontendFile = path.join(licenseRoot, "frontend", "dependencies.json");
+const backendRoot = path.join(licenseRoot, "backend", target);
+const backendCsv = path.join(backendRoot, "dependencies.csv");
+const backendTexts = path.join(backendRoot, "texts");
+const output = path.join(licenseRoot, "combined", `${target}.json`);
+
+const readJson = async (file) => JSON.parse(await readFile(file, "utf8"));
+
+function parseCsvLine(line) {
+  const parts = line.split(",");
+  if (parts.length !== 3) throw new Error(`Invalid backend license row: ${line}`);
+  const [name, source, identifier] = parts;
+  return { name, source, identifier };
+}
+
+async function backendEntries() {
+  const rows = (await readFile(backendCsv, "utf8"))
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map(parseCsvLine);
+  const entries = await Promise.all(
+    rows.map(async (row) => ({
+      ...row,
+      text: await readFile(path.join(backendTexts, row.name, "LICENSE"), "utf8"),
+    })),
+  );
+  entries.push(
+    {
+      name: "Go standard library",
+      identifier: "BSD-3-Clause",
+      source: "https://go.dev/LICENSE",
+      text: await readFile(path.join(backendTexts, "go", "LICENSE"), "utf8"),
+    },
+    {
+      name: "Tailscale adapted code",
+      identifier: "BSD-3-Clause",
+      source: "internal/third_party/tailscale.com/LICENSE",
+      text: await readFile(
+        path.join(backendTexts, "tailscale.com", "LICENSE"),
+        "utf8",
+      ),
+    },
+  );
+  return entries;
+}
+
+const combined = [...(await readJson(frontendFile)), ...(await backendEntries())];
+await mkdir(path.dirname(output), { recursive: true });
+await writeFile(output, `${JSON.stringify(combined, null, 2)}\n`);
+console.log(`Wrote ${combined.length} license entries to ${path.relative(root, output)}`);
+

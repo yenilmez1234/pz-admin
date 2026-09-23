@@ -24,6 +24,7 @@ tasks:
     cmds:
       - task: licenses:frontend
       - task: licenses:backend
+      - task: licenses:combine
 
   licenses:frontend:
     desc: Collects Vite's license report and static additional notices under .generated/licenses/frontend
@@ -60,6 +61,13 @@ tasks:
       - mkdir -p "{{.LICENSE_DIR}}/texts/go" "{{.LICENSE_DIR}}/texts/tailscale.com"
       - cp "{{.GOROOT_PATH}}/LICENSE" "{{.LICENSE_DIR}}/texts/go/LICENSE"
       - cp internal/third_party/tailscale.com/LICENSE "{{.LICENSE_DIR}}/texts/tailscale.com/LICENSE"
+
+  licenses:combine:
+    desc: Combines frontend and native backend notices into one flat report
+    vars:
+      TARGET: '{{.TARGET | default (printf "%s-%s" OS ARCH)}}'
+    cmds:
+      - node scripts/combine-licenses.mjs "{{.TARGET}}"
 
   check:
     desc: Checks the backend and frontend
