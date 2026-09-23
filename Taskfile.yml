@@ -44,13 +44,15 @@ tasks:
       - sh: go-licenses --help
         msg: Run mise install to install go-licenses.
     vars:
-      LICENSE_DIR: '{{.ROOT_DIR}}/.generated/licenses/backend/{{OS}}-{{ARCH}}'
+      TARGET_OS: '{{.GOOS | default OS}}'
+      TARGET_ARCH: '{{.ARCH | default ARCH}}'
+      LICENSE_DIR: '{{.ROOT_DIR}}/.generated/licenses/backend/{{.TARGET_OS}}-{{.TARGET_ARCH}}'
       GOROOT_PATH:
         sh: go env GOROOT
     env:
-      GOOS: '{{OS}}'
-      GOARCH: '{{ARCH}}'
-      CGO_ENABLED: '{{if eq OS "windows"}}0{{else}}1{{end}}'
+      GOOS: '{{.TARGET_OS}}'
+      GOARCH: '{{.TARGET_ARCH}}'
+      CGO_ENABLED: '{{if eq .TARGET_OS "windows"}}0{{else}}1{{end}}'
       GOFLAGS: '-tags=production{{if .EXTRA_TAGS}},{{.EXTRA_TAGS}}{{end}}'
     cmds:
       - mkdir -p "{{.LICENSE_DIR}}"
@@ -63,11 +65,13 @@ tasks:
       - cp internal/third_party/tailscale.com/LICENSE "{{.LICENSE_DIR}}/texts/tailscale.com/LICENSE"
 
   licenses:combine:
-    desc: Combines frontend and native backend notices into one flat report
+    desc: Writes the canonical platform license report
     vars:
-      TARGET: '{{.TARGET | default (printf "%s-%s" OS ARCH)}}'
+      TARGET_OS: '{{.GOOS | default OS}}'
+      TARGET_ARCH: '{{.ARCH | default ARCH}}'
+      TARGET: '{{.TARGET | default (printf "%s-%s" .TARGET_OS .TARGET_ARCH)}}'
     cmds:
-      - node scripts/combine-licenses.mjs "{{.TARGET}}"
+      - node scripts/licenses/combine.mjs "{{.TARGET}}"
 
   check:
     desc: Checks the backend and frontend

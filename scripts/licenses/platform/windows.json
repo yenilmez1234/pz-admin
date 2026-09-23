@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Microsoft Edge WebView2 Bootstrapper",
+    "identifier": "NOASSERTION",
+    "source": "https://learn.microsoft.com/microsoft-edge/webview2/concepts/distribution",
+    "note": "The Windows installer includes Microsoft's online Evergreen Bootstrapper. It downloads the WebView2 Runtime from Microsoft during installation; the runtime is not bundled with the application."
+  }
+]

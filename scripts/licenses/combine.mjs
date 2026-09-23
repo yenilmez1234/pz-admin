@@ -9,6 +9,13 @@ const frontendFile = path.join(licenseRoot, "frontend", "dependencies.json");
 const backendRoot = path.join(licenseRoot, "backend", target);
 const backendCsv = path.join(backendRoot, "dependencies.csv");
 const backendTexts = path.join(backendRoot, "texts");
+const staticPlatformInput = path.join(
+  root,
+  "scripts",
+  "licenses",
+  "platform",
+  `${target.split("-")[0]}.json`,
+);
 const output = path.join(licenseRoot, "combined", `${target}.json`);
 
 const readJson = async (file) => JSON.parse(await readFile(file, "utf8"));
@@ -51,8 +58,36 @@ async function backendEntries() {
   return entries;
 }
 
-const combined = [...(await readJson(frontendFile)), ...(await backendEntries())];
+async function readPlatformEntries(file) {
+  let manifest;
+  try {
+    manifest = await readJson(file);
+  } catch (error) {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  }
+
+  if (!Array.isArray(manifest)) {
+    throw new Error(`Platform license manifest must be an array: ${file}`);
+  }
+
+  return Promise.all(
+    manifest.map(async (entry) => {
+      if (!entry.file) return entry;
+      return {
+        ...entry,
+        text: await readFile(path.resolve(path.dirname(file), entry.file), "utf8"),
+      };
+    }),
+  );
+}
+
+const platformEntries = await readPlatformEntries(staticPlatformInput);
+const combined = [
+  ...(await readJson(frontendFile)),
+  ...(await backendEntries()),
+  ...platformEntries,
+];
 await mkdir(path.dirname(output), { recursive: true });
 await writeFile(output, `${JSON.stringify(combined, null, 2)}\n`);
 console.log(`Wrote ${combined.length} license entries to ${path.relative(root, output)}`);
-
