@@ -36,7 +36,7 @@ tasks:
     desc: Collects native production Go dependency licenses under .generated/licenses/backend
     summary: |
       Run on each release platform with its native build prerequisites installed.
-      Uses the host OS/architecture and production tags; accepts EXTRA_TAGS.
+      Uses GOOS/ARCH (defaulting to the host) and production tags; accepts EXTRA_TAGS.
       Collects external Go dependencies, the Go license, and adapted Tailscale code.
       Native libraries, bundled resources, and build tools need separate review.
     dir: '{{.ROOT_DIR}}'
@@ -44,7 +44,7 @@ tasks:
       - sh: go-licenses --help
         msg: Run mise install to install go-licenses.
     vars:
-      TARGET_OS: '{{.GOOS | default OS}}'
+      TARGET_OS: '{{.GOOS}}'
       TARGET_ARCH: '{{.ARCH | default ARCH}}'
       LICENSE_DIR: '{{.ROOT_DIR}}/.generated/licenses/backend/{{.TARGET_OS}}-{{.TARGET_ARCH}}'
       GOROOT_PATH:
@@ -67,11 +67,22 @@ tasks:
   licenses:combine:
     desc: Writes the canonical platform license report
     vars:
-      TARGET_OS: '{{.GOOS | default OS}}'
+      TARGET_OS: '{{.GOOS}}'
       TARGET_ARCH: '{{.ARCH | default ARCH}}'
       TARGET: '{{.TARGET | default (printf "%s-%s" .TARGET_OS .TARGET_ARCH)}}'
     cmds:
       - node scripts/licenses/combine.mjs "{{.TARGET}}"
+
+  licenses:package:
+    desc: Collects licenses and stages THIRD-PARTY-NOTICES.json for packaging
+    dir: '{{.ROOT_DIR}}'
+    vars:
+      TARGET_OS: '{{.GOOS}}'
+      TARGET_ARCH: '{{.ARCH | default ARCH}}'
+    cmds:
+      - task: licenses
+      - mkdir -p "{{.BIN_DIR}}"
+      - cp ".generated/licenses/combined/{{.TARGET_OS}}-{{.TARGET_ARCH}}.json" "{{.BIN_DIR}}/THIRD-PARTY-NOTICES.json"
 
   check:
     desc: Checks the backend and frontend
@@ -147,6 +158,7 @@ tasks:
   package:
     summary: Packages a production build of the application
     cmds:
+      - task: licenses:package
       - task: "{{.GOOS}}:package"
 
   run:

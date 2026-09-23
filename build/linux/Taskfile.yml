@@ -116,12 +116,14 @@ tasks:
       - cp "{{.APP_BINARY}}" "{{.APP_NAME}}"
       - cp ../../appicon.png "{{.APP_NAME}}.png"
       - wails3 generate appimage -binary "{{.APP_NAME}}" -icon {{.ICON}} -desktopfile {{.DESKTOP_FILE}} -outputdir {{.OUTPUT_DIR}} -builddir {{.ROOT_DIR}}/build/linux/appimage/build
+      - mv "{{.OUTPUT_DIR}}/{{.APP_NAME}}-{{.APPIMAGE_ARCH}}.AppImage" "{{.OUTPUT_DIR}}/{{.APP_NAME}}.AppImage"
     vars:
       APP_NAME: '{{.APP_NAME}}'
       APP_BINARY: '../../../bin/{{.APP_NAME}}'
       ICON: '{{.APP_NAME}}.png'
       DESKTOP_FILE: '../com.bedirhanyenilmez.pzadmin.desktop'
       OUTPUT_DIR: '../../../bin'
+      APPIMAGE_ARCH: '{{if eq (.ARCH | default ARCH) "amd64"}}x86_64{{else if eq (.ARCH | default ARCH) "arm64"}}aarch64{{else}}{{.ARCH | default ARCH}}{{end}}'
 
   create:deb:
     summary: Creates a deb package
