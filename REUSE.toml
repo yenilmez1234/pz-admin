@@ -1,31 +1,72 @@
 version = 1
 
-# Original application code and configuration.
+# Default for original project files.
 [[annotations]]
-path = [
-  ".gitignore",
-  "VERSION",
-  "frontend/.*",
-  "frontend/*.cjs",
-  "frontend/*.json",
-  "frontend/*.ts",
-  "frontend/*.yaml",
-  "frontend/index.html",
-  "frontend/scripts/**",
-  "frontend/src/**",
-  "go.mod",
-  "go.sum",
-  "internal/**",
-  "main.go",
-  "mise.lock",
-  "mise.toml",
-  "scripts/**",
-  "skills-lock.json",
-]
+path = "**"
 SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
-# Original icon artwork and platform exports.
+# Exclude mixed-source directories from the default; reviewed subsets follow.
+[[annotations]]
+path = [
+  "build/**",
+  "frontend/bindings/**",
+  "frontend/public/**",
+  "frontend/src/data/**"
+]
+
+# Bindings generated from our Go definitions and Wails templates.
+[[annotations]]
+path = "frontend/bindings/**"
+SPDX-FileCopyrightText = [
+  "2026 Bedirhan Yenilmez",
+  "2018-Present Lea Anthony",
+]
+SPDX-License-Identifier = "GPL-3.0-or-later AND MIT"
+
+# Wails-derived build scripts, templates and platform scaffolding.
+[[annotations]]
+path = [
+  "Taskfile.yml",
+  "build/Taskfile.yml",
+  "build/android/**",
+  "build/config.yml",
+  "build/darwin/Info.dev.plist",
+  "build/darwin/Info.plist",
+  "build/darwin/Taskfile.yml",
+  "build/docker/**",
+  "build/ios/**",
+  "build/linux/Taskfile.yml",
+  "build/linux/appimage/build.sh",
+  "build/linux/nfpm/nfpm.yaml",
+  "build/windows/**",
+]
+SPDX-FileCopyrightText = "2018-Present Lea Anthony"
+SPDX-License-Identifier = "MIT"
+
+# Gradle wrapper, distributed with the Wails Android scaffold.
+[[annotations]]
+path = [
+  "build/android/gradle/wrapper/gradle-wrapper.jar",
+  "build/android/gradlew",
+  "build/android/gradlew.bat",
+]
+SPDX-FileCopyrightText = "Gradle contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Project-authored Linux desktop entry.
+[[annotations]]
+path = "build/linux/com.bedirhanyenilmez.pzadmin.desktop"
+SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# AppStream metadata, permissively licensed for software catalogs.
+[[annotations]]
+path = "build/linux/com.bedirhanyenilmez.pzadmin.metainfo.xml"
+SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
+SPDX-License-Identifier = "MIT"
+
+# Original app icon and its platform exports.
 [[annotations]]
 path = [
   "build/appicon.icon/**",
@@ -39,36 +80,26 @@ path = [
 SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
-# AppStream metadata, licensed separately for redistribution by software catalogs.
-[[annotations]]
-path = "build/linux/com.bedirhanyenilmez.pzadmin.metainfo.xml"
-SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
-SPDX-License-Identifier = "MIT"
-
-# Adapted Tailscale code; upstream notices are retained alongside it.
+# Adapted Tailscale code with retained upstream notices.
 [[annotations]]
 path = ["internal/third_party/tailscale.com/**"]
 SPDX-FileCopyrightText = "2020 Tailscale Inc & contributors"
 SPDX-License-Identifier = "BSD-3-Clause"
 
-# Written for this project, not copied from Tailscale.
+# Project-authored tests, not part of the imported Tailscale code.
 [[annotations]]
 path = "internal/third_party/tailscale.com/atomicfile/atomicfile_test.go"
 SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
-# Prevent new imported data from inheriting GPL before provenance review.
-[[annotations]]
-path = "frontend/src/data/**"
-
-# Wiki-derived skill information, structured for this application.
+# PZwiki skill data organized into application catalogs.
 [[annotations]]
 path = "frontend/src/data/skills/*.json"
 SPDX-FileCopyrightText = ["PZwiki contributors", "2026 Bedirhan Yenilmez"]
 SPDX-License-Identifier = "CC-BY-NC-SA-3.0"
 
-# CC BY-NC-SA covers wiki material and our adaptations; game material retains
-# The Indie Stone's terms. Stats also include in-game observations and corrections.
+# Mixed wiki/game catalogs with local adaptations and in-game stat corrections.
+# CC BY-NC-SA covers wiki material and adaptations; game material retains its terms.
 [[annotations]]
 path = [
   "frontend/public/vehicles/**/stats.json",
@@ -82,8 +113,8 @@ SPDX-FileCopyrightText = [
 ]
 SPDX-License-Identifier = "CC-BY-NC-SA-3.0 AND LicenseRef-Project-Zomboid-Terms-and-Conditions"
 
-# Game-extracted item and skill translations, item and skill images, vehicle
-# renders and stat icons; artwork obtained through the wiki is game-derived.
+# Game-extracted translations and artwork, including wiki-hosted game images,
+# vehicle renders and stat icons.
 [[annotations]]
 path = [
   "frontend/public/items/**/*.png",
