@@ -19,6 +19,48 @@ includes:
   android: ./build/android/Taskfile.yml
 
 tasks:
+  licenses:
+    desc: Collects frontend and native backend dependency licenses
+    cmds:
+      - task: licenses:frontend
+      - task: licenses:backend
+
+  licenses:frontend:
+    desc: Collects Vite's license report and static additional notices under .generated/licenses/frontend
+    dir: frontend
+    cmds:
+      - pnpm build
+
+  licenses:backend:
+    desc: Collects native production Go dependency licenses under .generated/licenses/backend
+    summary: |
+      Run on each release platform with its native build prerequisites installed.
+      Uses the host OS/architecture and production tags; accepts EXTRA_TAGS.
+      Collects external Go dependencies, the Go license, and adapted Tailscale code.
+      Native libraries, bundled resources, and build tools need separate review.
+    dir: '{{.ROOT_DIR}}'
+    preconditions:
+      - sh: go-licenses --help
+        msg: Run mise install to install go-licenses.
+    vars:
+      LICENSE_DIR: '{{.ROOT_DIR}}/.generated/licenses/backend/{{OS}}-{{ARCH}}'
+      GOROOT_PATH:
+        sh: go env GOROOT
+    env:
+      GOOS: '{{OS}}'
+      GOARCH: '{{ARCH}}'
+      CGO_ENABLED: '{{if eq OS "windows"}}0{{else}}1{{end}}'
+      GOFLAGS: '-tags=production{{if .EXTRA_TAGS}},{{.EXTRA_TAGS}}{{end}}'
+    cmds:
+      - mkdir -p "{{.LICENSE_DIR}}"
+      # Our source is covered by REUSE; ignoring it still follows external imports.
+      - go-licenses report . --ignore github.com/beyenilmez/pz-admin > "{{.LICENSE_DIR}}/dependencies.csv"
+      - go-licenses save . --ignore github.com/beyenilmez/pz-admin --save_path "{{.LICENSE_DIR}}/texts" --force
+      # The collector skips the standard library and our copied Tailscale packages.
+      - mkdir -p "{{.LICENSE_DIR}}/texts/go" "{{.LICENSE_DIR}}/texts/tailscale.com"
+      - cp "{{.GOROOT_PATH}}/LICENSE" "{{.LICENSE_DIR}}/texts/go/LICENSE"
+      - cp internal/third_party/tailscale.com/LICENSE "{{.LICENSE_DIR}}/texts/tailscale.com/LICENSE"
+
   check:
     desc: Checks the backend and frontend
     cmds:

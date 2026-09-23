@@ -2,6 +2,7 @@
 lockfile = true
 
 [tools]
+"go:github.com/google/go-licenses/v2" = "latest"
 "go:github.com/wailsapp/wails/v3/cmd/wails3" = "v3.0.0-beta.24"
 "pipx:reuse" = "latest"
 go = "1.26"
