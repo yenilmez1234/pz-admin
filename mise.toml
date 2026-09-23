@@ -8,4 +8,3 @@ lockfile = true
 go = "1.26"
 node = "24"
 pnpm = "latest"
-task = "latest"
