@@ -21,42 +21,6 @@ path = ["frontend/public/README.md", "frontend/src/data/README.md"]
 SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
-# Upstream license texts omitted from published npm packages.
-[[annotations]]
-path = "frontend/scripts/licenses/texts/wails-runtime.txt"
-SPDX-FileCopyrightText = "2018-Present Lea Anthony"
-SPDX-License-Identifier = "MIT"
-
-# Later upstream MIT notice for react-remove-scroll-bar.
-[[annotations]]
-path = "frontend/scripts/licenses/texts/react-remove-scroll-bar.txt"
-SPDX-FileCopyrightText = "2025 Anton Korzunov <thekashey@gmail.com>"
-SPDX-License-Identifier = "MIT"
-
-# is-callable notice retained in the Wails runtime.
-[[annotations]]
-path = "frontend/scripts/licenses/texts/is-callable.txt"
-SPDX-FileCopyrightText = "2015 Jordan Harband"
-SPDX-License-Identifier = "MIT"
-
-# Nano ID notice retained in the Wails runtime.
-[[annotations]]
-path = "frontend/scripts/licenses/texts/nanoid.txt"
-SPDX-FileCopyrightText = "2017 Andrey Sitnik <andrey@sitnik.ru>"
-SPDX-License-Identifier = "MIT"
-
-# HTMX notice retained in the Wails runtime.
-[[annotations]]
-path = "frontend/scripts/licenses/texts/htmx.txt"
-SPDX-FileCopyrightText = "2020 Big Sky Software"
-SPDX-License-Identifier = "BSD-2-Clause"
-
-# core-js notice for code adapted by Linkify.
-[[annotations]]
-path = "frontend/scripts/licenses/texts/core-js.txt"
-SPDX-FileCopyrightText = "2014-2021 Denis Pushkarev"
-SPDX-License-Identifier = "MIT"
-
 # Bindings generated from our Go definitions and Wails templates.
 [[annotations]]
 path = "frontend/bindings/**"
