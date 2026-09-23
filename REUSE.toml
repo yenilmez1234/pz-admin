@@ -15,6 +15,12 @@ path = [
   "frontend/src/data/**"
 ]
 
+# Attribution notes for catalogs and game assets.
+[[annotations]]
+path = ["frontend/public/README.md", "frontend/src/data/README.md"]
+SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
 # Bindings generated from our Go definitions and Wails templates.
 [[annotations]]
 path = "frontend/bindings/**"
