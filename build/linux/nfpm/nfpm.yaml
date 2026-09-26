@@ -16,6 +16,14 @@ homepage: "https://beyenilmez.github.io/pz-admin/"
 license: "GPL-3.0-or-later"
 release: "1"
 
+deb:
+  fields:
+    Bugs: "https://github.com/beyenilmez/pz-admin/issues"
+    Vcs-Browser: "https://github.com/beyenilmez/pz-admin"
+
+archlinux:
+  packager: "Bedirhan Yenilmez <contact@bedirhanyenilmez.com>"
+
 contents:
   - src: "./bin/pz-admin"
     dst: "/usr/bin/pz-admin"
