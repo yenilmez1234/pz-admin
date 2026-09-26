@@ -13,39 +13,7 @@ import { System } from "@wailsio/runtime";
 import { useTranslation } from "react-i18next";
 import { errorMessage } from "@/shared/lib/errors";
 import { CopyValueButton } from "@/shared/components/CopyValueButton";
-
-type DiagnosticEnvironment = Omit<
-  System.EnvironmentInfo,
-  "OSInfo" | "PlatformInfo"
-> & {
-  OSInfo: System.OSInfo | null;
-  PlatformInfo: Record<string, unknown> | null;
-};
-
-export function formatDiagnostics(info: DiagnosticEnvironment): string {
-  const fields: Record<string, unknown> = {
-    version: APP_VERSION,
-    os: info.OS,
-    arch: info.Arch,
-    debug: info.Debug,
-  };
-  if (info.OSInfo) {
-    fields["os_details.name"] = info.OSInfo.Name;
-    fields["os_details.version"] = info.OSInfo.Version;
-  }
-  const platformEntries = Object.entries(info.PlatformInfo ?? {});
-  // Sort a fresh array; toSorted is outside our ES2022 target.
-  platformEntries.sort(([a], [b]) => a.localeCompare(b));
-  for (const [key, value] of platformEntries) {
-    fields[`platform.${key}`] = value;
-  }
-  return Object.entries(fields)
-    .map(
-      ([key, value]) =>
-        `${key}: ${typeof value === "string" ? value : JSON.stringify(value)}`,
-    )
-    .join("\n");
-}
+import { formatDiagnostics } from "@/features/settings/lib/diagnostics";
 
 export function DiagnosticsSection() {
   const { t } = useTranslation(["settings", "common"]);

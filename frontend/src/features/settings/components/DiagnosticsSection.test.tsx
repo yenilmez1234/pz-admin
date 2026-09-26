@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { System } from "@wailsio/runtime";
 import i18n from "@/i18n";
 import { fireEvent, render, screen } from "@/test/render";
-import { DiagnosticsSection, formatDiagnostics } from "./DiagnosticsSection";
+import { DiagnosticsSection } from "@/features/settings/components/DiagnosticsSection";
+import { formatDiagnostics } from "@/features/settings/lib/diagnostics";
 
 vi.mock("@wailsio/runtime", () => ({
   System: { Environment: vi.fn() },

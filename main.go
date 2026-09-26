@@ -11,6 +11,7 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/config"
 	"github.com/beyenilmez/pz-admin/internal/console"
 	"github.com/beyenilmez/pz-admin/internal/logger"
+	"github.com/beyenilmez/pz-admin/internal/notices"
 	"github.com/beyenilmez/pz-admin/internal/options"
 	"github.com/beyenilmez/pz-admin/internal/player"
 	"github.com/beyenilmez/pz-admin/internal/profile"
@@ -74,6 +75,7 @@ func run() error {
 	// Service instances
 	configSvc := config.NewService()
 	frontendLogSvc := logger.NewService()
+	noticesSvc := notices.NewService(applicationLicense, thirdPartyNotices)
 	playerSvc := player.NewService()
 	profileSvc := profile.NewService(playerSvc)
 	consoleSvc := console.NewService(playerSvc.ObserveConsoleCommand)
@@ -106,6 +108,7 @@ func run() error {
 		Services: []application.Service{
 			application.NewService(configSvc),
 			application.NewService(frontendLogSvc),
+			application.NewService(noticesSvc),
 			application.NewService(playerSvc),
 			application.NewService(profileSvc),
 			application.NewService(consoleSvc),

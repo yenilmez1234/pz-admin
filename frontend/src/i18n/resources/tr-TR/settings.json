@@ -1,4 +1,13 @@
 {
+  "about": {
+    "description": "Project Zomboid sunucu yönetim aracı",
+    "links": {
+      "homepage": "Web sitesi",
+      "issues": "Sorun bildir",
+      "project": "Kaynak kodu"
+    },
+    "title": "Hakkında"
+  },
   "colorScheme": {
     "description": "Uygulamanın hangi renk düzenini kullanacağını seçin.",
     "label": "Renk düzeni",
@@ -32,6 +41,26 @@
   "language": {
     "description": "Uygulama dilini seçin.",
     "label": "Dil"
+  },
+  "notices": {
+    "actions": {
+      "source": "Kaynağı tarayıcıda görüntüle"
+    },
+    "application": "PZ Admin lisansı",
+    "errors": {
+      "load": {
+        "title": "Lisanslar ve bildirimler yüklenemedi"
+      }
+    },
+    "loading": "Bildirimler yükleniyor…",
+    "missingText": "Bu kayıt için lisans metni bulunmuyor.",
+    "search": {
+      "empty": "Aramanızla eşleşen bildirim bulunamadı",
+      "label": "Üçüncü taraf bildirimlerinde ara",
+      "placeholder": "Üçüncü taraf bildirimlerinde ara…"
+    },
+    "title": "Lisanslar ve bildirimler",
+    "unavailable": "Bu derleme için üçüncü taraf bildirimleri oluşturulmamış."
   },
   "page": {
     "title": "Ayarlar"

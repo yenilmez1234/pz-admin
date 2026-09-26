@@ -12,7 +12,7 @@ priority: "optional"
 maintainer: "Bedirhan Yenilmez <contact@bedirhanyenilmez.com>"
 description: "Project Zomboid server administration tool"
 vendor: "Bedirhan Yenilmez"
-homepage: "https://github.com/beyenilmez/pz-admin"
+homepage: "https://beyenilmez.github.io/pz-admin/"
 license: "GPL-3.0-or-later"
 release: "1"
 

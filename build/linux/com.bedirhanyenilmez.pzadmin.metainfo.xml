@@ -37,7 +37,7 @@
   <developer id="com.bedirhanyenilmez">
     <name>Bedirhan Yenilmez</name>
   </developer>
-  <url type="homepage">https://github.com/beyenilmez/pz-admin</url>
+  <url type="homepage">https://beyenilmez.github.io/pz-admin/</url>
   <url type="vcs-browser">https://github.com/beyenilmez/pz-admin</url>
   <url type="bugtracker">https://github.com/beyenilmez/pz-admin/issues</url>
   <launchable type="desktop-id">com.bedirhanyenilmez.pzadmin.desktop</launchable>
