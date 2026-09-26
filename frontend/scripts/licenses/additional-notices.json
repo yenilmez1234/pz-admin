@@ -1,10 +1,10 @@
 [
   {
     "name": "@wailsio/runtime",
-    "version": "3.0.0-beta.24",
+    "version": "3.0.0-beta.25",
     "identifier": "MIT",
     "file": "texts/LICENSE-wails-runtime",
-    "source": "https://github.com/wailsapp/wails/blob/f5457ed12f5c53883c4820437d106d48f4340f1e/LICENSE",
+    "source": "https://github.com/wailsapp/wails/blob/2e3e15359106686c1f9e5c11b7a84025169cea5d/LICENSE",
     "note": "Repository license at the gitHead recorded by npm for this release."
   },
   {
