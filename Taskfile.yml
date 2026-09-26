@@ -57,6 +57,9 @@ tasks:
       CGO_ENABLED: '{{if eq .TARGET_OS "windows"}}0{{else}}1{{end}}'
       GOFLAGS: '-tags=production{{if .EXTRA_TAGS}},{{.EXTRA_TAGS}}{{end}}'
     cmds:
+      # Go package loading needs the embed target before collection can run.
+      - mkdir -p .generated/licenses/package
+      - 'if [ ! -f .generated/licenses/package/THIRD-PARTY-NOTICES.json ]; then touch .generated/licenses/package/THIRD-PARTY-NOTICES.json; fi'
       - mkdir -p "{{.LICENSE_DIR}}"
       # Our source is covered by REUSE; ignoring it still follows external imports.
       - go-licenses report . --ignore github.com/beyenilmez/pz-admin > "{{.LICENSE_DIR}}/dependencies.csv"

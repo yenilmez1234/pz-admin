@@ -23,6 +23,12 @@ import (
 //go:embed VERSION
 var rawVersion string
 
+//go:embed LICENSE
+var applicationLicense string
+
+//go:embed .generated/licenses/package/THIRD-PARTY-NOTICES.json
+var thirdPartyNotices string
+
 // buildVersion returns the embedded application version.
 func buildVersion() string {
 	return strings.TrimSpace(rawVersion)
