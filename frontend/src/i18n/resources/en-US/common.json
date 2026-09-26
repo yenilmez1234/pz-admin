@@ -24,6 +24,9 @@
     "saveChanges": "Save changes",
     "undo": "Undo"
   },
+  "attribution": {
+    "label": "Attribution"
+  },
   "errors": {
     "unexpected": "Something went wrong. Please try again."
   },

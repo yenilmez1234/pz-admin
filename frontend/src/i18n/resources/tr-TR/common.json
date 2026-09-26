@@ -24,6 +24,9 @@
     "saveChanges": "Değişiklikleri kaydet",
     "undo": "Geri al"
   },
+  "attribution": {
+    "label": "Atıf"
+  },
   "errors": {
     "unexpected": "Bir sorun oluştu. Lütfen tekrar deneyin."
   },

@@ -1,9 +1,10 @@
-import { Alert, Button, Stack } from "@mantine/core";
+import { Alert, Box, Button, Stack } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
 import { GameToolPageLayout } from "@/features/game/components/GameToolPageLayout";
+import { GameCreditsButton } from "@/features/game/components/GameCreditsButton";
 import { VehicleDetails } from "@/features/vehicles/components/details/VehicleDetails";
 import { VehicleExplorer } from "@/features/vehicles/components/explorer/VehicleExplorer";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
@@ -35,7 +36,7 @@ export function VehiclesPage({ build, onBuildChange }: VehiclesPageProps) {
   }
 
   return (
-    <>
+    <Box pos="relative" h="100%">
       {selectedVehicle ? (
         <VehicleDetails
           onBack={handleBack}
@@ -76,6 +77,7 @@ export function VehiclesPage({ build, onBuildChange }: VehiclesPageProps) {
           />
         ) : null}
       </GameToolPageLayout>
-    </>
+      <GameCreditsButton />
+    </Box>
   );
 }

@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import type { Player } from "@bindings/internal/player/models";
 import type { GameBuild } from "@/features/game/types";
 import { VehiclePicker } from "@/features/vehicles/components/picker/VehiclePicker";
+import { GameCreditsScrollArea } from "@/features/game/components/GameCreditsScrollArea";
 import type { VehicleCatalogEntry } from "@/features/vehicles/types";
 import { useVehicleCatalog } from "@/features/vehicles/hooks/useVehicleCatalog";
 import { useSkeletonVisibility } from "@/shared/hooks/useSkeletonVisibility";
@@ -65,6 +66,7 @@ export function SpawnVehicleModal({
 
   return (
     <Modal
+      scrollAreaComponent={GameCreditsScrollArea}
       closeOnClickOutside={!submitting}
       closeOnEscape={!submitting}
       onClose={onClose}
@@ -118,7 +120,7 @@ export function SpawnVehicleModal({
           />
         ) : null}
 
-        <Group justify="flex-end">
+        <Group justify="flex-end" pb="md">
           <Button disabled={submitting} onClick={onClose} variant="default">
             {t("actions.cancel", { ns: "common" })}
           </Button>

@@ -14,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconAlertCircle, IconEdit } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { GameBuild } from "@/features/game/types";
+import { GameCreditsScrollArea } from "@/features/game/components/GameCreditsScrollArea";
 import { utf8ByteLength } from "@/shared/lib/text";
 import { formatNumber, formatUnit } from "@/shared/lib/numberFormat";
 import { SelectionDialogViewport } from "@/shared/layout/SelectionDialogViewport";
@@ -104,7 +105,7 @@ function ItemEditorDialogContent({
         </Text>
       ) : null}
 
-      <Group justify="flex-end">
+      <Group justify="flex-end" pb="md">
         <Button onClick={onClose} variant="default">
           {t("actions.cancel", { ns: "common" })}
         </Button>
@@ -192,6 +193,7 @@ export function ItemEditorDialog({
       </div>
 
       <Modal
+        scrollAreaComponent={GameCreditsScrollArea}
         keepMounted
         onClose={modal.close}
         opened={opened}

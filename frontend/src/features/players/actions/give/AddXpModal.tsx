@@ -12,6 +12,7 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { XPGrant, type Player } from "@bindings/internal/player/models";
 import { SkillXpPicker } from "@/features/skills/components/SkillXpPicker";
+import { GameCreditsScrollArea } from "@/features/game/components/GameCreditsScrollArea";
 import type { GameBuild } from "@/features/game/types";
 import { useSkillCatalog } from "@/features/skills/hooks/useSkillCatalog";
 import { useSkillXpSelection } from "@/features/skills/hooks/useSkillXpSelection";
@@ -97,6 +98,7 @@ export function AddXpModal({
 
   return (
     <Modal
+      scrollAreaComponent={GameCreditsScrollArea}
       closeOnClickOutside={!submitting}
       closeOnEscape={!submitting}
       onClose={onClose}
@@ -143,7 +145,7 @@ export function AddXpModal({
           </SelectionDialogViewport>
         ) : null}
 
-        <Group justify="space-between">
+        <Group justify="space-between" pb="md">
           <Button
             disabled={!catalog || submitting}
             onClick={selectMaximumXp}

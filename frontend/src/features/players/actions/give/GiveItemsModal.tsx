@@ -4,6 +4,7 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { ItemGrant, type Player } from "@bindings/internal/player/models";
 import { ItemBrowser } from "@/features/items/components/ItemBrowser";
+import { GameCreditsScrollArea } from "@/features/game/components/GameCreditsScrollArea";
 import type { GameBuild } from "@/features/game/types";
 import { useItemCatalog } from "@/features/items/hooks/useItemCatalog";
 import { useItemSelection } from "@/features/items/hooks/useItemSelection";
@@ -55,6 +56,7 @@ export function GiveItemsModal({
 
   return (
     <Modal
+      scrollAreaComponent={GameCreditsScrollArea}
       closeOnClickOutside={!submitting}
       closeOnEscape={!submitting}
       onClose={onClose}
@@ -97,7 +99,7 @@ export function GiveItemsModal({
           </SelectionDialogViewport>
         )}
 
-        <Group justify="flex-end">
+        <Group justify="flex-end" pb="md">
           <Button disabled={submitting} onClick={onClose} variant="default">
             {t("actions.cancel", { ns: "common" })}
           </Button>

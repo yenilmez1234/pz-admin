@@ -3,6 +3,7 @@ import { IconExternalLink } from "@tabler/icons-react";
 import { Browser } from "@wailsio/runtime";
 import { useTranslation } from "react-i18next";
 import { NoticesButton } from "@/features/settings/components/NoticesButton";
+import { GameAttribution } from "@/features/game/components/GameAttribution";
 
 const projectLinks = [
   {
@@ -54,6 +55,7 @@ export function AboutSection() {
           </Anchor>
         ))}
       </Group>
+      <GameAttribution />
       <NoticesButton />
     </Stack>
   );
