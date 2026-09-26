@@ -29,6 +29,8 @@ tasks:
   licenses:frontend:
     desc: Collects Vite's license report and static additional notices under .generated/licenses/frontend
     dir: frontend
+    deps:
+      - task: common:install:frontend:deps
     cmds:
       - pnpm build
 
@@ -81,8 +83,8 @@ tasks:
       TARGET_ARCH: '{{.ARCH | default ARCH}}'
     cmds:
       - task: licenses
-      - mkdir -p "{{.BIN_DIR}}"
-      - cp ".generated/licenses/combined/{{.TARGET_OS}}-{{.TARGET_ARCH}}.json" "{{.BIN_DIR}}/THIRD-PARTY-NOTICES.json"
+      - mkdir -p .generated/licenses/package
+      - cp ".generated/licenses/combined/{{.TARGET_OS}}-{{.TARGET_ARCH}}.json" .generated/licenses/package/THIRD-PARTY-NOTICES.json
 
   check:
     desc: Checks the backend and frontend

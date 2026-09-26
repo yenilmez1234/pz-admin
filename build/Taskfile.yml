@@ -188,6 +188,9 @@ tasks:
     generates:
       - frontend/bindings/**/*
     cmds:
+      # Go package loading requires embedded assets before the first frontend build.
+      - mkdir -p frontend/dist
+      - 'if [ ! -f frontend/dist/index.html ]; then cp frontend/index.html frontend/dist/index.html; fi'
       - wails3 generate bindings -f '{{.BUILD_FLAGS}}' -clean=true -time-type=Date{{if eq .OBFUSCATED "true"}} -obfuscated{{end}} -ts
 
   generate:icons:

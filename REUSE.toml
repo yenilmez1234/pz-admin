@@ -43,12 +43,17 @@ path = [
   "build/docker/**",
   "build/ios/**",
   "build/linux/Taskfile.yml",
-  "build/linux/appimage/build.sh",
   "build/linux/nfpm/nfpm.yaml",
   "build/windows/**",
 ]
 SPDX-FileCopyrightText = "2018-Present Lea Anthony"
 SPDX-License-Identifier = "MIT"
+
+# Project-authored AppImage packaging and launcher.
+[[annotations]]
+path = "build/linux/appimage/**"
+SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
+SPDX-License-Identifier = "GPL-3.0-or-later"
 
 # Gradle wrapper, distributed with the Wails Android scaffold.
 [[annotations]]

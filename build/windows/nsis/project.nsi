@@ -92,7 +92,8 @@ Section
     SetOutPath $INSTDIR
     
     !insertmacro wails.files
-    File "/oname=THIRD-PARTY-NOTICES.json" "../../../bin/THIRD-PARTY-NOTICES.json"
+    File "/oname=THIRD-PARTY-NOTICES.json" "../../../.generated/licenses/package/THIRD-PARTY-NOTICES.json"
+    File "/oname=LICENSE" "../../../LICENSE"
 
     CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${PRODUCT_EXECUTABLE}"
     CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${PRODUCT_EXECUTABLE}"
