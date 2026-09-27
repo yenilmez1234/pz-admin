@@ -1,4 +1,4 @@
-# Generated code and build output
+# Generated/imported assets and build output
 bindings/
 coverage/
 dist/
@@ -6,11 +6,8 @@ public/items/
 public/skills/
 public/vehicles/
 src/data/items/
+src/data/skills/
 src/data/vehicles/
-src/i18n/generated/
-
-# Temporary reference and scratch files
-~*
 
 # Dependency manager-owned files
 node_modules/
