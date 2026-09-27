@@ -75,5 +75,5 @@ fileAssociations:
 #    mimeType: image/jpeg  # (optional)
 
 # Other data
-other:
-  - name: My Other Data
+# other:
+#   - name: My Other Data
