@@ -90,9 +90,14 @@ func TestService_Update(t *testing.T) {
 }
 
 func TestService_ServiceStartup(t *testing.T) {
-	t.Run("creates defaults for missing file", func(t *testing.T) {
+	t.Run("leaves initial language unset for missing file", func(t *testing.T) {
 		service := newStartedConfigService(t)
-		assertConfigState(t, service, defaults())
+		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: ""})
+	})
+	t.Run("preserves existing English settings", func(t *testing.T) {
+		service := newConfigServiceWithFile(t, []byte(`{"theme":"system","language":"en-US"}`))
+		startConfigService(t, service)
+		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: "en-US"})
 	})
 	t.Run("loads valid file", func(t *testing.T) {
 		want := Config{Theme: ThemeDark, Language: "tr-TR"}

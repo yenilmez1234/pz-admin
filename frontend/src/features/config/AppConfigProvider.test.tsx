@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { StrictMode, type ReactNode } from "react";
 import { act, render, waitFor } from "@/test/render";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Config as ConfigModel } from "@bindings/internal/config/models";
@@ -41,12 +41,74 @@ function renderProvider(children: ReactNode = <ConfigProbe />) {
 }
 
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.resetAllMocks();
   document.documentElement.lang = defaultLanguage;
 });
 
 describe("AppConfigProvider", () => {
+  it("detects and saves the initial language once under StrictMode", async () => {
+    vi.spyOn(navigator, "languages", "get").mockReturnValue(["tr"]);
+    vi.mocked(Config)
+      .mockResolvedValueOnce(new ConfigModel({ language: "", theme: "system" }))
+      .mockResolvedValue(
+        new ConfigModel({ language: "tr-TR", theme: "system" }),
+      );
+    vi.mocked(SetLanguage).mockResolvedValue(undefined);
+
+    render(
+      <StrictMode>
+        <AppConfigProvider>
+          <ConfigProbe />
+        </AppConfigProvider>
+      </StrictMode>,
+    );
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(appConfig.config?.language).toBe("tr-TR");
+    expect(SetLanguage).toHaveBeenCalledExactlyOnceWith("tr-TR");
+
+    act(() => appConfig.reload());
+    await waitFor(() => expect(Config).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(SetLanguage).toHaveBeenCalledOnce();
+  });
+
+  it("persists English when no preferred language matches", async () => {
+    vi.spyOn(navigator, "languages", "get").mockReturnValue(["sw"]);
+    vi.mocked(Config).mockResolvedValue(
+      new ConfigModel({ language: "", theme: "system" }),
+    );
+    vi.mocked(SetLanguage).mockResolvedValue(undefined);
+    renderProvider();
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(SetLanguage).toHaveBeenCalledExactlyOnceWith(defaultLanguage);
+    expect(appConfig.config?.language).toBe(defaultLanguage);
+  });
+
+  it("exposes an initial language write failure and allows retry", async () => {
+    vi.mocked(Config).mockResolvedValue(
+      new ConfigModel({ language: "", theme: "system" }),
+    );
+    vi.mocked(SetLanguage)
+      .mockRejectedValueOnce(new Error("language-write-failure"))
+      .mockResolvedValue(undefined);
+    renderProvider();
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(appConfig.config).toBeNull();
+    expect(appConfig.error).toBe("language-write-failure");
+    act(() => appConfig.reload());
+    await waitFor(() => expect(appConfig.config).not.toBeNull());
+    expect(appConfig.error).toBeNull();
+    expect(SetLanguage).toHaveBeenCalledTimes(2);
+  });
+
   it.each([
+    {
+      expectedLanguage: defaultLanguage,
+      expectedScheme: "auto",
+      language: defaultLanguage,
+      theme: "system",
+    },
     {
       expectedLanguage: "tr-TR",
       expectedScheme: "dark",
@@ -62,6 +124,7 @@ describe("AppConfigProvider", () => {
   ] as const)(
     "loads language $language and applies theme $theme",
     async ({ expectedLanguage, expectedScheme, language, theme }) => {
+      vi.spyOn(navigator, "languages", "get").mockReturnValue(["tr-TR"]);
       vi.mocked(Config).mockResolvedValue(new ConfigModel({ language, theme }));
 
       renderProvider();
@@ -77,6 +140,7 @@ describe("AppConfigProvider", () => {
       expect(document.documentElement.lang).toBe(expectedLanguage);
       expect(setColorScheme).toHaveBeenCalledOnce();
       expect(setColorScheme).toHaveBeenCalledWith(expectedScheme);
+      expect(SetLanguage).not.toHaveBeenCalled();
     },
   );
 

@@ -34,7 +34,7 @@ var (
 func defaults() Config {
 	return Config{
 		Theme:    ThemeSystem,
-		Language: "en-US",
+		Language: "",
 	}
 }
 

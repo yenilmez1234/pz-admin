@@ -30,6 +30,43 @@ export const locales = Object.keys(localeRegistry).flatMap((code) =>
 
 export const defaultLanguage = "en-US" satisfies SupportedLanguage;
 
+const localeDetails = locales.map(({ code }) => {
+  const locale = new Intl.Locale(code);
+  return {
+    code,
+    language: locale.language,
+    script: locale.maximize().script,
+    region: locale.region,
+  };
+});
+
+export function detectLanguage(
+  preferredLanguages: readonly string[],
+): SupportedLanguage {
+  for (const language of preferredLanguages) {
+    let preferred: Intl.Locale;
+    try {
+      preferred = new Intl.Locale(language);
+    } catch {
+      continue;
+    }
+    // Resolve each preference fully before considering the next language.
+    if (isSupportedLanguage(preferred.baseName)) return preferred.baseName;
+
+    // Infer missing details (e.g. zh-Hant defaults to Taiwan).
+    const preferredLocale = preferred.maximize();
+    // Generic locales can serve any region; regional variants must match.
+    const match = localeDetails.find(
+      (candidate) =>
+        candidate.language === preferredLocale.language &&
+        candidate.script === preferredLocale.script &&
+        (!candidate.region || candidate.region === preferredLocale.region),
+    );
+    if (match) return match.code;
+  }
+  return defaultLanguage;
+}
+
 export function canonicalLanguage(language: string) {
   return Intl.getCanonicalLocales(language)[0];
 }

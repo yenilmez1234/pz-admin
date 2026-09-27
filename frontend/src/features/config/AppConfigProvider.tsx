@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { useMantineColorScheme } from "@mantine/core";
+import type { Config as ConfigModel } from "@bindings/internal/config/models";
 import {
   Config,
   SetLanguage,
@@ -18,6 +19,7 @@ import { errorMessage } from "@/shared/lib/errors";
 import i18n from "@/i18n";
 import {
   defaultLanguage,
+  detectLanguage,
   isSupportedLanguage,
   type SupportedLanguage,
 } from "@/i18n/locales";
@@ -63,12 +65,20 @@ interface AppConfigProviderProps {
 }
 
 const AppConfigContext = createContext<AppConfigContextValue | null>(null);
-let configRequest: ReturnType<typeof Config> | null = null;
+let configRequest: Promise<ConfigModel> | null = null;
 
 function loadConfig() {
   if (configRequest) return configRequest;
 
-  const request = Config();
+  const request = Config().then(async (config) => {
+    if (config.language !== "") return config;
+
+    const language = detectLanguage(
+      navigator.languages.length ? navigator.languages : [navigator.language],
+    );
+    await SetLanguage(language);
+    return { theme: config.theme, language };
+  });
   configRequest = request;
 
   const clearRequest = () => {
