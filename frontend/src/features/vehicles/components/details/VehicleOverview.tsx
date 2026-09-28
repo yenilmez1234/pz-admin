@@ -92,7 +92,10 @@ export function VehicleOverview({ titleRef, vehicle }: VehicleOverviewProps) {
 
         {vehicleDetailSections.map((section) => {
           const stats = section.stats.flatMap((stat) => {
-            const value = vehicle.stats[stat];
+            const value =
+              stat === "lightbar"
+                ? (vehicle.stats.lightbar ?? false)
+                : vehicle.stats[stat];
             return value === undefined ? [] : [{ stat, value }];
           });
           if (stats.length === 0) return null;

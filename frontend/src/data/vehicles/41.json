@@ -11,6 +11,7 @@
           "id": "Base.VanAmbulance",
           "image": "/vehicles/41/Heavy-Duty/Ambulance/Base.VanAmbulance/image.png",
           "stats": {
+            "lightbar": true,
             "weight": 816,
             "enginePower": 490,
             "topSpeed": 70,
@@ -36,6 +37,7 @@
               "id": "Base.PickUpTruckLightsFire",
               "image": "/vehicles/41/Heavy-Duty/Chevalier D6/Fire Department/Base.PickUpTruckLightsFire/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 1030,
                 "enginePower": 480,
                 "topSpeed": 70,
@@ -99,6 +101,7 @@
               "id": "Base.PickUpTruckLights",
               "image": "/vehicles/41/Heavy-Duty/Chevalier D6/Ranger_Fossoil/Base.PickUpTruckLights/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 1030,
                 "enginePower": 400,
                 "topSpeed": 70,
@@ -216,6 +219,7 @@
               "id": "Base.PickUpVanLightsFire",
               "image": "/vehicles/41/Heavy-Duty/Dash Bulldriver/Fire Department/Base.PickUpVanLightsFire/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 1104,
                 "enginePower": 480,
                 "topSpeed": 60,
@@ -279,6 +283,7 @@
               "id": "Base.PickUpVanLightsPolice",
               "image": "/vehicles/41/Heavy-Duty/Dash Bulldriver/Police/Base.PickUpVanLightsPolice/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 1104,
                 "enginePower": 480,
                 "topSpeed": 60,
@@ -300,6 +305,7 @@
               "id": "Base.PickUpVanLights",
               "image": "/vehicles/41/Heavy-Duty/Dash Bulldriver/Ranger_Fossoil/Base.PickUpVanLights/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 1104,
                 "enginePower": 400,
                 "topSpeed": 60,
@@ -756,6 +762,7 @@
               "id": "Base.CarLightsPolice",
               "image": "/vehicles/41/Standard/Chevalier Nyala/Police/Base.CarLightsPolice/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 800,
                 "enginePower": 480,
                 "topSpeed": 100,
@@ -777,6 +784,7 @@
               "id": "Base.CarLights",
               "image": "/vehicles/41/Standard/Chevalier Nyala/Ranger/Base.CarLights/image.png",
               "stats": {
+                "lightbar": true,
                 "weight": 800,
                 "enginePower": 400,
                 "topSpeed": 70,
