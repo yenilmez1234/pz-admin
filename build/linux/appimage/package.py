@@ -158,7 +158,7 @@ def main():
     docs = appdir / "usr/share/doc/pz-admin"
     docs.mkdir(parents=True, exist_ok=True)
     shutil.copy2("LICENSE", docs / "LICENSE")
-    report = Path(".generated/licenses/package/THIRD-PARTY-NOTICES.json")
+    report = Path(".generated/licenses/THIRD-PARTY-NOTICES.json")
     if not json.loads(report.read_text()):
         raise RuntimeError("The application notice report is empty")
     shutil.copy2(report, docs / "THIRD-PARTY-NOTICES.json")

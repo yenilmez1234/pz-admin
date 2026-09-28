@@ -97,9 +97,12 @@ path = ["internal/third_party/tailscale.com/**"]
 SPDX-FileCopyrightText = "2020 Tailscale Inc & contributors"
 SPDX-License-Identifier = "BSD-3-Clause"
 
-# Project-authored tests, not part of the imported Tailscale code.
+# Project-authored tests and documentation, not imported Tailscale code.
 [[annotations]]
-path = "internal/third_party/tailscale.com/atomicfile/atomicfile_test.go"
+path = [
+  "internal/third_party/tailscale.com/atomicfile/atomicfile_test.go",
+  "internal/third_party/tailscale.com/README.md",
+]
 SPDX-FileCopyrightText = "2026 Bedirhan Yenilmez"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 

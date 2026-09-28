@@ -53,7 +53,7 @@ contents:
     dst: "/usr/share/metainfo/com.bedirhanyenilmez.pzadmin.metainfo.xml"
   - src: "./LICENSE"
     dst: "/usr/share/licenses/pz-admin/GPL-3.0-or-later.txt"
-  - src: "./.generated/licenses/package/THIRD-PARTY-NOTICES.json"
+  - src: "./.generated/licenses/THIRD-PARTY-NOTICES.json"
     dst: "/usr/share/doc/pz-admin/THIRD-PARTY-NOTICES.json"
 
 # Default dependencies for the GTK4 + WebKitGTK 6.0 stack (Ubuntu 24.04+ / Debian 13+)

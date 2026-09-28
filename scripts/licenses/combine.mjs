@@ -22,7 +22,7 @@ const staticPlatformInput = path.join(
   "platform",
   `${target.split("-")[0]}.json`,
 );
-const output = path.join(licenseRoot, "combined", `${target}.json`);
+const output = path.join(licenseRoot, "THIRD-PARTY-NOTICES.json");
 
 const readJson = async (file) => JSON.parse(await readFile(file, "utf8"));
 

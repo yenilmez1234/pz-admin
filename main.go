@@ -27,7 +27,7 @@ var rawVersion string
 //go:embed LICENSE
 var applicationLicense string
 
-//go:embed .generated/licenses/package/THIRD-PARTY-NOTICES.json
+//go:embed .generated/licenses/THIRD-PARTY-NOTICES.json
 var thirdPartyNotices string
 
 // buildVersion returns the embedded application version.
