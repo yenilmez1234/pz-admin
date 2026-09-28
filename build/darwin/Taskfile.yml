@@ -114,19 +114,28 @@ tasks:
       - rm -f "{{.BIN_DIR}}/{{.APP_NAME}}-amd64" "{{.BIN_DIR}}/{{.APP_NAME}}-arm64"
 
   package:
-    summary: Packages the application into a `.app` bundle
+    summary: Creates an `.app` bundle and, on macOS, a `.dmg`
     deps:
       - task: build
     cmds:
       - task: create:app:bundle
+      - task: create:dmg
 
   package:universal:
-    summary: Packages darwin universal binary (arm64 + amd64)
+    summary: Creates a universal `.app` bundle and, on macOS, a `.dmg`
     deps:
       - task: build:universal
     cmds:
       - task: create:app:bundle
+      - task: create:dmg
 
+  create:dmg:
+    summary: Creates a `.dmg` from the existing `.app` bundle (macOS only)
+    platforms: [darwin]
+    cmds:
+      - >-
+        wails3 tool package --format dmg --name "{{.APP_NAME}}" --out "{{.BIN_DIR}}"
+        --volume-icon "{{.ROOT_DIR}}/build/darwin/icons.icns"
 
   create:app:bundle:
     summary: Creates an `.app` bundle
@@ -180,6 +189,7 @@ tasks:
       - task: package
     cmds:
       - wails3 tool sign --input "{{.BIN_DIR}}/{{.APP_NAME}}.app" {{.CLI_ARGS}}
+      - task: create:dmg
 
   sign:notarize:
     summary: Signs and notarizes the application bundle
@@ -193,3 +203,4 @@ tasks:
       - task: package
     cmds:
       - wails3 tool sign --input "{{.BIN_DIR}}/{{.APP_NAME}}.app" --notarize {{.CLI_ARGS}}
+      - task: create:dmg
