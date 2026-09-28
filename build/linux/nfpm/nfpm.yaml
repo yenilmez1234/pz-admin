@@ -55,6 +55,8 @@ contents:
     dst: "/usr/share/licenses/pz-admin/GPL-3.0-or-later.txt"
   - src: "./.generated/licenses/THIRD-PARTY-NOTICES.json"
     dst: "/usr/share/doc/pz-admin/THIRD-PARTY-NOTICES.json"
+  - src: "./README.md"
+    dst: "/usr/share/doc/pz-admin/README.md"
 
 # Default dependencies for the GTK4 + WebKitGTK 6.0 stack (Ubuntu 24.04+ / Debian 13+)
 depends:
