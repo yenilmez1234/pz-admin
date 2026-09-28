@@ -29,11 +29,17 @@ tasks:
 
   licenses:frontend:
     desc: Collects Vite's license report and static additional notices under .generated/licenses/frontend
-    dir: frontend
-    deps:
-      - task: common:install:frontend:deps
+    dir: '{{.ROOT_DIR}}'
     cmds:
-      - pnpm build
+      # Binding generation loads the Go package, including its embedded notices.
+      - mkdir -p .generated/licenses
+      - 'if [ ! -f .generated/licenses/THIRD-PARTY-NOTICES.json ]; then : > .generated/licenses/THIRD-PARTY-NOTICES.json; fi'
+      - task: common:build:frontend
+        vars:
+          DEV: 'false'
+          BUILD_FLAGS: '-tags production{{if eq .OBFUSCATED "true"}},wails_obfuscated{{end}}{{if .EXTRA_TAGS}},{{.EXTRA_TAGS}}{{end}}'
+          OBFUSCATED:
+            ref: .OBFUSCATED
 
   licenses:backend:
     desc: Collects native production Go dependency licenses under .generated/licenses/backend

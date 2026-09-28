@@ -82,8 +82,10 @@ tasks:
     sources:
       - "**/*"
       - exclude: node_modules/**/*
+      - ../VERSION
     generates:
       - dist/**/*
+      - ../.generated/licenses/frontend/dependencies.json
     deps:
       - task: install:frontend:deps
       - task: generate:bindings
