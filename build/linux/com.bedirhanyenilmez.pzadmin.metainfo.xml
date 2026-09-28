@@ -8,27 +8,51 @@
   <summary xml:lang="tr">Project Zomboid sunucu yönetim aracı</summary>
   <description>
     <p>
-      PZ Admin brings player management, server settings, and console commands
-      together in a graphical interface for Project Zomboid server administrators.
+      PZ Admin is a desktop application for managing Project Zomboid servers.
+      Manage players, edit server options, and run console commands from one interface.
     </p>
     <p xml:lang="tr">
-      PZ Admin; oyuncu yönetimi, sunucu ayarları ve konsol komutlarını Project Zomboid
-      sunucu yöneticileri için tek bir grafik arayüzde toplar.
+      PZ Admin, Project Zomboid sunucularını yönetmek için bir masaüstü uygulamasıdır.
+      Oyuncu yönetimini, sunucu ayarlarını ve konsol komutlarını tek bir arayüzde sunar.
     </p>
     <ul>
-      <li>Edit server options and run console commands.</li>
-      <li xml:lang="tr">Sunucu ayarlarını düzenleyin ve konsol komutlarını çalıştırın.</li>
-      <li>Manage players, assign roles, grant XP, and take moderation actions.</li>
-      <li xml:lang="tr">Oyuncuları yönetin, roller atayın, XP verin ve moderasyon işlemlerini uygulayın.</li>
+      <li>Manage players: assign roles, grant XP, teleport, and perform moderation actions.</li>
+      <li xml:lang="tr">Oyuncu yönetimi, rol atama, XP verme, ışınlama ve moderasyon işlemleri.</li>
       <li>Give items to players and spawn vehicles using searchable catalogs.</li>
-      <li xml:lang="tr">Aranabilir katalogları kullanarak oyunculara eşya verin ve araç oluşturun.</li>
+      <li xml:lang="tr">Aranabilir kataloglarla oyunculara eşya verme ve araç oluşturma.</li>
+      <li>Edit server options and run console commands.</li>
+      <li xml:lang="tr">Sunucu ayarlarını düzenleme ve konsol komutlarını çalıştırma.</li>
       <li>Compose messages with a rich text editor that supports Project Zomboid formatting.</li>
-      <li xml:lang="tr">Project Zomboid formatını destekleyen zengin metin düzenleyici ile mesajlar oluşturun.</li>
-      <li>Control the weather and save the world.</li>
-      <li xml:lang="tr">Hava durumunu kontrol edin ve dünyayı kaydedin.</li>
-      <li>Save connection profiles for your servers.</li>
-      <li xml:lang="tr">Sunucularınız için bağlantı profillerini kaydedin.</li>
+      <li xml:lang="tr">Project Zomboid formatını destekleyen zengin metin düzenleyiciyle mesaj oluşturma.</li>
+      <li>Control the weather, trigger server events, and save the world.</li>
+      <li xml:lang="tr">Hava durumunu kontrol etme, sunucu olaylarını tetikleme ve dünyayı kaydetme.</li>
+      <li>Connect to your servers through RCON and save connection profiles.</li>
+      <li xml:lang="tr">Sunuculara RCON üzerinden bağlanma ve bağlantı profilleri kaydetme.</li>
     </ul>
+    <p>
+      Server management requires a running Project Zomboid server with RCON enabled.
+    </p>
+    <p xml:lang="tr">
+      Yönetmek istediğiniz Project Zomboid sunucusunun çalışıyor ve RCON özelliğinin etkin olması gerekir.
+    </p>
+    <p>
+      The item browser, vehicle browser, and message editor can also be used without
+      connecting to a server. PZ Admin includes catalogs and options for Builds 41 and 42.
+    </p>
+    <p xml:lang="tr">
+      Eşya kataloğu, araç kataloğu ve mesaj düzenleyici bir sunucuya bağlanmadan da
+      kullanılabilir. PZ Admin, Build 41 ve 42’ye uygun içerik ve ayarlar sunar.
+    </p>
+    <p>
+      Thanks to The Indie Stone for creating Project Zomboid (https://projectzomboid.com/),
+      which made this possible. This is an unofficial fan production for non-commercial
+      purposes made under the Indie Stone Terms (https://projectzomboid.com/blog/support/terms-conditions/).
+    </p>
+    <p xml:lang="tr">
+      Thanks to The Indie Stone for creating Project Zomboid (https://projectzomboid.com/),
+      which made this possible. This is an unofficial fan production for non-commercial
+      purposes made under the Indie Stone Terms (https://projectzomboid.com/blog/support/terms-conditions/).
+    </p>
   </description>
   <branding>
     <color type="primary" scheme_preference="light">#357c61</color>

@@ -175,11 +175,32 @@ tasks:
 
 
 
+  prepare:embed:
+    summary: Creates missing placeholders for embedded files
+    internal: true
+    run: once
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      # Go package loading needs these files; keep existing assets and notices intact.
+      - |
+        node -e "
+          const fs = require('node:fs');
+          fs.mkdirSync('frontend/dist', { recursive: true });
+          fs.mkdirSync('.generated/licenses', { recursive: true });
+          if (!fs.existsSync('frontend/dist/index.html')) {
+            fs.copyFileSync('frontend/index.html', 'frontend/dist/index.html');
+          }
+          if (!fs.existsSync('.generated/licenses/THIRD-PARTY-NOTICES.json')) {
+            fs.writeFileSync('.generated/licenses/THIRD-PARTY-NOTICES.json', '', { flag: 'wx' });
+          }
+        "
+
   generate:bindings:
     summary: Generates bindings for the frontend
     run: once
     deps:
       - task: go:mod:tidy
+      - task: prepare:embed
     sources:
       - "**/*.[jt]s"
       - exclude: frontend/**/*
@@ -190,9 +211,6 @@ tasks:
     generates:
       - frontend/bindings/**/*
     cmds:
-      # Go package loading requires embedded assets before the first frontend build.
-      - mkdir -p frontend/dist
-      - 'if [ ! -f frontend/dist/index.html ]; then cp frontend/index.html frontend/dist/index.html; fi'
       - wails3 generate bindings -f '{{.BUILD_FLAGS}}' -clean=true -time-type=Date{{if eq .OBFUSCATED "true"}} -obfuscated{{end}} -ts
 
   generate:icons:

@@ -9,3 +9,12 @@ lockfile = true
 go = "1.26"
 node = "24"
 pnpm = "latest"
+
+# Windows installer compiler; retain its bundled includes, plugins, and stubs.
+[tools."http:nsis"]
+version = "3.13"
+os = ["windows"]
+url = "https://downloads.sourceforge.net/project/nsis/NSIS%203/{{ version }}/nsis-{{ version }}.zip"
+checksum = "sha256:ba63dffc4410ee89193e1cb5a41989991bd77c61068da17e3156d136b7b0b3d8"
+strip_components = 1
+bin_path = "."
