@@ -77,6 +77,28 @@ Choose the download for your operating system and processor.
   </tbody>
 </table>
 
+### Windows
+
+Run the installer, or use the portable executable without installing it.
+Windows releases are unsigned. If SmartScreen shows **Windows protected your PC**,
+choose **More info → Run anyway**, if available, only if you trust the download
+from this project's GitHub Releases.
+
+### macOS
+
+Open the DMG and drag PZ Admin into **Applications**.
+The app is not signed with an Apple Developer ID or notarized. If macOS blocks
+it because the developer cannot be verified, try opening it once, then go to
+**System Settings → Privacy & Security → Open Anyway**. Only approve a download
+you trust; see [Apple's instructions](https://support.apple.com/en-us/102445).
+
+### Linux
+
+Install the package for your distribution using its package manager so required
+dependencies are installed too. PZ Admin uses GTK4 and WebKitGTK 6.0.
+Packages are downloaded directly from GitHub Releases; a package repository
+and Flatpak are not currently available.
+
 ## Connect to a server
 
 You need a running Project Zomboid server with RCON enabled.
@@ -87,17 +109,29 @@ RCON port, and RCON password. Save the profile and connect.
 The RCON port and password are separate from those used to join the game.
 For hosted servers, check your provider's control panel for these details.
 
-## Help and contributing
-
-Report bugs and suggest improvements through
-[GitHub Issues](https://github.com/beyenilmez/pz-admin/issues).
+## Contributing
 
 Code, documentation, and translation contributions are welcome. Please discuss
-larger changes in an issue first.
+larger changes in an [issue](https://github.com/beyenilmez/pz-admin/issues) first.
+
+### Pull requests
+
+1. Fork the repository and create a branch for your change.
+2. Set up the project using the [development instructions](#development).
+3. Make your changes and run `wails3 task check`.
+4. Open a focused pull request describing the change. Link relevant issues and
+   include screenshots for UI changes.
+
+Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+for pull request titles, such as `fix: correct vehicle sorting` or
+`feat: add player filtering`. Pull requests are squash merged, so individual
+commits do not need to follow this format.
 
 ## Development
 
 PZ Admin uses Go and Wails v3, with a React, TypeScript, and Mantine frontend.
+
+### Setup
 
 Install and activate [mise](https://mise.jdx.dev/) for the project's tools,
 including the matching Wails CLI. Install your platform's native dependencies
@@ -112,7 +146,7 @@ wails3 doctor
 wails3 dev
 ```
 
-Common commands:
+### Common commands
 
 ```sh
 wails3 dev                 # Run in development mode
