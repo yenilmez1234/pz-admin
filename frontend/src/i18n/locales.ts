@@ -53,7 +53,7 @@ export function detectLanguage(
     // Resolve each preference fully before considering the next language.
     if (isSupportedLanguage(preferred.baseName)) return preferred.baseName;
 
-    // Infer missing details (e.g. zh-Hant defaults to Taiwan).
+    // Infer missing details (e.g. zh-TW uses Traditional Chinese).
     const preferredLocale = preferred.maximize();
     // Generic locales can serve any region; regional variants must match.
     const match = localeDetails.find(

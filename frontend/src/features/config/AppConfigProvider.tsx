@@ -43,10 +43,13 @@ function appConfigFromBinding(config: {
   if (!isThemeSetting(config.theme)) {
     throw new Error(`Unsupported theme: ${config.theme}`);
   }
+  // Preserve selections saved before Chinese locales used script tags.
+  let language = config.language;
+  if (language === "zh-CN") language = "zh-Hans";
+  else if (language === "zh-TW") language = "zh-Hant";
+
   return {
-    language: isSupportedLanguage(config.language)
-      ? config.language
-      : defaultLanguage,
+    language: isSupportedLanguage(language) ? language : defaultLanguage,
     theme: config.theme,
   };
 }

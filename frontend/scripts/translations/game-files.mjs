@@ -5,10 +5,10 @@ import path from "node:path";
 const TRANSLATE_PATH = ["media", "lua", "shared", "Translate"];
 
 const languageTagByGameLanguage = {
-  AR: "ar",
+  AR: "es-AR",
   CA: "ca",
-  CH: "zh-TW",
-  CN: "zh-CN",
+  CH: "zh-Hant",
+  CN: "zh-Hans",
   CS: "cs",
   DA: "da",
   DE: "de",
@@ -25,7 +25,6 @@ const languageTagByGameLanguage = {
   KO: "ko",
   NL: "nl",
   NO: "no",
-  PH: "fil",
   PL: "pl",
   PT: "pt-PT",
   PTBR: "pt-BR",

@@ -104,6 +104,18 @@ describe("AppConfigProvider", () => {
 
   it.each([
     {
+      expectedLanguage: "zh-Hans",
+      expectedScheme: "auto",
+      language: "zh-CN",
+      theme: "system",
+    },
+    {
+      expectedLanguage: "zh-Hant",
+      expectedScheme: "auto",
+      language: "zh-TW",
+      theme: "system",
+    },
+    {
       expectedLanguage: defaultLanguage,
       expectedScheme: "auto",
       language: defaultLanguage,

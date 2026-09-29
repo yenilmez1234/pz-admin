@@ -137,8 +137,8 @@ async function main() {
   }
 
   for (const { gameLanguage, languageDirectory } of languageFiles) {
-    // `STREW` is the game's novelty pseudo-language, not a selectable locale.
-    if (gameLanguage === "STREW") continue;
+    // Skip unsupported Filipino and the game's novelty pseudo-language.
+    if (gameLanguage === "PH" || gameLanguage === "STREW") continue;
     const languageTag = bcp47LanguageTag(gameLanguage);
 
     const availableTranslations = usesJsonTranslations

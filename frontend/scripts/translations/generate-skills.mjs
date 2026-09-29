@@ -120,7 +120,7 @@ async function main() {
   }
 
   for (const { filename, gameLanguage, languageDirectory } of languageFiles) {
-    if (gameLanguage === "STREW") continue;
+    if (gameLanguage === "PH" || gameLanguage === "STREW") continue;
     const languageTag = bcp47LanguageTag(gameLanguage);
     const available = usesJsonTranslations
       ? await readJsonSkillTranslations(languageDirectory)
