@@ -89,15 +89,24 @@ tasks:
 
   check:backend:
     desc: Checks and tests the Go backend
+    dir: '{{.ROOT_DIR}}'
     deps:
       - task: common:prepare:embed
     cmds:
+      - |
+        unformatted=$(gofmt -l main.go internal build) || exit 1
+        if [ -n "$unformatted" ]; then
+          printf 'Run gofmt on:\n%s\n' "$unformatted"
+          exit 1
+        fi
       - go vet ./...
       - task: test:backend
 
   check:frontend:
     desc: Checks and tests the frontend
     dir: frontend
+    deps:
+      - task: common:install:frontend:deps
     cmds:
       - pnpm check
 
