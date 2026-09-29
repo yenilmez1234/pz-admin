@@ -9,7 +9,6 @@ lockfile = true
 go = "1.26"
 node = "24"
 pnpm = "11"
-python = "3.14"
 uv = "latest"
 
 # Windows installer compiler; retain its bundled includes, plugins, and stubs.
