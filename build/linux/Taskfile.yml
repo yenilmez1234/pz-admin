@@ -44,7 +44,7 @@ tasks:
     internal: true
     deps:
       - task: common:go:mod:tidy
-      - task: common:build:frontend
+      - task: :common:build:frontend
         vars:
           BUILD_FLAGS:
             ref: .BUILD_FLAGS
@@ -71,7 +71,7 @@ tasks:
     summary: Builds for Linux using Docker (for non-Linux hosts or when no C compiler available)
     internal: true
     deps:
-      - task: common:build:frontend
+      - task: :common:build:frontend
         vars:
           OBFUSCATED:
             ref: .OBFUSCATED
@@ -103,9 +103,9 @@ tasks:
     deps:
       - task: build
     cmds:
-      - task: create:deb
-      - task: create:rpm
-      - task: create:aur
+      - task: generate:deb
+      - task: generate:rpm
+      - task: generate:aur
 
   create:appimage:
     summary: Creates an AppImage
