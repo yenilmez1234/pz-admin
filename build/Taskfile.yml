@@ -173,8 +173,6 @@ tasks:
           sed -E -i'' 's/class=\"btn\"/class=\"p-btn p-prim-col\"/g' "$INDEX_HTML" || true
         fi
 
-
-
   prepare:embed:
     summary: Creates missing placeholders for embedded files
     internal: true
