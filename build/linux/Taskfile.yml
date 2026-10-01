@@ -133,24 +133,6 @@ tasks:
     cmds:
       - task: generate:aur
 
-  generate:metainfo:
-    summary: Prepares AppStream metadata for packaging
-    internal: true
-    run: once
-    dir: '{{.ROOT_DIR}}'
-    cmds:
-      - |
-        node -e "
-          const fs = require('node:fs');
-          const version = fs.readFileSync('VERSION', 'utf8').trim();
-          const date = new Date().toISOString().slice(0, 10);
-          const type = version.split('+')[0].includes('-') ? 'development' : 'stable';
-          const source = fs.readFileSync('build/linux/com.bedirhanyenilmez.pzadmin.metainfo.xml', 'utf8');
-          const release = '  <releases>\n    <release version=\"' + version + '\" date=\"' + date + '\" type=\"' + type + '\"/>\n  </releases>\n';
-          fs.mkdirSync('.generated/linux', { recursive: true });
-          fs.writeFileSync('.generated/linux/com.bedirhanyenilmez.pzadmin.metainfo.xml', source.replace('</component>', release + '</component>'));
-        "
-
   generate:deb:
     summary: Creates a deb package
     cmds:
@@ -176,8 +158,6 @@ tasks:
     summary: Packages the existing Linux binary
     internal: true
     dir: '{{.ROOT_DIR}}'
-    deps:
-      - task: generate:metainfo
     vars:
       # Task caches this command's result across package formats within a run.
       GLIBC_MIN_VERSION:

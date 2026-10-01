@@ -2,6 +2,12 @@ name: Package
 
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: Release tag to package
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -16,23 +22,35 @@ jobs:
           - runner: ubuntu-24.04
             platform: linux
             arch: amd64
+            filename_os: linux
+            filename_arch: x64
           - runner: ubuntu-24.04-arm
             platform: linux
             arch: arm64
+            filename_os: linux
+            filename_arch: arm64
           - runner: windows-2025
             platform: windows
             arch: amd64
+            filename_os: windows
+            filename_arch: x64
           - runner: windows-2025
             platform: windows
             arch: arm64
+            filename_os: windows
+            filename_arch: arm64
           - runner: macos-15-intel
             platform: darwin
             arch: amd64
+            filename_os: macos
+            filename_arch: x64
           - runner: macos-15
             platform: darwin
             arch: arm64
+            filename_os: macos
+            filename_arch: arm64
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 45
+    timeout-minutes: 40
     defaults:
       run:
         shell: bash
@@ -40,6 +58,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          ref: ${{ inputs.ref || github.sha }}
       - name: Install Linux dependencies
         if: runner.os == 'Linux'
         run: |
@@ -73,22 +92,31 @@ jobs:
       - name: Stage package artifacts
         env:
           TARGET_OS: ${{ matrix.platform }}
+          RELEASE_TAG: ${{ inputs.ref }}
         run: |
           mkdir -p .generated/artifacts
+          version=$(tr -d '\r\n' < VERSION)
+          if [ -n "$RELEASE_TAG" ] && [ "$RELEASE_TAG" != "v$version" ]; then
+            echo "Release tag does not match VERSION" >&2
+            exit 1
+          fi
+          name="pz-admin-$version-${{ matrix.filename_os }}-${{ matrix.filename_arch }}"
           case "$TARGET_OS" in
             linux)
-              cp bin/pz-admin.deb bin/pz-admin.rpm bin/pz-admin.pkg.tar.zst .generated/artifacts/
+              cp bin/pz-admin.deb ".generated/artifacts/$name.deb"
+              cp bin/pz-admin.rpm ".generated/artifacts/$name.rpm"
+              cp bin/pz-admin.pkg.tar.zst ".generated/artifacts/$name.pkg.tar.zst"
               ;;
             windows)
-              cp bin/pz-admin-installer.exe .generated/artifacts/
+              cp bin/pz-admin-installer.exe ".generated/artifacts/$name-installer.exe"
               ;;
             darwin)
-              cp bin/pz-admin.dmg .generated/artifacts/
+              cp bin/pz-admin.dmg ".generated/artifacts/$name.dmg"
               ;;
           esac
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: pz-admin-${{ matrix.platform }}-${{ matrix.arch }}
+          name: pz-admin-${{ matrix.filename_os }}-${{ matrix.filename_arch }}
           path: .generated/artifacts/*
           if-no-files-found: error
           compression-level: 0
