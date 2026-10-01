@@ -38,13 +38,8 @@ Choose the download for your operating system and processor.
   </thead>
   <tbody>
     <tr>
-      <th scope="rowgroup" rowspan="2">Windows</th>
+      <th scope="row">Windows</th>
       <td>Installer (.exe)</td>
-      <td>TODO</td>
-      <td>TODO</td>
-    </tr>
-    <tr>
-      <td>Portable (.exe)</td>
       <td>TODO</td>
       <td>TODO</td>
     </tr>
@@ -79,7 +74,7 @@ Choose the download for your operating system and processor.
 
 ### Windows
 
-Run the installer, or use the portable executable without installing it.
+Run the installer.
 Windows releases are unsigned. If SmartScreen shows **Windows protected your PC**,
 choose **More info → Run anyway**, if available, only if you trust the download
 from this project's GitHub Releases.
