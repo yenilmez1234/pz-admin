@@ -21,7 +21,7 @@ tasks:
         set -eu
         go_version=$(mise current go)
         node_version=$(mise current node)
-        pnpm_version=$(mise current pnpm)
+        pnpm_version=$(mise current npm:pnpm)
         go_licenses_version=$(mise current go:github.com/google/go-licenses/v2)
         wails_version=$(mise current go:github.com/wailsapp/wails/v3/cmd/wails3)
         {{.ENGINE}} build --platform linux/{{.TARGET_ARCH}} -t {{.IMAGE}} \

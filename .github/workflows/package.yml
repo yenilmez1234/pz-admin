@@ -47,7 +47,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y libgtk-4-dev libwebkitgtk-6.0-dev
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4
         with:
-          install_args: --locked go node pnpm go:github.com/wailsapp/wails/v3/cmd/wails3 go:github.com/google/go-licenses/v2 ${{ runner.os == 'Windows' && 'http:nsis' || '' }}
+          install_args: --locked go node npm:pnpm go:github.com/wailsapp/wails/v3/cmd/wails3 go:github.com/google/go-licenses/v2 ${{ runner.os == 'Windows' && 'http:nsis' || '' }}
       - name: Locate caches
         id: caches
         run: |
@@ -64,10 +64,10 @@ jobs:
           path: |
             ${{ steps.caches.outputs.modules }}
             ${{ steps.caches.outputs.build }}
-          key: go-package-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('mise.lock', 'go.sum') }}
-          restore-keys: go-package-${{ runner.os }}-${{ matrix.arch }}-
+          key: go-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('mise.lock', 'go.sum') }}
+          restore-keys: go-${{ runner.os }}-${{ runner.arch }}-
       - name: Build packages
-        run: wails3 package GOOS=${{ matrix.platform }} ARCH=${{ matrix.arch }}
+        run: wails3 package GOOS=${{ matrix.platform }} GOARCH=${{ matrix.arch }}
       - name: Stage package artifacts
         env:
           TARGET_OS: ${{ matrix.platform }}
