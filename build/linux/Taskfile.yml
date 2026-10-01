@@ -153,30 +153,48 @@ tasks:
 
   generate:deb:
     summary: Creates a deb package
-    deps:
-      - task: generate:metainfo
-    env:
-      GOARCH: '{{.ARCH | default ARCH}}'
     cmds:
-      - wails3 tool package -name "{{.APP_NAME}}" -format deb -config ./build/linux/nfpm/nfpm.yaml -out {{.ROOT_DIR}}/bin
+      - task: generate:package
+        vars:
+          FORMAT: deb
 
   generate:rpm:
     summary: Creates a rpm package
-    deps:
-      - task: generate:metainfo
-    env:
-      GOARCH: '{{.ARCH | default ARCH}}'
     cmds:
-      - wails3 tool package -name "{{.APP_NAME}}" -format rpm -config ./build/linux/nfpm/nfpm.yaml -out {{.ROOT_DIR}}/bin
+      - task: generate:package
+        vars:
+          FORMAT: rpm
 
   generate:aur:
     summary: Creates a arch linux packager package
+    cmds:
+      - task: generate:package
+        vars:
+          FORMAT: archlinux
+
+  generate:package:
+    summary: Packages the existing Linux binary
+    internal: true
+    dir: '{{.ROOT_DIR}}'
     deps:
       - task: generate:metainfo
+    vars:
+      # Task caches this command's result across package formats within a run.
+      GLIBC_MIN_VERSION:
+        sh: |
+          set -eu
+          versions=$(LC_ALL=C readelf --version-info "{{.ROOT_DIR}}/bin/{{.APP_NAME}}")
+          version=$(printf '%s\n' "$versions" | sed -n 's/.*Name: GLIBC_\([0-9][0-9.]*\).*/\1/p' | sort -V | tail -n 1)
+          if [ -z "$version" ]; then
+            echo "Could not determine the Linux binary's glibc requirement" >&2
+            exit 1
+          fi
+          printf '%s\n' "$version"
     env:
       GOARCH: '{{.ARCH | default ARCH}}'
+      GLIBC_MIN_VERSION: '{{.GLIBC_MIN_VERSION}}'
     cmds:
-      - wails3 tool package -name "{{.APP_NAME}}" -format archlinux -config ./build/linux/nfpm/nfpm.yaml -out {{.ROOT_DIR}}/bin
+      - wails3 tool package -name "{{.APP_NAME}}" -format {{.FORMAT}} -config ./build/linux/nfpm/nfpm.yaml -out "{{.ROOT_DIR}}/bin"
 
   run:
     cmds:

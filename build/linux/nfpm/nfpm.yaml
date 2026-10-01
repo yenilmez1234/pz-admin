@@ -60,6 +60,7 @@ contents:
 
 # Default dependencies for the GTK4 + WebKitGTK 6.0 stack (Ubuntu 24.04+ / Debian 13+)
 depends:
+  - libc6 (>= ${GLIBC_MIN_VERSION})
   - libgtk-4-1
   - libwebkitgtk-6.0-4
 
@@ -68,12 +69,14 @@ overrides:
   # RPM packages for Fedora / RHEL / AlmaLinux / Rocky Linux
   rpm:
     depends:
+      - glibc >= ${GLIBC_MIN_VERSION}
       - gtk4
       - webkitgtk6.0
 
   # Arch Linux packages
   archlinux:
     depends:
+      - glibc>=${GLIBC_MIN_VERSION}
       - gtk4
       - webkitgtk-6.0
 
