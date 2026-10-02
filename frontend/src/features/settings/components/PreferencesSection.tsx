@@ -7,7 +7,9 @@ import {
   Select,
   Skeleton,
   Stack,
+  Switch,
 } from "@mantine/core";
+import { System } from "@wailsio/runtime";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import {
@@ -22,8 +24,15 @@ import {
 
 export function PreferencesSection() {
   const { i18n, t } = useTranslation(["settings", "common"]);
-  const { config, error, loading, reload, setLanguage, setTheme } =
-    useAppConfig();
+  const {
+    config,
+    error,
+    loading,
+    reload,
+    setLanguage,
+    setTheme,
+    setCheckUpdatesOnStartup,
+  } = useAppConfig();
   const percentFormatter = new Intl.NumberFormat(i18n.language, {
     style: "percent",
   });
@@ -107,6 +116,19 @@ export function PreferencesSection() {
               onChange={handleLanguageChange}
             />
           </Skeleton>
+          {(System.IsWindows() || System.IsMac()) && (
+            <Skeleton visible={loading}>
+              <Switch
+                label={t("updates.checkOnStartup.label")}
+                description={t("updates.checkOnStartup.description")}
+                checked={config?.checkUpdatesOnStartup ?? true}
+                disabled={loading}
+                onChange={(event) =>
+                  void setCheckUpdatesOnStartup(event.currentTarget.checked)
+                }
+              />
+            </Skeleton>
+          )}
         </Stack>
       )}
     </>

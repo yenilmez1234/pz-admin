@@ -14,6 +14,7 @@ import {
   Config,
   SetLanguage,
   SetTheme,
+  SetCheckUpdatesOnStartup,
 } from "@bindings/internal/config/service";
 import { errorMessage } from "@/shared/lib/errors";
 import i18n from "@/i18n";
@@ -28,6 +29,7 @@ export type ThemeSetting = "system" | "dark" | "light";
 export type LanguageSetting = SupportedLanguage;
 
 interface AppConfig {
+  checkUpdatesOnStartup: boolean;
   language: LanguageSetting;
   theme: ThemeSetting;
 }
@@ -37,6 +39,7 @@ export function isThemeSetting(theme: string): theme is ThemeSetting {
 }
 
 function appConfigFromBinding(config: {
+  checkUpdatesOnStartup: boolean;
   language: string;
   theme: string;
 }): AppConfig {
@@ -49,6 +52,7 @@ function appConfigFromBinding(config: {
   else if (language === "zh-TW") language = "zh-Hant";
 
   return {
+    checkUpdatesOnStartup: config.checkUpdatesOnStartup,
     language: isSupportedLanguage(language) ? language : defaultLanguage,
     theme: config.theme,
   };
@@ -61,6 +65,7 @@ interface AppConfigContextValue {
   reload: () => void;
   setLanguage: (language: LanguageSetting) => Promise<void>;
   setTheme: (theme: ThemeSetting) => Promise<void>;
+  setCheckUpdatesOnStartup: (enabled: boolean) => Promise<void>;
 }
 
 interface AppConfigProviderProps {
@@ -80,7 +85,11 @@ function loadConfig() {
       navigator.languages.length ? navigator.languages : [navigator.language],
     );
     await SetLanguage(language);
-    return { theme: config.theme, language };
+    return {
+      theme: config.theme,
+      language,
+      checkUpdatesOnStartup: config.checkUpdatesOnStartup,
+    };
   });
   configRequest = request;
 
@@ -165,6 +174,18 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
     }
   }, []);
 
+  const updateCheckUpdatesOnStartup = useCallback(async (enabled: boolean) => {
+    setError(null);
+    try {
+      await SetCheckUpdatesOnStartup(enabled);
+      setConfig(
+        (current) => current && { ...current, checkUpdatesOnStartup: enabled },
+      );
+    } catch (saveError) {
+      setError(errorMessage(saveError));
+    }
+  }, []);
+
   const value = useMemo<AppConfigContextValue>(
     () => ({
       config,
@@ -173,8 +194,17 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
       reload,
       setLanguage: updateLanguage,
       setTheme: updateTheme,
+      setCheckUpdatesOnStartup: updateCheckUpdatesOnStartup,
     }),
-    [config, error, loading, reload, updateLanguage, updateTheme],
+    [
+      config,
+      error,
+      loading,
+      reload,
+      updateLanguage,
+      updateTheme,
+      updateCheckUpdatesOnStartup,
+    ],
   );
 
   return (

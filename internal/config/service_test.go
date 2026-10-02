@@ -65,6 +65,23 @@ func TestService_SetLanguage(t *testing.T) {
 	})
 }
 
+func TestService_SetCheckUpdatesOnStartup(t *testing.T) {
+	service := newStartedConfigService(t)
+	if !service.Config().CheckUpdatesOnStartup {
+		t.Fatal("update checks should default to enabled")
+	}
+	for _, enabled := range []bool{false, true} {
+		if err := service.SetCheckUpdatesOnStartup(enabled); err != nil {
+			t.Fatal(err)
+		}
+		reloaded := newService(service.dir)
+		startConfigService(t, reloaded)
+		want := defaults()
+		want.CheckUpdatesOnStartup = enabled
+		assertConfigState(t, reloaded, want)
+	}
+}
+
 func TestService_Update(t *testing.T) {
 	service := newStartedConfigService(t)
 	var waitGroup sync.WaitGroup
@@ -86,18 +103,18 @@ func TestService_Update(t *testing.T) {
 			t.Errorf("update %d error = %v", i, err)
 		}
 	}
-	assertConfigState(t, service, Config{Theme: ThemeDark, Language: "tr-TR"})
+	assertConfigState(t, service, Config{Theme: ThemeDark, Language: "tr-TR", CheckUpdatesOnStartup: true})
 }
 
 func TestService_ServiceStartup(t *testing.T) {
 	t.Run("leaves initial language unset for missing file", func(t *testing.T) {
 		service := newStartedConfigService(t)
-		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: ""})
+		assertConfigState(t, service, defaults())
 	})
 	t.Run("preserves existing English settings", func(t *testing.T) {
 		service := newConfigServiceWithFile(t, []byte(`{"theme":"system","language":"en-US"}`))
 		startConfigService(t, service)
-		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: "en-US"})
+		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: "en-US", CheckUpdatesOnStartup: true})
 	})
 	t.Run("loads valid file", func(t *testing.T) {
 		want := Config{Theme: ThemeDark, Language: "tr-TR"}
@@ -180,7 +197,7 @@ func assertConfigState(t *testing.T, service *Service, want Config) {
 
 func readDiskConfig(t *testing.T, path string) Config {
 	t.Helper()
-	var config Config
+	config := defaults()
 	if err := json.Unmarshal(readConfigFile(t, path), &config); err != nil {
 		t.Fatalf("Unmarshal() error = %v", err)
 	}

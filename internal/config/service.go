@@ -55,6 +55,11 @@ func (s *Service) SetLanguage(language string) error {
 	return s.update(func(c *Config) { c.Language = language })
 }
 
+// SetCheckUpdatesOnStartup controls the next launch's update check.
+func (s *Service) SetCheckUpdatesOnStartup(enabled bool) error {
+	return s.update(func(c *Config) { c.CheckUpdatesOnStartup = enabled })
+}
+
 // update validates and persists a copy before committing it to memory. A
 // failed write restores the previous state so Config never reports unpersisted
 // data.

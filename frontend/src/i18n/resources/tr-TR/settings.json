@@ -64,5 +64,11 @@
   },
   "page": {
     "title": "Ayarlar"
+  },
+  "updates": {
+    "checkOnStartup": {
+      "description": "Uygulamayı bir sonraki açışınızda geçerli olur.",
+      "label": "Başlangıçta güncellemeleri denetle"
+    }
   }
 }

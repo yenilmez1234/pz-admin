@@ -11,6 +11,7 @@ import { Create as $Create } from "@wailsio/runtime";
 export class Config {
     "theme": string;
     "language": string;
+    "checkUpdatesOnStartup": boolean;
 
     /** Creates a new Config instance. */
     constructor($$source: Partial<Config> = {}) {
@@ -19,6 +20,9 @@ export class Config {
         }
         if (!("language" in $$source)) {
             this["language"] = "";
+        }
+        if (!("checkUpdatesOnStartup" in $$source)) {
+            this["checkUpdatesOnStartup"] = false;
         }
 
         Object.assign(this, $$source);

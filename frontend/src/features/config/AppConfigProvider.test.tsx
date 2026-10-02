@@ -6,6 +6,7 @@ import {
   Config,
   SetLanguage,
   SetTheme,
+  SetCheckUpdatesOnStartup,
 } from "@bindings/internal/config/service";
 import i18n from "@/i18n";
 import { defaultLanguage } from "@/i18n/locales";
@@ -27,6 +28,7 @@ vi.mock("@bindings/internal/config/service", () => ({
   Config: vi.fn(),
   SetLanguage: vi.fn(),
   SetTheme: vi.fn(),
+  SetCheckUpdatesOnStartup: vi.fn(),
 }));
 
 let appConfig: ReturnType<typeof useAppConfig>;
@@ -47,6 +49,29 @@ afterEach(() => {
 });
 
 describe("AppConfigProvider", () => {
+  it("persists the update preference and preserves it after a failed save", async () => {
+    vi.mocked(Config).mockResolvedValue(
+      new ConfigModel({
+        language: defaultLanguage,
+        theme: "system",
+        checkUpdatesOnStartup: true,
+      }),
+    );
+    vi.mocked(SetCheckUpdatesOnStartup).mockResolvedValue(undefined);
+    renderProvider();
+    await waitFor(() => expect(appConfig.loading).toBe(false));
+    expect(appConfig.config?.checkUpdatesOnStartup).toBe(true);
+    await act(async () => appConfig.setCheckUpdatesOnStartup(false));
+    expect(SetCheckUpdatesOnStartup).toHaveBeenCalledWith(false);
+    expect(appConfig.config?.checkUpdatesOnStartup).toBe(false);
+    vi.mocked(SetCheckUpdatesOnStartup).mockRejectedValue(
+      new Error("write-failure"),
+    );
+    await act(async () => appConfig.setCheckUpdatesOnStartup(true));
+    expect(appConfig.config?.checkUpdatesOnStartup).toBe(false);
+    expect(appConfig.error).toBe("write-failure");
+  });
+
   it("detects and saves the initial language once under StrictMode", async () => {
     vi.spyOn(navigator, "languages", "get").mockReturnValue(["tr"]);
     vi.mocked(Config)
@@ -146,6 +171,7 @@ describe("AppConfigProvider", () => {
       await waitFor(() => expect(i18n.language).toBe(expectedLanguage));
 
       expect(appConfig.config).toEqual({
+        checkUpdatesOnStartup: false,
         language: expectedLanguage,
         theme,
       });
@@ -183,6 +209,7 @@ describe("AppConfigProvider", () => {
     await waitFor(() => expect(appConfig.loading).toBe(false));
     expect(Config).toHaveBeenCalledTimes(2);
     expect(appConfig.config).toEqual({
+      checkUpdatesOnStartup: false,
       language: defaultLanguage,
       theme: "dark",
     });
@@ -205,7 +232,11 @@ describe("AppConfigProvider", () => {
 
     expect(SetLanguage).toHaveBeenCalledOnce();
     expect(SetLanguage).toHaveBeenCalledWith("tr-TR");
-    expect(appConfig.config).toEqual({ language: "tr-TR", theme: "dark" });
+    expect(appConfig.config).toEqual({
+      language: "tr-TR",
+      theme: "dark",
+      checkUpdatesOnStartup: false,
+    });
     expect(document.documentElement.lang).toBe("tr-TR");
 
     await act(async () => {
@@ -214,13 +245,21 @@ describe("AppConfigProvider", () => {
 
     expect(SetTheme).toHaveBeenCalledOnce();
     expect(SetTheme).toHaveBeenCalledWith("system");
-    expect(appConfig.config).toEqual({ language: "tr-TR", theme: "system" });
+    expect(appConfig.config).toEqual({
+      language: "tr-TR",
+      theme: "system",
+      checkUpdatesOnStartup: false,
+    });
     expect(setColorScheme).toHaveBeenLastCalledWith("auto");
     expect(appConfig.error).toBeNull();
   });
 
   it("preserves loaded settings and exposes failed writes", async () => {
-    const initialConfig = { language: defaultLanguage, theme: "dark" } as const;
+    const initialConfig = {
+      language: defaultLanguage,
+      theme: "dark",
+      checkUpdatesOnStartup: false,
+    } as const;
     vi.mocked(Config).mockResolvedValue(new ConfigModel(initialConfig));
     vi.mocked(SetLanguage).mockRejectedValue(
       new Error("language-write-failure"),

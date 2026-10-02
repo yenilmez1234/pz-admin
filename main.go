@@ -17,6 +17,7 @@ import (
 	"github.com/beyenilmez/pz-admin/internal/profile"
 	"github.com/beyenilmez/pz-admin/internal/serveraction"
 	"github.com/beyenilmez/pz-admin/internal/session"
+	"github.com/beyenilmez/pz-admin/internal/update"
 	"github.com/wailsapp/wails/v3/pkg/application"
 	"github.com/wailsapp/wails/v3/pkg/events"
 )
@@ -128,6 +129,9 @@ func run() error {
 			ApplicationID: "com.bedirhanyenilmez.pzadmin",
 		},
 	})
+	if err := update.Setup(app, buildVersion(), configSvc); err != nil {
+		return fmt.Errorf("updater setup: %w", err)
+	}
 	app.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {
 		application.InvokeAsync(func() {
 			envInfo := app.Env.Info()

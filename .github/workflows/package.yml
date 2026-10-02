@@ -109,9 +109,11 @@ jobs:
               ;;
             windows)
               cp bin/pz-admin-installer.exe ".generated/artifacts/$name-installer.exe"
+              cp bin/pz-admin.exe ".generated/artifacts/$name-update.exe"
               ;;
             darwin)
               cp bin/pz-admin.dmg ".generated/artifacts/$name.dmg"
+              ditto -c -k --norsrc --keepParent "bin/PZ Admin.app" ".generated/artifacts/$name-update.zip"
               ;;
           esac
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

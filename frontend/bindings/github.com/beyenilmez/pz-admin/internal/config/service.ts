@@ -25,6 +25,13 @@ export function Config(): $CancellablePromise<$models.Config> {
 }
 
 /**
+ * SetCheckUpdatesOnStartup controls the next launch's update check.
+ */
+export function SetCheckUpdatesOnStartup(enabled: boolean): $CancellablePromise<void> {
+    return $Call.ByID(3306802779, enabled);
+}
+
+/**
  * SetLanguage validates and persists the selected application language.
  */
 export function SetLanguage(language: string): $CancellablePromise<void> {

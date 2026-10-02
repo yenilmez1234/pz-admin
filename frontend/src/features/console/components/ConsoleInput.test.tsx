@@ -41,10 +41,11 @@ const player = new Player({
 
 beforeEach(() => {
   vi.mocked(useAppConfig).mockReturnValue({
-    config: { language: "en-US", theme: "system" },
+    config: { language: "en-US", theme: "system", checkUpdatesOnStartup: true },
     error: null,
     loading: false,
     reload: vi.fn(),
+    setCheckUpdatesOnStartup: vi.fn(async () => undefined),
     setLanguage: vi.fn(),
     setTheme: vi.fn(),
   });

@@ -64,5 +64,11 @@
   },
   "page": {
     "title": "Settings"
+  },
+  "updates": {
+    "checkOnStartup": {
+      "description": "Applies the next time you open the app.",
+      "label": "Check for updates on startup"
+    }
   }
 }

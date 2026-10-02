@@ -1,5 +1,5 @@
 // Package config loads, validates, and persists the application's user
-// configuration (theme and language).
+// configuration.
 package config
 
 import (
@@ -11,8 +11,9 @@ import (
 
 // Config holds all user-facing application settings.
 type Config struct {
-	Theme    string `json:"theme"`
-	Language string `json:"language"`
+	Theme                 string `json:"theme"`
+	Language              string `json:"language"`
+	CheckUpdatesOnStartup bool   `json:"checkUpdatesOnStartup"`
 }
 
 // Theme values.
@@ -33,8 +34,9 @@ var (
 // recovery.
 func defaults() Config {
 	return Config{
-		Theme:    ThemeSystem,
-		Language: "",
+		Theme:                 ThemeSystem,
+		Language:              "",
+		CheckUpdatesOnStartup: true,
 	}
 }
 
