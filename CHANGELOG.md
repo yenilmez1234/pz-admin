@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/yenilmez1234/pz-admin/compare/v2.1.1...v2.1.2) (2026-10-02)
+
+
+### Bug Fixes
+
+* fix update url ([5ea5e0c](https://github.com/yenilmez1234/pz-admin/commit/5ea5e0c47ba783350d61957605d506b812f8da21))
+
 ## [2.1.1](https://github.com/yenilmez1234/pz-admin/compare/v2.1.0...v2.1.1) (2026-10-02)
 
 
