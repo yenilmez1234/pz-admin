@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/yenilmez1234/pz-admin/compare/v2.0.1...v2.1.0) (2026-10-02)
+
+
+### Features
+
+* **packaging:** generate AppStream release history from changelog ([874362c](https://github.com/yenilmez1234/pz-admin/commit/874362c4ac4f61b95515d817bbb0473ae3d9253b))
+* **updates:** add signed startup updates for Windows and macOS ([9fa335e](https://github.com/yenilmez1234/pz-admin/commit/9fa335e67379bf2ec9612c32a44669e3f0de8de9))
+
 ## [2.0.1](https://github.com/yenilmez1234/pz-admin/compare/v2.0.0...v2.0.1) (2026-10-02)
 
 
