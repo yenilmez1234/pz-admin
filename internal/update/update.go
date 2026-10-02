@@ -15,7 +15,7 @@ import (
 	"github.com/wailsapp/wails/v3/pkg/updater/providers/endpoint"
 )
 
-const manifestURL = "https://github.com/beyenilmez/pz-admin/releases/latest/download/manifest.json"
+const manifestURL = "https://github.com/yenilmez1234/pz-admin/releases/latest/download/manifest.json"
 
 //go:embed updater.pub
 var publicKey []byte
