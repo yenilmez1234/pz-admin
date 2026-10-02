@@ -17,7 +17,7 @@ jobs:
     name: Prepare release
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 40
     outputs:
       created: ${{ steps.release.outputs.release_created }}
       tag: ${{ steps.release.outputs.tag_name }}
