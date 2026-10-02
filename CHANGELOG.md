@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/yenilmez1234/pz-admin/compare/v2.0.0...v2.0.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* **release-test:** verify patch bump and changelog history ([d28c747](https://github.com/yenilmez1234/pz-admin/commit/d28c747141196ac87f878a0874681b6e679ff07e))
+
 ## 2.0.0 (2026-10-02)
 
 
