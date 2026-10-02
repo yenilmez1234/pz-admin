@@ -6,3 +6,4 @@ initial release. This folder is not part of the application.
 
 - Test 1: Update the pending release PR with a sample fix commit.
 - Test 2: Verify a fix after 2.0.0 proposes 2.0.1 and preserves changelog history.
+- Test 3: Exercise a patch release with signed update artifacts.
