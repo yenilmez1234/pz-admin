@@ -154,10 +154,20 @@ tasks:
         vars:
           FORMAT: archlinux
 
+  generate:metainfo:
+    summary: Generates AppStream release history from the changelog
+    internal: true
+    run: once
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - node scripts/appstream/generate.mjs
+
   generate:package:
     summary: Packages the existing Linux binary
     internal: true
     dir: '{{.ROOT_DIR}}'
+    deps:
+      - task: generate:metainfo
     vars:
       # Task caches this command's result across package formats within a run.
       GLIBC_MIN_VERSION:

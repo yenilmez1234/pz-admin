@@ -1,5 +1,6 @@
 # Project scripts
 
+- `appstream/`: Adds changelog release history and notes to the packaged Linux metadata.
 - `licenses/`: Combines generated frontend/backend license reports with application
   and platform notices into `.generated/licenses/THIRD-PARTY-NOTICES.json`.
 

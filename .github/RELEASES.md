@@ -11,4 +11,5 @@
 - **Versions:** Release Please updates `VERSION` and desktop metadata via
   `release-please-config.json`. Preserve `x-release-please-version` markers when
   regenerating Wails assets.
+- **AppStream:** Linux packaging takes release versions, dates, and notes from `CHANGELOG.md`.
 - **Manual builds:** Run the **Package** workflow to build without releasing.
