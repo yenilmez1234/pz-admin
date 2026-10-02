@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.4](https://github.com/yenilmez1234/pz-admin/compare/v2.1.3...v2.1.4) (2026-10-02)
+
+
+### Bug Fixes
+
+* **updates:** extend download timeout and clarify startup setting ([1c07707](https://github.com/yenilmez1234/pz-admin/commit/1c07707ff1af3fcbde2c85a9257fb066cbd8d8c2))
+
 ## [2.1.3](https://github.com/yenilmez1234/pz-admin/compare/v2.1.2...v2.1.3) (2026-10-02)
 
 
