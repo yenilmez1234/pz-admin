@@ -6,7 +6,9 @@ import (
 	"crypto/sha512"
 	_ "embed"
 	"errors"
+	"net/http"
 	"runtime"
+	"time"
 
 	"github.com/beyenilmez/pz-admin/internal/config"
 	"github.com/wailsapp/wails/v3/pkg/application"
@@ -26,8 +28,9 @@ func Setup(app *application.App, version string, configSvc *config.Service) erro
 		return nil
 	}
 	provider, err := endpoint.New(endpoint.Config{
-		URL:     manifestURL,
-		Channel: "stable",
+		URL:        manifestURL,
+		Channel:    "stable",
+		HTTPClient: &http.Client{Timeout: 10 * time.Minute},
 	})
 	if err != nil {
 		return err
@@ -40,12 +43,12 @@ func Setup(app *application.App, version string, configSvc *config.Service) erro
 		return err
 	}
 	app.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {
-		if !configSvc.Config().CheckUpdatesOnStartup {
+		if !configSvc.Config().DownloadUpdatesOnStartup {
 			return
 		}
 		ctx := app.Context()
 		go func() {
-			if err := checkOnStartup(ctx, app); err != nil && ctx.Err() == nil {
+			if err := downloadOnStartup(ctx, app); err != nil && ctx.Err() == nil {
 				app.Logger.Error("update failed", "error", err)
 			}
 		}()
@@ -54,7 +57,7 @@ func Setup(app *application.App, version string, configSvc *config.Service) erro
 }
 
 // Check silently first; Wails' full flow opens a window even when already up to date.
-func checkOnStartup(ctx context.Context, app *application.App) error {
+func downloadOnStartup(ctx context.Context, app *application.App) error {
 	release, err := app.Updater.Check(ctx)
 	if err != nil || release == nil || ctx.Err() != nil {
 		return err

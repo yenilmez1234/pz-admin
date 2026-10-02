@@ -11,9 +11,9 @@ import (
 
 // Config holds all user-facing application settings.
 type Config struct {
-	Theme                 string `json:"theme"`
-	Language              string `json:"language"`
-	CheckUpdatesOnStartup bool   `json:"checkUpdatesOnStartup"`
+	Theme                    string `json:"theme"`
+	Language                 string `json:"language"`
+	DownloadUpdatesOnStartup bool   `json:"downloadUpdatesOnStartup"`
 }
 
 // Theme values.
@@ -34,9 +34,9 @@ var (
 // recovery.
 func defaults() Config {
 	return Config{
-		Theme:                 ThemeSystem,
-		Language:              "",
-		CheckUpdatesOnStartup: true,
+		Theme:                    ThemeSystem,
+		Language:                 "",
+		DownloadUpdatesOnStartup: true,
 	}
 }
 

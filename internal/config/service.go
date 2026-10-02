@@ -55,9 +55,9 @@ func (s *Service) SetLanguage(language string) error {
 	return s.update(func(c *Config) { c.Language = language })
 }
 
-// SetCheckUpdatesOnStartup controls the next launch's update check.
-func (s *Service) SetCheckUpdatesOnStartup(enabled bool) error {
-	return s.update(func(c *Config) { c.CheckUpdatesOnStartup = enabled })
+// SetDownloadUpdatesOnStartup controls automatic update downloads at startup.
+func (s *Service) SetDownloadUpdatesOnStartup(enabled bool) error {
+	return s.update(func(c *Config) { c.DownloadUpdatesOnStartup = enabled })
 }
 
 // update validates and persists a copy before committing it to memory. A

@@ -25,10 +25,10 @@ export function Config(): $CancellablePromise<$models.Config> {
 }
 
 /**
- * SetCheckUpdatesOnStartup controls the next launch's update check.
+ * SetDownloadUpdatesOnStartup controls automatic update downloads at startup.
  */
-export function SetCheckUpdatesOnStartup(enabled: boolean): $CancellablePromise<void> {
-    return $Call.ByID(3306802779, enabled);
+export function SetDownloadUpdatesOnStartup(enabled: boolean): $CancellablePromise<void> {
+    return $Call.ByID(540402881, enabled);
 }
 
 /**

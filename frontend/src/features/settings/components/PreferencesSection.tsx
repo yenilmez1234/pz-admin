@@ -1,8 +1,10 @@
+import { useId } from "react";
 import {
   Alert,
   Badge,
   Button,
   Group,
+  Input,
   Radio,
   Select,
   Skeleton,
@@ -23,6 +25,7 @@ import {
 } from "@/features/settings/lib/languages";
 
 export function PreferencesSection() {
+  const updateInputId = useId();
   const { i18n, t } = useTranslation(["settings", "common"]);
   const {
     config,
@@ -31,7 +34,7 @@ export function PreferencesSection() {
     reload,
     setLanguage,
     setTheme,
-    setCheckUpdatesOnStartup,
+    setDownloadUpdatesOnStartup,
   } = useAppConfig();
   const percentFormatter = new Intl.NumberFormat(i18n.language, {
     style: "percent",
@@ -118,15 +121,26 @@ export function PreferencesSection() {
           </Skeleton>
           {(System.IsWindows() || System.IsMac()) && (
             <Skeleton visible={loading}>
-              <Switch
-                label={t("updates.checkOnStartup.label")}
-                description={t("updates.checkOnStartup.description")}
-                checked={config?.checkUpdatesOnStartup ?? true}
-                disabled={loading}
-                onChange={(event) =>
-                  void setCheckUpdatesOnStartup(event.currentTarget.checked)
-                }
-              />
+              <Input.Wrapper
+                id={updateInputId}
+                label={t("updates.downloadOnStartup.label")}
+                description={t("updates.downloadOnStartup.description")}
+              >
+                <Switch
+                  id={updateInputId}
+                  name="downloadUpdatesOnStartup"
+                  aria-labelledby={`${updateInputId}-label`}
+                  aria-describedby={`${updateInputId}-description`}
+                  mt="xs"
+                  checked={config?.downloadUpdatesOnStartup ?? true}
+                  disabled={loading}
+                  onChange={(event) =>
+                    void setDownloadUpdatesOnStartup(
+                      event.currentTarget.checked,
+                    )
+                  }
+                />
+              </Input.Wrapper>
             </Skeleton>
           )}
         </Stack>

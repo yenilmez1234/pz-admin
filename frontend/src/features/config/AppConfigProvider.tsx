@@ -14,7 +14,7 @@ import {
   Config,
   SetLanguage,
   SetTheme,
-  SetCheckUpdatesOnStartup,
+  SetDownloadUpdatesOnStartup,
 } from "@bindings/internal/config/service";
 import { errorMessage } from "@/shared/lib/errors";
 import i18n from "@/i18n";
@@ -29,7 +29,7 @@ export type ThemeSetting = "system" | "dark" | "light";
 export type LanguageSetting = SupportedLanguage;
 
 interface AppConfig {
-  checkUpdatesOnStartup: boolean;
+  downloadUpdatesOnStartup: boolean;
   language: LanguageSetting;
   theme: ThemeSetting;
 }
@@ -39,7 +39,7 @@ export function isThemeSetting(theme: string): theme is ThemeSetting {
 }
 
 function appConfigFromBinding(config: {
-  checkUpdatesOnStartup: boolean;
+  downloadUpdatesOnStartup: boolean;
   language: string;
   theme: string;
 }): AppConfig {
@@ -52,7 +52,7 @@ function appConfigFromBinding(config: {
   else if (language === "zh-TW") language = "zh-Hant";
 
   return {
-    checkUpdatesOnStartup: config.checkUpdatesOnStartup,
+    downloadUpdatesOnStartup: config.downloadUpdatesOnStartup,
     language: isSupportedLanguage(language) ? language : defaultLanguage,
     theme: config.theme,
   };
@@ -65,7 +65,7 @@ interface AppConfigContextValue {
   reload: () => void;
   setLanguage: (language: LanguageSetting) => Promise<void>;
   setTheme: (theme: ThemeSetting) => Promise<void>;
-  setCheckUpdatesOnStartup: (enabled: boolean) => Promise<void>;
+  setDownloadUpdatesOnStartup: (enabled: boolean) => Promise<void>;
 }
 
 interface AppConfigProviderProps {
@@ -88,7 +88,7 @@ function loadConfig() {
     return {
       theme: config.theme,
       language,
-      checkUpdatesOnStartup: config.checkUpdatesOnStartup,
+      downloadUpdatesOnStartup: config.downloadUpdatesOnStartup,
     };
   });
   configRequest = request;
@@ -174,17 +174,21 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
     }
   }, []);
 
-  const updateCheckUpdatesOnStartup = useCallback(async (enabled: boolean) => {
-    setError(null);
-    try {
-      await SetCheckUpdatesOnStartup(enabled);
-      setConfig(
-        (current) => current && { ...current, checkUpdatesOnStartup: enabled },
-      );
-    } catch (saveError) {
-      setError(errorMessage(saveError));
-    }
-  }, []);
+  const updateDownloadUpdatesOnStartup = useCallback(
+    async (enabled: boolean) => {
+      setError(null);
+      try {
+        await SetDownloadUpdatesOnStartup(enabled);
+        setConfig(
+          (current) =>
+            current && { ...current, downloadUpdatesOnStartup: enabled },
+        );
+      } catch (saveError) {
+        setError(errorMessage(saveError));
+      }
+    },
+    [],
+  );
 
   const value = useMemo<AppConfigContextValue>(
     () => ({
@@ -194,7 +198,7 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
       reload,
       setLanguage: updateLanguage,
       setTheme: updateTheme,
-      setCheckUpdatesOnStartup: updateCheckUpdatesOnStartup,
+      setDownloadUpdatesOnStartup: updateDownloadUpdatesOnStartup,
     }),
     [
       config,
@@ -203,7 +207,7 @@ export function AppConfigProvider({ children }: AppConfigProviderProps) {
       reload,
       updateLanguage,
       updateTheme,
-      updateCheckUpdatesOnStartup,
+      updateDownloadUpdatesOnStartup,
     ],
   );
 

@@ -65,19 +65,19 @@ func TestService_SetLanguage(t *testing.T) {
 	})
 }
 
-func TestService_SetCheckUpdatesOnStartup(t *testing.T) {
+func TestService_SetDownloadUpdatesOnStartup(t *testing.T) {
 	service := newStartedConfigService(t)
-	if !service.Config().CheckUpdatesOnStartup {
+	if !service.Config().DownloadUpdatesOnStartup {
 		t.Fatal("update checks should default to enabled")
 	}
 	for _, enabled := range []bool{false, true} {
-		if err := service.SetCheckUpdatesOnStartup(enabled); err != nil {
+		if err := service.SetDownloadUpdatesOnStartup(enabled); err != nil {
 			t.Fatal(err)
 		}
 		reloaded := newService(service.dir)
 		startConfigService(t, reloaded)
 		want := defaults()
-		want.CheckUpdatesOnStartup = enabled
+		want.DownloadUpdatesOnStartup = enabled
 		assertConfigState(t, reloaded, want)
 	}
 }
@@ -103,7 +103,7 @@ func TestService_Update(t *testing.T) {
 			t.Errorf("update %d error = %v", i, err)
 		}
 	}
-	assertConfigState(t, service, Config{Theme: ThemeDark, Language: "tr-TR", CheckUpdatesOnStartup: true})
+	assertConfigState(t, service, Config{Theme: ThemeDark, Language: "tr-TR", DownloadUpdatesOnStartup: true})
 }
 
 func TestService_ServiceStartup(t *testing.T) {
@@ -114,7 +114,7 @@ func TestService_ServiceStartup(t *testing.T) {
 	t.Run("preserves existing English settings", func(t *testing.T) {
 		service := newConfigServiceWithFile(t, []byte(`{"theme":"system","language":"en-US"}`))
 		startConfigService(t, service)
-		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: "en-US", CheckUpdatesOnStartup: true})
+		assertConfigState(t, service, Config{Theme: ThemeSystem, Language: "en-US", DownloadUpdatesOnStartup: true})
 	})
 	t.Run("loads valid file", func(t *testing.T) {
 		want := Config{Theme: ThemeDark, Language: "tr-TR"}

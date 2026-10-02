@@ -6,7 +6,7 @@ import {
   Config,
   SetLanguage,
   SetTheme,
-  SetCheckUpdatesOnStartup,
+  SetDownloadUpdatesOnStartup,
 } from "@bindings/internal/config/service";
 import i18n from "@/i18n";
 import { defaultLanguage } from "@/i18n/locales";
@@ -28,7 +28,7 @@ vi.mock("@bindings/internal/config/service", () => ({
   Config: vi.fn(),
   SetLanguage: vi.fn(),
   SetTheme: vi.fn(),
-  SetCheckUpdatesOnStartup: vi.fn(),
+  SetDownloadUpdatesOnStartup: vi.fn(),
 }));
 
 let appConfig: ReturnType<typeof useAppConfig>;
@@ -54,21 +54,21 @@ describe("AppConfigProvider", () => {
       new ConfigModel({
         language: defaultLanguage,
         theme: "system",
-        checkUpdatesOnStartup: true,
+        downloadUpdatesOnStartup: true,
       }),
     );
-    vi.mocked(SetCheckUpdatesOnStartup).mockResolvedValue(undefined);
+    vi.mocked(SetDownloadUpdatesOnStartup).mockResolvedValue(undefined);
     renderProvider();
     await waitFor(() => expect(appConfig.loading).toBe(false));
-    expect(appConfig.config?.checkUpdatesOnStartup).toBe(true);
-    await act(async () => appConfig.setCheckUpdatesOnStartup(false));
-    expect(SetCheckUpdatesOnStartup).toHaveBeenCalledWith(false);
-    expect(appConfig.config?.checkUpdatesOnStartup).toBe(false);
-    vi.mocked(SetCheckUpdatesOnStartup).mockRejectedValue(
+    expect(appConfig.config?.downloadUpdatesOnStartup).toBe(true);
+    await act(async () => appConfig.setDownloadUpdatesOnStartup(false));
+    expect(SetDownloadUpdatesOnStartup).toHaveBeenCalledWith(false);
+    expect(appConfig.config?.downloadUpdatesOnStartup).toBe(false);
+    vi.mocked(SetDownloadUpdatesOnStartup).mockRejectedValue(
       new Error("write-failure"),
     );
-    await act(async () => appConfig.setCheckUpdatesOnStartup(true));
-    expect(appConfig.config?.checkUpdatesOnStartup).toBe(false);
+    await act(async () => appConfig.setDownloadUpdatesOnStartup(true));
+    expect(appConfig.config?.downloadUpdatesOnStartup).toBe(false);
     expect(appConfig.error).toBe("write-failure");
   });
 
@@ -171,7 +171,7 @@ describe("AppConfigProvider", () => {
       await waitFor(() => expect(i18n.language).toBe(expectedLanguage));
 
       expect(appConfig.config).toEqual({
-        checkUpdatesOnStartup: false,
+        downloadUpdatesOnStartup: false,
         language: expectedLanguage,
         theme,
       });
@@ -209,7 +209,7 @@ describe("AppConfigProvider", () => {
     await waitFor(() => expect(appConfig.loading).toBe(false));
     expect(Config).toHaveBeenCalledTimes(2);
     expect(appConfig.config).toEqual({
-      checkUpdatesOnStartup: false,
+      downloadUpdatesOnStartup: false,
       language: defaultLanguage,
       theme: "dark",
     });
@@ -235,7 +235,7 @@ describe("AppConfigProvider", () => {
     expect(appConfig.config).toEqual({
       language: "tr-TR",
       theme: "dark",
-      checkUpdatesOnStartup: false,
+      downloadUpdatesOnStartup: false,
     });
     expect(document.documentElement.lang).toBe("tr-TR");
 
@@ -248,7 +248,7 @@ describe("AppConfigProvider", () => {
     expect(appConfig.config).toEqual({
       language: "tr-TR",
       theme: "system",
-      checkUpdatesOnStartup: false,
+      downloadUpdatesOnStartup: false,
     });
     expect(setColorScheme).toHaveBeenLastCalledWith("auto");
     expect(appConfig.error).toBeNull();
@@ -258,7 +258,7 @@ describe("AppConfigProvider", () => {
     const initialConfig = {
       language: defaultLanguage,
       theme: "dark",
-      checkUpdatesOnStartup: false,
+      downloadUpdatesOnStartup: false,
     } as const;
     vi.mocked(Config).mockResolvedValue(new ConfigModel(initialConfig));
     vi.mocked(SetLanguage).mockRejectedValue(
