@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/yenilmez1234/pz-admin/compare/v2.1.2...v2.1.3) (2026-10-02)
+
+
+### Bug Fixes
+
+* add another startup update release test ([4d5b57c](https://github.com/yenilmez1234/pz-admin/commit/4d5b57c02fa5c4fbe3510ba2fc4a64ac69fef039))
+
 ## [2.1.2](https://github.com/yenilmez1234/pz-admin/compare/v2.1.1...v2.1.2) (2026-10-02)
 
 
