@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/yenilmez1234/pz-admin/compare/v2.1.0...v2.1.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* add signed update release test entry ([e63d0c8](https://github.com/yenilmez1234/pz-admin/commit/e63d0c87333bc739f36fcb9a9d31652119e30aad))
+
 ## [2.1.0](https://github.com/yenilmez1234/pz-admin/compare/v2.0.1...v2.1.0) (2026-10-02)
 
 
