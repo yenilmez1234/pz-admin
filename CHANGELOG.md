@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.5](https://github.com/yenilmez1234/pz-admin/compare/v2.1.4...v2.1.5) (2026-10-03)
+
+
+### Bug Fixes
+
+* add another patch release test entry ([331b2c9](https://github.com/yenilmez1234/pz-admin/commit/331b2c9436a8ce05d8dd11e6a18799a714c96bca))
+
 ## [2.1.4](https://github.com/yenilmez1234/pz-admin/compare/v2.1.3...v2.1.4) (2026-10-02)
 
 
