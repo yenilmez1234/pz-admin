@@ -9,3 +9,4 @@ initial release. This folder is not part of the application.
 - Test 3: Exercise a patch release with signed update artifacts.
 - Test 4: Exercise another patch release for the startup update check.
 - Test 5: Exercise a patch release after the update timeout and settings changes.
+- Test 6: Exercise a patch release with release-PR packaging and type labels.
