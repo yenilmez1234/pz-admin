@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/yenilmez1234/pz-admin/compare/v2.1.5...v2.1.6) (2026-10-03)
+
+
+### Bug Fixes
+
+* add patch release test for PR metadata workflow ([d682bba](https://github.com/yenilmez1234/pz-admin/commit/d682bbadc84d2ac4ab2fe865f49ecba03c359fd5))
+
 ## [2.1.5](https://github.com/yenilmez1234/pz-admin/compare/v2.1.4...v2.1.5) (2026-10-03)
 
 
