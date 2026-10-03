@@ -9,9 +9,10 @@
   Keep a secure backup of the private key; never commit it or replace the pair
   casually, since installed versions trust the existing public key.
 - **Release:** Release Please prepares a PR from Conventional Commits on `main`,
-  starting at **2.0.0**. Review the version and changelog, then squash merge to approve
+  starting at **2.0.0**. Release PRs build all six targets for validation without
+  publishing. Review the version and changelog, then squash merge to approve
   publication. A tag and draft release are created; all six targets must build and
-  upload successfully before automatic publication. On failure, rerun failed jobs.
+  upload again from the tag before automatic publication. On failure, rerun failed jobs.
 - **Versions:** Release Please updates `VERSION` and desktop metadata via
   `release-please-config.json`. Preserve `x-release-please-version` markers when
   regenerating Wails assets.

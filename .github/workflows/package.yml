@@ -1,6 +1,8 @@
 name: Package
 
 on:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
   workflow_call:
     inputs:
@@ -15,6 +17,10 @@ permissions:
 jobs:
   package:
     name: Package (${{ matrix.platform }}-${{ matrix.arch }})
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.head_ref == 'release-please--branches--main' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
     strategy:
       fail-fast: false
       matrix:
